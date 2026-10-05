@@ -105,6 +105,20 @@ const INITIAL_STATE: DatabaseState = {
       lastLogin: '2026-09-30T08:00:00Z',
     },
     {
+      id: 'usr-reseller-denbaguse',
+      name: 'Jaenal Maskun (Den Baguse)',
+      username: 'denbaguse',
+      email: 'admin@denbaguse.my.id',
+      role: 'reseller',
+      status: 'active',
+      creditBalance: 2500.0,
+      companyName: 'Den Baguse Digital Media',
+      phone: '+62 812-2673-8883',
+      twoFactorEnabled: false,
+      createdAt: '2026-02-01T08:00:00Z',
+      lastLogin: '2026-10-05T08:00:00Z',
+    },
+    {
       id: 'usr-reseller-01',
       name: 'Mitra Reseller Cloud',
       username: 'reseller',
@@ -135,6 +149,28 @@ const INITIAL_STATE: DatabaseState = {
   ],
 
   resellerProfiles: [
+    {
+      id: 'prof-reseller-denbaguse',
+      userId: 'usr-reseller-denbaguse',
+      brandName: 'Den Baguse Cloud',
+      companyName: 'Den Baguse Digital Media',
+      themeColor: '#6366f1',
+      panelDomain: 'panel.denbaguse.my.id',
+      primaryDomain: 'denbaguse.my.id',
+      supportEmail: 'admin@denbaguse.my.id',
+      nameserver1: 'ns1.denbaguse.my.id',
+      nameserver2: 'ns2.denbaguse.my.id',
+      nameservers: ['ns1.denbaguse.my.id', 'ns2.denbaguse.my.id'],
+      assignedIp: '103.147.154.21',
+      allocatedDiskMb: 102400,
+      allocatedBandwidthMb: 1024000,
+      maxAccounts: 50,
+      allocatedDatabases: 100,
+      allocatedEmails: 250,
+      allocatedDomains: 50,
+      hideUpstreamBranding: true,
+      customInvoiceHeader: 'Den Baguse Digital Media — Layanan Cloud & Hosting Resmi',
+    },
     {
       id: 'prof-reseller-01',
       userId: 'usr-reseller-01',
@@ -357,6 +393,40 @@ const INITIAL_STATE: DatabaseState = {
       sslExpiresAt: '2027-01-01T00:00:00Z',
       forceHttps: true,
       documentRoot: '/home/karsacloud/public_html',
+      ipAddress: '103.147.154.21',
+      databaseCount: 1,
+      emailCount: 2,
+      ftpCount: 1,
+      nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
+      createdAt: '2026-09-25T10:00:00Z',
+    },
+    {
+      id: 'acc-denbaguse-01',
+      primaryDomain: 'denbaguse.my.id',
+      domain: 'denbaguse.my.id',
+      username: 'denbaguse',
+      customerId: 'usr-reseller-denbaguse',
+      customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
+      customerEmail: 'admin@denbaguse.my.id',
+      serverId: 'srv-sg-01',
+      serverName: 'SG-Edge-01 (Singapore)',
+      resellerId: 'prof-reseller-denbaguse',
+      planId: 'plan-pro',
+      planName: 'Cloud Business Pro',
+      diskUsedMb: 1240,
+      diskLimitMb: 25600,
+      bandwidthUsedMb: 4200,
+      bandwidthLimitMb: 512000,
+      phpVersion: '8.2',
+      phpExtensions: [
+        'ioncube', 'mysqli', 'pdo', 'curl', 'gd', 'mbstring', 'zip', 'xml', 'fileinfo', 'intl', 'bcmath', 'soap', 'opcache'
+      ],
+      status: 'active',
+      sslStatus: 'active',
+      sslProvider: "Let's Encrypt / ZeroSSL",
+      sslExpiresAt: '2027-01-01T00:00:00Z',
+      forceHttps: true,
+      documentRoot: '/public_html',
       ipAddress: '103.147.154.21',
       databaseCount: 1,
       emailCount: 2,
@@ -1145,6 +1215,28 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Ro
       createdAt: '2026-09-28T08:00:00Z',
     },
     {
+      id: 'dom-denbaguse-01',
+      accountId: 'acc-denbaguse-01',
+      domain: 'denbaguse.my.id',
+      type: 'primary',
+      documentRoot: '/public_html',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-09-28T08:00:00Z',
+    },
+    {
+      id: 'dom-denbaguse-sub-panel',
+      accountId: 'acc-denbaguse-01',
+      domain: 'panel.denbaguse.my.id',
+      type: 'subdomain',
+      parentDomain: 'denbaguse.my.id',
+      subdomainPrefix: 'panel',
+      documentRoot: '/public_html',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-09-29T08:00:00Z',
+    },
+    {
       id: 'dom-1790860281257-amam',
       accountId: 'acc-rdm-01',
       domain: 'siakad-madrasah.karsacloud.biz.id',
@@ -1298,27 +1390,38 @@ class StorageService {
         serialized = serialized.replace(/websitepelanggan\.my\.id/g, 'client.karsacloud.biz.id')
                                .replace(/admin@websitepelanggan/g, 'pelanggan@karsacloud');
       }
-      if (serialized && (serialized.includes('denbaguse.my.id') || serialized.includes('denbaguse'))) {
-        serialized = serialized.replace(/denbaguse\.my\.id/g, 'karsacloud.biz.id')
-                               .replace(/denbaguse/g, 'karsacloud');
-      }
       if (serialized) {
         const parsed = JSON.parse(serialized);
         const hasAccounts = Array.isArray(parsed.hostingAccounts) && parsed.hostingAccounts.length > 0;
         let loadedAccounts: HostingAccount[] = hasAccounts ? parsed.hostingAccounts : INITIAL_STATE.hostingAccounts;
-        // Upgrade legacy default domain to karsacloud.biz.id personal web and username to karsacloud
+        // Total system migration: acc-rdm-01 is Root Admin on karsacloud.biz.id
         loadedAccounts = loadedAccounts.map(acc => {
-          if (acc.id === 'acc-rdm-01' || acc.primaryDomain === 'denbaguse.my.id' || acc.domain === 'denbaguse.my.id') {
+          if (acc.id === 'acc-rdm-01') {
             return {
               ...acc,
               primaryDomain: 'karsacloud.biz.id',
               domain: 'karsacloud.biz.id',
               username: 'karsacloud',
-              documentRoot: (acc.documentRoot || '/home/karsacloud/public_html').replace('/home/madrasah', '/home/karsacloud').replace('/home/cloudpro', '/home/karsacloud').replace('/home/gridmaster', '/home/karsacloud').replace('/home/denbaguse', '/home/karsacloud'),
-              customerName: 'Jaenal Maskun (Website Pribadi)',
+              documentRoot: '/home/karsacloud/public_html',
+              customerName: 'Karsa Cloud Root System',
               customerEmail: 'admin@karsacloud.biz.id',
-              diskUsedMb: acc.diskUsedMb === 1240 ? 23 : acc.diskUsedMb,
+              diskUsedMb: 23,
               resellerId: undefined,
+            };
+          }
+          if (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id' || acc.domain === 'denbaguse.my.id') {
+            return {
+              ...acc,
+              id: 'acc-denbaguse-01',
+              primaryDomain: 'denbaguse.my.id',
+              domain: 'denbaguse.my.id',
+              username: 'denbaguse',
+              customerId: 'usr-reseller-denbaguse',
+              customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
+              customerEmail: 'admin@denbaguse.my.id',
+              resellerId: 'prof-reseller-denbaguse',
+              documentRoot: '/public_html',
+              status: 'active',
             };
           }
           if (acc.id === 'acc-school-02' || acc.customerId === 'usr-cust-02') {
@@ -1352,6 +1455,14 @@ class StorageService {
           }
           return acc;
         });
+
+        // Ensure denbaguse.my.id Reseller account is always present
+        if (!loadedAccounts.some(a => a.id === 'acc-denbaguse-01' || a.primaryDomain === 'denbaguse.my.id')) {
+          const denbaguseAcc = INITIAL_STATE.hostingAccounts.find(a => a.id === 'acc-denbaguse-01');
+          if (denbaguseAcc) {
+            loadedAccounts.push(denbaguseAcc);
+          }
+        }
 
         let loadedFiles: VirtualFile[] =
           hasAccounts && Array.isArray(parsed.virtualFiles) && parsed.virtualFiles.length > 0
@@ -1400,8 +1511,8 @@ class StorageService {
           return u;
         });
         INITIAL_STATE.users.forEach(defU => {
-          // Always ensure Root Administrator exists so the owner is never locked out
-          if (defU.role === 'admin' && !loadedUsers.some(u => u.id === defU.id || u.role === 'admin')) {
+          // Always ensure Root Administrator and Den Baguse Reseller exist
+          if ((defU.role === 'admin' || defU.username === 'denbaguse') && !loadedUsers.some(u => u.id === defU.id || u.username === defU.username)) {
             loadedUsers.push(defU);
           }
         });
@@ -1434,6 +1545,11 @@ class StorageService {
           }
           return d;
         });
+
+        if (!loadedDomains.some(d => d.domain === 'denbaguse.my.id')) {
+          const denDom = INITIAL_STATE.domains.find(d => d.domain === 'denbaguse.my.id');
+          if (denDom) loadedDomains.push(denDom);
+        }
 
         let loadedInvoices: Invoice[] =
           Array.isArray(parsed.invoices) && parsed.invoices.length > 0
@@ -1532,8 +1648,15 @@ class StorageService {
               ...u,
               creditBalance: typeof u.creditBalance === 'number' && !Number.isNaN(u.creditBalance) ? u.creditBalance : 0,
             })),
-          resellerProfiles: (Array.isArray(parsed.resellerProfiles) ? (parsed.resellerProfiles as ResellerProfile[]) : INITIAL_STATE.resellerProfiles)
-            .filter((r: ResellerProfile) => !deletedSet.has(r.id)),
+          resellerProfiles: (() => {
+            const list = (Array.isArray(parsed.resellerProfiles) ? (parsed.resellerProfiles as ResellerProfile[]) : INITIAL_STATE.resellerProfiles)
+              .filter((r: ResellerProfile) => !deletedSet.has(r.id));
+            if (!list.some(p => p.id === 'prof-reseller-denbaguse' || p.primaryDomain === 'denbaguse.my.id')) {
+              const denProf = INITIAL_STATE.resellerProfiles.find(p => p.id === 'prof-reseller-denbaguse');
+              if (denProf) list.push(denProf);
+            }
+            return list;
+          })(),
           serverNodes: loadedServers,
           hostingPlans: loadedPlans,
           backups: loadedBackups.filter((b: AccountBackup) => !deletedSet.has(b.id)),

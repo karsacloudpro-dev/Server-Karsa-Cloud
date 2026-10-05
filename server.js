@@ -833,7 +833,19 @@ var vhostStore = {
     {
       id: "acc-rdm-01",
       primaryDomain: "karsacloud.biz.id",
-      username: "cloudpro",
+      username: "karsacloud",
+      phpVersion: "8.2"
+    },
+    {
+      id: "acc-denbaguse-01",
+      primaryDomain: "denbaguse.my.id",
+      username: "denbaguse",
+      phpVersion: "8.2"
+    },
+    {
+      id: "acc-school-02",
+      primaryDomain: "client.karsacloud.biz.id",
+      username: "pelanggan",
       phpVersion: "8.2"
     }
   ],
@@ -842,6 +854,18 @@ var vhostStore = {
       id: "dom-primary-01",
       accountId: "acc-rdm-01",
       fullDomain: "karsacloud.biz.id",
+      documentRoot: "/public_html"
+    },
+    {
+      id: "dom-denbaguse-01",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "denbaguse.my.id",
+      documentRoot: "/public_html"
+    },
+    {
+      id: "dom-denbaguse-sub-panel",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "panel.denbaguse.my.id",
       documentRoot: "/public_html"
     }
   ],
