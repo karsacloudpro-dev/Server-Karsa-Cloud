@@ -79,7 +79,7 @@ export const MediaStorageManager: React.FC<MediaStorageManagerProps> = ({ accoun
     const cleanDom = (account.primaryDomain || 'website.my.id').toLowerCase().trim();
     const cleanSlug = (account.username || cleanDom.replace(/[^a-z0-9]/g, '-')).toLowerCase();
     const autoBucket =
-      account.id === 'acc-rdm-01' ? 'media-madrasah-denbaguse' : `r2-${cleanSlug}-media`;
+      account.id === 'acc-rdm-01' ? 'media-madrasah-karsacloud' : `r2-${cleanSlug}-media`;
     const autoCdnUrl = `https://media.${cleanDom}`;
 
     const updated: CloudflareR2Config = {

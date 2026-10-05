@@ -385,32 +385,6 @@ export const LoginPage: React.FC = () => {
                   </p>
                 </div>
 
-                {/* Secret Key Display & Compatibility Note */}
-                <div className="rounded-xl border border-sky-500/20 bg-slate-950/70 p-2.5 text-left text-[11px] text-slate-300 space-y-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                      Kunci 2FA Manual:
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        try {
-                          navigator.clipboard?.writeText(pendingSecret || 'KARSACLOUDSECRET23');
-                        } catch {}
-                      }}
-                      className="text-[10px] text-sky-400 hover:text-sky-300 font-semibold cursor-pointer underline"
-                    >
-                      Salin Kunci
-                    </button>
-                  </div>
-                  <div className="font-mono font-bold text-sky-300 tracking-widest text-xs select-all">
-                    {pendingSecret || 'KARSACLOUDSECRET23'}
-                  </div>
-                  <div className="text-[10px] text-slate-400 leading-snug">
-                    💡 Kode dari profil <strong>Google Authenticator lama (CloudPRO)</strong> maupun <strong>Karsa Cloud</strong> keduanya tetap valid untuk login!
-                  </div>
-                </div>
-
                 {totpError && (
                   <div className="rounded-xl border border-rose-500/40 bg-rose-950/50 p-3 text-xs text-rose-200 flex items-start gap-2">
                     <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />

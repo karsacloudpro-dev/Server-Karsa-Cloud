@@ -918,11 +918,11 @@ var DEFAULT_PERSONAL_HTML = `<!DOCTYPE html>
   <footer id="kontak" class="footer">
     <div class="container footer-inner">
       <div>
-        <h4>DENBAGUSE.MY.ID \u2014 Website Pribadi</h4>
+        <h4>KARSACLOUD.BIZ.ID \u2014 Website Portal Utama</h4>
         <p>Dikelola langsung melalui Cloud PRO Linux Virtual Host (/public_html).</p>
       </div>
       <div class="footer-right">
-        <span>&copy; 2026 Den Baguse. All rights reserved.</span>
+        <span>&copy; 2026 Karsa Cloud. All rights reserved.</span>
       </div>
     </div>
   </footer>
@@ -2528,7 +2528,7 @@ function renderVirtualHostResponse(hostHeader, reqPath, forceAccountAndDir) {
   if (!matchedFile && docRoot === "/public_html" && !targetRelPath.endsWith(".js") && !targetRelPath.endsWith(".css") && !targetRelPath.includes("/assets/")) {
     matchedFile = findFileInDocRoot("/public_html", "/index.html") || findFileInDocRoot("/public_html", "/index.php");
   }
-  const sanitizeDenbaguseJsBundle = (rawJs) => {
+  const sanitizeKarsacloudJsBundle = (rawJs) => {
     let out = rawJs.replace(/\.\/index-Dx_-uADC\.js(?:\?v=[A-Za-z0-9_.-]+)?/g, "./index-Dx_-uADC.js?v=cp4").replace(/\.\/AdminPortal-BI2p42T-\.js(?:\?v=[A-Za-z0-9_.-]+)?/g, "./AdminPortal-BI2p42T-.js?v=cp4").replace(/\.\/LogoUploaderModal-C2_9Wzl6\.js(?:\?v=[A-Za-z0-9_.-]+)?/g, "./LogoUploaderModal-C2_9Wzl6.js?v=cp4").replace(/\.\/sliders-vertical-D_9bXxob\.js(?:\?v=[A-Za-z0-9_.-]+)?/g, "./sliders-vertical-D_9bXxob.js?v=cp4").replace(/\.\/settings-BjXsQb13\.js(?:\?v=[A-Za-z0-9_.-]+)?/g, "./settings-BjXsQb13.js?v=cp4").replace(/\.\/StickyFooterEditorModal-BfM8Lk1W\.js(?:\?v=[A-Za-z0-9_.-]+)?/g, "./StickyFooterEditorModal-BfM8Lk1W.js?v=cp4");
     if (out.includes("admin-navbar-plesk-btn") || out.includes("admin-navbar-cpanel-btn") || out.includes("admin-navbar-quick-cpanel-zip-btn") || out.includes("Paket Siap Hosting Plesk")) {
       const navStart = out.indexOf(',e.jsxs("button",{id:"admin-navbar-plesk-btn"');
@@ -2581,7 +2581,7 @@ function renderVirtualHostResponse(hostHeader, reqPath, forceAccountAndDir) {
           if (fetchedContent && fetchedContent.length > 50 && !isHtmlDoc) {
             const ext2 = baseName.split(".").pop()?.toLowerCase() || "js";
             if (ext2 === "js") {
-              fetchedContent = sanitizeDenbaguseJsBundle(fetchedContent);
+              fetchedContent = sanitizeKarsacloudJsBundle(fetchedContent);
             }
             const mime = ext2 === "css" ? "text/css; charset=utf-8" : "application/javascript; charset=utf-8";
             const saveDest = path.join(process.cwd(), relDocRoot, "assets", baseName);
@@ -2658,7 +2658,7 @@ function renderVirtualHostResponse(hostHeader, reqPath, forceAccountAndDir) {
     };
   }
   if (ext === "js" && typeof body === "string") {
-    body = sanitizeDenbaguseJsBundle(body);
+    body = sanitizeKarsacloudJsBundle(body);
   }
   if (ext === "php" && typeof body === "string") {
     const siblingIndexHtml = findFileInDocRoot(docRoot, "/index.html") || findFileInDocRoot(docRoot, "/dist/index.html");

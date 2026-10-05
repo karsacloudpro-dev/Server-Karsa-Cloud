@@ -290,7 +290,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
               : data.backups.filter((b: ServerBackupItem) =>
                   b.domain.toLowerCase() !== 'karsacloud.biz.id' &&
                   !b.domain.toLowerCase().endsWith('.karsacloud.biz.id') &&
-                  b.fileName.toLowerCase().indexOf('denbaguse') === -1
+                  b.fileName.toLowerCase().indexOf('karsacloud') === -1
                 );
             setServerBackups(filteredBackups);
             if (filteredBackups.length > 0 && !selectedArchiveFile) {

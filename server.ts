@@ -271,11 +271,11 @@ const DEFAULT_PERSONAL_HTML = `<!DOCTYPE html>
   <footer id="kontak" class="footer">
     <div class="container footer-inner">
       <div>
-        <h4>DENBAGUSE.MY.ID — Website Pribadi</h4>
+        <h4>KARSACLOUD.BIZ.ID — Website Portal Utama</h4>
         <p>Dikelola langsung melalui Cloud PRO Linux Virtual Host (/public_html).</p>
       </div>
       <div class="footer-right">
-        <span>&copy; 2026 Den Baguse. All rights reserved.</span>
+        <span>&copy; 2026 Karsa Cloud. All rights reserved.</span>
       </div>
     </div>
   </footer>
@@ -2180,7 +2180,7 @@ function renderVirtualHostResponse(
       findFileInDocRoot('/public_html', '/index.php');
   }
 
-  const sanitizeDenbaguseJsBundle = (rawJs: string): string => {
+  const sanitizeKarsacloudJsBundle = (rawJs: string): string => {
     let out = rawJs
       .replace(/\.\/index-Dx_-uADC\.js(?:\?v=[A-Za-z0-9_.-]+)?/g, './index-Dx_-uADC.js?v=cp4')
       .replace(/\.\/AdminPortal-BI2p42T-\.js(?:\?v=[A-Za-z0-9_.-]+)?/g, './AdminPortal-BI2p42T-.js?v=cp4')
@@ -2258,7 +2258,7 @@ function renderVirtualHostResponse(
           if (fetchedContent && fetchedContent.length > 50 && !isHtmlDoc) {
             const ext = baseName.split('.').pop()?.toLowerCase() || 'js';
             if (ext === 'js') {
-              fetchedContent = sanitizeDenbaguseJsBundle(fetchedContent);
+              fetchedContent = sanitizeKarsacloudJsBundle(fetchedContent);
             }
             const mime = ext === 'css' ? 'text/css; charset=utf-8' : 'application/javascript; charset=utf-8';
             const saveDest = path.join(process.cwd(), relDocRoot, 'assets', baseName);
@@ -2345,7 +2345,7 @@ function renderVirtualHostResponse(
 
   // Strip Hosting Plesk, Hosting cPanel, and Unduh ZIP cPanel modules and unify chunk URLs (?v=cp4)
   if (ext === 'js' && typeof body === 'string') {
-    body = sanitizeDenbaguseJsBundle(body);
+    body = sanitizeKarsacloudJsBundle(body);
   }
 
   // If serving a .php file (such as index.php) that wraps index.html or lives alongside index.html,

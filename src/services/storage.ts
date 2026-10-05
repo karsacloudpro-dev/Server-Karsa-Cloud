@@ -490,11 +490,11 @@ const INITIAL_STATE: DatabaseState = {
   <footer id="kontak" class="footer">
     <div class="container footer-inner">
       <div>
-        <h4>DENBAGUSE.MY.ID — Website Pribadi</h4>
+        <h4>KARSACLOUD.BIZ.ID — Website Portal Utama</h4>
         <p>Dikelola langsung melalui Cloud PRO Linux Virtual Host (/public_html).</p>
       </div>
       <div class="footer-right">
-        <span>&copy; 2026 Den Baguse. All rights reserved.</span>
+        <span>&copy; 2026 Karsa Cloud. All rights reserved.</span>
       </div>
     </div>
   </footer>
@@ -1296,22 +1296,27 @@ class StorageService {
       }
       if (serialized && serialized.includes('websitepelanggan.my.id')) {
         serialized = serialized.replace(/websitepelanggan\.my\.id/g, 'client.karsacloud.biz.id')
-                               .replace(/admin@websitepelanggan/g, 'pelanggan@denbaguse');
+                               .replace(/admin@websitepelanggan/g, 'pelanggan@karsacloud');
+      }
+      if (serialized && (serialized.includes('denbaguse.my.id') || serialized.includes('denbaguse'))) {
+        serialized = serialized.replace(/denbaguse\.my\.id/g, 'karsacloud.biz.id')
+                               .replace(/denbaguse/g, 'karsacloud');
       }
       if (serialized) {
         const parsed = JSON.parse(serialized);
         const hasAccounts = Array.isArray(parsed.hostingAccounts) && parsed.hostingAccounts.length > 0;
         let loadedAccounts: HostingAccount[] = hasAccounts ? parsed.hostingAccounts : INITIAL_STATE.hostingAccounts;
-        // Upgrade legacy default RDM domain to karsacloud.biz.id personal web and username to karsacloud
+        // Upgrade legacy default domain to karsacloud.biz.id personal web and username to karsacloud
         loadedAccounts = loadedAccounts.map(acc => {
-          if (acc.id === 'acc-rdm-01') {
+          if (acc.id === 'acc-rdm-01' || acc.primaryDomain === 'denbaguse.my.id' || acc.domain === 'denbaguse.my.id') {
             return {
               ...acc,
-              primaryDomain: acc.primaryDomain === 'rdm.karsacloud.biz.id' ? 'karsacloud.biz.id' : acc.primaryDomain,
-              domain: acc.domain === 'rdm.karsacloud.biz.id' ? 'karsacloud.biz.id' : acc.domain,
+              primaryDomain: 'karsacloud.biz.id',
+              domain: 'karsacloud.biz.id',
               username: 'karsacloud',
-              documentRoot: (acc.documentRoot || '/home/karsacloud/public_html').replace('/home/madrasah', '/home/karsacloud').replace('/home/cloudpro', '/home/karsacloud').replace('/home/gridmaster', '/home/karsacloud'),
+              documentRoot: (acc.documentRoot || '/home/karsacloud/public_html').replace('/home/madrasah', '/home/karsacloud').replace('/home/cloudpro', '/home/karsacloud').replace('/home/gridmaster', '/home/karsacloud').replace('/home/denbaguse', '/home/karsacloud'),
               customerName: 'Jaenal Maskun (Website Pribadi)',
+              customerEmail: 'admin@karsacloud.biz.id',
               diskUsedMb: acc.diskUsedMb === 1240 ? 23 : acc.diskUsedMb,
               resellerId: undefined,
             };
@@ -3525,7 +3530,7 @@ class StorageService {
       const autoBoundConfig: CloudflareR2Config = {
         id: `r2-cfg-${acc.id}`,
         accountId: acc.id,
-        bucketName: acc.id === 'acc-rdm-01' ? 'media-madrasah-denbaguse' : `r2-${cleanSlug}-media`,
+        bucketName: acc.id === 'acc-rdm-01' ? 'media-madrasah-karsacloud' : `r2-${cleanSlug}-media`,
         accountIdCloudflare: 'cf_acc_9837190f84a1e948',
         accessKeyId: `r2_key_${cleanSlug}_auto`,
         secretAccessKeyMasked: '********************************',
