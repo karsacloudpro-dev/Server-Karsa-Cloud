@@ -11,13 +11,13 @@ Error generating stack: `+e.message+`
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Den Baguse — Website Pribadi &amp; Portfolio Digital</title>
+  <title>Karsa Cloud — Reseller Hosting Management Panel</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <nav class="navbar">
     <div class="container nav-inner">
-      <div class="brand">DEN<span>BAGUSE</span>.MY.ID</div>
+      <div class="brand">KARSA<span>CLOUD</span>.BIZ.ID</div>
       <div class="nav-links">
         <a href="#beranda">Beranda</a>
         <a href="#profil">Profil</a>
@@ -30,8 +30,8 @@ Error generating stack: `+e.message+`
   <header id="beranda" class="hero">
     <div class="container hero-grid">
       <div class="hero-text">
-        <span class="pill">● WEBSITE PRIBADI RESMI &bull; ONLINE</span>
-        <h1>Selamat Datang di Portal Pribadi <span>Den Baguse</span></h1>
+        <span class="pill">● PORTAL HOSTING RESMI &bull; ONLINE</span>
+        <h1>Selamat Datang di Portal Resmi <span>Karsa Cloud</span></h1>
         <p>Ruang kreasi digital, pengembangan sistem informasi modern, infrastruktur cloud server mandiri, dan inovasi teknologi berbasis web.</p>
         <div class="hero-actions">
           <a href="#karya" class="btn-primary">Jelajahi Karya &amp; Proyek</a>

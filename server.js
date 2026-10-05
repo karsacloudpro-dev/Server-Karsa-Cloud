@@ -852,13 +852,13 @@ var DEFAULT_PERSONAL_HTML = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Den Baguse \u2014 Website Pribadi &amp; Portfolio Digital</title>
+  <title>Karsa Cloud \u2014 Reseller Hosting Management Panel</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <nav class="navbar">
     <div class="container nav-inner">
-      <div class="brand">DEN<span>BAGUSE</span>.MY.ID</div>
+      <div class="brand">KARSA<span>CLOUD</span>.BIZ.ID</div>
       <div class="nav-links">
         <a href="#beranda">Beranda</a>
         <a href="#profil">Profil</a>
@@ -871,8 +871,8 @@ var DEFAULT_PERSONAL_HTML = `<!DOCTYPE html>
   <header id="beranda" class="hero">
     <div class="container hero-grid">
       <div class="hero-text">
-        <span class="pill">\u25CF WEBSITE PRIBADI RESMI &bull; ONLINE</span>
-        <h1>Selamat Datang di Portal Pribadi <span>Den Baguse</span></h1>
+        <span class="pill">\u25CF PORTAL HOSTING RESMI &bull; ONLINE</span>
+        <h1>Selamat Datang di Portal Resmi <span>Karsa Cloud</span></h1>
         <p>Ruang kreasi digital, pengembangan sistem informasi modern, infrastruktur cloud server mandiri, dan inovasi teknologi berbasis web.</p>
         <div class="hero-actions">
           <a href="#karya" class="btn-primary">Jelajahi Karya &amp; Proyek</a>
@@ -1934,7 +1934,7 @@ var TWO_LEVEL_TLDS = [
 function isOfficialPanelHostname(rawHost) {
   if (!rawHost) return true;
   const h = (rawHost || "").replace(/^https?:\/\//, "").split("/")[0].split(":")[0].toLowerCase().replace(/^www\./, "").trim();
-  if (!h || h === "localhost" || h === "127.0.0.1" || h === "desktop-djq024c" || h.endsWith(".run.app") || h.endsWith(".trycloudflare.com") || h.endsWith(".ts.net") || h.endsWith(".local") || h.endsWith(".lan") || h.includes("cloudpro") || h.includes("servercloud") || h.startsWith("panel.") || h.startsWith("cpanel.") || h.startsWith("whm.") || h.startsWith("admin.") || h.startsWith("cloud.") || h.startsWith("cp.") || h.startsWith("srv.") || h.startsWith("vps.")) {
+  if (!h || h === "localhost" || h === "127.0.0.1" || h === "desktop-djq024c" || h.endsWith(".run.app") || h.endsWith(".trycloudflare.com") || h.endsWith(".ts.net") || h.endsWith(".local") || h.endsWith(".lan") || h === "karsacloud.biz.id" || h === "cloudpro.karsacloud.biz.id" || h === "servercloud.karsacloud.biz.id" || h === "panel.karsacloud.biz.id" || h === "admin.karsacloud.biz.id" || h === "cp.karsacloud.biz.id" || h.includes("cloudpro") || h.includes("servercloud") || h.startsWith("panel.") || h.startsWith("cpanel.") || h.startsWith("whm.") || h.startsWith("admin.") || h.startsWith("cloud.") || h.startsWith("cp.") || h.startsWith("srv.") || h.startsWith("vps.")) {
     return true;
   }
   return false;
