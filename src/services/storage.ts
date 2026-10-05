@@ -1580,6 +1580,12 @@ class StorageService {
           return acc;
         });
 
+        // Permanently purge any websitepelanggan.my.id account
+        loadedAccounts = loadedAccounts.filter(acc =>
+          acc.primaryDomain !== 'websitepelanggan.my.id' &&
+          acc.domain !== 'websitepelanggan.my.id'
+        );
+
         // Ensure denbaguse.my.id Reseller account is always present
         if (!loadedAccounts.some(a => a.id === 'acc-denbaguse-01' || a.primaryDomain === 'denbaguse.my.id')) {
           const denbaguseAcc = INITIAL_STATE.hostingAccounts.find(a => a.id === 'acc-denbaguse-01');
@@ -1699,6 +1705,13 @@ class StorageService {
           }
           return d;
         });
+
+        // Permanently purge websitepelanggan.my.id from domains
+        loadedDomains = loadedDomains.filter(d =>
+          d.domain !== 'websitepelanggan.my.id' &&
+          !d.domain.endsWith('.websitepelanggan.my.id') &&
+          d.parentDomain !== 'websitepelanggan.my.id'
+        );
 
         INITIAL_STATE.domains.forEach(defDom => {
           if (defDom.domain.endsWith('.denbaguse.my.id') || defDom.domain === 'denbaguse.my.id') {
@@ -2592,11 +2605,17 @@ class StorageService {
 
   // --- Hosting Accounts ---
   public getHostingAccounts(): HostingAccount[] {
-    return this.state.hostingAccounts;
+    return this.state.hostingAccounts.filter(
+      a => a.primaryDomain !== 'websitepelanggan.my.id' && a.domain !== 'websitepelanggan.my.id'
+    );
   }
 
   public getHostingAccount(id: string): HostingAccount | undefined {
-    return this.state.hostingAccounts.find(a => a.id === id);
+    const acc = this.state.hostingAccounts.find(a => a.id === id);
+    if (acc && (acc.primaryDomain === 'websitepelanggan.my.id' || acc.domain === 'websitepelanggan.my.id')) {
+      return undefined;
+    }
+    return acc;
   }
 
   public saveHostingAccount(acc: HostingAccount): void {
@@ -3015,6 +3034,11 @@ class StorageService {
     const normalizedDomains: DomainEntity[] = [];
     for (const d of this.state.domains) {
       if (!d || !d.domain) continue;
+      // Permanently drop websitepelanggan.my.id
+      if (d.domain === 'websitepelanggan.my.id' || d.domain.endsWith('.websitepelanggan.my.id') || d.parentDomain === 'websitepelanggan.my.id') {
+        stateChanged = true;
+        continue;
+      }
       let current = { ...d };
 
       // Fix legacy primary domain record that had 'rdm.karsacloud.biz.id'

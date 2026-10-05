@@ -4869,10 +4869,10 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
         } else {
           const fallbackAcc = {
             id: callerAccountId && callerAccountId !== 'acc-rdm-01' ? callerAccountId : 'acc-school-02',
-            primaryDomain: 'websitepelanggan.my.id',
+            primaryDomain: 'client.karsacloud.biz.id',
             username: callerUsername && callerUsername !== 'cloudpro' ? callerUsername : 'pelanggan',
             customerName: 'Pelanggan Hosting cPanel',
-            customerEmail: 'admin@websitepelanggan.my.id',
+            customerEmail: 'pelanggan@karsacloud.biz.id',
             planName: 'Cloud Starter NVMe',
             diskLimitMb: 10240,
             usedMb: 1.0,
@@ -4893,7 +4893,7 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
             domains: [
               {
                 id: 'dom-customer-primary',
-                domain: 'websitepelanggan.my.id',
+                domain: 'client.karsacloud.biz.id',
                 type: 'primary',
                 documentRoot: `/home/${callerUsername || 'pelanggan'}/public_html`,
                 accountId: callerAccountId || 'acc-school-02',
@@ -8569,7 +8569,7 @@ ftp.quit()
         }
       } else {
         // Customer: strictly customer's own domain
-        const cDomain = 'websitepelanggan.my.id';
+        const cDomain = 'client.karsacloud.biz.id';
         const doc = `/home/${callerUsername || 'pelanggan'}/public_html`;
         const absDoc = path.join(process.cwd(), 'public_html', callerUsername || 'pelanggan');
         const stats = fs.existsSync(absDoc) ? calculateDirStats(absDoc) : { count: 0, totalSize: 0, formatted: '0 B' };
