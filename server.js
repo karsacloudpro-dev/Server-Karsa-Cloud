@@ -827,7 +827,7 @@ function writeVaultJson(primaryPath, mirrorPaths, data) {
   }
 }
 var CLOUDFLARED_BIN = os.platform() === "win32" ? path.join(TMP_DIR, "cloudflared.exe") : path.join(HOME_VAULT_DIR, "cloudflared");
-var DEFAULT_TUNNEL_TOKEN = "eyJhIjoiZTkwMjEzZWRiMzQ3NmJiMzAwNzAyNmQ3Y2QyMjk2NjEiLCJ0IjoiNmZiMDE1YjItYzdiNS00Y2EwLTgxYjYtYzI4ZWVmYTZlNGU0IiwicyI6Ik5UVTBOMkkxWVRndFlqQmhaaTAwWmpVNExUbGxNMlF0WkdFM1ltRTVOamRoTUdaaCJ9";
+var DEFAULT_TUNNEL_TOKEN = "eyJhIjoiMGE2NjE2ZmZmMWE0M2E4OWE5YmYyZjg5YTIxNzBlZWIiLCJ0IjoiODViMDMwOGEtYTAwYi00YTRjLThhZWEtZmI4ZjNhNDgzZTkyIiwicyI6IlpHSTRaVFZoTTJFdE56QXlOeTAwTlRsbExUa3lOekV0TVdKbVlqUmhPV1kwWXpBeSJ9";
 var vhostStore = {
   accounts: [
     {

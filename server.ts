@@ -130,7 +130,7 @@ const CLOUDFLARED_BIN =
     ? path.join(TMP_DIR, 'cloudflared.exe')
     : path.join(HOME_VAULT_DIR, 'cloudflared');
 const DEFAULT_TUNNEL_TOKEN =
-  'eyJhIjoiZTkwMjEzZWRiMzQ3NmJiMzAwNzAyNmQ3Y2QyMjk2NjEiLCJ0IjoiNmZiMDE1YjItYzdiNS00Y2EwLTgxYjYtYzI4ZWVmYTZlNGU0IiwicyI6Ik5UVTBOMkkxWVRndFlqQmhaaTAwWmpVNExUbGxNMlF0WkdFM1ltRTVOamRoTUdaaCJ9';
+  'eyJhIjoiMGE2NjE2ZmZmMWE0M2E4OWE5YmYyZjg5YTIxNzBlZWIiLCJ0IjoiODViMDMwOGEtYTAwYi00YTRjLThhZWEtZmI4ZjNhNDgzZTkyIiwicyI6IlpHSTRaVFZoTTJFdE56QXlOeTAwTlRsbExUa3lOekV0TVdKbVlqUmhPV1kwWXpBeSJ9';
 
 interface VhostFile {
   id: string;
