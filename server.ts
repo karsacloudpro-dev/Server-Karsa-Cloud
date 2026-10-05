@@ -10165,6 +10165,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
           res.setHeader('Surrogate-Control', 'no-store');
           res.setHeader('CDN-Cache-Control', 'no-store');
           res.setHeader('Cloudflare-CDN-Cache-Control', 'no-store');
+          res.setHeader('Clear-Site-Data', '"cache"');
           return res.sendFile(distIndex);
         }
         req.url = '/';

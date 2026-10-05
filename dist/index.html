@@ -30,42 +30,13 @@
         <div style="font-size: 19px; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 6px; color: #ffffff;">Karsa Cloud <span style="color: #f59e0b;">PRO</span></div>
         <div id="boot-status-hint" style="font-size: 13px; color: #94a3b8; max-width: 360px; line-height: 1.5; margin-bottom: 20px;">Menyinkronkan panel hosting &amp; aset Karsa Cloud PRO...</div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-          <button type="button" onclick="window.location.reload(true)" style="background: #0284c7; color: #ffffff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);">Segarkan Halaman (Refresh)</button>
-          <button type="button" id="btn-auto-heal" onclick="window.cleanCacheAndReload && window.cleanCacheAndReload()" style="display: none; background: #e11d48; color: #ffffff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);">Bersihkan Cache &amp; Buka Ulang</button>
+          <button type="button" onclick="window.cleanCacheAndReload && window.cleanCacheAndReload()" style="background: #0284c7; color: #ffffff; border: none; padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);">Muat Ulang Versi Terbaru (Refresh)</button>
         </div>
         <style>@keyframes cpro-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
       </div>
     </div>
     <script>
       (function() {
-        window.addEventListener('error', function(e) {
-          console.error('[Karsa Cloud Boot Anomaly]', e);
-          var hint = document.getElementById('boot-status-hint');
-          if (hint) {
-            hint.innerHTML = '<span style="color:#fb7185;font-weight:600;">Menyinkronkan modul terbaru...</span>';
-          }
-          var autoBtn = document.getElementById('btn-auto-heal');
-          if (autoBtn) autoBtn.style.display = 'inline-block';
-          // Auto-recover immediately from stale browser module caches
-          var msg = (e && e.message) ? String(e.message) : '';
-          if (msg.indexOf('Failed to resolve') !== -1 || msg.indexOf('otpauth') !== -1 || msg.indexOf('import') !== -1) {
-            setTimeout(function() {
-              if (window.cleanCacheAndReload) window.cleanCacheAndReload();
-            }, 600);
-          }
-        });
-        setTimeout(function() {
-          var rootEl = document.getElementById('root');
-          var fallbackMarker = document.getElementById('cpro-boot-loader');
-          if (fallbackMarker && rootEl && rootEl.contains(fallbackMarker)) {
-            var hint = document.getElementById('boot-status-hint');
-            if (hint) {
-              hint.innerHTML = 'Koneksi browser menyimpan cache versi sebelumnya. Klik tombol di bawah untuk membersihkan cache &amp; membuka panel:';
-            }
-            var fixBtn = document.getElementById('btn-auto-heal');
-            if (fixBtn) fixBtn.style.display = 'inline-block';
-          }
-        }, 3000);
         window.cleanCacheAndReload = function() {
           try {
             if ('caches' in window) {
@@ -78,12 +49,32 @@
                 regs.forEach(function(r) { r.unregister(); });
               });
             }
-            ['cloudpro_hosting_v1', 'cloudpro_hosting_v2', 'cloudpro_hosting_v3', 'cloudpro_hosting_v5', 'cloudpro_persistent_vault_backup'].forEach(function(k) {
-              try { localStorage.removeItem(k); } catch(e) {}
-            });
           } catch(e) {}
-          window.location.reload(true);
+          window.location.replace(window.location.origin + window.location.pathname + '?_fresh=' + Date.now());
         };
+        window.addEventListener('error', function(e) {
+          console.error('[Karsa Cloud Boot Anomaly]', e);
+          var hint = document.getElementById('boot-status-hint');
+          if (hint) {
+            hint.innerHTML = '<span style="color:#fb7185;font-weight:600;">Memperbarui cache browser ke versi terbaru...</span>';
+          }
+          var msg = (e && e.message) ? String(e.message) : '';
+          if (msg.indexOf('Failed to resolve') !== -1 || msg.indexOf('otpauth') !== -1 || msg.indexOf('import') !== -1) {
+            setTimeout(function() {
+              window.cleanCacheAndReload();
+            }, 500);
+          }
+        });
+        setTimeout(function() {
+          var rootEl = document.getElementById('root');
+          var fallbackMarker = document.getElementById('cpro-boot-loader');
+          if (fallbackMarker && rootEl && rootEl.contains(fallbackMarker)) {
+            var hint = document.getElementById('boot-status-hint');
+            if (hint) {
+              hint.innerHTML = 'Browser sedang menyelaraskan aset terbaru. Klik tombol untuk memuat ulang:';
+            }
+          }
+        }, 3000);
       })();
     </script>
   </body>
