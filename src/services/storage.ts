@@ -1238,63 +1238,99 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Ro
     },
     {
       id: 'dom-1790860281257-amam',
-      accountId: 'acc-rdm-01',
-      domain: 'siakad-madrasah.karsacloud.biz.id',
+      accountId: 'acc-denbaguse-01',
+      domain: 'siakad-madrasah.denbaguse.my.id',
       type: 'subdomain',
-      parentDomain: 'karsacloud.biz.id',
+      parentDomain: 'denbaguse.my.id',
       subdomainPrefix: 'siakad-madrasah',
-      documentRoot: '/home/karsacloud/public_html/siakad-madrasah',
+      documentRoot: '/public_html/siakad-madrasah',
       phpVersion: '8.2',
       sslStatus: 'active',
       createdAt: '2026-09-29T10:00:00Z',
     },
     {
       id: 'dom-1790860258687-un1o',
-      accountId: 'acc-rdm-01',
-      domain: 'rdm.karsacloud.biz.id',
+      accountId: 'acc-denbaguse-01',
+      domain: 'rdm.denbaguse.my.id',
       type: 'subdomain',
-      parentDomain: 'karsacloud.biz.id',
+      parentDomain: 'denbaguse.my.id',
       subdomainPrefix: 'rdm',
-      documentRoot: '/home/karsacloud/public_html/rdm',
+      documentRoot: '/public_html/rdm',
       phpVersion: '7.2',
       sslStatus: 'active',
       createdAt: '2026-09-29T10:05:00Z',
     },
     {
       id: 'dom-1790860261766-ao51',
-      accountId: 'acc-rdm-01',
-      domain: 'cbt.karsacloud.biz.id',
+      accountId: 'acc-denbaguse-01',
+      domain: 'cbt.denbaguse.my.id',
       type: 'subdomain',
-      parentDomain: 'karsacloud.biz.id',
+      parentDomain: 'denbaguse.my.id',
       subdomainPrefix: 'cbt',
-      documentRoot: '/home/karsacloud/public_html/cbt',
+      documentRoot: '/public_html/cbt',
       phpVersion: '7.4',
       sslStatus: 'active',
       createdAt: '2026-09-29T10:10:00Z',
     },
     {
       id: 'dom-1790860263159-b5gq',
-      accountId: 'acc-rdm-01',
-      domain: 'elearning.karsacloud.biz.id',
+      accountId: 'acc-denbaguse-01',
+      domain: 'elearning.denbaguse.my.id',
       type: 'subdomain',
-      parentDomain: 'karsacloud.biz.id',
+      parentDomain: 'denbaguse.my.id',
       subdomainPrefix: 'elearning',
-      documentRoot: '/home/karsacloud/public_html/elearning',
+      documentRoot: '/public_html/elearning',
       phpVersion: '8.2',
       sslStatus: 'active',
       createdAt: '2026-09-29T10:15:00Z',
     },
     {
       id: 'dom-kartu-pelajar-01',
-      accountId: 'acc-rdm-01',
-      domain: 'kartu-pelajar.karsacloud.biz.id',
+      accountId: 'acc-denbaguse-01',
+      domain: 'kartu-pelajar.denbaguse.my.id',
       type: 'subdomain',
-      parentDomain: 'karsacloud.biz.id',
+      parentDomain: 'denbaguse.my.id',
       subdomainPrefix: 'kartu-pelajar',
-      documentRoot: '/home/karsacloud/public_html/kartu-pelajar',
+      documentRoot: '/public_html/kartu-pelajar',
       phpVersion: '8.2',
       sslStatus: 'active',
       createdAt: '2026-10-04T02:00:00Z',
+    },
+    {
+      id: 'sub-absensi-gtk',
+      accountId: 'acc-denbaguse-01',
+      domain: 'absensi-gtk.denbaguse.my.id',
+      type: 'subdomain',
+      parentDomain: 'denbaguse.my.id',
+      subdomainPrefix: 'absensi-gtk',
+      documentRoot: '/public_html/absensi-gtk',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-04T02:05:00Z',
+    },
+    {
+      id: 'sub-adm-madrasah',
+      accountId: 'acc-denbaguse-01',
+      domain: 'adm-madrasah.denbaguse.my.id',
+      type: 'subdomain',
+      parentDomain: 'denbaguse.my.id',
+      subdomainPrefix: 'adm-madrasah',
+      documentRoot: '/public_html/adm-madrasah',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-04T02:10:00Z',
+    },
+    {
+      id: 'sub-modul-ajar',
+      accountId: 'acc-denbaguse-01',
+      domain: 'modul-ajar.denbaguse.my.id',
+      type: 'subdomain',
+      parentDomain: 'denbaguse.my.id',
+      subdomainPrefix: 'modul-ajar',
+      documentRoot: '/public_html/modul-ajar',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-04T02:15:00Z',
     },
     {
       id: 'dom-primary-02',
@@ -1543,13 +1579,38 @@ class StorageService {
               documentRoot: updatedDocRoot,
             };
           }
+          if (
+            d.domain.endsWith('.karsacloud.biz.id') &&
+            [
+              'siakad-madrasah',
+              'rdm',
+              'cbt',
+              'elearning',
+              'kartu-pelajar',
+              'absensi-gtk',
+              'adm-madrasah',
+              'modul-ajar',
+            ].includes(d.subdomainPrefix || '')
+          ) {
+            const prefix = d.subdomainPrefix;
+            return {
+              ...d,
+              accountId: 'acc-denbaguse-01',
+              domain: `${prefix}.denbaguse.my.id`,
+              parentDomain: 'denbaguse.my.id',
+              documentRoot: `/public_html/${prefix}`,
+            };
+          }
           return d;
         });
 
-        if (!loadedDomains.some(d => d.domain === 'denbaguse.my.id')) {
-          const denDom = INITIAL_STATE.domains.find(d => d.domain === 'denbaguse.my.id');
-          if (denDom) loadedDomains.push(denDom);
-        }
+        INITIAL_STATE.domains.forEach(defDom => {
+          if (defDom.domain.endsWith('.denbaguse.my.id') || defDom.domain === 'denbaguse.my.id') {
+            if (!loadedDomains.some(d => d.domain === defDom.domain)) {
+              loadedDomains.push(defDom);
+            }
+          }
+        });
 
         let loadedInvoices: Invoice[] =
           Array.isArray(parsed.invoices) && parsed.invoices.length > 0

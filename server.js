@@ -867,6 +867,54 @@ var vhostStore = {
       accountId: "acc-denbaguse-01",
       fullDomain: "panel.denbaguse.my.id",
       documentRoot: "/public_html"
+    },
+    {
+      id: "dom-siakad-madrasah-denbaguse",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "siakad-madrasah.denbaguse.my.id",
+      documentRoot: "/public_html/siakad-madrasah"
+    },
+    {
+      id: "dom-rdm-denbaguse",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "rdm.denbaguse.my.id",
+      documentRoot: "/public_html/rdm"
+    },
+    {
+      id: "dom-cbt-denbaguse",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "cbt.denbaguse.my.id",
+      documentRoot: "/public_html/cbt"
+    },
+    {
+      id: "dom-elearning-denbaguse",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "elearning.denbaguse.my.id",
+      documentRoot: "/public_html/elearning"
+    },
+    {
+      id: "dom-kartu-pelajar-denbaguse",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "kartu-pelajar.denbaguse.my.id",
+      documentRoot: "/public_html/kartu-pelajar"
+    },
+    {
+      id: "dom-absensi-gtk-denbaguse",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "absensi-gtk.denbaguse.my.id",
+      documentRoot: "/public_html/absensi-gtk"
+    },
+    {
+      id: "dom-adm-madrasah-denbaguse",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "adm-madrasah.denbaguse.my.id",
+      documentRoot: "/public_html/adm-madrasah"
+    },
+    {
+      id: "dom-modul-ajar-denbaguse",
+      accountId: "acc-denbaguse-01",
+      fullDomain: "modul-ajar.denbaguse.my.id",
+      documentRoot: "/public_html/modul-ajar"
     }
   ],
   filesByAccount: {}
