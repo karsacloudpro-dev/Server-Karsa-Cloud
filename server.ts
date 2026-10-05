@@ -9829,7 +9829,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
     if (trimmed.startsWith('>>>') || trimmed.startsWith('[STDERR]') || trimmed.startsWith('[SUKSES]') || trimmed.startsWith('[INFO]')) {
       return res.json({
         ok: true,
-        stdout: `\n\x1b[32m✔ [STATUS] Baris ini adalah pesan log server, bukan perintah bash.\x1b[0m\n\x1b[36m💡 Server CloudPRO Anda saat ini aktif normal di port 3000.\x1b[0m\n`,
+        stdout: `\n\x1b[32m✔ [STATUS] Baris ini adalah pesan log server, bukan perintah bash.\x1b[0m\n\x1b[36m💡 Server Karsa Cloud PRO Anda saat ini aktif normal di port 3000.\x1b[0m\n`,
         stderr: '',
         exitCode: 0,
         cwd: activeTerminalCwd,
@@ -9840,7 +9840,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
     const githubToken = process.env.GITHUB_TOKEN || fallbackToken;
     const authRepoUrl = `https://x-access-token:${githubToken}@github.com/karsacloudpro-dev/Karsa-Cloud.git`;
 
-    if (actualCommand === './update.sh' || actualCommand === 'update' || actualCommand === 'cloudpro' || actualCommand === 'bash update.sh') {
+    if (actualCommand === './update.sh' || actualCommand === 'update' || actualCommand === 'karsacloud' || actualCommand === 'cloudpro' || actualCommand === 'bash update.sh') {
       const appRoot = fs.existsSync(path.join(execCwd, 'update.sh')) ? execCwd : process.cwd();
       actualCommand = `cd "${appRoot}" && ( [ -d .git ] || git init ) && git remote set-url origin "${authRepoUrl}" 2>/dev/null || git remote add origin "${authRepoUrl}" 2>/dev/null || true && bash update.sh`;
     } else if (actualCommand.startsWith('git pull') || actualCommand.startsWith('git fetch') || actualCommand.startsWith('git status')) {
@@ -9854,7 +9854,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
         shell: '/bin/bash',
         timeout: 120000,
         maxBuffer: 25 * 1024 * 1024,
-        env: { ...process.env, TERM: 'xterm-256color', FORCE_COLOR: '1' },
+        env: { ...process.env, USER: 'karsacloud', LOGNAME: 'karsacloud', USERNAME: 'karsacloud', HOSTNAME: 'ubuntu', TERM: 'xterm-256color', FORCE_COLOR: '1' },
       },
       (err, stdout, stderr) => {
         activeTerminalCwd = execCwd;

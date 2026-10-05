@@ -20,19 +20,65 @@
     <meta name="apple-mobile-web-app-title" content="KarsaCloudPRO" />
     <meta name="application-name" content="KarsaCloudPRO" />
     <meta name="theme-color" content="#005dbd" />
-    <script type="module" crossorigin src="/assets/index-c43BODZ5.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C8gjOF3E.css">
+    <script type="module" crossorigin src="/assets/index-Dz1BnvcJ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DrqJgSSy.css">
   </head>
   <body>
     <div id="root">
-      <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #0b1120; color: #f8fafc; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; text-align: center;">
+      <div id="cpro-boot-loader" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #0b1120; color: #f8fafc; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; text-align: center;">
         <div style="width: 44px; height: 44px; border: 3px solid rgba(56, 189, 248, 0.2); border-top-color: #38bdf8; border-radius: 50%; animation: cpro-spin 0.9s linear infinite; margin-bottom: 20px;"></div>
         <div style="font-size: 19px; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 6px; color: #ffffff;">Karsa Cloud <span style="color: #f59e0b;">PRO</span></div>
-        <div style="font-size: 13px; color: #94a3b8; max-width: 320px; line-height: 1.5; margin-bottom: 20px;">Menyinkronkan panel hosting &amp; aset Karsa Cloud PRO...</div>
-        <button type="button" onclick="window.location.reload(true)" style="background: #0284c7; color: #ffffff; border: none; padding: 9px 18px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);">Segarkan Halaman (Refresh)</button>
+        <div id="boot-status-hint" style="font-size: 13px; color: #94a3b8; max-width: 360px; line-height: 1.5; margin-bottom: 20px;">Menyinkronkan panel hosting &amp; aset Karsa Cloud PRO...</div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+          <button type="button" onclick="window.location.reload(true)" style="background: #0284c7; color: #ffffff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);">Segarkan Halaman (Refresh)</button>
+          <button type="button" id="btn-auto-heal" onclick="window.cleanCacheAndReload && window.cleanCacheAndReload()" style="display: none; background: #e11d48; color: #ffffff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);">Bersihkan Cache &amp; Buka Ulang</button>
+        </div>
         <style>@keyframes cpro-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
       </div>
     </div>
+    <script>
+      (function() {
+        window.addEventListener('error', function(e) {
+          console.error('[Karsa Cloud Boot Anomaly]', e);
+          var hint = document.getElementById('boot-status-hint');
+          if (hint) {
+            hint.innerHTML = '<span style="color:#fb7185;font-weight:600;">Memuat modul: ' + (e.message || 'Periksa koneksi aset browser') + '</span>';
+          }
+          var autoBtn = document.getElementById('btn-auto-heal');
+          if (autoBtn) autoBtn.style.display = 'inline-block';
+        });
+        setTimeout(function() {
+          var rootEl = document.getElementById('root');
+          var fallbackMarker = document.getElementById('cpro-boot-loader');
+          if (fallbackMarker && rootEl && rootEl.contains(fallbackMarker)) {
+            var hint = document.getElementById('boot-status-hint');
+            if (hint) {
+              hint.innerHTML = 'Koneksi browser menyimpan cache versi sebelumnya. Klik tombol di bawah untuk membersihkan cache &amp; membuka panel:';
+            }
+            var fixBtn = document.getElementById('btn-auto-heal');
+            if (fixBtn) fixBtn.style.display = 'inline-block';
+          }
+        }, 3000);
+        window.cleanCacheAndReload = function() {
+          try {
+            if ('caches' in window) {
+              caches.keys().then(function(names) {
+                names.forEach(function(name) { caches.delete(name); });
+              });
+            }
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(function(regs) {
+                regs.forEach(function(r) { r.unregister(); });
+              });
+            }
+            ['cloudpro_hosting_v1', 'cloudpro_hosting_v2', 'cloudpro_hosting_v3', 'cloudpro_hosting_v5', 'cloudpro_persistent_vault_backup'].forEach(function(k) {
+              try { localStorage.removeItem(k); } catch(e) {}
+            });
+          } catch(e) {}
+          window.location.reload(true);
+        };
+      })();
+    </script>
   </body>
 </html>
 

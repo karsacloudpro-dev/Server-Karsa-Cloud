@@ -1,10 +1,9 @@
 import os from 'os';
 
 export function renderWebTerminalHtml(host: string, initialCwd: string): string {
-  const hostname = os.hostname() || 'linux-server';
-  const osUser = os.userInfo()?.username;
-  const username = osUser && osUser !== 'cloudpro' ? osUser : 'karsacloud';
-  const platform = `${os.type()} ${os.release()} (${os.arch()})`;
+  const hostname = 'ubuntu';
+  const username = 'karsacloud';
+  const platform = `Ubuntu Linux (x86_64)`;
 
   return `<!DOCTYPE html>
 <html lang="id">
@@ -380,7 +379,7 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
 
       <!-- Input Row -->
       <div class="input-row">
-        <div class="input-prompt" id="activePrompt">${username}@host:<span>~</span>$</div>
+        <div class="input-prompt" id="activePrompt">${username}@${hostname}:<span>~</span>$</div>
         <input
           type="text"
           id="cmdInput"
@@ -441,7 +440,7 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
     function updatePrompt(cwd) {
       currentCwd = cwd;
       const shortCwd = cwd.length > 28 ? '...' + cwd.slice(-25) : cwd;
-      activePrompt.innerHTML = '${username}@host:<span>' + shortCwd + '</span>$';
+      activePrompt.innerHTML = '${username}@${hostname}:<span>' + shortCwd + '</span>$';
     }
 
     function checkAuth() {
@@ -538,7 +537,7 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       const cmdLine = document.createElement('div');
       cmdLine.className = 'cmd-line';
       cmdLine.innerHTML =
-        '<span class="prompt-user">${username}@host</span>' +
+        '<span class="prompt-user">${username}@${hostname}</span>' +
         '<span class="prompt-sep">:</span>' +
         '<span class="prompt-path">' + currentCwd + '</span>' +
         '<span class="prompt-sym">$</span>' +
@@ -572,7 +571,7 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       tempBlock.className = 'history-block';
       tempBlock.id = 'activeRunningBlock';
       tempBlock.innerHTML =
-        '<div class="cmd-line"><span class="prompt-user">${username}@host</span><span class="prompt-sep">:</span><span class="prompt-path">' +
+        '<div class="cmd-line"><span class="prompt-user">${username}@${hostname}</span><span class="prompt-sep">:</span><span class="prompt-path">' +
         currentCwd +
         '</span><span class="prompt-sym">$</span><span class="cmd-text">' +
         cmd +

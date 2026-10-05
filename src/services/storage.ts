@@ -636,7 +636,7 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Ro
     {
       id: 'dns-01',
       accountId: 'acc-rdm-01',
-      name: 'rdm.karsacloud.biz.id',
+      name: 'karsacloud.biz.id',
       type: 'A',
       content: '103.147.154.21',
       ttl: 3600,
@@ -644,19 +644,107 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Ro
     {
       id: 'dns-02',
       accountId: 'acc-rdm-01',
-      name: 'www.rdm.karsacloud.biz.id',
+      name: 'www.karsacloud.biz.id',
       type: 'CNAME',
-      content: 'rdm.karsacloud.biz.id',
+      content: 'karsacloud.biz.id',
       ttl: 3600,
     },
     {
       id: 'dns-03',
       accountId: 'acc-rdm-01',
-      name: 'rdm.karsacloud.biz.id',
+      name: 'karsacloud.biz.id',
       type: 'MX',
       content: 'mail.karsacloud.biz.id',
       ttl: 3600,
       priority: 10,
+    },
+    {
+      id: 'dns-denbaguse-01',
+      accountId: 'acc-denbaguse-01',
+      name: 'denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-02',
+      accountId: 'acc-denbaguse-01',
+      name: 'www.denbaguse.my.id',
+      type: 'CNAME',
+      content: 'denbaguse.my.id',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-panel',
+      accountId: 'acc-denbaguse-01',
+      name: 'panel.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-siakad',
+      accountId: 'acc-denbaguse-01',
+      name: 'siakad-madrasah.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-rdm',
+      accountId: 'acc-denbaguse-01',
+      name: 'rdm.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-cbt',
+      accountId: 'acc-denbaguse-01',
+      name: 'cbt.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-elearning',
+      accountId: 'acc-denbaguse-01',
+      name: 'elearning.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-kartu',
+      accountId: 'acc-denbaguse-01',
+      name: 'kartu-pelajar.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-absensi',
+      accountId: 'acc-denbaguse-01',
+      name: 'absensi-gtk.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-adm',
+      accountId: 'acc-denbaguse-01',
+      name: 'adm-madrasah.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
+    },
+    {
+      id: 'dns-denbaguse-modul',
+      accountId: 'acc-denbaguse-01',
+      name: 'modul-ajar.denbaguse.my.id',
+      type: 'A',
+      content: '103.147.154.21',
+      ttl: 3600,
     },
   ],
 
@@ -1558,12 +1646,14 @@ class StorageService {
             ? parsed.domains
             : INITIAL_STATE.domains;
         loadedDomains = loadedDomains.map(d => {
-          const updatedDocRoot = (d.documentRoot || '').replace('/home/madrasah', '/home/cloudpro');
-          if (d.accountId === 'acc-rdm-01' && d.type === 'primary' && d.domain.toLowerCase() === 'rdm.karsacloud.biz.id') {
+          const updatedDocRoot = (d.documentRoot || '')
+            .replace('/home/madrasah', '/home/karsacloud')
+            .replace('/home/cloudpro', '/home/karsacloud');
+          if (d.accountId === 'acc-rdm-01' && d.type === 'primary') {
             return {
               ...d,
               domain: 'karsacloud.biz.id',
-              documentRoot: '/home/cloudpro/public_html',
+              documentRoot: '/home/karsacloud/public_html',
             };
           }
           if (d.accountId === 'acc-school-02' && (d.domain.includes('reseller') || d.domain === 'portal.karsacloud.biz.id')) {
@@ -1573,32 +1663,38 @@ class StorageService {
               documentRoot: '/home/pelanggan/public_html',
             };
           }
+
+          // Strictly enforce that all educational & reseller subdomains belong under denbaguse.my.id, never karsacloud.biz.id
+          const denbagusePrefixes = [
+            'siakad-madrasah',
+            'rdm',
+            'cbt',
+            'elearning',
+            'kartu-pelajar',
+            'absensi-gtk',
+            'adm-madrasah',
+            'modul-ajar',
+            'panel',
+          ];
+          const matchedPrefix = denbagusePrefixes.find(
+            pfx => d.subdomainPrefix === pfx || d.domain.startsWith(`${pfx}.`)
+          );
+
+          if (matchedPrefix) {
+            return {
+              ...d,
+              accountId: 'acc-denbaguse-01',
+              domain: `${matchedPrefix}.denbaguse.my.id`,
+              parentDomain: 'denbaguse.my.id',
+              subdomainPrefix: matchedPrefix,
+              documentRoot: matchedPrefix === 'panel' ? '/public_html' : `/public_html/${matchedPrefix}`,
+            };
+          }
+
           if (updatedDocRoot !== d.documentRoot) {
             return {
               ...d,
               documentRoot: updatedDocRoot,
-            };
-          }
-          if (
-            d.domain.endsWith('.karsacloud.biz.id') &&
-            [
-              'siakad-madrasah',
-              'rdm',
-              'cbt',
-              'elearning',
-              'kartu-pelajar',
-              'absensi-gtk',
-              'adm-madrasah',
-              'modul-ajar',
-            ].includes(d.subdomainPrefix || '')
-          ) {
-            const prefix = d.subdomainPrefix;
-            return {
-              ...d,
-              accountId: 'acc-denbaguse-01',
-              domain: `${prefix}.denbaguse.my.id`,
-              parentDomain: 'denbaguse.my.id',
-              documentRoot: `/public_html/${prefix}`,
             };
           }
           return d;
@@ -1736,7 +1832,9 @@ class StorageService {
             .filter((c: any) => !deletedSet.has(c.id))
             .map((c: any) => ({
               ...c,
-              command: (c.command || '').replace('/home/madrasah', '/home/cloudpro'),
+              command: (c.command || '')
+                .replace('/home/madrasah', '/home/karsacloud')
+                .replace('/home/cloudpro', '/home/karsacloud'),
             })),
           vpsInstances: ((Array.isArray(parsed.vpsInstances)) ? parsed.vpsInstances : INITIAL_STATE.vpsInstances)
             .filter((v: any) => !deletedSet.has(v.id)),
@@ -2179,13 +2277,15 @@ class StorageService {
       // Normalize legacy primary domain records in domains list after vault hydration
       if (Array.isArray(this.state.domains)) {
         this.state.domains = this.state.domains.map(d => {
-          const nextDocRoot = (d.documentRoot || '').replace('/home/madrasah', '/home/cloudpro');
-          if (d.accountId === 'acc-rdm-01' && d.type === 'primary' && d.domain.toLowerCase() === 'rdm.karsacloud.biz.id') {
+          const nextDocRoot = (d.documentRoot || '')
+            .replace('/home/madrasah', '/home/karsacloud')
+            .replace('/home/cloudpro', '/home/karsacloud');
+          if (d.accountId === 'acc-rdm-01' && d.type === 'primary') {
             updated = true;
             return {
               ...d,
               domain: 'karsacloud.biz.id',
-              documentRoot: '/home/cloudpro/public_html',
+              documentRoot: '/home/karsacloud/public_html',
             };
           }
           if (nextDocRoot !== d.documentRoot) {
@@ -2925,6 +3025,34 @@ class StorageService {
             ? ownerAcc.primaryDomain
             : 'karsacloud.biz.id';
         current = { ...current, domain: fixedPrimary };
+        stateChanged = true;
+      }
+
+      // Strictly enforce that reseller subdomains belong under denbaguse.my.id, never karsacloud.biz.id
+      const denbagusePrefixes = [
+        'siakad-madrasah',
+        'rdm',
+        'cbt',
+        'elearning',
+        'kartu-pelajar',
+        'absensi-gtk',
+        'adm-madrasah',
+        'modul-ajar',
+        'panel',
+      ];
+      const matchedPrefix = denbagusePrefixes.find(
+        pfx => current.subdomainPrefix === pfx || current.domain.startsWith(`${pfx}.`)
+      );
+
+      if (matchedPrefix && (current.parentDomain !== 'denbaguse.my.id' || current.accountId !== 'acc-denbaguse-01' || current.domain.endsWith('.karsacloud.biz.id'))) {
+        current = {
+          ...current,
+          accountId: 'acc-denbaguse-01',
+          domain: `${matchedPrefix}.denbaguse.my.id`,
+          parentDomain: 'denbaguse.my.id',
+          subdomainPrefix: matchedPrefix,
+          documentRoot: matchedPrefix === 'panel' ? '/public_html' : `/public_html/${matchedPrefix}`,
+        };
         stateChanged = true;
       }
 
