@@ -20,7 +20,7 @@
     <meta name="apple-mobile-web-app-title" content="KarsaCloudPRO" />
     <meta name="application-name" content="KarsaCloudPRO" />
     <meta name="theme-color" content="#005dbd" />
-    <script type="module" crossorigin src="/assets/index-C6RU_WuM.js"></script>
+    <script type="module" crossorigin src="/assets/index-B-ud6nhb.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-C8gjOF3E.css">
   </head>
   <body>
@@ -35,6 +35,51 @@
         <style>@keyframes cpro-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
       </div>
     </div>
+    <script>
+      (function() {
+        try {
+          var k = 'cloudpro_database_v6';
+          var raw = localStorage.getItem(k);
+          if (raw && (raw.indexOf('Karsa Cloud Root System') !== -1 || raw.indexOf('Root Administrator') !== -1 || raw.indexOf('acc-own-usr-reseller-denbaguse') !== -1)) {
+            var patched = raw
+              .replace(/"customerName"\s*:\s*"Karsa Cloud Root System"/g, '"customerName":"Jaenal Maskun"')
+              .replace(/"name"\s*:\s*"Root Administrator"/g, '"name":"Jaenal Maskun"');
+            try {
+              var obj = JSON.parse(patched);
+              if (Array.isArray(obj.hostingAccounts)) {
+                var clean = [];
+                var seenDen = false;
+                for (var i = 0; i < obj.hostingAccounts.length; i++) {
+                  var a = obj.hostingAccounts[i];
+                  if (!a) continue;
+                  if (a.id === 'acc-own-usr-reseller-denbaguse') continue;
+                  if (a.primaryDomain === 'denbaguse.my.id' || a.id === 'acc-denbaguse-01') {
+                    if (seenDen) continue;
+                    seenDen = true;
+                  }
+                  if (a.id === 'acc-rdm-01') {
+                    if (!a.customerName || a.customerName === 'Karsa Cloud Root System') a.customerName = 'Jaenal Maskun';
+                  }
+                  clean.push(a);
+                }
+                obj.hostingAccounts = clean;
+              }
+              if (Array.isArray(obj.users)) {
+                for (var j = 0; j < obj.users.length; j++) {
+                  var u = obj.users[j];
+                  if (u && (u.id === 'usr-admin-01' || u.role === 'admin')) {
+                    if (!u.name || u.name === 'Root Administrator') u.name = 'Jaenal Maskun';
+                  }
+                }
+              }
+              localStorage.setItem(k, JSON.stringify(obj));
+            } catch(e) {
+              localStorage.setItem(k, patched);
+            }
+          }
+        } catch(e) {}
+      })();
+    </script>
     <script>
       (function() {
         window.cleanCacheAndReload = function() {

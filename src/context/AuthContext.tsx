@@ -77,6 +77,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const existing = all.find(u => u.role === role);
     if (existing) {
+      if (role === 'admin' && (!existing.name || existing.name === 'Root Administrator' || existing.name === 'Admin')) {
+        existing.name = 'Jaenal Maskun';
+        db.saveUser(existing);
+      }
       return existing;
     }
 
@@ -84,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       id: `usr-${role}-01`,
       name:
         role === 'admin'
-          ? 'Root Administrator'
+          ? 'Jaenal Maskun'
           : role === 'reseller'
           ? customName || 'Mitra Reseller'
           : customName || 'Klien Hosting',

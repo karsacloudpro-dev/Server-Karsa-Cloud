@@ -1377,6 +1377,38 @@ function mergeFullAppStates(baseState, incomingState) {
 if (loadedVaultFullState && loadedLocalFullState) {
   persistedFullAppState = mergeFullAppStates(loadedLocalFullState, loadedVaultFullState);
 }
+function sanitizePersistedServerState(st) {
+  if (!st || typeof st !== "object") return;
+  if (Array.isArray(st.hostingAccounts)) {
+    const cleanAccounts = [];
+    let seenDen = false;
+    for (const a of st.hostingAccounts) {
+      if (!a) continue;
+      if (a.id === "acc-own-usr-reseller-denbaguse") continue;
+      if (a.primaryDomain === "denbaguse.my.id" || a.id === "acc-denbaguse-01") {
+        if (seenDen) continue;
+        seenDen = true;
+      }
+      if (a.id === "acc-rdm-01") {
+        if (!a.customerName || a.customerName === "Karsa Cloud Root System" || String(a.customerName).toLowerCase().includes("root system")) {
+          a.customerName = "Jaenal Maskun";
+        }
+      }
+      cleanAccounts.push(a);
+    }
+    st.hostingAccounts = cleanAccounts;
+  }
+  if (Array.isArray(st.users)) {
+    for (const u of st.users) {
+      if (u && (u.id === "usr-admin-01" || u.role === "admin")) {
+        if (!u.name || u.name === "Root Administrator" || u.name === "Admin") {
+          u.name = "Jaenal Maskun";
+        }
+      }
+    }
+  }
+}
+sanitizePersistedServerState(persistedFullAppState);
 function persistFullAppState(stateObj) {
   const mergedState = mergeFullAppStates(persistedFullAppState, stateObj);
   persistedFullAppState = mergedState;
@@ -5802,10 +5834,13 @@ ${routeFixScript}`);
         (err) => {
           if (err) return;
           try {
-            const localCommit = execSync("git rev-parse HEAD 2>/dev/null", { cwd: process.cwd(), timeout: 3e3 }).toString().trim();
-            const remoteCommit = execSync("git rev-parse origin/main 2>/dev/null", { cwd: process.cwd(), timeout: 3e3 }).toString().trim();
-            if (localCommit && remoteCommit && localCommit !== remoteCommit) {
-              console.log(`[Auto-Sync Daemon] Detected new GitHub commit (${remoteCommit.slice(0, 7)} vs local ${localCommit.slice(0, 7)}). Auto-updating...`);
+            const behindCount = parseInt(
+              execSync("git rev-list HEAD..origin/main --count 2>/dev/null", { cwd: process.cwd(), timeout: 3e3 }).toString().trim() || "0",
+              10
+            );
+            if (behindCount > 0) {
+              const remoteCommit = execSync("git rev-parse origin/main 2>/dev/null", { cwd: process.cwd(), timeout: 3e3 }).toString().trim();
+              console.log(`[Auto-Sync Daemon] Detected ${behindCount} new GitHub commit(s) (${remoteCommit.slice(0, 7)}). Auto-updating...`);
               performGitAutoSync("background_poller");
             }
           } catch {
@@ -5905,6 +5940,7 @@ ${routeFixScript}`);
     });
   });
   app.get(["/api/state/vault", "/api/vault/state"], (_req, res) => {
+    sanitizePersistedServerState(persistedFullAppState);
     const primaryAccId = vhostStore.accounts[0]?.id || "acc-rdm-01";
     const currentFiles = vhostStore.filesByAccount[primaryAccId] || [];
     res.json({

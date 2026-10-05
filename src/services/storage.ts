@@ -1521,13 +1521,19 @@ class StorageService {
         // Total system migration: acc-rdm-01 is Root Admin on karsacloud.biz.id
         loadedAccounts = loadedAccounts.map(acc => {
           if (acc.id === 'acc-rdm-01') {
+            const nextCustName =
+              !acc.customerName ||
+              acc.customerName === 'Karsa Cloud Root System' ||
+              acc.customerName.toLowerCase().includes('root system')
+                ? 'Jaenal Maskun'
+                : acc.customerName;
             return {
               ...acc,
               primaryDomain: 'karsacloud.biz.id',
               domain: 'karsacloud.biz.id',
               username: 'karsacloud',
               documentRoot: '/home/karsacloud/public_html',
-              customerName: acc.customerName || 'Jaenal Maskun',
+              customerName: nextCustName,
               customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
               diskUsedMb: 23,
               resellerId: undefined,
@@ -1587,11 +1593,17 @@ class StorageService {
         );
 
         // Filter out duplicate denbaguse accounts created by auto-seed
-        loadedAccounts = loadedAccounts.filter(acc => {
-          if (acc.id === 'acc-own-usr-reseller-denbaguse') return false;
-          if (acc.primaryDomain.toLowerCase() === 'denbaguse.my.id' && acc.id !== 'acc-denbaguse-01') return false;
-          return true;
-        });
+        const filteredAccounts: HostingAccount[] = [];
+        let hasCanonicalDenbaguse = false;
+        for (const a of loadedAccounts) {
+          if (a.id === 'acc-own-usr-reseller-denbaguse') continue;
+          if (a.primaryDomain.toLowerCase() === 'denbaguse.my.id' || a.id === 'acc-denbaguse-01') {
+            if (hasCanonicalDenbaguse) continue;
+            hasCanonicalDenbaguse = true;
+          }
+          filteredAccounts.push(a);
+        }
+        loadedAccounts = filteredAccounts;
 
         // Ensure denbaguse.my.id Reseller account is always present
         if (!loadedAccounts.some(a => a.id === 'acc-denbaguse-01' || a.primaryDomain === 'denbaguse.my.id')) {
@@ -1632,8 +1644,14 @@ class StorageService {
         }
 
         let loadedUsers: User[] = Array.isArray(parsed.users) ? [...parsed.users] : [...INITIAL_STATE.users];
-        // Clean legacy Reseller references from default Customer account usr-cust-02
         loadedUsers = loadedUsers.map(u => {
+          if (u.id === 'usr-admin-01' || u.role === 'admin') {
+            const nextName = (!u.name || u.name === 'Root Administrator' || u.name === 'Admin') ? 'Jaenal Maskun' : u.name;
+            return {
+              ...u,
+              name: nextName,
+            };
+          }
           if (u.id === 'usr-cust-02' || (u.role === 'customer' && u.email === 'admin@klien-reseller.my.id')) {
             return {
               ...u,
@@ -2257,6 +2275,16 @@ class StorageService {
       if (Array.isArray(this.state.hostingAccounts)) {
         this.state.hostingAccounts = this.state.hostingAccounts.map(acc => {
           if (acc.id === 'acc-rdm-01') {
+            const nextCust =
+              !acc.customerName ||
+              acc.customerName === 'Karsa Cloud Root System' ||
+              acc.customerName.toLowerCase().includes('root system')
+                ? 'Jaenal Maskun'
+                : acc.customerName;
+            if (acc.customerName !== nextCust) {
+              acc.customerName = nextCust;
+              updated = true;
+            }
             if (
               acc.primaryDomain !== 'karsacloud.biz.id' ||
               acc.domain !== 'karsacloud.biz.id' ||
@@ -2271,7 +2299,7 @@ class StorageService {
                 ...acc,
                 primaryDomain: 'karsacloud.biz.id',
                 domain: 'karsacloud.biz.id',
-                customerName: acc.customerName || 'Jaenal Maskun',
+                customerName: nextCust,
                 customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
                 resellerId: undefined,
                 customerId: 'usr-admin-01',
@@ -2341,6 +2369,18 @@ class StorageService {
           this.state.hostingAccounts = filteredAccounts;
           updated = true;
         }
+      }
+
+      if (Array.isArray(this.state.users)) {
+        this.state.users = this.state.users.map(u => {
+          if (u.id === 'usr-admin-01' || u.role === 'admin') {
+            if (!u.name || u.name === 'Root Administrator' || u.name === 'Admin') {
+              updated = true;
+              return { ...u, name: 'Jaenal Maskun' };
+            }
+          }
+          return u;
+        });
       }
 
       // Normalize legacy primary domain records in domains list after vault hydration
@@ -2508,19 +2548,32 @@ class StorageService {
   // --- Users & Resellers ---
   public getUsers(): User[] {
     return this.state.users.map(u => {
-      if (u.twoFactorSecret && /[^A-Z2-7]/i.test(u.twoFactorSecret)) {
-        return { ...u, twoFactorSecret: 'KARSACLOUDSECRET23' };
+      let user = u;
+      if (user.id === 'usr-admin-01' || user.role === 'admin') {
+        if (!user.name || user.name === 'Root Administrator' || user.name === 'Admin') {
+          user = { ...user, name: 'Jaenal Maskun' };
+        }
       }
-      return u;
+      if (user.twoFactorSecret && /[^A-Z2-7]/i.test(user.twoFactorSecret)) {
+        user = { ...user, twoFactorSecret: 'KARSACLOUDSECRET23' };
+      }
+      return user;
     });
   }
 
   public getUserById(id: string): User | undefined {
     const u = this.state.users.find(user => user.id === id);
-    if (u && u.twoFactorSecret && /[^A-Z2-7]/i.test(u.twoFactorSecret)) {
-      return { ...u, twoFactorSecret: 'KARSACLOUDSECRET23' };
+    if (!u) return undefined;
+    let res = u;
+    if (res.id === 'usr-admin-01' || res.role === 'admin') {
+      if (!res.name || res.name === 'Root Administrator' || res.name === 'Admin') {
+        res = { ...res, name: 'Jaenal Maskun' };
+      }
     }
-    return u;
+    if (res.twoFactorSecret && /[^A-Z2-7]/i.test(res.twoFactorSecret)) {
+      res = { ...res, twoFactorSecret: 'KARSACLOUDSECRET23' };
+    }
+    return res;
   }
 
   public saveUser(user: User): void {
@@ -2674,12 +2727,18 @@ class StorageService {
       })
       .map(acc => {
         if (acc.id === 'acc-rdm-01') {
+          const nextCust =
+            !acc.customerName ||
+            acc.customerName === 'Karsa Cloud Root System' ||
+            acc.customerName.toLowerCase().includes('root system')
+              ? 'Jaenal Maskun'
+              : acc.customerName;
           return {
             ...acc,
             primaryDomain: 'karsacloud.biz.id',
             domain: 'karsacloud.biz.id',
             username: 'karsacloud',
-            customerName: acc.customerName || 'Jaenal Maskun',
+            customerName: nextCust,
             customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
             documentRoot: '/home/karsacloud/public_html',
             resellerId: undefined,
@@ -2711,12 +2770,18 @@ class StorageService {
       return undefined;
     }
     if (acc.id === 'acc-rdm-01') {
+      const nextCust =
+        !acc.customerName ||
+        acc.customerName === 'Karsa Cloud Root System' ||
+        acc.customerName.toLowerCase().includes('root system')
+          ? 'Jaenal Maskun'
+          : acc.customerName;
       return {
         ...acc,
         primaryDomain: 'karsacloud.biz.id',
         domain: 'karsacloud.biz.id',
         username: 'karsacloud',
-        customerName: acc.customerName || 'Jaenal Maskun',
+        customerName: nextCust,
         customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
         documentRoot: '/home/karsacloud/public_html',
         resellerId: undefined,
