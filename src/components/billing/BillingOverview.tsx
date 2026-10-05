@@ -60,14 +60,14 @@ export const BillingOverview: React.FC = () => {
 
   if (!currentUser) return null;
 
-  // Strictly filter accounts accessible by this user (Reseller never sees Root Admin domain denbaguse.my.id)
+  // Strictly filter accounts accessible by this user (Reseller never sees Root Admin domain karsacloud.biz.id)
   const accessibleAccounts = accounts.filter(acc => {
     if (currentUser.role === 'admin') return true;
     if (currentUser.role === 'reseller') {
       return (
         acc.resellerId === currentUser.id &&
         acc.id !== 'acc-rdm-01' &&
-        acc.primaryDomain !== 'denbaguse.my.id'
+        acc.primaryDomain !== 'karsacloud.biz.id'
       );
     }
     return (
@@ -76,7 +76,7 @@ export const BillingOverview: React.FC = () => {
         acc.customerEmail === currentUser.email ||
         acc.id === 'acc-school-02') &&
       acc.id !== 'acc-rdm-01' &&
-      acc.primaryDomain !== 'denbaguse.my.id'
+      acc.primaryDomain !== 'karsacloud.biz.id'
     );
   });
 
@@ -250,7 +250,7 @@ export const BillingOverview: React.FC = () => {
     if (currentUser.role === 'reseller') {
       return (
         inv.userId !== 'usr-admin-01' &&
-        inv.userEmail !== 'admin@denbaguse.my.id' &&
+        inv.userEmail !== 'admin@karsacloud.biz.id' &&
         inv.userEmail !== 'myboskue@gmail.com' &&
         (inv.resellerId === currentUser.id ||
           inv.userId === currentUser.id ||
@@ -262,7 +262,7 @@ export const BillingOverview: React.FC = () => {
       inv.userId === currentUser.id ||
       inv.userEmail === currentUser.email ||
       (inv.accountId ? accessibleIds.has(inv.accountId) : false);
-    return belongsToCustomer && inv.userEmail !== 'admin@denbaguse.my.id' && inv.userId !== 'usr-admin-01';
+    return belongsToCustomer && inv.userEmail !== 'admin@karsacloud.biz.id' && inv.userId !== 'usr-admin-01';
   });
 
   // Split Reseller invoices into Function 1 (Cloud PRO -> Reseller) and Function 2 (Reseller -> Clients)
@@ -320,7 +320,7 @@ export const BillingOverview: React.FC = () => {
         invoiceNumber: `INV-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${(acc.username || 'HOST').toUpperCase().slice(0, 5)}`,
         userId: currentUser.id,
         userName: currentUser.name || acc.customerName || 'Pelanggan Hosting cPanel',
-        userEmail: currentUser.email || acc.customerEmail || 'pelanggan@denbaguse.my.id',
+        userEmail: currentUser.email || acc.customerEmail || 'pelanggan@karsacloud.biz.id',
         userPhone: acc.customerWhatsapp || currentUser.phone || '+62 812-2673-8883',
         accountId: acc.id,
         resellerId: acc.resellerId,

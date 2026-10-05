@@ -112,7 +112,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
   // Domains & Subdomains for this account
   const [serverDomains, setServerDomains] = useState<ServerDomainItem[]>([]);
   const [selectedDomain, setSelectedDomain] = useState<string>(
-    preselectedDomain || account?.primaryDomain || 'denbaguse.my.id'
+    preselectedDomain || account?.primaryDomain || 'karsacloud.biz.id'
   );
   const [selectedDocRoot, setSelectedDocRoot] = useState<string>(account?.documentRoot || '/public_html');
 
@@ -207,8 +207,8 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
             const filteredDomains = currentUser?.role === 'admin'
               ? data.domains
               : data.domains.filter((d: ServerDomainItem) =>
-                  d.domain.toLowerCase() !== 'denbaguse.my.id' &&
-                  !d.domain.toLowerCase().endsWith('.denbaguse.my.id')
+                  d.domain.toLowerCase() !== 'karsacloud.biz.id' &&
+                  !d.domain.toLowerCase().endsWith('.karsacloud.biz.id')
                 );
             setServerDomains(filteredDomains);
             const initial = filteredDomains.find(
@@ -226,7 +226,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
 
     // Fallback to local db domains
     const accId = account?.id || (currentUser?.role === 'admin' ? 'acc-rdm-01' : 'acc-school-02');
-    const accDomain = account?.primaryDomain || 'denbaguse.my.id';
+    const accDomain = account?.primaryDomain || 'karsacloud.biz.id';
     const accUser = account?.username || (currentUser?.role === 'admin' ? 'karsacloud' : 'pelanggan');
     const localDoms = db.getDomains(accId);
     const mapped: ServerDomainItem[] = [
@@ -288,8 +288,8 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
             const filteredBackups = currentUser?.role === 'admin'
               ? data.backups
               : data.backups.filter((b: ServerBackupItem) =>
-                  b.domain.toLowerCase() !== 'denbaguse.my.id' &&
-                  !b.domain.toLowerCase().endsWith('.denbaguse.my.id') &&
+                  b.domain.toLowerCase() !== 'karsacloud.biz.id' &&
+                  !b.domain.toLowerCase().endsWith('.karsacloud.biz.id') &&
                   b.fileName.toLowerCase().indexOf('denbaguse') === -1
                 );
             setServerBackups(filteredBackups);

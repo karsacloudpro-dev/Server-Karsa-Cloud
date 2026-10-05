@@ -92,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email:
         customName && customName.includes('@')
           ? customName
-          : `${customName || role}@denbaguse.my.id`,
+          : `${customName || role}@karsacloud.biz.id`,
       role,
       status: 'active',
       creditBalance: role === 'admin' ? 50000 : role === 'reseller' ? 1500 : 250,
@@ -138,7 +138,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return {
         required: true,
         secret,
-        email: target.email || 'admin@denbaguse.my.id',
+        email: target.email || 'admin@karsacloud.biz.id',
         user: target,
       };
     }

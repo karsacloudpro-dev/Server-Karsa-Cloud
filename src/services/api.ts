@@ -254,8 +254,8 @@ export class CloudProApi {
 
     // 4. Inject DNS Zone Records with Private Nameservers
     const activeNs = db.getDefaultNameserverConfig();
-    const ns1Host = activeNs ? activeNs.ns1Host : 'ns1.denbaguse.my.id';
-    const ns2Host = activeNs ? activeNs.ns2Host : 'ns2.denbaguse.my.id';
+    const ns1Host = activeNs ? activeNs.ns1Host : 'nia.ns.cloudflare.com';
+    const ns2Host = activeNs ? activeNs.ns2Host : 'ryan.ns.cloudflare.com';
     const nsTtl = activeNs ? activeNs.defaultTtl : 86400;
 
     const initialDns: DnsRecord[] = [
@@ -687,7 +687,7 @@ export class CloudProApi {
     // Check if there is an existing record with the same fullDomain
     const existing = db.getDomains().find(d => d.domain.toLowerCase() === fullDomain.toLowerCase());
 
-    // If a legacy primary domain record had fullDomain (e.g., rdm.denbaguse.my.id), fix its domain to parentDomain first
+    // If a legacy primary domain record had fullDomain (e.g., rdm.karsacloud.biz.id), fix its domain to parentDomain first
     if (existing && existing.type === 'primary') {
       db.saveDomain({
         ...existing,

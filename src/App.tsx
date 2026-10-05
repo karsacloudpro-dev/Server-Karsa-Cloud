@@ -327,7 +327,7 @@ const AppContent: React.FC = () => {
         return (
           acc.resellerId === currentUser.id &&
           acc.id !== 'acc-rdm-01' &&
-          acc.primaryDomain !== 'denbaguse.my.id'
+          acc.primaryDomain !== 'karsacloud.biz.id'
         );
       }
       return (
@@ -567,15 +567,15 @@ const AppContent: React.FC = () => {
     );
   }
 
-  // Filter accounts strictly by current user role so Reseller/Customer never access Root Admin server domain (denbaguse.my.id) or each other's domains
+  // Filter accounts strictly by current user role so Reseller/Customer never access Root Admin server domain (karsacloud.biz.id) or each other's domains
   const accessibleAccounts = accounts.filter(acc => {
     if (currentUser.role === 'admin') return true;
     if (currentUser.role === 'reseller') {
       return (
         acc.resellerId === currentUser.id &&
         acc.id !== 'acc-rdm-01' &&
-        acc.primaryDomain !== 'denbaguse.my.id' &&
-        !acc.primaryDomain?.endsWith('.denbaguse.my.id') &&
+        acc.primaryDomain !== 'karsacloud.biz.id' &&
+        !acc.primaryDomain?.endsWith('.karsacloud.biz.id') &&
         acc.customerId !== 'usr-admin-01'
       );
     }
@@ -585,8 +585,8 @@ const AppContent: React.FC = () => {
         acc.customerEmail === currentUser.email ||
         acc.id === 'acc-school-02') &&
       acc.id !== 'acc-rdm-01' &&
-      acc.primaryDomain !== 'denbaguse.my.id' &&
-      !acc.primaryDomain?.endsWith('.denbaguse.my.id') &&
+      acc.primaryDomain !== 'karsacloud.biz.id' &&
+      !acc.primaryDomain?.endsWith('.karsacloud.biz.id') &&
       acc.customerId !== 'usr-admin-01'
     );
   });
@@ -600,12 +600,12 @@ const AppContent: React.FC = () => {
   // Dedicated safe fallback per role to strictly guarantee customers and resellers never see Admin data or crash
   const safeCustomerFallback: HostingAccount = {
     id: 'acc-school-02',
-    primaryDomain: 'client.denbaguse.my.id',
-    domain: 'client.denbaguse.my.id',
+    primaryDomain: 'client.karsacloud.biz.id',
+    domain: 'client.karsacloud.biz.id',
     username: currentUser.username && currentUser.username !== 'admin' && currentUser.username !== 'karsacloud' && currentUser.username !== 'gridmaster' && currentUser.username !== 'cloudpro' ? currentUser.username : 'pelanggan',
     customerId: currentUser.id,
     customerName: currentUser.name && !currentUser.name.includes('Root') ? currentUser.name : 'Pelanggan Hosting cPanel',
-    customerEmail: currentUser.email || 'pelanggan@denbaguse.my.id',
+    customerEmail: currentUser.email || 'pelanggan@karsacloud.biz.id',
     serverId: 'srv-id-01',
     serverName: 'ID-Cyber-01 (Jakarta)',
     planId: 'plan-starter',
@@ -665,8 +665,8 @@ const AppContent: React.FC = () => {
 
   const safeFallbackAccount: HostingAccount = {
     id: 'acc-rdm-01',
-    primaryDomain: 'denbaguse.my.id',
-    domain: 'denbaguse.my.id',
+    primaryDomain: 'karsacloud.biz.id',
+    domain: 'karsacloud.biz.id',
     username: 'karsacloud',
     customerId: 'usr-admin-01',
     customerName: 'Jaenal Maskun (Website Pribadi)',
@@ -692,11 +692,11 @@ const AppContent: React.FC = () => {
     databaseCount: 1,
     emailCount: 1,
     ftpCount: 1,
-    nameservers: ['ns1.denbaguse.my.id', 'ns2.denbaguse.my.id'],
+    nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
     createdAt: new Date().toISOString(),
   };
 
-  // Strictly assign safe account matching user role so customers and resellers never touch acc-rdm-01 (denbaguse.my.id)
+  // Strictly assign safe account matching user role so customers and resellers never touch acc-rdm-01 (karsacloud.biz.id)
   const safeSelectedAccount: HostingAccount =
     selectedAccount ||
     accessibleAccounts[0] ||
@@ -710,12 +710,12 @@ const AppContent: React.FC = () => {
     if (currentUser.role === 'customer') {
       const customerOwnAcc: HostingAccount = {
         id: 'acc-school-02',
-        primaryDomain: 'client.denbaguse.my.id',
-        domain: 'client.denbaguse.my.id',
+        primaryDomain: 'client.karsacloud.biz.id',
+        domain: 'client.karsacloud.biz.id',
         username: currentUser.username || 'pelanggan',
         customerId: currentUser.id,
         customerName: currentUser.name || 'Pelanggan Hosting cPanel',
-        customerEmail: currentUser.email || 'pelanggan@denbaguse.my.id',
+        customerEmail: currentUser.email || 'pelanggan@karsacloud.biz.id',
         serverId: 'srv-id-01',
         serverName: 'ID-Cyber-01 (Jakarta)',
         planId: 'plan-starter',
@@ -736,7 +736,7 @@ const AppContent: React.FC = () => {
         databaseCount: 1,
         emailCount: 1,
         ftpCount: 1,
-        nameservers: ['ns1.denbaguse.my.id', 'ns2.denbaguse.my.id'],
+        nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
         createdAt: new Date().toISOString(),
       };
       db.saveHostingAccount(customerOwnAcc);
@@ -775,7 +775,7 @@ const AppContent: React.FC = () => {
         databaseCount: 1,
         emailCount: 1,
         ftpCount: 1,
-        nameservers: ['ns1.denbaguse.my.id', 'ns2.denbaguse.my.id'],
+        nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
         createdAt: new Date().toISOString(),
       };
       db.saveHostingAccount(resellerSampleAcc);
@@ -786,12 +786,12 @@ const AppContent: React.FC = () => {
 
     const sampleAcc: HostingAccount = {
       id: 'acc-rdm-01',
-      primaryDomain: 'denbaguse.my.id',
-      domain: 'denbaguse.my.id',
+      primaryDomain: 'karsacloud.biz.id',
+      domain: 'karsacloud.biz.id',
       username: 'karsacloud',
       customerId: 'usr-admin-01',
       customerName: 'Jaenal Maskun (Website Pribadi)',
-      customerEmail: 'admin@denbaguse.my.id',
+      customerEmail: 'admin@karsacloud.biz.id',
       serverId: 'srv-sg-01',
       serverName: 'SG-Edge-01 (Singapore)',
       planId: 'plan-pro',
@@ -826,7 +826,7 @@ const AppContent: React.FC = () => {
       databaseCount: 1,
       emailCount: 2,
       ftpCount: 1,
-      nameservers: ['ns1.denbaguse.my.id', 'ns2.denbaguse.my.id'],
+      nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
       createdAt: new Date().toISOString(),
     };
     db.saveHostingAccount(sampleAcc);
@@ -846,7 +846,7 @@ const AppContent: React.FC = () => {
       </h3>
       <p className="text-xs text-slate-500 leading-relaxed max-w-md mx-auto mb-6">
         {currentUser.role === 'reseller'
-          ? 'Akun utama server Cloud PRO (denbaguse.my.id) terisolasi khusus untuk Root Administrator. Silakan buat akun hosting untuk klien Reseller Anda sendiri.'
+          ? 'Akun utama server Cloud PRO (karsacloud.biz.id) terisolasi khusus untuk Root Administrator. Silakan buat akun hosting untuk klien Reseller Anda sendiri.'
           : 'Menu seperti PHP Selector, SSL Let\'s Encrypt, MySQL Database, dan File Manager memerlukan akun virtual host aktif untuk dikonfigurasi.'}
       </p>
       <div className="flex flex-col sm:flex-row justify-center gap-3">
@@ -910,7 +910,7 @@ const AppContent: React.FC = () => {
             <div className="exec-tile-ring hidden sm:flex items-center gap-2 shrink-0 rounded-xl px-3 py-1.5">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="font-mono text-[10px] font-bold text-slate-700">
-                Node: {primaryNode?.hostname || 'denbaguse.my.id'}
+                Node: {primaryNode?.hostname || 'karsacloud.biz.id'}
               </span>
             </div>
           </div>

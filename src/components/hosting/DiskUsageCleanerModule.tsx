@@ -173,13 +173,13 @@ export const DiskUsageCleanerModule: React.FC<DiskUsageCleanerModuleProps> = ({
   }, [currentUser?.role, account?.id]);
 
   // STRICT MULTI-TENANCY FILTERING:
-  // Customers and resellers MUST NEVER see Admin account (acc-rdm-01, denbaguse.my.id, Jaenal Maskun)
+  // Customers and resellers MUST NEVER see Admin account (acc-rdm-01, karsacloud.biz.id, Jaenal Maskun)
   const scopedAccounts = useMemo((): AccountDiskAuditItem[] => {
     const rawList = report?.accounts || [];
 
     if (isCustomer) {
       const nonAdmin = rawList.filter(
-        a => a.id !== 'acc-rdm-01' && a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id'
+        a => a.id !== 'acc-rdm-01' && a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id'
       );
       const matched = nonAdmin.find(
         a => (account?.id && a.id === account.id) ||
@@ -191,14 +191,14 @@ export const DiskUsageCleanerModule: React.FC<DiskUsageCleanerModuleProps> = ({
         return [{
           ...matched,
           domains: (matched.domains || []).filter(
-            d => d.domain?.toLowerCase() !== 'denbaguse.my.id' && !d.domain?.toLowerCase().endsWith('.denbaguse.my.id')
+            d => d.domain?.toLowerCase() !== 'karsacloud.biz.id' && !d.domain?.toLowerCase().endsWith('.karsacloud.biz.id')
           ),
         }];
       }
 
-      const safeDomain = account?.primaryDomain && account.primaryDomain !== 'denbaguse.my.id'
+      const safeDomain = account?.primaryDomain && account.primaryDomain !== 'karsacloud.biz.id'
         ? account.primaryDomain
-        : 'client.denbaguse.my.id';
+        : 'client.karsacloud.biz.id';
       const safeUsername = account?.username && account.username !== 'cloudpro' && account.username !== 'karsacloud' && account.username !== 'gridmaster'
         ? account.username
         : (currentUser?.username && currentUser.username !== 'admin' && currentUser.username !== 'karsacloud' ? currentUser.username : 'pelanggan');
@@ -257,8 +257,8 @@ export const DiskUsageCleanerModule: React.FC<DiskUsageCleanerModuleProps> = ({
           .filter(acc =>
             acc.resellerId === currentUser?.id &&
             acc.id !== 'acc-rdm-01' &&
-            acc.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
-            !acc.primaryDomain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+            acc.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
+            !acc.primaryDomain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
             acc.customerId !== 'usr-admin-01'
           )
           .map(acc => acc.id)
@@ -266,17 +266,17 @@ export const DiskUsageCleanerModule: React.FC<DiskUsageCleanerModuleProps> = ({
 
       const filtered = rawList.filter(
         a => a.id !== 'acc-rdm-01' &&
-             a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
-             !a.primaryDomain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+             a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
+             !a.primaryDomain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
              a.customerId !== 'usr-admin-01' &&
-             a.customerEmail !== 'admin@denbaguse.my.id' &&
+             a.customerEmail !== 'admin@karsacloud.biz.id' &&
              a.customerEmail !== 'myboskue@gmail.com' &&
              (resellerAccountIds.has(a.id) || (a.resellerId && a.resellerId === currentUser?.id))
       );
 
       if (filtered.length > 0) return filtered;
 
-      const safeDomain = account?.primaryDomain && account.primaryDomain !== 'denbaguse.my.id'
+      const safeDomain = account?.primaryDomain && account.primaryDomain !== 'karsacloud.biz.id'
         ? account.primaryDomain
         : 'mitrahosting.my.id';
       const safeUsername = account?.username && account.username !== 'cloudpro' && account.username !== 'karsacloud' && account.username !== 'gridmaster'
@@ -339,8 +339,8 @@ export const DiskUsageCleanerModule: React.FC<DiskUsageCleanerModuleProps> = ({
     const rawDomains = report?.domains || [];
     return rawDomains.filter(d =>
       allowedAccIds.has(d.accountId) &&
-      d.domain?.toLowerCase() !== 'denbaguse.my.id' &&
-      !d.domain?.toLowerCase().endsWith('.denbaguse.my.id')
+      d.domain?.toLowerCase() !== 'karsacloud.biz.id' &&
+      !d.domain?.toLowerCase().endsWith('.karsacloud.biz.id')
     );
   }, [scopedAccounts, report?.domains]);
 

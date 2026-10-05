@@ -55,7 +55,7 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
   const allSelectableDomains = useMemo(() => {
     const list = [
       {
-        domain: account.primaryDomain || 'denbaguse.my.id',
+        domain: account.primaryDomain || 'karsacloud.biz.id',
         documentRoot: `/home/${account.username}/public_html`,
         type: 'primary',
       },
@@ -100,7 +100,7 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
         if (byRoot) return byRoot.domain;
       }
     }
-    return initialDomain || account.primaryDomain || 'denbaguse.my.id';
+    return initialDomain || account.primaryDomain || 'karsacloud.biz.id';
   };
 
   const [selectedDomain, setSelectedDomain] = useState<string>(resolveInitialSelectedDomain);
@@ -861,7 +861,7 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
                     </h4>
                   </div>
                   <p className="text-slate-400 leading-relaxed">
-                    Buka tempat Anda mendaftarkan domain <strong>denbaguse.my.id</strong> (misalnya <strong>Cloudflare, Rumahweb, Niagahoster, DomaiNesia, atau IDCloudHost</strong>), lalu tambahkan DNS Record berikut di menu <strong>DNS Management</strong>:
+                    Buka tempat Anda mendaftarkan domain <strong>karsacloud.biz.id</strong> (misalnya <strong>Cloudflare, Rumahweb, Niagahoster, DomaiNesia, atau IDCloudHost</strong>), lalu tambahkan DNS Record berikut di menu <strong>DNS Management</strong>:
                   </p>
                   <div className="space-y-2 font-mono text-[11px]">
                     <div className="rounded-xl bg-slate-900 border border-slate-800 p-2.5 flex items-center justify-between gap-2">
@@ -905,11 +905,11 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
               <div className="rounded-2xl border border-slate-800 bg-slate-950 p-4 space-y-2">
                 <h4 className="font-bold text-white flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-teal-400" />
-                  <span>Checklist Penting di Registrar / Cloudflare (denbaguse.my.id):</span>
+                  <span>Checklist Penting di Registrar / Cloudflare (karsacloud.biz.id):</span>
                 </h4>
                 <ul className="list-disc pl-5 space-y-1 text-slate-300 leading-relaxed">
                   <li>
-                    <strong>Jangan gunakan Nameserver <code>ns1.denbaguse.my.id</code> di Registrar</strong> kecuali Anda sudah mendaftarkan <em>Child Nameserver / Glue Record</em> ke IP VPS publik yang menjalankan layanan BIND9 (Port 53).
+                    Gunakan <strong>Cloudflare Nameserver resmi Anda: <code>nia.ns.cloudflare.com</code> &amp; <code>ryan.ns.cloudflare.com</code></strong> di Registrar domain <code>karsacloud.biz.id</code> untuk proteksi DDoS, CDN, dan SSL instan.
                   </li>
                   <li>
                     Cara paling mudah &amp; gratis: Gunakan <strong>Nameserver bawaan Registrar</strong> atau <strong>Cloudflare DNS</strong>, lalu cukup tambahkan <strong>Record A (<code>@</code>, <code>www</code>, <code>rdm</code>, <code>portal</code>)</strong> ke IP server Anda atau <strong>CNAME</strong> ke URL aplikasi hosting Anda.

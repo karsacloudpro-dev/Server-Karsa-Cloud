@@ -74,7 +74,7 @@ export const LoginPage: React.FC = () => {
   const [pendingUser, setPendingUser] = useState<string>('');
   const [pendingRole, setPendingRole] = useState<PortalRole>('admin');
   const [pendingSecret, setPendingSecret] = useState<string>('KARSACLOUDSECRET23');
-  const [pendingEmail, setPendingEmail] = useState<string>('admin@denbaguse.my.id');
+  const [pendingEmail, setPendingEmail] = useState<string>('admin@karsacloud.biz.id');
   const [totpError, setTotpError] = useState<string>('');
   const [showEmergencyHelp, setShowEmergencyHelp] = useState<boolean>(false);
   const [secondsRemaining, setSecondsRemaining] = useState<number>(30);

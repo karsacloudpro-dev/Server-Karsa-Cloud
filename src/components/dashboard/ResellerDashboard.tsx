@@ -136,7 +136,7 @@ export const ResellerDashboard: React.FC<ResellerDashboardProps> = ({
     a =>
       a.resellerId === currentUser.id &&
       a.id !== 'acc-rdm-01' &&
-      a.primaryDomain.toLowerCase() !== 'denbaguse.my.id'
+      a.primaryDomain.toLowerCase() !== 'karsacloud.biz.id'
   );
 
   const selectedClientAccount =

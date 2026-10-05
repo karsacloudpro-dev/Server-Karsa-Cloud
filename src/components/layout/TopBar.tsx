@@ -228,7 +228,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 </button>
                 <span className="text-slate-300 dark:text-slate-600">&bull;</span>
                 <span className="font-mono text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
-                  {currentUser.role === 'admin' ? `Node: ${primaryServer?.hostname || 'denbaguse.my.id'}` : 'Cluster: Cloud PRO Edge'}
+                  {currentUser.role === 'admin' ? `Node: ${primaryServer?.hostname || 'karsacloud.biz.id'}` : 'Cluster: Cloud PRO Edge'}
                 </span>
               </div>
             </div>

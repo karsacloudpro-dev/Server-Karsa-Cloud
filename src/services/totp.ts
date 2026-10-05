@@ -9,7 +9,7 @@ export const EMERGENCY_RESCUE_CODE = '992211';
  */
 export const createTotpInstance = (
   secret: string = DEFAULT_2FA_SECRET,
-  userEmail: string = 'admin@denbaguse.my.id'
+  userEmail: string = 'admin@karsacloud.biz.id'
 ): OTPAuth.TOTP => {
   const cleanSecret =
     secret && !/[^A-Z2-7]/i.test(secret) ? secret.toUpperCase() : DEFAULT_2FA_SECRET;
@@ -33,7 +33,7 @@ export const createTotpInstance = (
 export const verifyTotpCode = (
   token: string,
   secret: string = DEFAULT_2FA_SECRET,
-  userEmail: string = 'admin@denbaguse.my.id'
+  userEmail: string = 'admin@karsacloud.biz.id'
 ): boolean => {
   const cleanToken = token.trim().replace(/\s+/g, '');
   if (!/^\d{6}$/.test(cleanToken)) {

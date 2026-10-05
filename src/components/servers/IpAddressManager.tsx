@@ -51,7 +51,7 @@ export const IpAddressManager: React.FC = () => {
     try {
       let ipv4s = ['172.67.223.133', '104.21.95.88'];
       try {
-        const res = await fetch('/api/network/cloudflare-ipv4?domain=denbaguse.my.id');
+        const res = await fetch('/api/network/cloudflare-ipv4?domain=karsacloud.biz.id');
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data?.ipv4List) && data.ipv4List.length > 0) {
@@ -76,7 +76,7 @@ export const IpAddressManager: React.FC = () => {
             status: 'assigned',
             serverId: primarySrv?.id || 'srv-sg-01',
             serverName: primarySrv?.name || 'CloudPRO-Server (Cloudflare Edge)',
-            ptrRecord: idx === 0 ? 'denbaguse.my.id' : 'servercloud.denbaguse.my.id',
+            ptrRecord: idx === 0 ? 'karsacloud.biz.id' : 'servercloud.karsacloud.biz.id',
             notes: `IPv4 Anycast Publik Gratis dari Cloudflare Edge #${idx + 1} (Aktif via Tunnel CloudPRO-Server)`,
           });
         }
@@ -139,7 +139,7 @@ export const IpAddressManager: React.FC = () => {
         status: 'assigned',
         serverId: primarySrv?.id || 'srv-sg-01',
         serverName: primarySrv?.name || 'Primary Server',
-        ptrRecord: 'srv1.denbaguse.my.id',
+        ptrRecord: 'srv1.karsacloud.biz.id',
         notes: 'IP Publik Utama Cluster (Auto-Connected)',
       });
     }
@@ -436,7 +436,7 @@ export const IpAddressManager: React.FC = () => {
               </h3>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-              Alokasi 2 IPv4 Anycast publik dari jaringan <strong>Cloudflare Zero Trust Tunnel (<code>CloudPRO-Server</code>)</strong> untuk domain <code>denbaguse.my.id</code> dan seluruh virtual host aktif.
+              Alokasi 2 IPv4 Anycast publik dari jaringan <strong>Cloudflare Zero Trust Tunnel (<code>CloudPRO-Server</code>)</strong> untuk domain <code>karsacloud.biz.id</code> dan seluruh virtual host aktif.
             </p>
 
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 pt-1">

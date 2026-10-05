@@ -49,7 +49,7 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
   const [liveRdmARecords, setLiveRdmARecords] = useState<string[]>([]);
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const rootDomain = account.primaryDomain.replace(/^rdm\./i, '') || 'denbaguse.my.id';
+  const rootDomain = account.primaryDomain.replace(/^rdm\./i, '') || 'karsacloud.biz.id';
 
   const checkLiveCloudflareDns = async () => {
     setIsCheckingLiveDns(true);
@@ -187,8 +187,8 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
       isDanger: true,
       onConfirm: () => {
         const activeNs = db.getDefaultNameserverConfig();
-        const ns1Host = activeNs ? activeNs.ns1Host : 'ns1.denbaguse.my.id';
-        const ns2Host = activeNs ? activeNs.ns2Host : 'ns2.denbaguse.my.id';
+        const ns1Host = activeNs ? activeNs.ns1Host : 'nia.ns.cloudflare.com';
+        const ns2Host = activeNs ? activeNs.ns2Host : 'ryan.ns.cloudflare.com';
         const nsTtl = activeNs ? activeNs.defaultTtl : 86400;
 
         const standard: DnsRecord[] = [
@@ -225,7 +225,7 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
             <span className="font-mono text-slate-700 dark:text-slate-300">
               {account.nameservers && account.nameservers.length >= 2
                 ? `${account.nameservers[0]} • ${account.nameservers[1]}`
-                : 'ns1.denbaguse.my.id • ns2.denbaguse.my.id'}
+                : 'nia.ns.cloudflare.com • ryan.ns.cloudflare.com'}
             </span>{' '}
             &bull; IPv4 Anycast: <span className="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">{account.ipAddress}</span> &bull; TTL Default: 3600s
           </p>

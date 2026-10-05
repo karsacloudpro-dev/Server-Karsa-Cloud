@@ -57,7 +57,7 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
     if (currentUser.role === 'admin') {
       return (
         acc.id === 'acc-rdm-01' ||
-        acc.primaryDomain.toLowerCase() === 'denbaguse.my.id'
+        acc.primaryDomain.toLowerCase() === 'karsacloud.biz.id'
       );
     }
     if (currentUser.role === 'reseller') {
@@ -232,7 +232,7 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
       return (
         acc.resellerId === currentUser.id &&
         acc.id !== 'acc-rdm-01' &&
-        acc.primaryDomain.toLowerCase() !== 'denbaguse.my.id' &&
+        acc.primaryDomain.toLowerCase() !== 'karsacloud.biz.id' &&
         acc.customerId !== 'usr-admin-01'
       );
     }
@@ -242,7 +242,7 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
         acc.username === currentUser.username ||
         acc.customerEmail === currentUser.email) &&
       acc.id !== 'acc-rdm-01' &&
-      acc.primaryDomain.toLowerCase() !== 'denbaguse.my.id' &&
+      acc.primaryDomain.toLowerCase() !== 'karsacloud.biz.id' &&
       acc.customerId !== 'usr-admin-01'
     );
   });
@@ -573,7 +573,7 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
               </h4>
               <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
                 {currentUser.role === 'admin'
-                  ? 'Akun virtual host utama pengelola infrastruktur server (denbaguse.my.id).'
+                  ? 'Akun virtual host utama pengelola infrastruktur server (karsacloud.biz.id).'
                   : `Akun virtual host utama identitas layanan mitra (${resellerBrandDomain}).`}
               </p>
             </div>

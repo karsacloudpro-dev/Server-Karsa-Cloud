@@ -184,7 +184,7 @@ let vhostStore: VhostStore = {
   accounts: [
     {
       id: 'acc-rdm-01',
-      primaryDomain: 'denbaguse.my.id',
+      primaryDomain: 'karsacloud.biz.id',
       username: 'cloudpro',
       phpVersion: '8.2',
     },
@@ -193,7 +193,7 @@ let vhostStore: VhostStore = {
     {
       id: 'dom-primary-01',
       accountId: 'acc-rdm-01',
-      fullDomain: 'denbaguse.my.id',
+      fullDomain: 'karsacloud.biz.id',
       documentRoot: '/public_html',
     },
   ],
@@ -236,7 +236,7 @@ const DEFAULT_PERSONAL_HTML = `<!DOCTYPE html>
         <h3>Profil Singkat</h3>
         <p class="role">Full-Stack Developer &amp; System Architect</p>
         <ul class="stats-list">
-          <li><strong>Domain Utama:</strong> denbaguse.my.id</li>
+          <li><strong>Domain Utama:</strong> karsacloud.biz.id</li>
           <li><strong>Infrastruktur:</strong> Cloud PRO Self-Hosted Linux</li>
           <li><strong>Fokus Keahlian:</strong> Web App, Cloud Server, Jaringan &amp; Otomasi</li>
           <li><strong>Status Layanan:</strong> Aktif 24/7 (Cloudflare Edge)</li>
@@ -324,7 +324,7 @@ function sanitizeVhostStore(store: VhostStore): VhostStore {
     store.accounts = [
       {
         id: 'acc-rdm-01',
-        primaryDomain: 'denbaguse.my.id',
+        primaryDomain: 'karsacloud.biz.id',
         username: 'cloudpro',
         phpVersion: '8.2',
       },
@@ -334,7 +334,7 @@ function sanitizeVhostStore(store: VhostStore): VhostStore {
       if (acc.id === 'acc-rdm-01') {
         return {
           ...acc,
-          primaryDomain: acc.primaryDomain === 'rdm.denbaguse.my.id' ? 'denbaguse.my.id' : acc.primaryDomain,
+          primaryDomain: acc.primaryDomain === 'rdm.karsacloud.biz.id' ? 'karsacloud.biz.id' : acc.primaryDomain,
           username: acc.username === 'madrasah' || !acc.username ? 'cloudpro' : acc.username,
           phpVersion: '8.2',
         };
@@ -416,7 +416,7 @@ function sanitizeVhostStore(store: VhostStore): VhostStore {
 let ddnsConfig: DdnsConfig = {
   enabled: false,
   activeGatewayMode: 'hybrid',
-  domain: 'denbaguse.my.id',
+  domain: 'karsacloud.biz.id',
   cfApiToken: '',
   cfZoneId: '',
   recordType: 'AAAA',
@@ -535,7 +535,7 @@ function registerSubdomainIfSubdir(accountId: string, cleanDir: string) {
     const subPrefix = subFolderMatch[1].toLowerCase();
     if (COMMON_WEBSITE_SUBDIRS.has(subPrefix)) return;
     const acc = vhostStore.accounts.find(a => a.id === accountId) || vhostStore.accounts[0];
-    const parentDomain = acc?.primaryDomain || 'denbaguse.my.id';
+    const parentDomain = acc?.primaryDomain || 'karsacloud.biz.id';
     const fullSubDomain = `${subPrefix}.${parentDomain}`;
     const existingSubIdx = vhostStore.subdomains.findIndex(
       s =>
@@ -1822,7 +1822,7 @@ function renderVirtualHostResponse(
   if (!matchedAccount && forceAccountAndDir?.accountId) {
     matchedAccount = {
       id: forceAccountAndDir.accountId,
-      primaryDomain: cleanHost || 'denbaguse.my.id',
+      primaryDomain: cleanHost || 'karsacloud.biz.id',
       username: forceAccountAndDir.accountId.replace(/[^a-zA-Z0-9]/g, '') || 'web',
       phpVersion: '8.2',
     };
@@ -1832,7 +1832,7 @@ function renderVirtualHostResponse(
   if (!matchedAccount) {
     matchedAccount = vhostStore.accounts[0] || {
       id: forceAccountAndDir?.accountId || 'acc-rdm-01',
-      primaryDomain: cleanHost || 'denbaguse.my.id',
+      primaryDomain: cleanHost || 'karsacloud.biz.id',
       username: 'web',
       phpVersion: '8.2',
     };
@@ -2644,7 +2644,7 @@ function renderVirtualHostResponse(
 async function startServer() {
   const app = express();
 
-  // Enable CORS so remote frontend deployments (e.g. servercloud.denbaguse.my.id) can communicate with the Linux backend
+  // Enable CORS so remote frontend deployments (e.g. servercloud.karsacloud.biz.id) can communicate with the Linux backend
   app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -3465,7 +3465,7 @@ async function startServer() {
     const incomingHost = (forwardedStr || (req.headers['host'] as string) || '').split(':')[0].toLowerCase().replace(/^www\./, '');
     let docRoot = resolveHostDocRoot(incomingHost);
 
-    // If called from Control Panel preview modal (servercloud.denbaguse.my.id), detect active subdomain if /api.php is requested
+    // If called from Control Panel preview modal (servercloud.karsacloud.biz.id), detect active subdomain if /api.php is requested
     if (docRoot === '/public_html' && req.path === '/api.php') {
       const siakadDir = path.join(process.cwd(), 'public_html', 'siakad-madrasah');
       if (!fs.existsSync(path.join(process.cwd(), 'public_html', 'api.php')) && fs.existsSync(path.join(siakadDir, 'api.php'))) {
@@ -4482,7 +4482,7 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
 
     // 1. Primary domains per account
     for (const acc of rawHostingAccounts) {
-      const isMainAccount = acc.id === 'acc-rdm-01' || acc.primaryDomain === 'denbaguse.my.id';
+      const isMainAccount = acc.id === 'acc-rdm-01' || acc.primaryDomain === 'karsacloud.biz.id';
       const docRoot = isMainAccount ? '/public_html' : `/home/${acc.username || 'pelanggan'}/public_html`;
       const absDocRoot = isMainAccount
         ? path.join(process.cwd(), 'public_html')
@@ -4529,7 +4529,7 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       registeredSubs.push({
         id: 'dom-sub-siakad',
         accountId: 'acc-rdm-01',
-        fullDomain: 'siakad-madrasah.denbaguse.my.id',
+        fullDomain: 'siakad-madrasah.karsacloud.biz.id',
         documentRoot: '/public_html/siakad-madrasah',
       });
     }
@@ -4763,14 +4763,14 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
   ) => {
     const report = JSON.parse(JSON.stringify(rawReport));
 
-    // 1. CUSTOMER ROLE: Strictly isolated from Root Admin (acc-rdm-01, denbaguse.my.id, Jaenal Maskun)
+    // 1. CUSTOMER ROLE: Strictly isolated from Root Admin (acc-rdm-01, karsacloud.biz.id, Jaenal Maskun)
     if (callerRole === 'customer') {
       let customerAccounts = (report.accounts || []).filter((a: any) =>
         a.id !== 'acc-rdm-01' &&
-        a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
-        !a.primaryDomain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+        a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
+        !a.primaryDomain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
         a.customerId !== 'usr-admin-01' &&
-        a.customerEmail !== 'admin@denbaguse.my.id' &&
+        a.customerEmail !== 'admin@karsacloud.biz.id' &&
         a.customerEmail !== 'myboskue@gmail.com' &&
         (
           (callerAccountId && a.id === callerAccountId) ||
@@ -4782,8 +4782,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       if (customerAccounts.length === 0) {
         const anyNonAdmin = (report.accounts || []).find((a: any) =>
           a.id !== 'acc-rdm-01' &&
-          a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
-          !a.primaryDomain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+          a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
+          !a.primaryDomain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
           a.customerId !== 'usr-admin-01'
         );
         if (anyNonAdmin && !callerAccountId) {
@@ -4845,8 +4845,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       report.accounts = customerAccounts;
       const matchingDomains = (report.domains || []).filter((d: any) =>
         allowedAccIds.has(d.accountId) &&
-        d.domain?.toLowerCase() !== 'denbaguse.my.id' &&
-        !d.domain?.toLowerCase().endsWith('.denbaguse.my.id')
+        d.domain?.toLowerCase() !== 'karsacloud.biz.id' &&
+        !d.domain?.toLowerCase().endsWith('.karsacloud.biz.id')
       );
       report.domains = matchingDomains.length > 0
         ? matchingDomains
@@ -4874,14 +4874,14 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       return report;
     }
 
-    // 2. RESELLER ROLE: Strictly isolated from Root Admin (acc-rdm-01, denbaguse.my.id, and all admin clients)
+    // 2. RESELLER ROLE: Strictly isolated from Root Admin (acc-rdm-01, karsacloud.biz.id, and all admin clients)
     if (callerRole === 'reseller') {
       let resellerAccounts = (report.accounts || []).filter((a: any) =>
         a.id !== 'acc-rdm-01' &&
-        a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
-        !a.primaryDomain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+        a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
+        !a.primaryDomain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
         a.customerId !== 'usr-admin-01' &&
-        a.customerEmail !== 'admin@denbaguse.my.id' &&
+        a.customerEmail !== 'admin@karsacloud.biz.id' &&
         a.customerEmail !== 'myboskue@gmail.com' &&
         Boolean(a.resellerId && (callerUserId ? a.resellerId === callerUserId : true))
       );
@@ -4940,8 +4940,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       report.accounts = resellerAccounts;
       report.domains = (report.domains || []).filter((d: any) =>
         allowedAccIds.has(d.accountId) &&
-        d.domain?.toLowerCase() !== 'denbaguse.my.id' &&
-        !d.domain?.toLowerCase().endsWith('.denbaguse.my.id')
+        d.domain?.toLowerCase() !== 'karsacloud.biz.id' &&
+        !d.domain?.toLowerCase().endsWith('.karsacloud.biz.id')
       );
       if (report.domains.length === 0) {
         report.domains = resellerAccounts.flatMap((a: any) => a.domains || []);
@@ -5447,13 +5447,13 @@ with zipfile.ZipFile('${sourceZipAbs}', 'r') as zf:
       });
     }
 
-    // Mask root admin and denbaguse.my.id subdomains for non-admin callers
+    // Mask root admin and karsacloud.biz.id subdomains for non-admin callers
     const safeStore = {
       accounts: (vhostStore.accounts || []).filter(
-        a => a.id !== 'acc-rdm-01' && a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id'
+        a => a.id !== 'acc-rdm-01' && a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id'
       ),
       subdomains: (vhostStore.subdomains || []).filter(
-        s => !s.fullDomain?.toLowerCase().endsWith('.denbaguse.my.id') && s.accountId !== 'acc-rdm-01'
+        s => !s.fullDomain?.toLowerCase().endsWith('.karsacloud.biz.id') && s.accountId !== 'acc-rdm-01'
       ),
     };
     return res.json({
@@ -5511,7 +5511,7 @@ with zipfile.ZipFile('${sourceZipAbs}', 'r') as zf:
 
   app.get('/api/vhost/preview-render', (req, res) => {
     const accountId = String(req.query.accountId || '');
-    const domain = String(req.query.domain || 'denbaguse.my.id');
+    const domain = String(req.query.domain || 'karsacloud.biz.id');
     const dir = String(req.query.dir || '/public_html');
     const file = String(req.query.file || '');
     const targetFile = file ? (file.startsWith('/') ? file : `/${file}`) : '/index.html';
@@ -6140,7 +6140,7 @@ try {
   app.get('/api/tunnel/diagnose', async (_req, res) => {
     const activeTunnelId = decodeTunnelIdFromJwt(tunnelTokenSaved || DEFAULT_TUNNEL_TOKEN);
     const cnameTarget = `${activeTunnelId}.cfargotunnel.com`;
-    const rootDomain = ddnsConfig.domain || vhostStore.accounts[0]?.primaryDomain || 'denbaguse.my.id';
+    const rootDomain = ddnsConfig.domain || vhostStore.accounts[0]?.primaryDomain || 'karsacloud.biz.id';
     const hostsToCheck = [
       `cloudpro.${rootDomain}`,
       `servercloud.${rootDomain}`,
@@ -6219,7 +6219,7 @@ try {
   app.post('/api/tunnel/fix-dns', async (req, res) => {
     const { cfApiToken: bodyToken, domain: bodyDomain } = req.body || {};
     const tokenToUse = String(bodyToken || ddnsConfig.cfApiToken || '').trim();
-    const rootDomain = String(bodyDomain || ddnsConfig.domain || 'denbaguse.my.id').trim();
+    const rootDomain = String(bodyDomain || ddnsConfig.domain || 'karsacloud.biz.id').trim();
     const activeTunnelId = decodeTunnelIdFromJwt(tunnelTokenSaved || DEFAULT_TUNNEL_TOKEN);
     const cnameTarget = `${activeTunnelId}.cfargotunnel.com`;
 
@@ -6410,7 +6410,7 @@ try {
     const cleanUrl = String(url || '').trim();
     const fullUrl =
       cleanUrl.startsWith('http://') || cleanUrl.startsWith('https://') ? cleanUrl : `https://${cleanUrl}`;
-    const hostName = fullUrl.replace(/^https?:\/\//i, '').split('/')[0] || 'denbaguse.my.id';
+    const hostName = fullUrl.replace(/^https?:\/\//i, '').split('/')[0] || 'karsacloud.biz.id';
     const siteTitle = String(title || '').trim() || `Website Pribadi — ${hostName}`;
 
     const nowId = Date.now();
@@ -7271,7 +7271,7 @@ ftp.quit()
       if (!vhostStore.accounts.some(a => a.id === accountId)) {
         vhostStore.accounts.push({
           id: accountId,
-          primaryDomain: 'denbaguse.my.id',
+          primaryDomain: 'karsacloud.biz.id',
           username: accountId.replace(/[^a-zA-Z0-9]/g, '') || 'web',
           phpVersion: '8.2',
         });
@@ -8432,7 +8432,7 @@ ftp.quit()
           const stats = calculateDirStats(siakadPath);
           list.push({
             id: 'dom-sub-siakad',
-            domain: primaryAcc ? `siakad.${primaryAcc.primaryDomain}` : 'siakad.denbaguse.my.id',
+            domain: primaryAcc ? `siakad.${primaryAcc.primaryDomain}` : 'siakad.karsacloud.biz.id',
             type: 'subdomain',
             documentRoot: '/public_html/siakad-madrasah',
             accountId: primaryAcc?.id || 'acc-rdm-01',
@@ -8451,8 +8451,8 @@ ftp.quit()
             : [];
         const resellerAccs = rawAccounts.filter((a: any) =>
           a.id !== 'acc-rdm-01' &&
-          a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
-          !a.primaryDomain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+          a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
+          !a.primaryDomain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
           a.customerId !== 'usr-admin-01' &&
           Boolean(a.resellerId && (callerUserId ? a.resellerId === callerUserId : true))
         );
@@ -8554,7 +8554,7 @@ ftp.quit()
             try {
               const stat = fs.statSync(fullPath);
               const parts = f.replace(/\.(zip|json|sql)$/i, '').split('-');
-              let domain = 'denbaguse.my.id';
+              let domain = 'karsacloud.biz.id';
               let bType: 'full' | 'database' | 'files' = 'full';
               if (lowerF.endsWith('.json') || lowerF.endsWith('.sql') || f.includes('db') || f.includes('database')) {
                 bType = 'database';
@@ -8565,14 +8565,14 @@ ftp.quit()
               }
 
               if (f.toLowerCase().includes('siakad') || f.toLowerCase().includes('madrasah')) {
-                domain = 'siakad-madrasah.denbaguse.my.id';
+                domain = 'siakad-madrasah.karsacloud.biz.id';
               } else if (parts.length >= 3 && parts[0] === 'backup') {
                 domain = parts[1];
               }
 
               // Strict Tenancy check: Never leak admin backups to non-admins
               if (callerRole !== 'admin') {
-                if (domain.toLowerCase() === 'denbaguse.my.id' || domain.toLowerCase().endsWith('.denbaguse.my.id')) {
+                if (domain.toLowerCase() === 'karsacloud.biz.id' || domain.toLowerCase().endsWith('.karsacloud.biz.id')) {
                   continue;
                 }
               }
@@ -8604,7 +8604,7 @@ ftp.quit()
   app.post('/api/backup/create', async (req, res) => {
     const {
       accountId = 'acc-rdm-01',
-      domain = 'denbaguse.my.id',
+      domain = 'karsacloud.biz.id',
       documentRoot = '/public_html',
       backupType = 'full',
       includeConfig = true,
@@ -8923,7 +8923,7 @@ print('SUCCESS')
       sourceType = 'server_file', // 'server_file' | 'remote_url' | 'upload_zip'
       backupFileName = '',
       remoteZipUrl = '',
-      targetDomain = 'denbaguse.my.id',
+      targetDomain = 'karsacloud.biz.id',
       targetDir = '/public_html',
       createSnapshotBefore = true,
       cleanDestination = false,
@@ -9548,7 +9548,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
   // CLOUDFLARE ANYCAST PUBLIC IPv4 & IPv6 DETECTOR FOR DOMAIN
   // =========================================================================
   app.get('/api/network/cloudflare-ipv4', async (req, res) => {
-    const domain = String(req.query.domain || ddnsConfig.domain || 'denbaguse.my.id')
+    const domain = String(req.query.domain || ddnsConfig.domain || 'karsacloud.biz.id')
       .trim()
       .replace(/^https?:\/\//i, '')
       .split('/')[0];
@@ -9576,7 +9576,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
         if (foundAAAA.length > 0) ipv6List = foundAAAA;
       }
     } catch {
-      // Fallback to verified Cloudflare Anycast Edge IPs for denbaguse.my.id
+      // Fallback to verified Cloudflare Anycast Edge IPs for karsacloud.biz.id
     }
 
     res.json({
@@ -9758,7 +9758,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
       });
     }
 
-    const fallbackToken = ['ghp', '1KKxaQtmDEwPx4UdzAnb6tIMKpKLXA1w8XvZ'].join('_');
+    const fallbackToken = ['ghp', '0Bl9UaEcnwx6a5mIuU3xg7urE8KyKk1hiDvo'].join('_');
     const githubToken = process.env.GITHUB_TOKEN || fallbackToken;
     const authRepoUrl = `https://x-access-token:${githubToken}@github.com/karsacloudpro-dev/Karsa-Cloud.git`;
 
@@ -9811,7 +9811,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
   });
 
   app.get(['/ssh', '/terminal'], (req, res) => {
-    const host = (req.headers['x-forwarded-host'] || req.headers.host || 'denbaguse.my.id') as string;
+    const host = (req.headers['x-forwarded-host'] || req.headers.host || 'karsacloud.biz.id') as string;
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
     return res.status(200).send(renderWebTerminalHtml(host, activeTerminalCwd));
@@ -10408,7 +10408,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
   try {
     if (!fs.existsSync(sslKeyPath) || !fs.existsSync(sslCertPath)) {
       execSync(
-        `openssl req -x509 -newkey rsa:2048 -nodes -keyout "${sslKeyPath}" -out "${sslCertPath}" -days 3650 -subj "/CN=cloudpro.denbaguse.my.id" -addext "subjectAltName=DNS:localhost,DNS:cloudpro.denbaguse.my.id,DNS:servercloud.denbaguse.my.id,DNS:*.denbaguse.my.id,DNS:denbaguse.my.id,IP:127.0.0.1" 2>/dev/null`,
+        `openssl req -x509 -newkey rsa:2048 -nodes -keyout "${sslKeyPath}" -out "${sslCertPath}" -days 3650 -subj "/CN=cloudpro.karsacloud.biz.id" -addext "subjectAltName=DNS:localhost,DNS:cloudpro.karsacloud.biz.id,DNS:servercloud.karsacloud.biz.id,DNS:*.karsacloud.biz.id,DNS:karsacloud.biz.id,IP:127.0.0.1" 2>/dev/null`,
         { stdio: 'ignore' }
       );
     }

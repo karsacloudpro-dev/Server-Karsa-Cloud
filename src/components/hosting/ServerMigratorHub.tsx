@@ -588,7 +588,7 @@ export const ServerMigratorHub: React.FC<ServerMigratorHubProps> = ({
 
   const currentDomain = (() => {
     const cleanDir = ('/' + (selectedTargetDir || '/public_html').trim().replace(/^\/home\/[^/]+/, '').replace(/^\/+/, '').replace(/\/+$/, '')) || '/public_html';
-    if (cleanDir === '/public_html') return account.primaryDomain || 'denbaguse.my.id';
+    if (cleanDir === '/public_html') return account.primaryDomain || 'karsacloud.biz.id';
     const matched = accountDomains.find(d => {
       const dRoot = ('/' + (d.documentRoot || '').replace(/^\/home\/[^/]+/, '').replace(/^\/+/, '').replace(/\/+$/, '')) || '/public_html';
       return dRoot.toLowerCase() === cleanDir.toLowerCase() && d.type !== 'primary';
@@ -598,7 +598,7 @@ export const ServerMigratorHub: React.FC<ServerMigratorHubProps> = ({
       const sub = cleanDir.slice('/public_html/'.length).split('/')[0];
       if (sub) return `${sub}.${account.primaryDomain}`;
     }
-    return account.primaryDomain || 'denbaguse.my.id';
+    return account.primaryDomain || 'karsacloud.biz.id';
   })();
   const targetFullPath = `/home/${account.username}${selectedTargetDir}`;
 

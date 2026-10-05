@@ -51,7 +51,7 @@ export const SecurityCenter: React.FC = () => {
       if (log.userId === 'usr-admin-01' || log.role === 'admin') return false;
       const dLower = String(log.details || '').toLowerCase();
       if (
-        dLower.includes('denbaguse.my.id') ||
+        dLower.includes('karsacloud.biz.id') ||
         dLower.includes('root administrator') ||
         dLower.includes('vps') ||
         dLower.includes('tyo-dev') ||
@@ -398,7 +398,7 @@ export const SecurityCenter: React.FC = () => {
                 <div className="flex flex-col items-center justify-center p-3 bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 shadow-2xs">
                   <img
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(
-                      `otpauth://totp/CloudPRO:${currentUser.email || 'admin@denbaguse.my.id'}?secret=${
+                      `otpauth://totp/CloudPRO:${currentUser.email || 'admin@karsacloud.biz.id'}?secret=${
                         currentUser.twoFactorSecret && !/[^A-Z2-7]/i.test(currentUser.twoFactorSecret)
                           ? currentUser.twoFactorSecret.toUpperCase()
                           : 'CLOUDPROSECRET23'

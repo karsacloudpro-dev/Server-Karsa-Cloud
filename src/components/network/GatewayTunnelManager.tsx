@@ -91,7 +91,7 @@ export const GatewayTunnelManager: React.FC<GatewayTunnelManagerProps> = ({
     return '99e7da79-8346-424d-b9ab-d4d5f14fb889';
   };
 
-  const rootDomain = account?.primaryDomain ? account.primaryDomain.replace(/^rdm\./i, '') : 'denbaguse.my.id';
+  const rootDomain = account?.primaryDomain ? account.primaryDomain.replace(/^rdm\./i, '') : 'karsacloud.biz.id';
   const activeTunnelUuid = decodeTunnelIdFromToken(tunnelTokenInput);
   const activeCnameTarget = `${activeTunnelUuid}.cfargotunnel.com`;
   const allAccounts = db.getHostingAccounts();
@@ -605,7 +605,7 @@ export const GatewayTunnelManager: React.FC<GatewayTunnelManagerProps> = ({
                 </div>
               </div>
 
-              {/* SOLUSI INSTAN ERROR 1033 (servercloud.denbaguse.my.id) & ERROR 1016 */}
+              {/* SOLUSI INSTAN ERROR 1033 (servercloud.karsacloud.biz.id) & ERROR 1016 */}
               <div className="rounded-xl border border-rose-500/40 bg-rose-950/25 p-4 space-y-3 text-[11px] text-slate-200">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2 font-bold text-rose-300 text-xs">

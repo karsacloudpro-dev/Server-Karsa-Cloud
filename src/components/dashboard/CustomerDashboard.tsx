@@ -39,21 +39,21 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
           a.username === currentUser.username ||
           a.customerEmail === currentUser.email) &&
         a.id !== 'acc-rdm-01' &&
-        a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
+        a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
         !a.resellerId &&
         !a.primaryDomain.includes('reseller') &&
         !a.primaryDomain.includes('mitrahosting')
     ) ||
     accounts.find(a => a.id === 'acc-school-02') ||
-    accounts.find(a => a.id !== 'acc-rdm-01' && a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id') ||
+    accounts.find(a => a.id !== 'acc-rdm-01' && a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id') ||
     {
       id: 'acc-school-02',
-      primaryDomain: 'client.denbaguse.my.id',
-      domain: 'client.denbaguse.my.id',
+      primaryDomain: 'client.karsacloud.biz.id',
+      domain: 'client.karsacloud.biz.id',
       username: currentUser.username || 'pelanggan',
       customerId: currentUser.id,
       customerName: currentUser.name || 'Pelanggan Hosting cPanel',
-      customerEmail: currentUser.email || 'pelanggan@denbaguse.my.id',
+      customerEmail: currentUser.email || 'pelanggan@karsacloud.biz.id',
       serverId: 'srv-id-01',
       serverName: 'ID-Cyber-01 (Jakarta)',
       planId: 'plan-starter',
@@ -442,7 +442,7 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
               <span className="font-mono text-slate-700">
                 {customerAccount.nameservers && customerAccount.nameservers.length >= 2
                   ? `${customerAccount.nameservers[0]} • ${customerAccount.nameservers[1]}`
-                  : 'ns1.denbaguse.my.id • ns2.denbaguse.my.id'}
+                  : 'nia.ns.cloudflare.com • ryan.ns.cloudflare.com'}
               </span>
             </div>
             <div className="flex justify-between py-1.5">

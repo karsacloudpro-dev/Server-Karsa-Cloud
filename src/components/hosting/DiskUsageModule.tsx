@@ -160,7 +160,7 @@ export const DiskUsageModule: React.FC<DiskUsageModuleProps> = ({
   }, [currentUser?.role, account?.id]);
 
   // STRICT MULTI-TENANCY FILTERING:
-  // Customers and resellers MUST NEVER see Admin account or Admin's clients (acc-rdm-01, denbaguse.my.id, mimaarifnuti, mimanu02kali)
+  // Customers and resellers MUST NEVER see Admin account or Admin's clients (acc-rdm-01, karsacloud.biz.id, mimaarifnuti, mimanu02kali)
   const scopedAccounts = useMemo((): AccountDiskAuditItem[] => {
     const rawList = report?.accounts || [];
 
@@ -170,7 +170,7 @@ export const DiskUsageModule: React.FC<DiskUsageModuleProps> = ({
           .filter(acc =>
             (acc.customerId === currentUser?.id || acc.username === currentUser?.username || acc.customerEmail === currentUser?.email || acc.id === 'acc-school-02') &&
             acc.id !== 'acc-rdm-01' &&
-            acc.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
+            acc.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
             acc.customerId !== 'usr-admin-01'
           )
           .map(acc => acc.id)
@@ -188,15 +188,15 @@ export const DiskUsageModule: React.FC<DiskUsageModuleProps> = ({
         return [{
           ...matched,
           domains: (matched.domains || []).filter(
-            d => d.domain?.toLowerCase() !== 'denbaguse.my.id' && !d.domain?.toLowerCase().endsWith('.denbaguse.my.id')
+            d => d.domain?.toLowerCase() !== 'karsacloud.biz.id' && !d.domain?.toLowerCase().endsWith('.karsacloud.biz.id')
           ),
         }];
       }
 
       // Safe synthesized fallback customer account if backend is still initializing
-      const safeDomain = account?.primaryDomain && account.primaryDomain !== 'denbaguse.my.id'
+      const safeDomain = account?.primaryDomain && account.primaryDomain !== 'karsacloud.biz.id'
         ? account.primaryDomain
-        : 'client.denbaguse.my.id';
+        : 'client.karsacloud.biz.id';
       const safeUsername = account?.username && account.username !== 'cloudpro' && account.username !== 'karsacloud' && account.username !== 'gridmaster'
         ? account.username
         : (currentUser?.username && currentUser.username !== 'admin' && currentUser.username !== 'karsacloud' ? currentUser.username : 'pelanggan');
@@ -256,7 +256,7 @@ export const DiskUsageModule: React.FC<DiskUsageModuleProps> = ({
           .filter(acc =>
             acc.resellerId === currentUser?.id &&
             acc.id !== 'acc-rdm-01' &&
-            acc.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
+            acc.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
             acc.customerId !== 'usr-admin-01'
           )
           .map(acc => acc.id)
@@ -264,10 +264,10 @@ export const DiskUsageModule: React.FC<DiskUsageModuleProps> = ({
 
       const filtered = rawList.filter(
         a => a.id !== 'acc-rdm-01' &&
-             a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
-             !a.primaryDomain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+             a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
+             !a.primaryDomain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
              a.customerId !== 'usr-admin-01' &&
-             a.customerEmail !== 'admin@denbaguse.my.id' &&
+             a.customerEmail !== 'admin@karsacloud.biz.id' &&
              a.customerEmail !== 'myboskue@gmail.com' &&
              (resellerAccountIds.has(a.id) || (a.resellerId && a.resellerId === currentUser?.id))
       );
@@ -277,7 +277,7 @@ export const DiskUsageModule: React.FC<DiskUsageModuleProps> = ({
       }
 
       // Safe clean fallback container for Reseller brand so panel does not crash or show admin data
-      const safeDomain = account?.primaryDomain && account.primaryDomain !== 'denbaguse.my.id'
+      const safeDomain = account?.primaryDomain && account.primaryDomain !== 'karsacloud.biz.id'
         ? account.primaryDomain
         : 'mitrahosting.my.id';
       const safeUsername = account?.username && account.username !== 'cloudpro' && account.username !== 'karsacloud' && account.username !== 'gridmaster'
@@ -341,8 +341,8 @@ export const DiskUsageModule: React.FC<DiskUsageModuleProps> = ({
     const rawDomains = report?.domains || [];
     const filtered = rawDomains.filter(d =>
       allowedAccIds.has(d.accountId) &&
-      d.domain?.toLowerCase() !== 'denbaguse.my.id' &&
-      !d.domain?.toLowerCase().endsWith('.denbaguse.my.id')
+      d.domain?.toLowerCase() !== 'karsacloud.biz.id' &&
+      !d.domain?.toLowerCase().endsWith('.karsacloud.biz.id')
     );
     if (filtered.length > 0) return filtered;
     return scopedAccounts.flatMap(a => a.domains || []);

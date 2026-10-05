@@ -129,14 +129,14 @@ export const DiskCleanerModule: React.FC<DiskCleanerModuleProps> = ({
     fetchDiskAudit(false);
   }, [currentUser?.role, account?.id]);
 
-  // STRICT MULTI-TENANCY FILTERING: Exclude Admin domains (denbaguse.my.id)
+  // STRICT MULTI-TENANCY FILTERING: Exclude Admin domains (karsacloud.biz.id)
   const scopedDomains = useMemo((): DomainDiskAuditItem[] => {
     const rawList = report?.domains || [];
 
     if (isCustomer) {
       return rawList.filter(
-        d => d.domain?.toLowerCase() !== 'denbaguse.my.id' &&
-             !d.domain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+        d => d.domain?.toLowerCase() !== 'karsacloud.biz.id' &&
+             !d.domain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
              ((account?.id && d.accountId === account.id) ||
               (currentUser?.username && d.username?.toLowerCase() === currentUser.username.toLowerCase()))
       );
@@ -148,15 +148,15 @@ export const DiskCleanerModule: React.FC<DiskCleanerModuleProps> = ({
           .filter(acc =>
             acc.resellerId === currentUser?.id &&
             acc.id !== 'acc-rdm-01' &&
-            acc.primaryDomain?.toLowerCase() !== 'denbaguse.my.id' &&
+            acc.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
             acc.customerId !== 'usr-admin-01'
           )
           .map(acc => acc.id)
       );
 
       return rawList.filter(
-        d => d.domain?.toLowerCase() !== 'denbaguse.my.id' &&
-             !d.domain?.toLowerCase().endsWith('.denbaguse.my.id') &&
+        d => d.domain?.toLowerCase() !== 'karsacloud.biz.id' &&
+             !d.domain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
              (resellerAccountIds.has(d.accountId) || (account?.id && d.accountId === account.id))
       );
     }

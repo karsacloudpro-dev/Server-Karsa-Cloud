@@ -148,8 +148,8 @@ case "$1" in
     echo "Versi Git  : $(git -C "$SCRIPT_PATH" rev-parse --short HEAD 2>/dev/null) - $(git -C "$SCRIPT_PATH" log -1 --pretty=%s 2>/dev/null)"
     echo "Port 3000  : $(curl -sI --max-time 3 http://127.0.0.1:3000/ | grep -q HTTP && echo '🟢 ONLINE (Aktif)' || echo '🔴 OFFLINE')"
     echo "Tunnel CF  : $(pgrep -f "cloudflared.*tunnel" >/dev/null && echo '🟢 AKTIF' || echo '⚪ TIDAK AKTIF')"
-    echo "URL Panel  : https://cloudpro.denbaguse.my.id"
-    echo "URL Web SSH: https://cloudpro.denbaguse.my.id/ssh"
+    echo "URL Panel  : https://cloudpro.karsacloud.biz.id"
+    echo "URL Web SSH: https://cloudpro.karsacloud.biz.id/ssh"
     echo "========================================="
     ;;
   *)
@@ -212,7 +212,7 @@ fi
 echo "[OK] Konfigurasi Shell Ubuntu (~/.bashrc) & Daemon SSH (Anti-Disconnect) telah dipasang!"
 
 echo "[1/3] Mengambil kode terbaru dari GitHub..."
-GITHUB_TOKEN="${GITHUB_TOKEN:-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}"
+GITHUB_TOKEN="${GITHUB_TOKEN:-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}"
 DEFAULT_REPO="https://x-access-token:${GITHUB_TOKEN}@github.com/karsacloudpro-dev/Karsa-Cloud.git"
 CURRENT_ORIGIN="$(git remote get-url origin 2>/dev/null || echo "")"
 
@@ -546,9 +546,9 @@ if curl -sI --max-time 5 http://127.0.0.1:3000/ | grep -q "HTTP"; then
   echo " ● Port 3000     : AKTIF (HTTP 200 OK)"
   echo "--------------------------------------------------------"
   echo " [ALAMAT WEB PANEL AKTIF]:"
-  echo " 👉 Panel Utama (Resmi) : https://cloudpro.denbaguse.my.id"
-  echo " 👉 Panel Cadangan      : https://servercloud.denbaguse.my.id"
-  echo " 👉 Web Virtual Host    : https://denbaguse.my.id"
+  echo " 👉 Panel Utama (Resmi) : https://cloudpro.karsacloud.biz.id"
+  echo " 👉 Panel Cadangan      : https://servercloud.karsacloud.biz.id"
+  echo " 👉 Web Virtual Host    : https://karsacloud.biz.id"
   echo "--------------------------------------------------------"
   echo " [PERINTAH CEPAT DI SSH TERMINAL]:"
   echo " * Cek Kommit Aktif  : ketik 'versi'"

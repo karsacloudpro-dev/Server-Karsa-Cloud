@@ -39,11 +39,11 @@ export const PrivateNameserverManager: React.FC = () => {
   // Edit / Form state
   const selectedConfig = configs.find(c => c.id === activeConfigId) || configs[0] || {
     id: `ns-cfg-${Date.now()}`,
-    domain: 'denbaguse.my.id',
-    ns1Host: 'ns1.denbaguse.my.id',
+    domain: 'karsacloud.biz.id',
+    ns1Host: 'nia.ns.cloudflare.com',
     ns1Ip: '172.64.34.193',
     ns1Ipv6: '2606:4700:50::a29f:26c1',
-    ns2Host: 'ns2.denbaguse.my.id',
+    ns2Host: 'ryan.ns.cloudflare.com',
     ns2Ip: '172.64.35.228',
     ns2Ipv6: '2606:4700:58::a29f:2ce4',
     dnssecEnabled: true,
@@ -51,7 +51,7 @@ export const PrivateNameserverManager: React.FC = () => {
     dnssecAlgorithm: 13,
     dnssecDigestType: 2,
     dnssecDigest: '48F82C99D34F181BAEF37C2F0E2A5D076E1B6833D224859A3BC85A094EE12A1B',
-    soaEmail: 'hostmaster.denbaguse.my.id',
+    soaEmail: 'hostmaster.karsacloud.biz.id',
     defaultTtl: 3600,
     bindServiceStatus: 'active',
     isDefaultGlobal: true,
@@ -71,7 +71,7 @@ export const PrivateNameserverManager: React.FC = () => {
   const [isDefaultGlobal, setIsDefaultGlobal] = useState(selectedConfig.isDefaultGlobal);
 
   // Live DNS Lookup Simulation State
-  const [testDomain, setTestDomain] = useState('denbaguse.my.id');
+  const [testDomain, setTestDomain] = useState('karsacloud.biz.id');
   const [isTestingLookup, setIsTestingLookup] = useState(false);
   const [lookupResult, setLookupResult] = useState<{
     status: 'success' | 'warning' | 'idle';
@@ -362,7 +362,7 @@ export const PrivateNameserverManager: React.FC = () => {
               </label>
               <input
                 type="text"
-                placeholder="denbaguse.my.id"
+                placeholder="karsacloud.biz.id"
                 value={domain}
                 onChange={e => handleDomainChange(e.target.value)}
                 className="mt-1.5 w-full rounded-xl border border-slate-200 px-3.5 py-2.5 font-mono text-xs font-medium text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
@@ -378,7 +378,7 @@ export const PrivateNameserverManager: React.FC = () => {
               </label>
               <input
                 type="text"
-                placeholder="hostmaster.denbaguse.my.id"
+                placeholder="hostmaster.karsacloud.biz.id"
                 value={soaEmail}
                 onChange={e => setSoaEmail(e.target.value)}
                 className="mt-1.5 w-full rounded-xl border border-slate-200 px-3.5 py-2.5 font-mono text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
