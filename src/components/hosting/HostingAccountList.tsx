@@ -56,14 +56,16 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
   const isOwnAccount = (acc: HostingAccount): boolean => {
     if (currentUser.role === 'admin') {
       return (
-        acc.id === 'acc-rdm-01' ||
-        acc.primaryDomain.toLowerCase() === 'karsacloud.biz.id'
+        acc.primaryDomain.toLowerCase() === 'karsacloud.biz.id' ||
+        (acc.id === 'acc-rdm-01' && !acc.primaryDomain.toLowerCase().includes('denbaguse'))
       );
     }
     if (currentUser.role === 'reseller') {
       return (
         acc.primaryDomain.toLowerCase() === resellerBrandDomain ||
+        acc.primaryDomain.toLowerCase() === 'denbaguse.my.id' ||
         acc.id === `acc-own-${currentUser.id}` ||
+        acc.id === 'acc-denbaguse-01' ||
         (acc.resellerId === currentUser.id && acc.customerId === currentUser.id)
       );
     }

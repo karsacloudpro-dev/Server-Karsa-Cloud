@@ -361,7 +361,7 @@ const INITIAL_STATE: DatabaseState = {
       domain: 'karsacloud.biz.id',
       username: 'karsacloud',
       customerId: 'usr-admin-01',
-      customerName: 'Jaenal Maskun (Website Pribadi)',
+      customerName: 'Karsa Cloud Root System',
       customerEmail: 'admin@karsacloud.biz.id',
       serverId: 'srv-sg-01',
       serverName: 'SG-Edge-01 (Singapore)',
@@ -2250,16 +2250,44 @@ class StorageService {
       if (Array.isArray(this.state.hostingAccounts)) {
         this.state.hostingAccounts = this.state.hostingAccounts.map(acc => {
           if (acc.id === 'acc-rdm-01') {
-            if (acc.resellerId || acc.username !== 'karsacloud' || (acc.documentRoot || '').includes('/home/madrasah') || (acc.documentRoot || '').includes('/home/cloudpro') || (acc.documentRoot || '').includes('/home/gridmaster')) {
+            if (
+              acc.primaryDomain !== 'karsacloud.biz.id' ||
+              acc.domain !== 'karsacloud.biz.id' ||
+              acc.customerName !== 'Karsa Cloud Root System' ||
+              acc.resellerId ||
+              acc.username !== 'karsacloud' ||
+              (acc.documentRoot || '').includes('/home/madrasah') ||
+              (acc.documentRoot || '').includes('/home/cloudpro') ||
+              (acc.documentRoot || '').includes('/home/gridmaster')
+            ) {
               updated = true;
               return {
                 ...acc,
+                primaryDomain: 'karsacloud.biz.id',
+                domain: 'karsacloud.biz.id',
+                customerName: 'Karsa Cloud Root System',
+                customerEmail: 'admin@karsacloud.biz.id',
                 resellerId: undefined,
                 customerId: 'usr-admin-01',
                 username: 'karsacloud',
-                documentRoot: (acc.documentRoot || '/home/karsacloud/public_html').replace('/home/madrasah', '/home/karsacloud').replace('/home/cloudpro', '/home/karsacloud').replace('/home/gridmaster', '/home/karsacloud'),
+                documentRoot: '/home/karsacloud/public_html',
               };
             }
+          }
+          if (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id' || acc.domain === 'denbaguse.my.id') {
+            return {
+              ...acc,
+              id: 'acc-denbaguse-01',
+              primaryDomain: 'denbaguse.my.id',
+              domain: 'denbaguse.my.id',
+              username: 'denbaguse',
+              customerId: 'usr-reseller-denbaguse',
+              customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
+              customerEmail: 'admin@denbaguse.my.id',
+              resellerId: 'prof-reseller-denbaguse',
+              documentRoot: '/public_html',
+              status: 'active',
+            };
           }
           if (acc.id === 'acc-school-02' || acc.customerId === 'usr-cust-02') {
             if (acc.resellerId || acc.primaryDomain.includes('reseller') || acc.customerName?.toLowerCase().includes('reseller')) {
@@ -2605,15 +2633,74 @@ class StorageService {
 
   // --- Hosting Accounts ---
   public getHostingAccounts(): HostingAccount[] {
-    return this.state.hostingAccounts.filter(
-      a => a.primaryDomain !== 'websitepelanggan.my.id' && a.domain !== 'websitepelanggan.my.id'
-    );
+    return this.state.hostingAccounts
+      .filter(
+        a => a.primaryDomain !== 'websitepelanggan.my.id' && a.domain !== 'websitepelanggan.my.id'
+      )
+      .map(acc => {
+        if (acc.id === 'acc-rdm-01') {
+          return {
+            ...acc,
+            primaryDomain: 'karsacloud.biz.id',
+            domain: 'karsacloud.biz.id',
+            username: 'karsacloud',
+            customerName: 'Karsa Cloud Root System',
+            customerEmail: 'admin@karsacloud.biz.id',
+            documentRoot: '/home/karsacloud/public_html',
+            resellerId: undefined,
+            customerId: 'usr-admin-01',
+          };
+        }
+        if (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id' || acc.domain === 'denbaguse.my.id') {
+          return {
+            ...acc,
+            id: 'acc-denbaguse-01',
+            primaryDomain: 'denbaguse.my.id',
+            domain: 'denbaguse.my.id',
+            username: 'denbaguse',
+            customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
+            customerEmail: 'admin@denbaguse.my.id',
+            resellerId: 'prof-reseller-denbaguse',
+            customerId: 'usr-reseller-denbaguse',
+            documentRoot: '/public_html',
+          };
+        }
+        return acc;
+      });
   }
 
   public getHostingAccount(id: string): HostingAccount | undefined {
     const acc = this.state.hostingAccounts.find(a => a.id === id);
-    if (acc && (acc.primaryDomain === 'websitepelanggan.my.id' || acc.domain === 'websitepelanggan.my.id')) {
+    if (!acc) return undefined;
+    if (acc.primaryDomain === 'websitepelanggan.my.id' || acc.domain === 'websitepelanggan.my.id') {
       return undefined;
+    }
+    if (acc.id === 'acc-rdm-01') {
+      return {
+        ...acc,
+        primaryDomain: 'karsacloud.biz.id',
+        domain: 'karsacloud.biz.id',
+        username: 'karsacloud',
+        customerName: 'Karsa Cloud Root System',
+        customerEmail: 'admin@karsacloud.biz.id',
+        documentRoot: '/home/karsacloud/public_html',
+        resellerId: undefined,
+        customerId: 'usr-admin-01',
+      };
+    }
+    if (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id' || acc.domain === 'denbaguse.my.id') {
+      return {
+        ...acc,
+        id: 'acc-denbaguse-01',
+        primaryDomain: 'denbaguse.my.id',
+        domain: 'denbaguse.my.id',
+        username: 'denbaguse',
+        customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
+        customerEmail: 'admin@denbaguse.my.id',
+        resellerId: 'prof-reseller-denbaguse',
+        customerId: 'usr-reseller-denbaguse',
+        documentRoot: '/public_html',
+      };
     }
     return acc;
   }
