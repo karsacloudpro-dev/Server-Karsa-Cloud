@@ -29,7 +29,7 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
   onOpenCpanel,
   onOpenCreateWizard,
 }) => {
-  const { currentUser, currentResellerProfile } = useAuth();
+  const { currentUser, currentResellerProfile, updateCurrentUser } = useAuth();
   const { accounts, showToast, refreshAll, confirmAction } = useServer();
 
   if (!currentUser) return null;
@@ -66,7 +66,8 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
         acc.primaryDomain.toLowerCase() === 'denbaguse.my.id' ||
         acc.id === `acc-own-${currentUser.id}` ||
         acc.id === 'acc-denbaguse-01' ||
-        (acc.resellerId === currentUser.id && acc.customerId === currentUser.id)
+        (acc.resellerId === currentUser.id && acc.customerId === currentUser.id) ||
+        (Boolean(currentResellerProfile) && acc.resellerId === currentResellerProfile?.id)
       );
     }
     return acc.customerId === currentUser.id;
@@ -81,9 +82,13 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
       const existingOwn = accounts.find(
         a =>
           a.id === `acc-own-${currentUser.id}` ||
+          a.id === 'acc-denbaguse-01' ||
+          a.primaryDomain.toLowerCase() === resellerBrandDomain ||
+          a.primaryDomain.toLowerCase() === 'denbaguse.my.id' ||
           (a.resellerId === currentUser.id &&
             (a.customerId === currentUser.id ||
-              a.primaryDomain.toLowerCase() === resellerBrandDomain))
+              a.primaryDomain.toLowerCase() === resellerBrandDomain)) ||
+          (Boolean(currentResellerProfile) && a.resellerId === currentResellerProfile?.id)
       );
       const expectedCustomerName = currentResellerProfile?.brandName
         ? `${currentUser.name} (${currentResellerProfile.brandName})`
@@ -189,15 +194,40 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
     };
     db.saveHostingAccount(updatedAcc);
 
+    // If this account is the primary server infrastructure account (karsacloud.biz.id / acc-rdm-01), also sync the Root Admin User
+    if (
+      editingAccount.id === 'acc-rdm-01' ||
+      editingAccount.primaryDomain.toLowerCase() === 'karsacloud.biz.id'
+    ) {
+      const cleanPersonName = editCustomerName.trim().replace(/\s*\(.*\)\s*$/, '');
+      const adminUser = db.getUserById('usr-admin-01');
+      if (adminUser) {
+        db.saveUser({
+          ...adminUser,
+          name: cleanPersonName || editCustomerName.trim() || adminUser.name,
+          email: editCustomerEmail.trim() || adminUser.email,
+        });
+      }
+      if (currentUser.role === 'admin') {
+        updateCurrentUser({
+          name: cleanPersonName || editCustomerName.trim() || currentUser.name,
+          email: editCustomerEmail.trim() || currentUser.email,
+        });
+      }
+    }
+
     // If this account is a Reseller's own account, also sync the Reseller User & Profile
     if (
       editingAccount.id.startsWith('acc-own-') ||
-      (editingAccount.resellerId && editingAccount.customerId === editingAccount.resellerId)
+      editingAccount.id === 'acc-denbaguse-01' ||
+      editingAccount.primaryDomain.toLowerCase() === 'denbaguse.my.id' ||
+      (editingAccount.resellerId && editingAccount.customerId === editingAccount.resellerId) ||
+      (Boolean(currentResellerProfile) && editingAccount.resellerId === currentResellerProfile?.id)
     ) {
-      const rId = editingAccount.resellerId || editingAccount.customerId;
+      const rId = editingAccount.resellerId || editingAccount.customerId || currentResellerProfile?.id;
       if (rId) {
-        const rUser = db.getUserById(rId);
-        const rProf = db.getResellerProfile(rId);
+        const rUser = db.getUserById(rId) || db.getUserById(editingAccount.customerId);
+        const rProf = db.getResellerProfile(rId) || (currentResellerProfile ? db.getResellerProfile(currentResellerProfile.id) : undefined);
         const cleanPersonName = editCustomerName.trim().replace(/\s*\(.*\)\s*$/, '');
         if (rUser) {
           db.saveUser({
@@ -213,6 +243,12 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
             primaryDomain: cleanDom,
             panelDomain: `panel.${cleanDom}`,
             supportEmail: editCustomerEmail.trim() || rProf.supportEmail,
+          });
+        }
+        if (currentUser.role === 'reseller') {
+          updateCurrentUser({
+            name: cleanPersonName || currentUser.name,
+            email: editCustomerEmail.trim() || currentUser.email,
           });
         }
       }
@@ -599,7 +635,11 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
               </div>
               <div className="mt-1 flex items-center gap-1.5 font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
                 <UserCheck className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                <span className="truncate">{currentUser.name}</span>
+                <span className="truncate">
+                  {currentUser.role === 'admin'
+                    ? (ownAccounts[0]?.customerName || currentUser.name)
+                    : currentUser.name}
+                </span>
               </div>
             </div>
 

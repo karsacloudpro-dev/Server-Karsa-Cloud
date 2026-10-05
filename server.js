@@ -601,7 +601,7 @@ function renderWebTerminalHtml(host, initialCwd) {
         tempBlock.remove();
 
         if (res.status === 401) {
-          alert('PIN Terminal Salah! Silakan masukkan PIN yang benar.');
+          appendHistoryBlock(cmd, '\u274C [AKSES DITOLAK] PIN Terminal Salah! Silakan masukkan PIN yang benar.', false);
           lockTerminal();
           return;
         }

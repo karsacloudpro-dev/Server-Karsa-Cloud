@@ -91,7 +91,7 @@ const INITIAL_STATE: DatabaseState = {
   users: [
     {
       id: 'usr-admin-01',
-      name: 'Root Administrator',
+      name: 'Jaenal Maskun',
       username: 'karsacloud',
       email: 'admin@karsacloud.biz.id',
       role: 'admin',
@@ -361,7 +361,7 @@ const INITIAL_STATE: DatabaseState = {
       domain: 'karsacloud.biz.id',
       username: 'karsacloud',
       customerId: 'usr-admin-01',
-      customerName: 'Karsa Cloud Root System',
+      customerName: 'Jaenal Maskun',
       customerEmail: 'admin@karsacloud.biz.id',
       serverId: 'srv-sg-01',
       serverName: 'SG-Edge-01 (Singapore)',
@@ -1527,8 +1527,8 @@ class StorageService {
               domain: 'karsacloud.biz.id',
               username: 'karsacloud',
               documentRoot: '/home/karsacloud/public_html',
-              customerName: 'Karsa Cloud Root System',
-              customerEmail: 'admin@karsacloud.biz.id',
+              customerName: acc.customerName || 'Jaenal Maskun',
+              customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
               diskUsedMb: 23,
               resellerId: undefined,
             };
@@ -1585,6 +1585,13 @@ class StorageService {
           acc.primaryDomain !== 'websitepelanggan.my.id' &&
           acc.domain !== 'websitepelanggan.my.id'
         );
+
+        // Filter out duplicate denbaguse accounts created by auto-seed
+        loadedAccounts = loadedAccounts.filter(acc => {
+          if (acc.id === 'acc-own-usr-reseller-denbaguse') return false;
+          if (acc.primaryDomain.toLowerCase() === 'denbaguse.my.id' && acc.id !== 'acc-denbaguse-01') return false;
+          return true;
+        });
 
         // Ensure denbaguse.my.id Reseller account is always present
         if (!loadedAccounts.some(a => a.id === 'acc-denbaguse-01' || a.primaryDomain === 'denbaguse.my.id')) {
@@ -2253,7 +2260,6 @@ class StorageService {
             if (
               acc.primaryDomain !== 'karsacloud.biz.id' ||
               acc.domain !== 'karsacloud.biz.id' ||
-              acc.customerName !== 'Karsa Cloud Root System' ||
               acc.resellerId ||
               acc.username !== 'karsacloud' ||
               (acc.documentRoot || '').includes('/home/madrasah') ||
@@ -2265,8 +2271,8 @@ class StorageService {
                 ...acc,
                 primaryDomain: 'karsacloud.biz.id',
                 domain: 'karsacloud.biz.id',
-                customerName: 'Karsa Cloud Root System',
-                customerEmail: 'admin@karsacloud.biz.id',
+                customerName: acc.customerName || 'Jaenal Maskun',
+                customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
                 resellerId: undefined,
                 customerId: 'usr-admin-01',
                 username: 'karsacloud',
@@ -2282,8 +2288,8 @@ class StorageService {
               domain: 'denbaguse.my.id',
               username: 'denbaguse',
               customerId: 'usr-reseller-denbaguse',
-              customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
-              customerEmail: 'admin@denbaguse.my.id',
+              customerName: acc.customerName || 'Jaenal Maskun (Website Pribadi & Portofolio)',
+              customerEmail: acc.customerEmail || 'admin@denbaguse.my.id',
               resellerId: 'prof-reseller-denbaguse',
               documentRoot: '/public_html',
               status: 'active',
@@ -2313,6 +2319,28 @@ class StorageService {
           }
           return acc;
         });
+
+        // Deduplicate any accounts for denbaguse
+        const filteredAccounts: HostingAccount[] = [];
+        let hasCanonicalDenbaguse = false;
+        for (const a of this.state.hostingAccounts) {
+          if (a.id === 'acc-own-usr-reseller-denbaguse') {
+            updated = true;
+            continue;
+          }
+          if (a.primaryDomain.toLowerCase() === 'denbaguse.my.id' || a.id === 'acc-denbaguse-01') {
+            if (hasCanonicalDenbaguse) {
+              updated = true;
+              continue;
+            }
+            hasCanonicalDenbaguse = true;
+          }
+          filteredAccounts.push(a);
+        }
+        if (filteredAccounts.length !== this.state.hostingAccounts.length) {
+          this.state.hostingAccounts = filteredAccounts;
+          updated = true;
+        }
       }
 
       // Normalize legacy primary domain records in domains list after vault hydration
@@ -2633,10 +2661,17 @@ class StorageService {
 
   // --- Hosting Accounts ---
   public getHostingAccounts(): HostingAccount[] {
+    const seen = new Set<string>();
     return this.state.hostingAccounts
-      .filter(
-        a => a.primaryDomain !== 'websitepelanggan.my.id' && a.domain !== 'websitepelanggan.my.id'
-      )
+      .filter(a => {
+        if (a.primaryDomain === 'websitepelanggan.my.id' || a.domain === 'websitepelanggan.my.id') return false;
+        if (a.id === 'acc-own-usr-reseller-denbaguse') return false;
+        if (a.primaryDomain.toLowerCase() === 'denbaguse.my.id' && a.id !== 'acc-denbaguse-01') return false;
+        const dom = a.primaryDomain.toLowerCase();
+        if (seen.has(dom)) return false;
+        seen.add(dom);
+        return true;
+      })
       .map(acc => {
         if (acc.id === 'acc-rdm-01') {
           return {
@@ -2644,8 +2679,8 @@ class StorageService {
             primaryDomain: 'karsacloud.biz.id',
             domain: 'karsacloud.biz.id',
             username: 'karsacloud',
-            customerName: 'Karsa Cloud Root System',
-            customerEmail: 'admin@karsacloud.biz.id',
+            customerName: acc.customerName || 'Jaenal Maskun',
+            customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
             documentRoot: '/home/karsacloud/public_html',
             resellerId: undefined,
             customerId: 'usr-admin-01',
@@ -2658,8 +2693,8 @@ class StorageService {
             primaryDomain: 'denbaguse.my.id',
             domain: 'denbaguse.my.id',
             username: 'denbaguse',
-            customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
-            customerEmail: 'admin@denbaguse.my.id',
+            customerName: acc.customerName || 'Jaenal Maskun (Website Pribadi & Portofolio)',
+            customerEmail: acc.customerEmail || 'admin@denbaguse.my.id',
             resellerId: 'prof-reseller-denbaguse',
             customerId: 'usr-reseller-denbaguse',
             documentRoot: '/public_html',
@@ -2681,8 +2716,8 @@ class StorageService {
         primaryDomain: 'karsacloud.biz.id',
         domain: 'karsacloud.biz.id',
         username: 'karsacloud',
-        customerName: 'Karsa Cloud Root System',
-        customerEmail: 'admin@karsacloud.biz.id',
+        customerName: acc.customerName || 'Jaenal Maskun',
+        customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
         documentRoot: '/home/karsacloud/public_html',
         resellerId: undefined,
         customerId: 'usr-admin-01',
@@ -2695,8 +2730,8 @@ class StorageService {
         primaryDomain: 'denbaguse.my.id',
         domain: 'denbaguse.my.id',
         username: 'denbaguse',
-        customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
-        customerEmail: 'admin@denbaguse.my.id',
+        customerName: acc.customerName || 'Jaenal Maskun (Website Pribadi & Portofolio)',
+        customerEmail: acc.customerEmail || 'admin@denbaguse.my.id',
         resellerId: 'prof-reseller-denbaguse',
         customerId: 'usr-reseller-denbaguse',
         documentRoot: '/public_html',
