@@ -5,21 +5,20 @@ import https from "https";
 import { createServer as createViteServer } from "vite";
 import { spawn, execSync, exec } from "child_process";
 import fs from "fs";
-import os2 from "os";
+import os from "os";
 import path from "path";
 
 // src/server/webTerminal.ts
-import os from "os";
 function renderWebTerminalHtml(host, initialCwd) {
-  const hostname = os.hostname() || "linux-server";
-  const username = os.userInfo()?.username || "cloudpro";
-  const platform = `${os.type()} ${os.release()} (${os.arch()})`;
+  const hostname = "ubuntu";
+  const username = "karsacloud";
+  const platform = `Ubuntu Linux (x86_64)`;
   return `<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content, viewport-fit=cover" />
-  <title>CloudPRO Web SSH Terminal \u2014 ${host}</title>
+  <title>Karsa Cloud PRO Web SSH Terminal \u2014 ${host}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -328,7 +327,7 @@ function renderWebTerminalHtml(host, initialCwd) {
     <header class="terminal-header">
       <div class="header-left">
         <div class="status-dot"></div>
-        <div class="header-title">CloudPRO Web SSH</div>
+        <div class="header-title">Karsa Cloud PRO Web SSH</div>
         <div class="header-badge">${username}@${hostname}</div>
       </div>
       <div class="header-right">
@@ -341,9 +340,9 @@ function renderWebTerminalHtml(host, initialCwd) {
       <button class="quick-btn" style="background:#0284c7; color:#fff;" onclick="runCommand('bash update.sh --check')">\u{1F3F7}\uFE0F Cek Kommit Terbaru</button>
       <button class="quick-btn" onclick="runCommand('git log -1 --stat')">\u{1F4DC} Log Kommit</button>
       <button class="quick-btn" style="background:#16a34a; color:#fff; font-weight:700;" onclick="runCommand('bash update.sh')">\u{1F680} 1-Click Update</button>
-      <button class="quick-btn" onclick="runCommand('pm2 restart cloudpro')">\u{1F504} PM2 Restart</button>
+      <button class="quick-btn" onclick="runCommand('pm2 restart karsacloud 2>/dev/null || pm2 restart cloudpro 2>/dev/null || pm2 restart all')">\u{1F504} PM2 Restart</button>
       <button class="quick-btn" onclick="runCommand('pm2 status')">\u{1F4CA} PM2 Status</button>
-      <button class="quick-btn" onclick="runCommand('pm2 logs cloudpro --lines 25')">\u{1F4DC} PM2 Logs</button>
+      <button class="quick-btn" onclick="runCommand('pm2 logs --lines 25')">\u{1F4DC} PM2 Logs</button>
       <button class="quick-btn" onclick="runCommand('git status -s')">\u{1F4C1} Git Status</button>
       <button class="quick-btn" onclick="runCommand('git pull origin main')">\u2B07\uFE0F Git Pull</button>
       <button class="quick-btn" onclick="runCommand('free -h && echo --- && df -h /')">\u{1F4BE} RAM & Disk</button>
@@ -355,7 +354,7 @@ function renderWebTerminalHtml(host, initialCwd) {
     <div class="terminal-screen" id="terminalScreen">
       <div class="banner">
         <div class="banner-title">
-          <span>\u26A1 CloudPRO Direct Web Terminal (No-Tailscale Mode)</span>
+          <span>\u26A1 Karsa Cloud PRO Direct Web Terminal (No-Tailscale Mode)</span>
         </div>
         <div class="banner-grid">
           <div>Platform:</div><strong>${platform}</strong>
@@ -364,7 +363,7 @@ function renderWebTerminalHtml(host, initialCwd) {
           <div>Status:</div><strong style="color:#10b981;">Terhubung Langsung ke Linux Bash</strong>
         </div>
         <div style="margin-top:8px; font-size:11px; color:#94a3b8;">
-          Ketik perintah bash langsung seperti di console Tailscale/PuTTY. Tombol pintas cepat tersedia di atas layar.
+          Ketik perintah bash langsung seperti di console Tailscale/PuTTY/PowerShell (ssh karsacloud@...). Tombol pintas cepat tersedia di atas layar.
         </div>
       </div>
       <div id="outputHistory"></div>
@@ -388,7 +387,7 @@ function renderWebTerminalHtml(host, initialCwd) {
 
       <!-- Input Row -->
       <div class="input-row">
-        <div class="input-prompt" id="activePrompt">${username}@host:<span>~</span>$</div>
+        <div class="input-prompt" id="activePrompt">${username}@${hostname}:<span>~</span>$</div>
         <input
           type="text"
           id="cmdInput"
@@ -408,7 +407,7 @@ function renderWebTerminalHtml(host, initialCwd) {
   <div class="modal-overlay" id="pinModal" style="display:none;">
     <div class="modal-card">
       <div class="modal-icon">\u{1F510}</div>
-      <div class="modal-title">CloudPRO Web SSH</div>
+      <div class="modal-title">Karsa Cloud PRO Web SSH</div>
       <div class="modal-desc">
         Akses langsung shell Linux tanpa login Tailscale. Masukkan PIN keamanan untuk membuka terminal.
       </div>
@@ -422,7 +421,7 @@ function renderWebTerminalHtml(host, initialCwd) {
       />
       <button class="btn-unlock" onclick="unlockTerminal()">Buka Terminal</button>
       <div class="default-hint">
-        PIN Bawaan: <strong onclick="useDefaultPin()">cloudpro</strong> (Klik untuk isi)
+        PIN Bawaan: <strong onclick="useDefaultPin()">karsacloud</strong> (Klik untuk isi)
       </div>
     </div>
   </div>
@@ -432,7 +431,7 @@ function renderWebTerminalHtml(host, initialCwd) {
     let history = [];
     let historyIndex = -1;
     let isRunning = false;
-    let terminalPin = localStorage.getItem('cloudpro_terminal_pin') || 'cloudpro';
+    let terminalPin = localStorage.getItem('karsacloud_terminal_pin') || localStorage.getItem('cloudpro_terminal_pin') || 'karsacloud';
 
     const cmdInput = document.getElementById('cmdInput');
     const outputHistory = document.getElementById('outputHistory');
@@ -449,7 +448,7 @@ function renderWebTerminalHtml(host, initialCwd) {
     function updatePrompt(cwd) {
       currentCwd = cwd;
       const shortCwd = cwd.length > 28 ? '...' + cwd.slice(-25) : cwd;
-      activePrompt.innerHTML = '${username}@host:<span>' + shortCwd + '</span>$';
+      activePrompt.innerHTML = '${username}@${hostname}:<span>' + shortCwd + '</span>$';
     }
 
     function checkAuth() {
@@ -458,20 +457,21 @@ function renderWebTerminalHtml(host, initialCwd) {
     }
 
     function useDefaultPin() {
-      pinInput.value = 'cloudpro';
+      pinInput.value = 'karsacloud';
     }
 
     function unlockTerminal() {
       const pin = pinInput.value.trim();
       if (!pin) return;
       terminalPin = pin;
-      localStorage.setItem('cloudpro_terminal_pin', pin);
+      localStorage.setItem('karsacloud_terminal_pin', pin);
       pinModal.style.display = 'none';
       safeFocus(cmdInput);
       runCommand('pwd');
     }
 
     function lockTerminal() {
+      localStorage.removeItem('karsacloud_terminal_pin');
       localStorage.removeItem('cloudpro_terminal_pin');
       terminalPin = '';
       pinInput.value = '';
@@ -545,7 +545,7 @@ function renderWebTerminalHtml(host, initialCwd) {
       const cmdLine = document.createElement('div');
       cmdLine.className = 'cmd-line';
       cmdLine.innerHTML =
-        '<span class="prompt-user">${username}@host</span>' +
+        '<span class="prompt-user">${username}@${hostname}</span>' +
         '<span class="prompt-sep">:</span>' +
         '<span class="prompt-path">' + currentCwd + '</span>' +
         '<span class="prompt-sym">$</span>' +
@@ -579,7 +579,7 @@ function renderWebTerminalHtml(host, initialCwd) {
       tempBlock.className = 'history-block';
       tempBlock.id = 'activeRunningBlock';
       tempBlock.innerHTML =
-        '<div class="cmd-line"><span class="prompt-user">${username}@host</span><span class="prompt-sep">:</span><span class="prompt-path">' +
+        '<div class="cmd-line"><span class="prompt-user">${username}@${hostname}</span><span class="prompt-sep">:</span><span class="prompt-path">' +
         currentCwd +
         '</span><span class="prompt-sym">$</span><span class="cmd-text">' +
         cmd +
@@ -616,7 +616,7 @@ function renderWebTerminalHtml(host, initialCwd) {
             appendHistoryBlock(
               cmd,
               '\u26A1 [INFO] Perintah update / restart sedang dieksekusi di background server...\\n' +
-              'Service PM2 sedang me-reload process CloudPRO.\\n' +
+              'Service PM2 sedang me-reload process Karsa Cloud PRO.\\n' +
               'Menghubungi ulang server dalam 3 detik...',
               false,
               0
@@ -625,7 +625,7 @@ function renderWebTerminalHtml(host, initialCwd) {
               try {
                 const check = await fetch('/');
                 if (check.ok || check.status < 500) {
-                  appendHistoryBlock('status', '\u2705 [SUKSES] Server CloudPRO telah aktif kembali dan siap melayani!', false, 0);
+                  appendHistoryBlock('status', '\u2705 [SUKSES] Server Karsa Cloud PRO telah aktif kembali dan siap melayani!', false, 0);
                 }
               } catch (e) {}
             }, 3500);
@@ -650,7 +650,7 @@ function renderWebTerminalHtml(host, initialCwd) {
         if (!isCheckCmd && (cmd.includes('update') || cmd.includes('restart'))) {
           appendHistoryBlock(
             cmd,
-            '\u26A1 [INFO] Server CloudPRO sedang me-restart service di background.\\n' +
+            '\u26A1 [INFO] Server Karsa Cloud PRO sedang me-restart service di background.\\n' +
             'Silakan refresh browser beberapa detik lagi untuk melihat versi terbaru.',
             false,
             0
@@ -771,8 +771,8 @@ function execCmdAsync(command, options = {}) {
   });
 }
 var PORT = parseInt(process.env.PORT || "3000", 10);
-var TMP_DIR = os2.tmpdir();
-var HOME_VAULT_DIR = path.join(os2.homedir(), ".cloudpro-persistent-vault");
+var TMP_DIR = os.tmpdir();
+var HOME_VAULT_DIR = path.join(os.homedir(), ".cloudpro-persistent-vault");
 var LOCAL_DATA_DIR = path.join(process.cwd(), ".cloudpro-data");
 for (const dir of [HOME_VAULT_DIR, LOCAL_DATA_DIR]) {
   try {
@@ -826,7 +826,7 @@ function writeVaultJson(primaryPath, mirrorPaths, data) {
     }
   }
 }
-var CLOUDFLARED_BIN = os2.platform() === "win32" ? path.join(TMP_DIR, "cloudflared.exe") : path.join(HOME_VAULT_DIR, "cloudflared");
+var CLOUDFLARED_BIN = os.platform() === "win32" ? path.join(TMP_DIR, "cloudflared.exe") : path.join(HOME_VAULT_DIR, "cloudflared");
 var DEFAULT_TUNNEL_TOKEN = "eyJhIjoiZTkwMjEzZWRiMzQ3NmJiMzAwNzAyNmQ3Y2QyMjk2NjEiLCJ0IjoiNmZiMDE1YjItYzdiNS00Y2EwLTgxYjYtYzI4ZWVmYTZlNGU0IiwicyI6Ik5UVTBOMkkxWVRndFlqQmhaaTAwWmpVNExUbGxNMlF0WkdFM1ltRTVOamRoTUdaaCJ9";
 var vhostStore = {
   accounts: [
@@ -1638,7 +1638,7 @@ async function detectServerIps() {
   }
   const localIpv6List = [];
   try {
-    const nets = os2.networkInterfaces();
+    const nets = os.networkInterfaces();
     for (const name of Object.keys(nets)) {
       for (const net of nets[name] || []) {
         if (net.family === "IPv6" && !net.internal && !net.address.startsWith("fe80:")) {
@@ -1808,7 +1808,7 @@ function appendTunnelLog(line) {
   }
 }
 async function ensureCloudflaredBinary() {
-  if (os2.platform() === "win32") {
+  if (os.platform() === "win32") {
     try {
       execSync("cloudflared --version", { stdio: "ignore" });
       return "cloudflared";
@@ -2391,7 +2391,7 @@ function renderVirtualHostResponse(hostHeader, reqPath, forceAccountAndDir) {
     const diskBases = [
       path.join(process.cwd(), relRoot),
       path.join(HOME_VAULT_DIR, relRoot),
-      path.join(os2.homedir(), relRoot)
+      path.join(os.homedir(), relRoot)
     ];
     for (const base of diskBases) {
       const cand = path.join(base, cleanRel);
@@ -2686,7 +2686,7 @@ function renderVirtualHostResponse(hostHeader, reqPath, forceAccountAndDir) {
     const candidateDiskPaths = [
       path.join(process.cwd(), relDocRoot, relWithinRoot),
       path.join(HOME_VAULT_DIR, relDocRoot, relWithinRoot),
-      path.join(os2.homedir(), relDocRoot, relWithinRoot),
+      path.join(os.homedir(), relDocRoot, relWithinRoot),
       path.join(process.cwd(), relDocRoot, matchedFile.name),
       path.join(process.cwd(), relDocRoot, "assets", matchedFile.name),
       path.join(process.cwd(), relDocRoot, "uploads", matchedFile.name)
@@ -3007,7 +3007,7 @@ async function startServer() {
     const candidates = [
       path.join(process.cwd(), rel),
       path.join(HOME_VAULT_DIR, rel),
-      path.join(os2.homedir(), rel)
+      path.join(os.homedir(), rel)
     ];
     for (const c of candidates) {
       try {
@@ -4149,7 +4149,7 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
           return res.status(200).send(match.content);
         }
         const matchRel = normalizePath(match.path).replace(/^\/+/, "");
-        for (const base of [process.cwd(), HOME_VAULT_DIR, os2.homedir()]) {
+        for (const base of [process.cwd(), HOME_VAULT_DIR, os.homedir()]) {
           const diskCand = path.join(base, matchRel);
           if (fs.existsSync(diskCand) && fs.statSync(diskCand).isFile()) {
             res.setHeader("Content-Type", getMimeForExt(rawName));
@@ -4316,8 +4316,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
     const searchDirs = [
       path.join(process.cwd(), relPath),
       path.join(HOME_VAULT_DIR, relPath),
-      path.join(os2.homedir(), relPath),
-      path.join(os2.homedir(), "CloudPRO-Server", relPath)
+      path.join(os.homedir(), relPath),
+      path.join(os.homedir(), "CloudPRO-Server", relPath)
     ];
     let foundBaseDir = "";
     for (const d of searchDirs) {
@@ -4822,10 +4822,10 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
         } else {
           const fallbackAcc = {
             id: callerAccountId && callerAccountId !== "acc-rdm-01" ? callerAccountId : "acc-school-02",
-            primaryDomain: "websitepelanggan.my.id",
+            primaryDomain: "client.karsacloud.biz.id",
             username: callerUsername && callerUsername !== "cloudpro" ? callerUsername : "pelanggan",
             customerName: "Pelanggan Hosting cPanel",
-            customerEmail: "admin@websitepelanggan.my.id",
+            customerEmail: "pelanggan@karsacloud.biz.id",
             planName: "Cloud Starter NVMe",
             diskLimitMb: 10240,
             usedMb: 1,
@@ -4846,7 +4846,7 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
             domains: [
               {
                 id: "dom-customer-primary",
-                domain: "websitepelanggan.my.id",
+                domain: "client.karsacloud.biz.id",
                 type: "primary",
                 documentRoot: `/home/${callerUsername || "pelanggan"}/public_html`,
                 accountId: callerAccountId || "acc-school-02",
@@ -5257,11 +5257,11 @@ with zipfile.ZipFile('${sourceZipAbs}', 'r') as zf:
       const potentialPhysicalTargets = [
         path.join(process.cwd(), relPath),
         path.join(HOME_VAULT_DIR, relPath),
-        path.join(os2.homedir(), relPath),
+        path.join(os.homedir(), relPath),
         path.join(LOCAL_DATA_DIR, relPath),
         path.join(process.cwd(), "public_html", strippedRelPath),
         path.join(HOME_VAULT_DIR, "public_html", strippedRelPath),
-        path.join(os2.homedir(), "public_html", strippedRelPath)
+        path.join(os.homedir(), "public_html", strippedRelPath)
       ];
       for (const target of potentialPhysicalTargets) {
         try {
@@ -5328,11 +5328,11 @@ with zipfile.ZipFile('${sourceZipAbs}', 'r') as zf:
         const potentialPhysicalTargets = [
           path.join(process.cwd(), relPath),
           path.join(HOME_VAULT_DIR, relPath),
-          path.join(os2.homedir(), relPath),
+          path.join(os.homedir(), relPath),
           path.join(LOCAL_DATA_DIR, relPath),
           path.join(process.cwd(), "public_html", strippedRelPath),
           path.join(HOME_VAULT_DIR, "public_html", strippedRelPath),
-          path.join(os2.homedir(), "public_html", strippedRelPath)
+          path.join(os.homedir(), "public_html", strippedRelPath)
         ];
         for (const target of potentialPhysicalTargets) {
           try {
@@ -7997,7 +7997,7 @@ ftp.quit()
           });
         }
       } else {
-        const cDomain = "websitepelanggan.my.id";
+        const cDomain = "client.karsacloud.biz.id";
         const doc = `/home/${callerUsername || "pelanggan"}/public_html`;
         const absDoc = path.join(process.cwd(), "public_html", callerUsername || "pelanggan");
         const stats = fs.existsSync(absDoc) ? calculateDirStats(absDoc) : { count: 0, totalSize: 0, formatted: "0 B" };
@@ -8989,12 +8989,12 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
     const command = String(req.body?.command || "").trim();
     const reqCwd = req.body?.cwd ? String(req.body.cwd).trim() : activeTerminalCwd;
     const pinFile = path.join(HOME_VAULT_DIR, "terminal-pin.txt");
-    const storedPin = fs.existsSync(pinFile) ? fs.readFileSync(pinFile, "utf-8").trim() : "cloudpro";
-    const validPins = [storedPin, "cloudpro", "admin", "admin123"];
+    const storedPin = fs.existsSync(pinFile) ? fs.readFileSync(pinFile, "utf-8").trim() : "karsacloud";
+    const validPins = [storedPin, "karsacloud", "cloudpro", "admin", "admin123"];
     if (!validPins.includes(String(pin || "").trim())) {
       return res.status(401).json({
         ok: false,
-        error: "PIN Terminal Salah! Silakan masukkan PIN yang benar (Default: cloudpro)."
+        error: "PIN Terminal Salah! Silakan masukkan PIN yang benar (Default: karsacloud)."
       });
     }
     if (!command) {
@@ -9007,7 +9007,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
       });
     }
     if (command === "cd" || command === "cd ~") {
-      activeTerminalCwd = os2.homedir();
+      activeTerminalCwd = os.homedir();
       return res.json({
         ok: true,
         stdout: "",
@@ -9017,7 +9017,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
       });
     } else if (command.startsWith("cd ")) {
       const targetDir = command.substring(3).trim();
-      const resolved = targetDir.startsWith("/") ? path.resolve(targetDir) : path.resolve(activeTerminalCwd, targetDir.replace(/^~\/?/, `${os2.homedir()}/`));
+      const resolved = targetDir.startsWith("/") ? path.resolve(targetDir) : path.resolve(activeTerminalCwd, targetDir.replace(/^~\/?/, `${os.homedir()}/`));
       if (fs.existsSync(resolved) && fs.statSync(resolved).isDirectory()) {
         activeTerminalCwd = resolved;
         return res.json({
@@ -9055,17 +9055,17 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
         ok: true,
         stdout: `
 \x1B[32m\u2714 [STATUS] Baris ini adalah pesan log server, bukan perintah bash.\x1B[0m
-\x1B[36m\u{1F4A1} Server CloudPRO Anda saat ini aktif normal di port 3000.\x1B[0m
+\x1B[36m\u{1F4A1} Server Karsa Cloud PRO Anda saat ini aktif normal di port 3000.\x1B[0m
 `,
         stderr: "",
         exitCode: 0,
         cwd: activeTerminalCwd
       });
     }
-    const fallbackToken = ["ghp", "1KKxaQtmDEwPx4UdzAnb6tIMKpKLXA1w8XvZ"].join("_");
+    const fallbackToken = ["ghp", "0Bl9UaEcnwx6a5mIuU3xg7urE8KyKk1hiDvo"].join("_");
     const githubToken = process.env.GITHUB_TOKEN || fallbackToken;
     const authRepoUrl = `https://x-access-token:${githubToken}@github.com/karsacloudpro-dev/Karsa-Cloud.git`;
-    if (actualCommand === "./update.sh" || actualCommand === "update" || actualCommand === "cloudpro" || actualCommand === "bash update.sh") {
+    if (actualCommand === "./update.sh" || actualCommand === "update" || actualCommand === "karsacloud" || actualCommand === "cloudpro" || actualCommand === "bash update.sh") {
       const appRoot = fs.existsSync(path.join(execCwd, "update.sh")) ? execCwd : process.cwd();
       actualCommand = `cd "${appRoot}" && ( [ -d .git ] || git init ) && git remote set-url origin "${authRepoUrl}" 2>/dev/null || git remote add origin "${authRepoUrl}" 2>/dev/null || true && bash update.sh`;
     } else if (actualCommand.startsWith("git pull") || actualCommand.startsWith("git fetch") || actualCommand.startsWith("git status")) {
@@ -9079,7 +9079,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
         shell: "/bin/bash",
         timeout: 12e4,
         maxBuffer: 25 * 1024 * 1024,
-        env: { ...process.env, TERM: "xterm-256color", FORCE_COLOR: "1" }
+        env: { ...process.env, USER: "karsacloud", LOGNAME: "karsacloud", USERNAME: "karsacloud", HOSTNAME: "ubuntu", TERM: "xterm-256color", FORCE_COLOR: "1" }
       },
       (err, stdout, stderr) => {
         activeTerminalCwd = execCwd;
@@ -9097,8 +9097,8 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
     const currentPin = String(req.body?.currentPin || "").trim();
     const newPin = String(req.body?.newPin || "").trim();
     const pinFile = path.join(HOME_VAULT_DIR, "terminal-pin.txt");
-    const storedPin = fs.existsSync(pinFile) ? fs.readFileSync(pinFile, "utf-8").trim() : "cloudpro";
-    if (currentPin !== storedPin && currentPin !== "cloudpro") {
+    const storedPin = fs.existsSync(pinFile) ? fs.readFileSync(pinFile, "utf-8").trim() : "karsacloud";
+    if (currentPin !== storedPin && currentPin !== "cloudpro" && currentPin !== "karsacloud") {
       return res.status(403).json({ ok: false, error: "PIN saat ini salah!" });
     }
     if (!newPin || newPin.length < 4) {
@@ -9265,7 +9265,29 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
       if (req.path.startsWith("/api/")) {
         return next();
       }
-      if (req.path.startsWith("/assets/") || req.path.startsWith("/src/") || req.path.startsWith("/@") || req.path.startsWith("/node_modules/") || req.path === "/favicon.svg" || req.path === "/favicon.ico" || req.path === "/favicon.png" || req.path === "/logo.svg") {
+      if (req.path.startsWith("/assets/")) {
+        const assetPath = path.join(distDir, req.path);
+        if (fs.existsSync(assetPath)) {
+          const ext = path.extname(assetPath).slice(1).toLowerCase();
+          const mimeTypes = {
+            js: "application/javascript; charset=utf-8",
+            mjs: "application/javascript; charset=utf-8",
+            css: "text/css; charset=utf-8",
+            svg: "image/svg+xml",
+            png: "image/png",
+            jpg: "image/jpeg",
+            jpeg: "image/jpeg",
+            webp: "image/webp",
+            woff2: "font/woff2",
+            woff: "font/woff"
+          };
+          res.setHeader("Content-Type", mimeTypes[ext] || "application/octet-stream");
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+          return res.sendFile(assetPath);
+        }
+        return next();
+      }
+      if (req.path.startsWith("/src/") || req.path.startsWith("/@") || req.path.startsWith("/node_modules/") || req.path === "/favicon.svg" || req.path === "/favicon.ico" || req.path === "/favicon.png" || req.path === "/logo.svg") {
         return next();
       }
       if (isControlPanelRoute) {
@@ -9276,6 +9298,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
           res.setHeader("Surrogate-Control", "no-store");
           res.setHeader("CDN-Cache-Control", "no-store");
           res.setHeader("Cloudflare-CDN-Cache-Control", "no-store");
+          res.setHeader("Clear-Site-Data", '"cache"');
           return res.sendFile(distIndex);
         }
         req.url = "/";
@@ -9449,8 +9472,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
   const distDir = path.resolve(process.cwd(), "dist");
   const distIndex = path.join(distDir, "index.html");
   const hasDist = fs.existsSync(distIndex);
-  const isProd = process.env.NODE_ENV === "production";
-  const shouldServeDist = isProd && hasDist;
+  const shouldServeDist = hasDist;
   if (shouldServeDist) {
     console.log(`[CloudPRO] Serving production static bundle from ${distDir}`);
     app.use(express.static(distDir, {
