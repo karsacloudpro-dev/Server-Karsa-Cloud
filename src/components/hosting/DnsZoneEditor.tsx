@@ -182,7 +182,7 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
   const handleResetTemplate = () => {
     confirmAction({
       title: 'Reset Zona DNS ke Standar',
-      message: 'Reset seluruh DNS record ke konfigurasi standar Cloud PRO? Seluruh record kustom Anda akan digantikan dengan default zone file.',
+      message: 'Reset seluruh DNS record ke konfigurasi standar Karsa Cloud PRO? Seluruh record kustom Anda akan digantikan dengan default zone file.',
       confirmText: 'Reset DNS',
       isDanger: true,
       onConfirm: () => {
@@ -268,8 +268,8 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
         </div>
       </div>
 
-      {/* LIVE CLOUDFLARE DNS DIAGNOSTIC & POINTING GUIDE (STRICTLY ROOT ADMIN ONLY) */}
-      {currentUser?.role === 'admin' && (
+      {/* LIVE CLOUDFLARE DNS DIAGNOSTIC & POINTING GUIDE (ADMIN & RESELLER) */}
+      {(currentUser?.role === 'admin' || currentUser?.role === 'reseller') && (
       <div className="rounded-xl border border-amber-300 bg-amber-50/90 p-4 sm:p-5 dark:border-amber-800 dark:bg-amber-950/30 text-xs space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div className="font-bold text-sm text-amber-950 dark:text-amber-200 flex items-center gap-2">
@@ -369,6 +369,24 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
 
         {/* Clear Explanation Why Cloudflare NS Alone Is Not Enough */}
         <div className="rounded-lg border border-amber-200 bg-white p-3.5 dark:border-amber-800/60 dark:bg-slate-900 space-y-3">
+          <div className="rounded-lg bg-rose-50 border border-rose-200 p-3 text-rose-950 dark:bg-rose-950/30 dark:border-rose-800 dark:text-rose-200">
+            <div className="font-bold flex items-center gap-1.5 text-xs text-rose-900 dark:text-rose-300">
+              <AlertTriangle className="h-4 w-4 shrink-0 text-rose-600" />
+              <span>Mengapa Domain Belum Konek Meskipun Sudah Setting NS di Cloudflare?</span>
+            </div>
+            <ul className="mt-1.5 list-disc list-inside space-y-1 text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">
+              <li>
+                <strong>Pengaturan Nameserver (NS) wajib dilakukan di REGISTRAR</strong> (tempat Anda membeli domain, seperti Niagahoster, Domainesia, Rumahweb, IDwebhost), <u>BUKAN</u> di dalam menu DNS Cloudflare.
+              </li>
+              <li>
+                Di dalam dashboard DNS Cloudflare, <strong>JANGAN membuat record NS</strong>. Cloudflare membutuhkan <strong>Record A</strong> dan <strong>Record CNAME</strong> untuk meneruskan trafik web ke server Karsa Cloud PRO.
+              </li>
+              <li>
+                Tambahkan <strong>3 record wajib</strong> di bawah ini pada menu DNS Cloudflare dengan status <strong>Proxied (Awan Oranye)</strong>.
+              </li>
+            </ul>
+          </div>
+
           <div className="font-bold text-slate-900 dark:text-white">
             Cara Mengisi Form &ldquo;Add record&rdquo; di Cloudflare (Agar Tidak Error <code>CNAME content cannot reference itself</code>):
           </div>

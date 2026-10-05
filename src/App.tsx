@@ -846,7 +846,7 @@ const AppContent: React.FC = () => {
       </h3>
       <p className="text-xs text-slate-500 leading-relaxed max-w-md mx-auto mb-6">
         {currentUser.role === 'reseller'
-          ? 'Akun utama server Cloud PRO (karsacloud.biz.id) terisolasi khusus untuk Root Administrator. Silakan buat akun hosting untuk klien Reseller Anda sendiri.'
+          ? 'Akun utama server Karsa Cloud PRO (karsacloud.biz.id) terisolasi khusus untuk Root Administrator. Silakan buat akun hosting untuk klien Reseller Anda sendiri.'
           : 'Menu seperti PHP Selector, SSL Let\'s Encrypt, MySQL Database, dan File Manager memerlukan akun virtual host aktif untuk dikonfigurasi.'}
       </p>
       <div className="flex flex-col sm:flex-row justify-center gap-3">

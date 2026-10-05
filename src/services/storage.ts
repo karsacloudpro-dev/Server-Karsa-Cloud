@@ -31,23 +31,23 @@ const STORAGE_KEY = 'cloudpro_hosting_v4';
 const LETTERHEAD_STORAGE_KEY = 'cloudpro_letterhead_config_v1';
 
 export const DEFAULT_LETTERHEAD_CONFIG: CloudProLetterheadConfig = {
-  headerTitle: 'CLOUD PRO ENTERPRISE',
+  headerTitle: 'KARSA CLOUD PRO',
   headerSubtitle: 'Layanan Enterprise Cloud Hosting, Domain, Virtual Server (VPS) & Infrastruktur Digital',
   serverDomain: 'karsacloud.biz.id',
   officeAddress: 'Server Utama: karsacloud.biz.id • NOC Data Center Singapore & Jakarta • Indonesia',
   officialEmail: 'admin@karsacloud.biz.id',
   officialWhatsApp: '+62 812-2673-8883',
   ownerName: 'Jaenal Maskun',
-  ownerTitle: 'Pemilik & Root Administrator Karsa Cloud',
+  ownerTitle: 'Pemilik & Root Administrator Karsa Cloud PRO',
   signatureCity: 'Indonesia',
   bank1Name: 'Bank BCA',
   bank1Number: '8420-9918-22',
-  bank1Holder: 'Jaenal Maskun (Karsa Cloud)',
+  bank1Holder: 'Jaenal Maskun (Karsa Cloud PRO)',
   bank2Name: 'Bank Mandiri / BRI',
   bank2Number: '139-00-8829104-5',
-  bank2Holder: 'Jaenal Maskun',
-  qrisInfo: 'QRIS Karsa Cloud (All Bank, Dana, OVO, GoPay, ShopeePay)',
-  footerNote: 'Dokumen ini diterbitkan secara resmi oleh Sistem Billing & Otomasi Karsa Cloud (karsacloud.biz.id) dan sah disertai Barcode Tanda Tangan Elektronik.',
+  bank2Holder: 'Jaenal Maskun (Karsa Cloud PRO)',
+  qrisInfo: 'QRIS Karsa Cloud PRO (BCA, Mandiri, BRI, QRIS All Payment)',
+  footerNote: 'Dokumen ini diterbitkan secara resmi oleh Sistem Billing & Otomasi Karsa Cloud PRO (karsacloud.biz.id) dan sah disertai Barcode Tanda Tangan Elektronik.',
   enableBarcodeSignature: true,
   autoSendWhatsApp: true,
   autoSendEmail: true,
@@ -4107,31 +4107,58 @@ class StorageService {
     this.saveState(true, true);
   }
 
-  // Cloud PRO Official Letterhead, Owner & Bank Account Config Methods
+  // Karsa Cloud PRO Official Letterhead, Owner & Bank Account Config Methods
   public getLetterheadConfig(): CloudProLetterheadConfig {
     try {
       const raw = localStorage.getItem(LETTERHEAD_STORAGE_KEY);
       if (raw && raw.trim()) {
         const parsed = JSON.parse(raw);
-        if (parsed.headerTitle === 'CLOUD PRO ENTERPRISE SERVER' || parsed.headerTitle === 'PLATFORM CLOUD PRO') {
-          parsed.headerTitle = 'CLOUD PRO ENTERPRISE';
+        if (
+          !parsed.headerTitle ||
+          parsed.headerTitle === 'CLOUD PRO ENTERPRISE SERVER' ||
+          parsed.headerTitle === 'PLATFORM CLOUD PRO' ||
+          parsed.headerTitle === 'CLOUD PRO ENTERPRISE' ||
+          parsed.headerTitle === 'CLOUD PRO' ||
+          parsed.headerTitle === 'Karsa Cloud'
+        ) {
+          parsed.headerTitle = 'KARSA CLOUD PRO';
         }
         if (
-          parsed.ownerTitle === 'Pemilik & Root Administrator Server Cloud PRO' ||
-          parsed.ownerTitle === 'Pemilik & Root Administrator Platform Cloud PRO'
+          !parsed.ownerTitle ||
+          parsed.ownerTitle.includes('Server Cloud PRO') ||
+          parsed.ownerTitle.includes('Platform Cloud PRO') ||
+          parsed.ownerTitle === 'Pemilik & Root Administrator Karsa Cloud' ||
+          parsed.ownerTitle === 'Pemilik & Root Administrator Cloud PRO'
         ) {
-          parsed.ownerTitle = 'Pemilik & Root Administrator Karsa Cloud';
+          parsed.ownerTitle = 'Pemilik & Root Administrator Karsa Cloud PRO';
         }
         if (
-          parsed.bank1Holder === 'Jaenal Maskun (Server Cloud PRO)' ||
-          parsed.bank1Holder === 'Jaenal Maskun (Platform Cloud PRO)'
+          !parsed.bank1Holder ||
+          parsed.bank1Holder.includes('Server Cloud PRO') ||
+          parsed.bank1Holder.includes('Platform Cloud PRO') ||
+          parsed.bank1Holder === 'Jaenal Maskun (Karsa Cloud)' ||
+          parsed.bank1Holder === 'Jaenal Maskun (Cloud PRO)'
         ) {
-          parsed.bank1Holder = 'Jaenal Maskun (Karsa Cloud)';
+          parsed.bank1Holder = 'Jaenal Maskun (Karsa Cloud PRO)';
+        }
+        if (
+          !parsed.bank2Holder ||
+          parsed.bank2Holder === 'Jaenal Maskun' ||
+          parsed.bank2Holder.includes('Server Cloud PRO')
+        ) {
+          parsed.bank2Holder = 'Jaenal Maskun (Karsa Cloud PRO)';
         }
         if (typeof parsed.footerNote === 'string') {
           parsed.footerNote = parsed.footerNote
-            .replace(/Server Cloud PRO/g, 'Karsa Cloud')
-            .replace(/Platform Cloud PRO/g, 'Karsa Cloud');
+            .replace(/Server Cloud PRO/g, 'Karsa Cloud PRO')
+            .replace(/Platform Cloud PRO/g, 'Karsa Cloud PRO')
+            .replace(/Karsa Cloud(?! PRO)/g, 'Karsa Cloud PRO');
+        }
+        if (typeof parsed.qrisInfo === 'string') {
+          parsed.qrisInfo = parsed.qrisInfo
+            .replace(/Nusantara Host/g, 'Karsa Cloud PRO')
+            .replace(/Server Cloud PRO/g, 'Karsa Cloud PRO')
+            .replace(/Karsa Cloud(?! PRO)/g, 'Karsa Cloud PRO');
         }
         return { ...DEFAULT_LETTERHEAD_CONFIG, ...(this.state.letterheadConfig || {}), ...parsed };
       }

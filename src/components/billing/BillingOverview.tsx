@@ -97,7 +97,7 @@ export const BillingOverview: React.FC = () => {
     }));
     showToast(
       'success',
-      'Kop Resmi & Rekening Cloud PRO Disimpan!',
+      'Kop Resmi & Rekening Karsa Cloud PRO Disimpan!',
       `Kop surat otomatis, pemilik (${nextCfg.ownerName}), rekening pembayaran, dan Barcode TTD telah diperbarui.`
     );
   };
@@ -186,7 +186,15 @@ export const BillingOverview: React.FC = () => {
   const [autoConfig, setAutoConfig] = useState<BillingAutoConfig>(() => {
     try {
       const saved = localStorage.getItem(AUTO_BILLING_STORAGE_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.bankAccountInfo) {
+          parsed.bankAccountInfo = parsed.bankAccountInfo
+            .replace(/Nusantara Host/g, 'Karsa Cloud PRO')
+            .replace(/Karsa Cloud(?! PRO)/g, 'Karsa Cloud PRO');
+        }
+        return parsed;
+      }
     } catch {
       // ignore
     }
@@ -198,7 +206,7 @@ export const BillingOverview: React.FC = () => {
       whatsappReminder: true,
       defaultCurrency: 'IDR',
       idrExchangeRate: 16000,
-      bankAccountInfo: 'Bank BCA: 8420-9918-22 a.n Karsa Cloud PRO / QRIS Nusantara Host',
+      bankAccountInfo: 'Bank BCA: 8420-9918-22 a.n Karsa Cloud PRO / QRIS Karsa Cloud PRO',
     };
   });
   const [isRunningAutoCycle, setIsRunningAutoCycle] = useState(false);
@@ -825,7 +833,7 @@ export const BillingOverview: React.FC = () => {
                 </span>
               </div>
               <h4 className="truncate text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-                Ke Cloud PRO
+                Ke Karsa Cloud PRO
               </h4>
               <p className="hidden sm:block mt-0.5 truncate text-[11px] text-slate-500 dark:text-slate-400">
                 Tagihan lisensi &amp; pembayaran Reseller ke Karsa Cloud PRO
@@ -884,7 +892,7 @@ export const BillingOverview: React.FC = () => {
                 {isCustomerRole
                   ? 'Tagihan & Bukti Pembayaran Hosting'
                   : isResellerRole && resellerBillingMode === 'cloudpro_billing'
-                  ? 'Tagihan Lisensi Reseller — Cloud PRO'
+                  ? 'Tagihan Lisensi Reseller — Karsa Cloud PRO'
                   : isResellerRole && resellerBillingMode === 'client_billing'
                   ? 'Billing & Kwitansi Klien Reseller'
                   : 'Billing, Invoice & Bukti Pembayaran'}
@@ -1180,7 +1188,7 @@ export const BillingOverview: React.FC = () => {
               {isCustomerRole
                 ? `Daftar Tagihan & Bukti Pembayaran (${userInvoices.length})`
                 : isResellerRole && resellerBillingMode === 'cloudpro_billing'
-                ? `Tagihan & Pembayaran ke Cloud PRO (${userInvoices.length})`
+                ? `Tagihan & Pembayaran ke Karsa Cloud PRO (${userInvoices.length})`
                 : `Daftar Invoice & Bukti Pembayaran Klien (${userInvoices.length})`}
             </h4>
           </div>

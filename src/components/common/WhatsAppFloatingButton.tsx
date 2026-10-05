@@ -9,7 +9,7 @@ interface WhatsAppFloatingButtonProps {
 
 export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
   defaultPhoneNumber = '6281226738883',
-  adminName = 'Cloud PRO Official Support',
+  adminName = 'Karsa Cloud PRO Support',
   userRole,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,14 +18,14 @@ export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
   const [isEditingPhone, setIsEditingPhone] = useState(false);
 
   const quickMessages = [
-    'Halo Admin Cloud PRO, saya butuh bantuan seputar Server & Cluster Nodes.',
-    'Halo Tim Cloud PRO, saya pelanggan/klien butuh bantuan Akun Hosting & Domain.',
-    'Halo Support, saya Mitra Reseller ingin konsultasi Paket & Kuota.',
+    'Halo Admin Karsa Cloud PRO, saya butuh bantuan seputar Server & Cluster Nodes.',
+    'Halo Tim Karsa Cloud PRO, saya pelanggan/klien butuh bantuan Akun Hosting & Domain.',
+    'Halo Support Karsa Cloud PRO, saya Mitra Reseller ingin konsultasi Paket & Kuota.',
     'Bantuan kendala remote SSH Tailscale atau update script server.',
   ];
 
   const handleSendMessage = (textToSend?: string) => {
-    const finalMsg = textToSend || message.trim() || 'Halo Admin Cloud PRO, saya butuh bantuan layanan.';
+    const finalMsg = textToSend || message.trim() || 'Halo Admin Karsa Cloud PRO, saya butuh bantuan layanan.';
     let cleanPhone = phoneNumber.replace(/[^0-9]/g, '');
     if (cleanPhone.startsWith('0')) {
       cleanPhone = '62' + cleanPhone.slice(1);
@@ -75,7 +75,7 @@ export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
           <div className="p-4 space-y-3 bg-slate-50/70 max-h-96 overflow-y-auto">
             {/* Greeting Speech Bubble */}
             <div className="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-200/90 shadow-2xs text-xs text-slate-700 leading-relaxed">
-              👋 Halo! Selamat datang di layanan bantuan <strong>Cloud PRO</strong>. Ada yang bisa kami bantu seputar server, hosting, atau jaringan Anda hari ini?
+              👋 Halo! Selamat datang di layanan bantuan <strong>Karsa Cloud PRO</strong>. Ada yang bisa kami bantu seputar server, hosting, atau jaringan Anda hari ini?
             </div>
 
             {/* Quick questions chips */}
@@ -162,7 +162,7 @@ export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
       <div className="fixed bottom-6 right-6 z-40 group">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Buka Chat WhatsApp Cloud PRO"
+          aria-label="Buka Chat WhatsApp Karsa Cloud PRO"
           className="relative flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-105 active:scale-95 border border-emerald-400/50 cursor-pointer"
         >
           {/* Subtle green ambient ring */}

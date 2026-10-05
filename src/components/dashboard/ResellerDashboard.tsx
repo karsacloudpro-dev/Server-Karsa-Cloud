@@ -127,7 +127,7 @@ export const ResellerDashboard: React.FC<ResellerDashboardProps> = ({
     showToast(
       'success',
       'Profil & Akun Reseller Diperbarui',
-      `Identitas "${finalName}" (${finalBrand} • ${cleanDom}) telah disinkronkan dengan Cloud PRO.`
+      `Identitas "${finalName}" (${finalBrand} • ${cleanDom}) telah disinkronkan dengan Karsa Cloud PRO.`
     );
   };
 
@@ -804,7 +804,7 @@ export const ResellerDashboard: React.FC<ResellerDashboardProps> = ({
                   <span>Edit Identitas &amp; Domain Akun Reseller</span>
                 </h3>
                 <p className="mt-0.5 text-[11px] text-slate-500">
-                  Disinkronkan langsung dengan data Mitra Reseller di Cloud PRO Server.
+                  Disinkronkan langsung dengan data Mitra Reseller di Karsa Cloud PRO Server.
                 </p>
               </div>
               <button

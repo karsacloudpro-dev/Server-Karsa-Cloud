@@ -12,7 +12,7 @@ interface TypewriterTextProps {
 }
 
 export const TypewriterText: React.FC<TypewriterTextProps> = ({
-  text = 'Cloud PRO',
+  text = 'Karsa Cloud PRO',
   speed = 90,
   delay = 200,
   className = '',

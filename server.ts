@@ -309,7 +309,7 @@ const DEFAULT_PERSONAL_HTML = `<!DOCTYPE html>
         <p class="role">Full-Stack Developer &amp; System Architect</p>
         <ul class="stats-list">
           <li><strong>Domain Utama:</strong> karsacloud.biz.id</li>
-          <li><strong>Infrastruktur:</strong> Cloud PRO Self-Hosted Linux</li>
+          <li><strong>Infrastruktur:</strong> Karsa Cloud PRO Self-Hosted Linux</li>
           <li><strong>Fokus Keahlian:</strong> Web App, Cloud Server, Jaringan &amp; Otomasi</li>
           <li><strong>Status Layanan:</strong> Aktif 24/7 (Cloudflare Edge)</li>
         </ul>
@@ -344,7 +344,7 @@ const DEFAULT_PERSONAL_HTML = `<!DOCTYPE html>
     <div class="container footer-inner">
       <div>
         <h4>KARSACLOUD.BIZ.ID — Website Portal Utama</h4>
-        <p>Dikelola langsung melalui Cloud PRO Linux Virtual Host (/public_html).</p>
+        <p>Dikelola langsung melalui Karsa Cloud PRO Linux Virtual Host (/public_html).</p>
       </div>
       <div class="footer-right">
         <span>&copy; 2026 Karsa Cloud. All rights reserved.</span>
@@ -1662,7 +1662,7 @@ function resolveHostDocRoot(rawHost: string): string {
 function compileAiStudioProjectToHtml(
   projectFiles: Array<{ name: string; path: string; type: string; content?: string }>,
   docRoot: string,
-  fallbackTitle = 'Aplikasi Web — Cloud PRO AI Studio'
+  fallbackTitle = 'Aplikasi Web — Karsa Cloud PRO AI Studio'
 ): { compiledHtml: string; bundleJs?: string; detectedTitle: string; buildMethod: 'esbuild' | 'runtime_babel' } | null {
   const cleanRoot = normalizePath(docRoot);
   const inRootFiles = projectFiles.filter(f => {
@@ -2216,7 +2216,7 @@ function renderVirtualHostResponse(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Subdomain ${cleanHost} — Cloud PRO</title>
+  <title>Subdomain ${cleanHost} — Karsa Cloud PRO</title>
   <style>
     * { box-sizing: border-box; }
     body { font-family: system-ui, -apple-system, sans-serif; background: #0b1120; color: #f8fafc; padding: 32px 20px; margin: 0; line-height: 1.5; }
@@ -2493,7 +2493,7 @@ function renderVirtualHostResponse(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${cleanHost} — Cloud PRO Linux Server</title>
+  <title>${cleanHost} — Karsa Cloud PRO Linux Server</title>
   <style>
     body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
     .card { max-width: 560px; width: 100%; background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 32px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.4); }
@@ -2508,13 +2508,13 @@ function renderVirtualHostResponse(
   <div class="card">
     <div class="badge">● VIRTUAL HOST ONLINE (PHP ${matchedAccount.phpVersion} + ionCube)</div>
     <h1>${echoOutput}</h1>
-    <p>Domain <strong>${cleanHost}</strong> telah terhubung langsung ke mesin Linux <strong>Cloud PRO</strong> pada folder <code>${docRoot}</code>.</p>
+    <p>Domain <strong>${cleanHost}</strong> telah terhubung langsung ke mesin Linux <strong>Karsa Cloud PRO</strong> pada folder <code>${docRoot}</code>.</p>
     <div class="meta">
       Host: ${cleanHost}<br/>
       Document Root: /home/${matchedAccount.username}${docRoot}<br/>
       Engine: CloudPRO-Edge-Nginx/1.26.2 (PHP-FPM ${matchedAccount.phpVersion})
     </div>
-    <a class="btn" href="/cpanel">Buka Control Panel Cloud PRO &rarr;</a>
+    <a class="btn" href="/cpanel">Buka Control Panel Karsa Cloud PRO &rarr;</a>
   </div>
 </body>
 </html>`;
@@ -10637,7 +10637,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
           server.close();
         } catch {}
         server.listen(PORT, '0.0.0.0', () => {
-          console.log(`CloudPRO Enterprise Server recovered on http://0.0.0.0:${PORT} & https://0.0.0.0:${PORT}`);
+          console.log(`Karsa Cloud PRO Enterprise Server recovered on http://0.0.0.0:${PORT} & https://0.0.0.0:${PORT}`);
         });
       }, 1000 * bindRetries);
     } else {
@@ -10660,7 +10660,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
   process.on('SIGINT', gracefulShutdown);
 
   server.listen(PORT, '0.0.0.0', () => {
-    console.log(`CloudPRO Enterprise Server running with Dual HTTP/HTTPS on http://0.0.0.0:${PORT}`);
+    console.log(`Karsa Cloud PRO Enterprise Server running with Dual HTTP/HTTPS on http://0.0.0.0:${PORT}`);
   });
 }
 

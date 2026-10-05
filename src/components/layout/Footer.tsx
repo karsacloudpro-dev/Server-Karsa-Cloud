@@ -204,7 +204,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 variant="full"
                 showSubtitle={true}
                 cloudTextColor="text-slate-900"
-                brandSuffix="Enterprise"
+                brandSuffix="PRO"
+                subtitleText="KARSA CLOUD PRO INFRASTRUCTURE"
               />
               <span className="rounded-md bg-slate-100 px-2.5 py-0.5 font-mono text-[10px] font-bold text-slate-700 border border-slate-200/90">
                 v2.6.4
@@ -213,7 +214,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <p className="text-xs text-slate-500 max-w-xl leading-relaxed">
               Enterprise Linux Bare-Metal &amp; Cloud Hypervisor Panel dengan isolasi multi-tenant,
               WireGuard mesh network, BIND9 cluster terdistribusi, dan otomasi web server performa
-              tinggi.
+              tinggi Karsa Cloud PRO.
             </p>
           </div>
 
