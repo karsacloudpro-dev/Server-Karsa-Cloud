@@ -304,7 +304,8 @@ if command -v pm2 &> /dev/null; then
   for pid in $OLD_PIDS; do
     kill -9 "$pid" 2>/dev/null || sudo -n kill -9 "$pid" 2>/dev/null || true
   done
-  pm2 restart karsacloud --update-env 2>/dev/null || pm2 restart cloudpro --update-env 2>/dev/null || pm2 start ecosystem.config.cjs 2>/dev/null || pm2 restart all 2>/dev/null || pm2 start server.js --name karsacloud --update-env 2>/dev/null || true
+  pm2 delete cloudpro 2>/dev/null || true
+  pm2 restart karsacloud --update-env 2>/dev/null || pm2 start server.js --name karsacloud --update-env 2>/dev/null || pm2 restart all 2>/dev/null || true
   pm2 save < /dev/null 2>/dev/null || true
   echo "[OK] Server Karsa Cloud PRO aktif & berjalan segar via PM2!"
 else
@@ -451,7 +452,7 @@ curl -sI --max-time 3 https://1.1.1.1 >/dev/null 2>&1 || true
 # 2. Cek Service CloudPRO (Port 3000)
 if ! curl -sI --max-time 3 http://127.0.0.1:3000/ >/dev/null 2>&1; then
   if command -v pm2 &>/dev/null; then
-    pm2 restart cloudpro --update-env >/dev/null 2>&1 || pm2 restart all >/dev/null 2>&1 || true
+    pm2 restart karsacloud --update-env >/dev/null 2>&1 || pm2 restart cloudpro --update-env >/dev/null 2>&1 || pm2 restart all >/dev/null 2>&1 || true
   fi
 fi
 
@@ -502,10 +503,11 @@ for d in "/home/cloudpro/CloudPRO-Server" "/root/CloudPRO-Server" "$HOME/CloudPR
     if [ "$LOCAL_COMMIT" != "$REMOTE_COMMIT" ] && [ -n "$REMOTE_COMMIT" ]; then
       git reset --hard origin/main -q 2>/dev/null
       if command -v npm &>/dev/null; then
-        npm run build:server 2>&1 >/dev/null || true
+        export NODE_ENV=production
+        npm run build 2>&1 >/dev/null || true
       fi
       if command -v pm2 &>/dev/null; then
-        pm2 restart cloudpro --update-env 2>/dev/null || pm2 start ecosystem.config.cjs 2>/dev/null || true
+        pm2 restart karsacloud --update-env 2>/dev/null || pm2 restart cloudpro --update-env 2>/dev/null || pm2 restart all 2>/dev/null || true
       fi
     fi
     break
