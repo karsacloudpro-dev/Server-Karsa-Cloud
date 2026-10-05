@@ -10124,8 +10124,29 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
       if (req.path.startsWith('/api/')) {
         return next();
       }
+      if (req.path.startsWith('/assets/')) {
+        const assetPath = path.join(distDir, req.path);
+        if (fs.existsSync(assetPath)) {
+          const ext = path.extname(assetPath).slice(1).toLowerCase();
+          const mimeTypes: Record<string, string> = {
+            js: 'application/javascript; charset=utf-8',
+            mjs: 'application/javascript; charset=utf-8',
+            css: 'text/css; charset=utf-8',
+            svg: 'image/svg+xml',
+            png: 'image/png',
+            jpg: 'image/jpeg',
+            jpeg: 'image/jpeg',
+            webp: 'image/webp',
+            woff2: 'font/woff2',
+            woff: 'font/woff',
+          };
+          res.setHeader('Content-Type', mimeTypes[ext] || 'application/octet-stream');
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          return res.sendFile(assetPath);
+        }
+        return next();
+      }
       if (
-        req.path.startsWith('/assets/') ||
         req.path.startsWith('/src/') ||
         req.path.startsWith('/@') ||
         req.path.startsWith('/node_modules/') ||
@@ -10375,9 +10396,9 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
   const distIndex = path.join(distDir, 'index.html');
   const hasDist = fs.existsSync(distIndex);
 
-  // In development mode (AI Studio & local dev), mount live Vite middleware; on deployed servers with dist/, serve static bundle
-  const isProd = process.env.NODE_ENV === 'production';
-  const shouldServeDist = isProd && hasDist;
+  // Whenever dist/ exists, ALWAYS serve the compiled production bundle!
+  // This guarantees fast loading and zero runtime crashes, regardless of PM2 environment or NODE_ENV!
+  const shouldServeDist = hasDist;
   if (shouldServeDist) {
     console.log(`[CloudPRO] Serving production static bundle from ${distDir}`);
     app.use(express.static(distDir, {

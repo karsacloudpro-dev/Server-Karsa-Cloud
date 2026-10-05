@@ -40,10 +40,17 @@
           console.error('[Karsa Cloud Boot Anomaly]', e);
           var hint = document.getElementById('boot-status-hint');
           if (hint) {
-            hint.innerHTML = '<span style="color:#fb7185;font-weight:600;">Memuat modul: ' + (e.message || 'Periksa koneksi aset browser') + '</span>';
+            hint.innerHTML = '<span style="color:#fb7185;font-weight:600;">Menyinkronkan modul terbaru...</span>';
           }
           var autoBtn = document.getElementById('btn-auto-heal');
           if (autoBtn) autoBtn.style.display = 'inline-block';
+          // Auto-recover immediately from stale browser module caches
+          var msg = (e && e.message) ? String(e.message) : '';
+          if (msg.indexOf('Failed to resolve') !== -1 || msg.indexOf('otpauth') !== -1 || msg.indexOf('import') !== -1) {
+            setTimeout(function() {
+              if (window.cleanCacheAndReload) window.cleanCacheAndReload();
+            }, 600);
+          }
         });
         setTimeout(function() {
           var rootEl = document.getElementById('root');
