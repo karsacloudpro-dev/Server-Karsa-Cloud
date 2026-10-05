@@ -388,67 +388,116 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
           </div>
 
           <div className="font-bold text-slate-900 dark:text-white">
-            Cara Mengisi Form &ldquo;Add record&rdquo; di Cloudflare (Agar Tidak Error <code>CNAME content cannot reference itself</code>):
+            Cara Mengisi Form &ldquo;Add record&rdquo; di Cloudflare (Solusi Jika Belum Memiliki IP Publik Sendiri):
           </div>
           <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-            Jangan mengisi <strong>Type: CNAME</strong> dengan <strong>Name: @</strong> dan <strong>Target: {rootDomain}</strong> karena <code>@</code> artinya sama dengan <code>{rootDomain}</code> (menunjuk ke dirinya sendiri). Silakan isi <strong>3 baris record</strong> berikut satu per satu di Cloudflare:
+            Karena server menggunakan proxy Cloudflare (tanpa IP publik statis), Anda dapat menggunakan <strong>Metode CNAME ke <code>karsacloud.biz.id</code></strong> (paling mudah) atau <strong>Metode Record A ke Anycast IP Cloudflare</strong>:
           </p>
 
-          <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
-            <table className="w-full text-left text-[11px] font-mono">
-              <thead className="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200 font-sans">
-                <tr>
-                  <th className="px-3 py-2">Urutan</th>
-                  <th className="px-3 py-2">Pilih Type</th>
-                  <th className="px-3 py-2">Isi Kolom Name</th>
-                  <th className="px-3 py-2">Isi Kolom IPv4 address / Target</th>
-                  <th className="px-3 py-2">Proxy Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                <tr className="bg-emerald-50/40 dark:bg-emerald-950/20">
-                  <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Record 1 (Wajib)</td>
-                  <td className="px-3 py-2"><span className="rounded bg-sky-600 px-2 py-0.5 text-white font-bold">A</span> (Bukan CNAME)</td>
-                  <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">@</td>
-                  <td className="px-3 py-2">
-                    <span className="font-bold text-emerald-700 dark:text-emerald-400">{account.ipAddress}</span>
-                    <button
-                      type="button"
-                      onClick={() => copyValue(account.ipAddress, 'row1')}
-                      className="ml-2 inline-flex items-center gap-1 rounded bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 text-[10px] font-sans font-semibold cursor-pointer"
-                    >
-                      {copiedField === 'row1' ? 'Tersalin!' : 'Salin IP'}
-                    </button>
-                  </td>
-                  <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye)</td>
-                </tr>
-                <tr>
-                  <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Record 2 (Subdomain www)</td>
-                  <td className="px-3 py-2"><span className="rounded bg-amber-500 px-2 py-0.5 text-slate-950 font-bold">CNAME</span></td>
-                  <td className="px-3 py-2 font-bold text-rose-600 dark:text-rose-400">www <span className="font-sans font-normal text-slate-500">(Jangan @)</span></td>
-                  <td className="px-3 py-2">
-                    <span className="font-bold text-slate-900 dark:text-white">{rootDomain}</span>
-                    <button
-                      type="button"
-                      onClick={() => copyValue(rootDomain, 'row2')}
-                      className="ml-2 inline-flex items-center gap-1 rounded bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 text-[10px] font-sans font-semibold cursor-pointer"
-                    >
-                      {copiedField === 'row2' ? 'Tersalin!' : 'Salin'}
-                    </button>
-                  </td>
-                  <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye)</td>
-                </tr>
-                <tr>
-                  <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Record 3 (Subdomain RDM)</td>
-                  <td className="px-3 py-2"><span className="rounded bg-sky-600 px-2 py-0.5 text-white font-bold">A</span></td>
-                  <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">rdm</td>
-                  <td className="px-3 py-2">
-                    <span className="font-bold text-emerald-700 dark:text-emerald-400">{account.ipAddress}</span>
-                  </td>
-                  <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye)</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="space-y-2">
+            <div className="text-xs font-bold text-sky-800 dark:text-sky-300 flex items-center gap-1.5">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-[10px]">1</span>
+              <span>Metode 1: CNAME ke Server Karsa Cloud (Rekomendasi Utama Tanpa IP Publik)</span>
+            </div>
+            <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
+              <table className="w-full text-left text-[11px] font-mono">
+                <thead className="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200 font-sans">
+                  <tr>
+                    <th className="px-3 py-2">Urutan</th>
+                    <th className="px-3 py-2">Type</th>
+                    <th className="px-3 py-2">Name</th>
+                    <th className="px-3 py-2">Target</th>
+                    <th className="px-3 py-2">Proxy Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                  <tr className="bg-emerald-50/40 dark:bg-emerald-950/20">
+                    <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Domain Utama</td>
+                    <td className="px-3 py-2"><span className="rounded bg-amber-500 px-2 py-0.5 text-slate-950 font-bold">CNAME</span></td>
+                    <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">@</td>
+                    <td className="px-3 py-2">
+                      <span className="font-bold text-slate-900 dark:text-white">karsacloud.biz.id</span>
+                      <button
+                        type="button"
+                        onClick={() => copyValue('karsacloud.biz.id', 'cname_target')}
+                        className="ml-2 inline-flex items-center gap-1 rounded bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 text-[10px] font-sans font-semibold cursor-pointer"
+                      >
+                        {copiedField === 'cname_target' ? 'Tersalin!' : 'Salin'}
+                      </button>
+                    </td>
+                    <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye ☁️)</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Subdomain www</td>
+                    <td className="px-3 py-2"><span className="rounded bg-amber-500 px-2 py-0.5 text-slate-950 font-bold">CNAME</span></td>
+                    <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">www</td>
+                    <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">karsacloud.biz.id</td>
+                    <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye ☁️)</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Wildcard Subdomain</td>
+                    <td className="px-3 py-2"><span className="rounded bg-amber-500 px-2 py-0.5 text-slate-950 font-bold">CNAME</span></td>
+                    <td className="px-3 py-2 font-bold text-teal-600 dark:text-teal-400">*</td>
+                    <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">karsacloud.biz.id</td>
+                    <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye ☁️)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-600 text-white text-[10px]">2</span>
+              <span>Metode 2: Menggunakan IP Anycast Cloudflare Aktif (A Record)</span>
+            </div>
+            <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
+              <table className="w-full text-left text-[11px] font-mono">
+                <thead className="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200 font-sans">
+                  <tr>
+                    <th className="px-3 py-2">Urutan</th>
+                    <th className="px-3 py-2">Pilih Type</th>
+                    <th className="px-3 py-2">Isi Kolom Name</th>
+                    <th className="px-3 py-2">Isi Kolom IPv4 address / Target</th>
+                    <th className="px-3 py-2">Proxy Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                  <tr className="bg-emerald-50/40 dark:bg-emerald-950/20">
+                    <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Record 1 (Wajib)</td>
+                    <td className="px-3 py-2"><span className="rounded bg-sky-600 px-2 py-0.5 text-white font-bold">A</span></td>
+                    <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">@</td>
+                    <td className="px-3 py-2">
+                      <span className="font-bold text-emerald-700 dark:text-emerald-400">104.21.72.180</span>
+                      <button
+                        type="button"
+                        onClick={() => copyValue('104.21.72.180', 'row1')}
+                        className="ml-2 inline-flex items-center gap-1 rounded bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 text-[10px] font-sans font-semibold cursor-pointer"
+                      >
+                        {copiedField === 'row1' ? 'Tersalin!' : 'Salin IP'}
+                      </button>
+                    </td>
+                    <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye ☁️)</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Record 2 (Anycast 2)</td>
+                    <td className="px-3 py-2"><span className="rounded bg-sky-600 px-2 py-0.5 text-white font-bold">A</span></td>
+                    <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">@</td>
+                    <td className="px-3 py-2">
+                      <span className="font-bold text-emerald-700 dark:text-emerald-400">172.67.153.214</span>
+                    </td>
+                    <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye ☁️)</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-sans font-bold text-slate-700 dark:text-slate-300">Record 3 (Wildcard)</td>
+                    <td className="px-3 py-2"><span className="rounded bg-amber-500 px-2 py-0.5 text-slate-950 font-bold">CNAME</span></td>
+                    <td className="px-3 py-2 font-bold text-teal-600 dark:text-teal-400">*</td>
+                    <td className="px-3 py-2 font-bold text-slate-900 dark:text-white">{rootDomain}</td>
+                    <td className="px-3 py-2 font-sans text-amber-600 font-semibold">Proxied (Oranye ☁️)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className="pt-1 flex flex-wrap items-center gap-2">
