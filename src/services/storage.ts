@@ -397,7 +397,7 @@ const INITIAL_STATE: DatabaseState = {
       databaseCount: 1,
       emailCount: 2,
       ftpCount: 1,
-      nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
+      nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
       createdAt: '2026-09-25T10:00:00Z',
     },
     {
@@ -431,7 +431,7 @@ const INITIAL_STATE: DatabaseState = {
       databaseCount: 1,
       emailCount: 2,
       ftpCount: 1,
-      nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
+      nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
       createdAt: '2026-09-25T10:00:00Z',
     },
     {
@@ -462,7 +462,7 @@ const INITIAL_STATE: DatabaseState = {
       databaseCount: 1,
       emailCount: 1,
       ftpCount: 1,
-      nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
+      nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
       createdAt: '2026-09-26T14:30:00Z',
     },
   ],
@@ -1203,11 +1203,11 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Ro
     {
       id: 'ns-cfg-default',
       domain: 'karsacloud.biz.id',
-      ns1Host: 'nia.ns.cloudflare.com',
-      ns1Ip: '172.64.34.193',
+      ns1Host: 'ns1.karsacloud.biz.id',
+      ns1Ip: '103.147.154.21',
       ns1Ipv6: '2606:4700:50::a29f:26c1',
-      ns2Host: 'ryan.ns.cloudflare.com',
-      ns2Ip: '172.64.35.228',
+      ns2Host: 'ns2.karsacloud.biz.id',
+      ns2Ip: '103.147.154.21',
       ns2Ipv6: '2606:4700:58::a29f:2ce4',
       dnssecEnabled: true,
       dnssecKeyTag: 23719,
@@ -1885,7 +1885,20 @@ class StorageService {
           apiKeys: (Array.isArray(parsed.apiKeys) ? (parsed.apiKeys as ApiKeyItem[]) : INITIAL_STATE.apiKeys)
             .filter((k: ApiKeyItem) => !deletedSet.has(k.id)),
           nameserverConfigs: ((Array.isArray(parsed.nameserverConfigs)) ? parsed.nameserverConfigs : INITIAL_STATE.nameserverConfigs)
-            .filter((ns: any) => !deletedSet.has(ns.id)),
+            .filter((ns: any) => !deletedSet.has(ns.id))
+            .map((ns: any) => {
+              if (!ns.ns1Host || ns.ns1Host === 'nia.ns.cloudflare.com' || ns.ns1Host.includes('cloudflare.com')) {
+                return {
+                  ...ns,
+                  domain: ns.domain || 'karsacloud.biz.id',
+                  ns1Host: 'ns1.karsacloud.biz.id',
+                  ns2Host: 'ns2.karsacloud.biz.id',
+                  ns1Ip: ns.ns1Ip || '103.147.154.21',
+                  ns2Ip: ns.ns2Ip || '103.147.154.21',
+                };
+              }
+              return ns;
+            }),
           r2Configs: ((Array.isArray(parsed.r2Configs)) ? parsed.r2Configs : INITIAL_STATE.r2Configs)
             .filter((r: any) => !deletedSet.has(r.id)),
           optimizedMedia: (((Array.isArray(parsed.optimizedMedia)) ? parsed.optimizedMedia : INITIAL_STATE.optimizedMedia) as OptimizedMediaFile[])

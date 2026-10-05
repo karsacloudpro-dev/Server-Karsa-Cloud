@@ -40,11 +40,11 @@ export const PrivateNameserverManager: React.FC = () => {
   const selectedConfig = configs.find(c => c.id === activeConfigId) || configs[0] || {
     id: `ns-cfg-${Date.now()}`,
     domain: 'karsacloud.biz.id',
-    ns1Host: 'nia.ns.cloudflare.com',
-    ns1Ip: '172.64.34.193',
+    ns1Host: 'ns1.karsacloud.biz.id',
+    ns1Ip: '103.147.154.21',
     ns1Ipv6: '2606:4700:50::a29f:26c1',
-    ns2Host: 'ryan.ns.cloudflare.com',
-    ns2Ip: '172.64.35.228',
+    ns2Host: 'ns2.karsacloud.biz.id',
+    ns2Ip: '103.147.154.21',
     ns2Ipv6: '2606:4700:58::a29f:2ce4',
     dnssecEnabled: true,
     dnssecKeyTag: 23719,
@@ -244,8 +244,8 @@ export const PrivateNameserverManager: React.FC = () => {
             </h4>
             <div className="text-slate-700 dark:text-slate-300 leading-relaxed space-y-1.5">
               <p>
-                <strong>Apakah nameserver klien bisa menggunakan domain Cloud PRO atau domain sendiri?</strong><br />
-                <span className="text-emerald-700 dark:text-emerald-400 font-bold">&bull; YA, BISA MENGGUNAKAN DOMAIN APA SAJA:</span> Anda bebas menggunakan domain server utama Anda (contoh: <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns1.{domain}</code> &amp; <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns2.{domain}</code>), domain resmi Cloud PRO (<code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns1.cloudpro.id</code>), maupun domain brand reseller Anda.
+                <strong>Apakah nameserver klien bisa menggunakan domain Karsa Cloud atau domain sendiri?</strong><br />
+                <span className="text-emerald-700 dark:text-emerald-400 font-bold">&bull; YA, BISA MENGGUNAKAN DOMAIN APA SAJA:</span> Anda bebas menggunakan domain server utama Anda (contoh: <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns1.{domain}</code> &amp; <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns2.{domain}</code>), domain resmi Karsa Cloud (<code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns1.karsacloud.biz.id</code> &amp; <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns2.karsacloud.biz.id</code>), maupun domain brand reseller Anda.
               </p>
               <p>
                 <strong>Karakteristik Jaringan IndiHome:</strong> Jaringan IndiHome menerapkan <em>CGNAT</em> pada IPv4 (IP privat), namun memberikan <strong>IP Publik Asli IPv6 (/64)</strong> yang bisa diakses langsung dari internet global. Agar seluruh pengunjung website klien (baik pengguna wifi/seluler IPv4 maupun IPv6) dapat membuka website tanpa terkendala, Cloud PRO mendukung 2 metode:

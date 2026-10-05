@@ -187,8 +187,8 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
       isDanger: true,
       onConfirm: () => {
         const activeNs = db.getDefaultNameserverConfig();
-        const ns1Host = activeNs ? activeNs.ns1Host : 'nia.ns.cloudflare.com';
-        const ns2Host = activeNs ? activeNs.ns2Host : 'ryan.ns.cloudflare.com';
+        const ns1Host = activeNs ? activeNs.ns1Host : 'ns1.karsacloud.biz.id';
+        const ns2Host = activeNs ? activeNs.ns2Host : 'ns2.karsacloud.biz.id';
         const nsTtl = activeNs ? activeNs.defaultTtl : 86400;
 
         const standard: DnsRecord[] = [
@@ -225,7 +225,7 @@ export const DnsZoneEditor: React.FC<DnsZoneEditorProps> = ({ account, onOpenGat
             <span className="font-mono text-slate-700 dark:text-slate-300">
               {account.nameservers && account.nameservers.length >= 2
                 ? `${account.nameservers[0]} • ${account.nameservers[1]}`
-                : 'nia.ns.cloudflare.com • ryan.ns.cloudflare.com'}
+                : 'ns1.karsacloud.biz.id • ns2.karsacloud.biz.id'}
             </span>{' '}
             &bull; IPv4 Anycast: <span className="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">{account.ipAddress}</span> &bull; TTL Default: 3600s
           </p>

@@ -909,7 +909,7 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
                 </h4>
                 <ul className="list-disc pl-5 space-y-1 text-slate-300 leading-relaxed">
                   <li>
-                    Gunakan <strong>Cloudflare Nameserver resmi Anda: <code>nia.ns.cloudflare.com</code> &amp; <code>ryan.ns.cloudflare.com</code></strong> di Registrar domain <code>karsacloud.biz.id</code> untuk proteksi DDoS, CDN, dan SSL instan.
+                    Gunakan <strong>Nameserver resmi Karsa Cloud: <code>ns1.karsacloud.biz.id</code> &amp; <code>ns2.karsacloud.biz.id</code></strong> di Registrar domain untuk menghubungkan seluruh domain dan subdomain secara otomatis ke cluster server.
                   </li>
                   <li>
                     Cara paling mudah &amp; gratis: Gunakan <strong>Nameserver bawaan Registrar</strong> atau <strong>Cloudflare DNS</strong>, lalu cukup tambahkan <strong>Record A (<code>@</code>, <code>www</code>, <code>rdm</code>, <code>portal</code>)</strong> ke IP server Anda atau <strong>CNAME</strong> ke URL aplikasi hosting Anda.

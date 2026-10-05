@@ -74,7 +74,7 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
       databaseCount: 1,
       emailCount: 1,
       ftpCount: 1,
-      nameservers: ['ns1.cloudpro.id', 'ns2.cloudpro.id'],
+      nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
       createdAt: new Date().toISOString(),
     };
 
@@ -442,7 +442,7 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
               <span className="font-mono text-slate-700">
                 {customerAccount.nameservers && customerAccount.nameservers.length >= 2
                   ? `${customerAccount.nameservers[0]} • ${customerAccount.nameservers[1]}`
-                  : 'nia.ns.cloudflare.com • ryan.ns.cloudflare.com'}
+                  : 'ns1.karsacloud.biz.id • ns2.karsacloud.biz.id'}
               </span>
             </div>
             <div className="flex justify-between py-1.5">

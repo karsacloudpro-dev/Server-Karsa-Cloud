@@ -692,7 +692,7 @@ const AppContent: React.FC = () => {
     databaseCount: 1,
     emailCount: 1,
     ftpCount: 1,
-    nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
+    nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
     createdAt: new Date().toISOString(),
   };
 
@@ -736,7 +736,7 @@ const AppContent: React.FC = () => {
         databaseCount: 1,
         emailCount: 1,
         ftpCount: 1,
-        nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
+        nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
         createdAt: new Date().toISOString(),
       };
       db.saveHostingAccount(customerOwnAcc);
@@ -775,7 +775,7 @@ const AppContent: React.FC = () => {
         databaseCount: 1,
         emailCount: 1,
         ftpCount: 1,
-        nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
+        nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
         createdAt: new Date().toISOString(),
       };
       db.saveHostingAccount(resellerSampleAcc);
@@ -826,7 +826,7 @@ const AppContent: React.FC = () => {
       databaseCount: 1,
       emailCount: 2,
       ftpCount: 1,
-      nameservers: ['nia.ns.cloudflare.com', 'ryan.ns.cloudflare.com'],
+      nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
       createdAt: new Date().toISOString(),
     };
     db.saveHostingAccount(sampleAcc);

@@ -254,8 +254,8 @@ export class CloudProApi {
 
     // 4. Inject DNS Zone Records with Private Nameservers
     const activeNs = db.getDefaultNameserverConfig();
-    const ns1Host = activeNs ? activeNs.ns1Host : 'nia.ns.cloudflare.com';
-    const ns2Host = activeNs ? activeNs.ns2Host : 'ryan.ns.cloudflare.com';
+    const ns1Host = activeNs ? activeNs.ns1Host : 'ns1.karsacloud.biz.id';
+    const ns2Host = activeNs ? activeNs.ns2Host : 'ns2.karsacloud.biz.id';
     const nsTtl = activeNs ? activeNs.defaultTtl : 86400;
 
     const initialDns: DnsRecord[] = [
