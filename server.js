@@ -5040,6 +5040,11 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       });
     }
   });
+  app.get("/api/vhost/check-domain", (req, res) => {
+    const domain = String(req.query.domain || "").trim().toLowerCase();
+    if (!domain) return res.status(400).send("Domain query parameter missing");
+    return res.status(200).send("OK");
+  });
   app.get("/api/system/node-telemetry", (_req, res) => {
     try {
       const cpus = os.cpus() || [];

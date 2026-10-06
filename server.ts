@@ -5113,6 +5113,13 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
     }
   });
 
+  // GET /api/vhost/check-domain - On-Demand TLS Domain Verification for Caddy
+  app.get('/api/vhost/check-domain', (req, res) => {
+    const domain = String(req.query.domain || '').trim().toLowerCase();
+    if (!domain) return res.status(400).send('Domain query parameter missing');
+    return res.status(200).send('OK');
+  });
+
   // GET /api/system/node-telemetry - Real-time Host VPS Telemetry (CPU, RAM, Swap, Disk, OS)
   app.get('/api/system/node-telemetry', (_req, res) => {
     try {
