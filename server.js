@@ -4638,8 +4638,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
     if (fs.existsSync(siakadAbs) && !registeredSubs.some((s) => normalizePath(s.documentRoot) === "/public_html/siakad-madrasah")) {
       registeredSubs.push({
         id: "dom-sub-siakad",
-        accountId: "acc-rdm-01",
-        fullDomain: "siakad-madrasah.karsacloud.biz.id",
+        accountId: "acc-denbaguse-01",
+        fullDomain: "siakad-madrasah.denbaguse.my.id",
         documentRoot: "/public_html/siakad-madrasah"
       });
     }
@@ -8097,15 +8097,15 @@ ftp.quit()
         }
         const siakadPath = path.join(process.cwd(), "public_html", "siakad-madrasah");
         if (fs.existsSync(siakadPath) && !list.some((l) => l.documentRoot === "/public_html/siakad-madrasah")) {
-          const primaryAcc = vhostStore.accounts[0];
+          const denbaguseAcc = vhostStore.accounts.find((a) => a.primaryDomain === "denbaguse.my.id") || vhostStore.accounts[1];
           const stats = calculateDirStats(siakadPath);
           list.push({
             id: "dom-sub-siakad",
-            domain: primaryAcc ? `siakad.${primaryAcc.primaryDomain}` : "siakad.karsacloud.biz.id",
+            domain: denbaguseAcc ? `siakad-madrasah.${denbaguseAcc.primaryDomain}` : "siakad-madrasah.denbaguse.my.id",
             type: "subdomain",
             documentRoot: "/public_html/siakad-madrasah",
-            accountId: primaryAcc?.id || "acc-rdm-01",
-            username: primaryAcc?.username || "cloudpro",
+            accountId: denbaguseAcc?.id || "acc-denbaguse-01",
+            username: denbaguseAcc?.username || "denbaguse",
             phpVersion: "8.2",
             filesCount: stats.count,
             totalSizeBytes: stats.totalSize,
@@ -8206,7 +8206,7 @@ ftp.quit()
                 bType = "full";
               }
               if (f.toLowerCase().includes("siakad") || f.toLowerCase().includes("madrasah")) {
-                domain = "siakad-madrasah.karsacloud.biz.id";
+                domain = "siakad-madrasah.denbaguse.my.id";
               } else if (parts.length >= 3 && parts[0] === "backup") {
                 domain = parts[1];
               }

@@ -177,24 +177,29 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
       }),
     ];
 
-    const knownSubPrefixes = ['siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan', 'simpatika', 'emis'];
-    for (const prefix of knownSubPrefixes) {
-      const candidateRoot = `/public_html/${prefix}`;
-      const alreadyListed = targets.some(
-        t => t.docRoot.toLowerCase() === candidateRoot || t.name.toLowerCase().startsWith(`${prefix}.`)
-      );
-      const existsInFiles = allFiles.some(f => {
-        const p = resolveCleanPath(f.path).toLowerCase();
-        return p === candidateRoot || p.startsWith(`${candidateRoot}/`);
-      });
-      if (!alreadyListed && (prefix === 'siakad-madrasah' || existsInFiles)) {
-        targets.push({
-          id: `sub-preset-${prefix}`,
-          name: `${prefix}.${account.primaryDomain}`,
-          type: 'subdomain',
-          docRoot: candidateRoot,
-          label: `${prefix}.${account.primaryDomain} (Subdomain)`,
+    const isServerInfrastructureAccount =
+      account.id === 'acc-rdm-01' || account.primaryDomain === 'karsacloud.biz.id';
+
+    if (!isServerInfrastructureAccount) {
+      const knownSubPrefixes = ['siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan', 'simpatika', 'emis'];
+      for (const prefix of knownSubPrefixes) {
+        const candidateRoot = `/public_html/${prefix}`;
+        const alreadyListed = targets.some(
+          t => t.docRoot.toLowerCase() === candidateRoot || t.name.toLowerCase().startsWith(`${prefix}.`)
+        );
+        const existsInFiles = allFiles.some(f => {
+          const p = resolveCleanPath(f.path).toLowerCase();
+          return p === candidateRoot || p.startsWith(`${candidateRoot}/`);
         });
+        if (!alreadyListed && (prefix === 'siakad-madrasah' || existsInFiles)) {
+          targets.push({
+            id: `sub-preset-${prefix}`,
+            name: `${prefix}.${account.primaryDomain}`,
+            type: 'subdomain',
+            docRoot: candidateRoot,
+            label: `${prefix}.${account.primaryDomain} (Subdomain)`,
+          });
+        }
       }
     }
 
