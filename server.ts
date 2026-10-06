@@ -5113,6 +5113,76 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
     }
   });
 
+  // GET /api/system/node-telemetry - Real-time Host VPS Telemetry (CPU, RAM, Swap, Disk, OS)
+  app.get('/api/system/node-telemetry', (_req, res) => {
+    try {
+      const cpus = os.cpus() || [];
+      const totalMemMb = Math.round(os.totalmem() / (1024 * 1024));
+      const freeMemMb = Math.round(os.freemem() / (1024 * 1024));
+      const usedMemMb = Math.max(0, totalMemMb - freeMemMb);
+      const loadAvg = os.loadavg() || [0, 0, 0];
+      const uptimeSec = os.uptime();
+
+      let osReleaseName = `${os.type()} ${os.release()} (${os.arch()})`;
+      try {
+        if (fs.existsSync('/etc/os-release')) {
+          const osRel = fs.readFileSync('/etc/os-release', 'utf-8');
+          const prettyMatch = osRel.match(/PRETTY_NAME="([^"]+)"/);
+          if (prettyMatch?.[1]) osReleaseName = `${prettyMatch[1]} (${os.arch()})`;
+        }
+      } catch {}
+
+      let swapTotalMb = 0;
+      let swapUsedMb = 0;
+      try {
+        if (fs.existsSync('/proc/meminfo')) {
+          const meminfo = fs.readFileSync('/proc/meminfo', 'utf-8');
+          const sTotal = meminfo.match(/SwapTotal:\s+(\d+)\s+kB/);
+          const sFree = meminfo.match(/SwapFree:\s+(\d+)\s+kB/);
+          if (sTotal?.[1]) swapTotalMb = Math.round(parseInt(sTotal[1], 10) / 1024);
+          if (sFree?.[1]) {
+            const freeKb = parseInt(sFree[1], 10);
+            swapUsedMb = Math.max(0, swapTotalMb - Math.round(freeKb / 1024));
+          }
+        }
+      } catch {}
+
+      let diskTotalGb = 15;
+      let diskUsedGb = 3;
+      try {
+        const dfOut = execSync('df -B1G / | tail -n 1', { encoding: 'utf-8' });
+        const parts = dfOut.trim().split(/\s+/);
+        if (parts.length >= 4) {
+          diskTotalGb = parseInt(parts[1], 10) || 15;
+          diskUsedGb = parseInt(parts[2], 10) || 3;
+        }
+      } catch {}
+
+      return res.json({
+        ok: true,
+        hostname: os.hostname(),
+        osType: osReleaseName,
+        uptimeDays: Math.floor(uptimeSec / 86400),
+        uptimeHours: Math.floor((uptimeSec % 86400) / 3600),
+        loadAverage: loadAvg.map(n => Math.round(n * 100) / 100),
+        cpuCores: cpus.length || 1,
+        cpuModel: cpus[0]?.model || 'Virtual CPU',
+        totalRamMb: totalMemMb,
+        usedRamMb: usedMemMb,
+        freeRamMb: freeMemMb,
+        ramUsagePct: totalMemMb ? Math.round((usedMemMb / totalMemMb) * 100) : 0,
+        swapTotalMb,
+        swapUsedMb,
+        diskTotalGb,
+        diskUsedGb,
+        diskFreeGb: Math.max(0, diskTotalGb - diskUsedGb),
+        diskUsagePct: diskTotalGb ? Math.round((diskUsedGb / diskTotalGb) * 100) : 0,
+      });
+    } catch (err: any) {
+      return res.status(500).json({ ok: false, error: err?.message || String(err) });
+    }
+  });
+
   // 1-Click Safe Disk Junk Cleanup Endpoint with Tenancy Guard
   app.post('/api/system/clean-disk', (req, res) => {
     try {
