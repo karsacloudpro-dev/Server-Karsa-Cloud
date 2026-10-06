@@ -177,10 +177,11 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
       }),
     ];
 
-    const isServerInfrastructureAccount =
-      account.id === 'acc-rdm-01' || account.primaryDomain === 'karsacloud.biz.id';
+    // siakad-madrasah and educational presets strictly belong ONLY to denbaguse.my.id
+    const isDenbaguseAccount =
+      account.id === 'acc-denbaguse-01' || account.primaryDomain === 'denbaguse.my.id';
 
-    if (!isServerInfrastructureAccount) {
+    if (isDenbaguseAccount) {
       const knownSubPrefixes = ['siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan', 'simpatika', 'emis'];
       for (const prefix of knownSubPrefixes) {
         const candidateRoot = `/public_html/${prefix}`;
