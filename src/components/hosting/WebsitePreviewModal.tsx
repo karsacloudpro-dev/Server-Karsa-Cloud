@@ -218,7 +218,7 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
       fetch(
         `/api/vhost/preview-render?accountId=${encodeURIComponent(account.id)}&domain=${encodeURIComponent(
           selectedDomain
-        )}&dir=${encodeURIComponent(targetDir)}`
+        )}&dir=${encodeURIComponent(targetDir)}&_fresh=${Date.now()}`
       )
         .then(r => (r.ok ? r.text() : ''))
         .then(healed => {

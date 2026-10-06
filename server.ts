@@ -2071,29 +2071,8 @@ function renderVirtualHostResponse(
         isPathBelongingToDocRoot(f.path, rootDir, matchedAccount?.id)
     );
     const diskFound = readDiskFileInDocRoot(rootDir, rel);
-
-    // If memory has only the default personal template while disk has a real cloned file, prefer disk
-    if (
-      diskFound?.content &&
-      (!memFound ||
-        !memFound.content ||
-        memFound.id === 'vf-personal-html' ||
-        memFound.content.includes('Selamat Datang di Portal Pribadi Den Baguse'))
-    ) {
-      const isDenbaguseDisk = diskFound.content.includes('Jaenal Maskun') || diskFound.content.includes('Den Baguse');
-      const isClientAccount = matchedAccount && matchedAccount.primaryDomain !== 'denbaguse.my.id' && matchedAccount.primaryDomain !== 'karsacloud.biz.id';
-      if (!isClientAccount || !isDenbaguseDisk) {
-        return diskFound;
-      }
-    }
+    if (diskFound) return diskFound;
     if (memFound) return memFound;
-    if (diskFound) {
-      const isDenbaguseDisk = Boolean(diskFound.content && (diskFound.content.includes('Jaenal Maskun') || diskFound.content.includes('Den Baguse')));
-      const isClientAccount = matchedAccount && matchedAccount.primaryDomain !== 'denbaguse.my.id' && matchedAccount.primaryDomain !== 'karsacloud.biz.id';
-      if (!isClientAccount || !isDenbaguseDisk) {
-        return diskFound;
-      }
-    }
 
     if (rel === '/index.html' || rel.endsWith('/') || rel === '') {
       const subRelDir = rel === '/index.html' || rel === '/' || rel === '' ? '' : rel.replace(/\/+$/, '');
@@ -2118,14 +2097,8 @@ function renderVirtualHostResponse(
             isPathBelongingToDocRoot(f.path, rootDir, matchedAccount?.id)
         );
         const df = readDiskFileInDocRoot(rootDir, candRel);
-        if (
-          df?.content &&
-          (!mf || !mf.content || mf.id === 'vf-personal-html' || mf.content.includes('Selamat Datang di Portal Pribadi Den Baguse'))
-        ) {
-          return df;
-        }
-        if (mf) return mf;
         if (df) return df;
+        if (mf) return mf;
       }
 
       // Check ANY HTML or PHP file strictly inside this docRoot (excluding subdomain folders!)
@@ -4355,17 +4328,11 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       '/public_html/emis',
     ]);
 
-    // Always fetch virtual files strictly belonging to this directory's docRoot
+    // Always fetch virtual files strictly belonging to this directory
     const vhostMatchingFiles = (vhostStore.filesByAccount[accountId] || []).filter(f => {
       const pNorm = normalizePath(f.path).toLowerCase();
-      if (cleanDir.toLowerCase() === '/public_html') {
-        if (subRoots.has(pNorm)) return false;
-        for (const sr of subRoots) {
-          if (pNorm.startsWith(sr + '/')) return false;
-        }
-      }
       const parent = pNorm.substring(0, pNorm.lastIndexOf('/')) || '/public_html';
-      return parent === cleanDir.toLowerCase() || isPathBelongingToDocRoot(pNorm, cleanDir);
+      return parent === cleanDir.toLowerCase() || pNorm === cleanDir.toLowerCase();
     });
 
     if (!foundBaseDir) {
@@ -4391,11 +4358,6 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       const items = fs.readdirSync(foundBaseDir);
       for (const item of items) {
         if (item === '.' || item === '..' || item === '.git') continue;
-        const itemNormPath = normalizePath(`${cleanDir}/${item}`).toLowerCase();
-        // When scanning /public_html (Primary Domain), skip all subdomain directories
-        if (cleanDir.toLowerCase() === '/public_html' && subRoots.has(itemNormPath)) {
-          continue;
-        }
         const fullItemPath = path.join(foundBaseDir, item);
         const stat = fs.statSync(fullItemPath);
         const isDir = stat.isDirectory();
@@ -9137,7 +9099,7 @@ print('SUCCESS')
       const rawName = String(req.query.fileName || `uploaded-backup-${Date.now()}.zip`);
       const chunkIndex = Number(req.query.chunkIndex || 0);
       const totalChunks = Number(req.query.totalChunks || 1);
-      const tempForRestore = String(req.query.tempForRestore || '1') === '1';
+      const tempForRestore = String(req.query.tempForRestore || '0') === '1';
 
       const safeFileName = path.basename(rawName).replace(/[^a-zA-Z0-9._-]/g, '_');
       const lower = safeFileName.toLowerCase();
@@ -9159,7 +9121,7 @@ print('SUCCESS')
 
       writeStream.on('finish', () => {
         const isLastChunk = chunkIndex >= totalChunks - 1;
-        if (isLastChunk && !tempForRestore) {
+        if (isLastChunk) {
           try {
             fs.mkdirSync(LOCAL_BACKUPS_DIR, { recursive: true });
             fs.copyFileSync(destPath, mirrorPath);
@@ -9212,7 +9174,7 @@ print('SUCCESS')
       autoFlatten = true,
       fixPermissions = true,
       importDatabase = true,
-      autoDeleteZip = true,
+      autoDeleteZip = false,
       authType = 'none',
       authUsername = '',
       authPassword = '',
@@ -9463,6 +9425,18 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
         if (!vhostStore.filesByAccount[primaryId]) {
           vhostStore.filesByAccount[primaryId] = [];
         }
+        const matchedAcc = (vhostStore.accounts || []).find(
+          a =>
+            a.primaryDomain.toLowerCase() === targetDomain.toLowerCase() ||
+            targetDomain.toLowerCase().endsWith('.' + a.primaryDomain.toLowerCase())
+        );
+        const relevantAccountIds = Array.from(new Set([
+          primaryId,
+          matchedAcc?.id,
+          'acc-denbaguse-01',
+          'acc-rdm-01'
+        ].filter(Boolean) as string[]));
+
         const scanAndIndexRestored = (dir: string, relPrefix: string) => {
           if (!fs.existsSync(dir)) return;
           try {
@@ -9481,28 +9455,31 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
                 }
               } catch {}
 
-              const existingIdx = vhostStore.filesByAccount[primaryId].findIndex(
-                (x: any) => normalizePath(x.path).toLowerCase() === vPath.toLowerCase()
-              );
-              const existingId = existingIdx >= 0 ? vhostStore.filesByAccount[primaryId][existingIdx].id : null;
-              const entry = {
-                id: existingId || `vf-restored-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-                accountId: primaryId,
-                name: item.name,
-                path: vPath,
-                type: isDir ? ('directory' as const) : ('file' as const),
-                size,
-                content,
-                updatedAt: new Date().toISOString(),
-              };
-
-              if (existingIdx === -1) {
-                vhostStore.filesByAccount[primaryId].push(entry);
-              } else {
-                vhostStore.filesByAccount[primaryId][existingIdx] = {
-                  ...vhostStore.filesByAccount[primaryId][existingIdx],
-                  ...entry,
+              for (const accId of relevantAccountIds) {
+                if (!vhostStore.filesByAccount[accId]) vhostStore.filesByAccount[accId] = [];
+                const existingIdx = vhostStore.filesByAccount[accId].findIndex(
+                  (x: any) => normalizePath(x.path).toLowerCase() === vPath.toLowerCase()
+                );
+                const existingId = existingIdx >= 0 ? vhostStore.filesByAccount[accId][existingIdx].id : null;
+                const entry = {
+                  id: existingId || `vf-restored-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+                  accountId: accId,
+                  name: item.name,
+                  path: vPath,
+                  type: isDir ? ('directory' as const) : ('file' as const),
+                  size,
+                  content,
+                  updatedAt: new Date().toISOString(),
                 };
+
+                if (existingIdx === -1) {
+                  vhostStore.filesByAccount[accId].push(entry);
+                } else {
+                  vhostStore.filesByAccount[accId][existingIdx] = {
+                    ...vhostStore.filesByAccount[accId][existingIdx],
+                    ...entry,
+                  };
+                }
               }
 
               if (isDir) {
@@ -9512,15 +9489,56 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
           } catch {}
         };
         scanAndIndexRestored(physicalTarget, cleanDir);
+
+        // Also ensure parent folder entry exists in /public_html if cleanDir is a subdirectory
+        if (cleanDir !== '/public_html' && cleanDir.startsWith('/public_html/')) {
+          const folderName = path.basename(cleanDir);
+          for (const accId of relevantAccountIds) {
+            if (!vhostStore.filesByAccount[accId]) vhostStore.filesByAccount[accId] = [];
+            const exDirIdx = vhostStore.filesByAccount[accId].findIndex(
+              (x: any) => normalizePath(x.path).toLowerCase() === cleanDir.toLowerCase()
+            );
+            const dirEntry = {
+              id: exDirIdx >= 0 ? vhostStore.filesByAccount[accId][exDirIdx].id : `vf-dir-${folderName}`,
+              accountId: accId,
+              name: folderName,
+              path: cleanDir,
+              type: 'directory' as const,
+              size: 0,
+              updatedAt: new Date().toISOString(),
+            };
+            if (exDirIdx === -1) {
+              vhostStore.filesByAccount[accId].push(dirEntry);
+            } else {
+              vhostStore.filesByAccount[accId][exDirIdx] = {
+                ...vhostStore.filesByAccount[accId][exDirIdx],
+                ...dirEntry,
+              };
+            }
+          }
+        }
+
+        // Write restore sync stamp so browser knows to update cache and localStorage
+        try {
+          const stampDir = path.join(physicalTarget, 'data');
+          fs.mkdirSync(stampDir, { recursive: true });
+          const stampFile = path.join(stampDir, 'restore_sync_stamp.json');
+          fs.writeFileSync(
+            stampFile,
+            JSON.stringify({ restoredAt: Date.now(), restoredIso: new Date().toISOString(), domain: targetDomain, dir: cleanDir }, null, 2),
+            'utf-8'
+          );
+        } catch {}
+
         persistVhostStore();
         if (persistedFullAppState) {
           persistedFullAppState.virtualFiles = vhostStore.filesByAccount[primaryId] || [];
           persistFullAppState(persistedFullAppState);
         }
 
-        // Step 8b: Auto-Purge source .ZIP / archive after successful extraction so temporary upload files don't bloat disk
+        // Step 8b: Auto-Purge source .ZIP / archive ONLY if explicitly requested (never delete user backup archives by default)
         let autoPurgedZip = false;
-        if (autoDeleteZip !== false) {
+        if (autoDeleteZip === true) {
           updateJob('permissions', 96, `Membersihkan berkas upload sementara (${sourceArchiveFormatted})...`);
           try {
             if (sourceZipPath && fs.existsSync(sourceZipPath)) {

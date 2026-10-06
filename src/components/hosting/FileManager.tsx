@@ -98,7 +98,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
   const [extractTargetDir, setExtractTargetDir] = useState<string>('/public_html');
   const [flattenZipRoot, setFlattenZipRoot] = useState<boolean>(true);
   const [clearOldIndexOnExtract, setClearOldIndexOnExtract] = useState<boolean>(true);
-  const [autoDeleteZipAfterExtract, setAutoDeleteZipAfterExtract] = useState<boolean>(true);
+  const [autoDeleteZipAfterExtract, setAutoDeleteZipAfterExtract] = useState<boolean>(false);
   const [isRunningZipModalExtract, setIsRunningZipModalExtract] = useState<boolean>(false);
   const zipExtractInputRef = useRef<HTMLInputElement>(null);
 
@@ -177,37 +177,32 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
       }),
     ];
 
-    // siakad-madrasah and educational presets strictly belong ONLY to denbaguse.my.id
-    const isDenbaguseAccount =
-      account.id === 'acc-denbaguse-01' || account.primaryDomain === 'denbaguse.my.id';
-
-    if (isDenbaguseAccount) {
-      const knownSubPrefixes = ['siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan', 'simpatika', 'emis'];
-      for (const prefix of knownSubPrefixes) {
-        const candidateRoot = `/public_html/${prefix}`;
-        const alreadyListed = targets.some(
-          t => t.docRoot.toLowerCase() === candidateRoot || t.name.toLowerCase().startsWith(`${prefix}.`)
-        );
-        const existsInFiles = allFiles.some(f => {
-          const p = resolveCleanPath(f.path).toLowerCase();
-          return p === candidateRoot || p.startsWith(`${candidateRoot}/`);
+    // Detect known educational & app subdirectories so they appear in workspace switcher for all accounts
+    const knownSubPrefixes = ['siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan', 'simpatika', 'emis', 'absensi-gtk', 'adm-madrasah', 'kartu-pelajar', 'modul-ajar'];
+    for (const prefix of knownSubPrefixes) {
+      const candidateRoot = `/public_html/${prefix}`;
+      const alreadyListed = targets.some(
+        t => t.docRoot.toLowerCase() === candidateRoot || t.name.toLowerCase().startsWith(`${prefix}.`)
+      );
+      const existsInFiles = allFiles.some(f => {
+        const p = resolveCleanPath(f.path).toLowerCase();
+        return p === candidateRoot || p.startsWith(`${candidateRoot}/`);
+      });
+      if (!alreadyListed && (prefix === 'siakad-madrasah' || existsInFiles)) {
+        targets.push({
+          id: `sub-preset-${prefix}`,
+          name: `${prefix}.${account.primaryDomain}`,
+          type: 'subdomain',
+          docRoot: candidateRoot,
+          label: `${prefix}.${account.primaryDomain} (Subdomain)`,
         });
-        if (!alreadyListed && (prefix === 'siakad-madrasah' || existsInFiles)) {
-          targets.push({
-            id: `sub-preset-${prefix}`,
-            name: `${prefix}.${account.primaryDomain}`,
-            type: 'subdomain',
-            docRoot: candidateRoot,
-            label: `${prefix}.${account.primaryDomain} (Subdomain)`,
-          });
-        }
       }
     }
 
     return targets;
   }, [accountDomains, account.primaryDomain, allFiles]);
 
-  // Set of all subdomain/addon document roots that must NOT appear inside Domain Utama (/public_html)
+  // Set of all subdomain/addon document roots
   const isolatedSubdomainRoots = React.useMemo(() => {
     const roots = new Set<string>([
       '/public_html/siakad-madrasah',
@@ -239,7 +234,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
     [sortedTargets, currentPath, allDomainTargets]
   );
 
-  // Filter items in current directory (with deduplication by clean path and strict subdomain workspace isolation)
+  // Filter items in current directory (with deduplication by clean path)
   const seenItemPaths = new Set<string>();
   const currentItems = allFiles.filter(f => {
     const fPath = resolveCleanPath(f.path);
@@ -247,10 +242,6 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
     const parentDir = fPath.substring(0, fPath.lastIndexOf('/'));
     if (parentDir !== currentPath) return false;
     const key = fPath.toLowerCase();
-    // Hide subdomain root folders when viewing the Primary Domain (/public_html)
-    if (currentPath.toLowerCase() === '/public_html' && isolatedSubdomainRoots.has(key)) {
-      return false;
-    }
     if (seenItemPaths.has(key)) return false;
     if (deletedPathsBlacklistRef.current.has(key)) return false;
     seenItemPaths.add(key);
@@ -270,13 +261,6 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
           // Never re-import a file that the user intentionally deleted!
           if (deletedPathsBlacklistRef.current.has(normKey)) {
             return;
-          }
-          // When scanning Primary Domain (/public_html), skip subdomain root folders
-          if (resolveCleanPath(dirToScan).toLowerCase() === '/public_html') {
-            if (isolatedSubdomainRoots.has(normKey)) return;
-            for (const subRoot of isolatedSubdomainRoots) {
-              if (normKey.startsWith(subRoot + '/')) return;
-            }
           }
           batchToSave.push({
             id: f.id || `vf-disk-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,

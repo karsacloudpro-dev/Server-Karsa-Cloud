@@ -153,7 +153,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
   const [restoreAutoFlatten, setRestoreAutoFlatten] = useState<boolean>(true);
   const [restoreFixPermissions, setRestoreFixPermissions] = useState<boolean>(true);
   const [restoreImportDatabase, setRestoreImportDatabase] = useState<boolean>(true);
-  const [restoreAutoDeleteZip, setRestoreAutoDeleteZip] = useState<boolean>(true);
+  const [restoreAutoDeleteZip, setRestoreAutoDeleteZip] = useState<boolean>(false);
 
   // Probe Remote URL State
   const [isProbingRemote, setIsProbingRemote] = useState<boolean>(false);
@@ -559,6 +559,41 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                     updatedAt: new Date().toISOString(),
                     content: f.content,
                   })));
+                }
+                // Also scan parent /public_html so the restored folder itself is immediately indexed in /public_html
+                if (docRootToScan !== '/public_html') {
+                  const folderName = docRootToScan.replace(/^\/public_html\/?/, '').split('/')[0];
+                  if (folderName) {
+                    db.saveVirtualFile({
+                      id: `vf-dir-${folderName}`,
+                      accountId: account.id,
+                      name: folderName,
+                      path: `/public_html/${folderName}`,
+                      type: 'directory',
+                      sizeBytes: 0,
+                      permissions: '0755',
+                      updatedAt: new Date().toISOString(),
+                    });
+                  }
+                  fetch(`/api/files/disk-scan?dir=%2Fpublic_html&accountId=${encodeURIComponent(account.id)}`)
+                    .then(r => r.json())
+                    .then(pRes => {
+                      if (pRes?.ok && Array.isArray(pRes.files)) {
+                        db.replaceDirectoryFilesFromDiskScan(account.id, '/public_html', pRes.files.map((f: any) => ({
+                          id: f.id || `vf-restored-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+                          accountId: account.id,
+                          name: f.name,
+                          path: f.path,
+                          type: f.type || 'file',
+                          sizeBytes: f.size || 1024,
+                          permissions: f.type === 'directory' ? '0755' : '0644',
+                          mimeType: 'text/html',
+                          updatedAt: new Date().toISOString(),
+                          content: f.content,
+                        })));
+                      }
+                    })
+                    .catch(() => {});
                 }
               })
               .catch(() => {});
