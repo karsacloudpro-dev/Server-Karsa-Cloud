@@ -343,9 +343,12 @@ function renderWebTerminalHtml(host, initialCwd) {
       <button class="quick-btn" onclick="runCommand('pm2 restart karsacloud 2>/dev/null || pm2 restart cloudpro 2>/dev/null || pm2 restart all')">\u{1F504} PM2 Restart</button>
       <button class="quick-btn" onclick="runCommand('pm2 status')">\u{1F4CA} PM2 Status</button>
       <button class="quick-btn" onclick="runCommand('pm2 logs --lines 25')">\u{1F4DC} PM2 Logs</button>
+      <button class="quick-btn" onclick="runCommand('systemctl status caddy --no-pager')">\u{1F310} Caddy Status</button>
+      <button class="quick-btn" onclick="runCommand('systemctl reload caddy')">\u{1F504} Caddy Reload</button>
+      <button class="quick-btn" onclick="runCommand('ss -tulpn | grep LISTEN')">\u{1F50C} Port Aktif</button>
       <button class="quick-btn" onclick="runCommand('git status -s')">\u{1F4C1} Git Status</button>
       <button class="quick-btn" onclick="runCommand('git pull origin main')">\u2B07\uFE0F Git Pull</button>
-      <button class="quick-btn" onclick="runCommand('free -h && echo --- && df -h /')">\u{1F4BE} RAM & Disk</button>
+      <button class="quick-btn" onclick="runCommand('free -h && echo --- && df -h /')">\u{1F4BE} RAM, Swap & Disk</button>
       <button class="quick-btn" onclick="runCommand('lsof -i :3000 || netstat -tlpn | grep 3000')">\u{1F50C} Cek Port 3000</button>
       <button class="quick-btn" onclick="runCommand('pwd')">\u{1F4C2} Cek Direktori CWD</button>
     </div>
