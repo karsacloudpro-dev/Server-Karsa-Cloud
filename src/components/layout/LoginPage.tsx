@@ -49,12 +49,40 @@ const readDeviceCredentials = (): DeviceSavedCredentialsMap => {
   }
 };
 
+export type PortalLoginMode = 'server_admin' | 'client_portal';
+
 interface LoginPageProps {
   onBackToLanding?: () => void;
+  initialPortalMode?: PortalLoginMode;
 }
 
-export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
+export const LoginPage: React.FC<LoginPageProps> = ({
+  onBackToLanding,
+  initialPortalMode,
+}) => {
   const { login, check2FARequired } = useAuth();
+
+  const [portalMode, setPortalMode] = useState<PortalLoginMode>(() => {
+    if (initialPortalMode) return initialPortalMode;
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname.toLowerCase();
+      const sp = new URLSearchParams(window.location.search);
+      const portalParam = sp.get('portal') || sp.get('mode');
+      if (portalParam === 'client' || portalParam === 'reseller' || portalParam === 'customer') {
+        return 'client_portal';
+      }
+      if (portalParam === 'admin' || portalParam === 'server') {
+        return 'server_admin';
+      }
+      if (host === 'client.karsacloud.biz.id' || host.startsWith('client.')) {
+        return 'client_portal';
+      }
+      if (host === 'server.karsacloud.biz.id' || host.startsWith('server.')) {
+        return 'server_admin';
+      }
+    }
+    return 'server_admin';
+  });
 
   // Empty by default on a new device; auto-filled only if this device has logged in before
   const [username, setUsername] = useState<string>(() => {
@@ -179,6 +207,23 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
       );
       if (matchedAcc) {
         detectedRole = 'customer';
+      }
+    }
+
+    // Strict isolation between server.karsacloud.biz.id (admin only) and client.karsacloud.biz.id (reseller/client only)
+    if (portalMode === 'server_admin') {
+      if (detectedRole !== 'admin') {
+        setErrorMessage(
+          'Akses Ditolak: Portal server.karsacloud.biz.id khusus untuk Root Administrator Server. Akun Anda terdeteksi sebagai Mitra Reseller / Klien cPanel. Silakan masuk melalui portal client.karsacloud.biz.id.'
+        );
+        return;
+      }
+    } else if (portalMode === 'client_portal') {
+      if (detectedRole === 'admin') {
+        setErrorMessage(
+          'Akses Ditolak: Akun Anda adalah Root Administrator Server. Portal client.karsacloud.biz.id khusus untuk Mitra Reseller & Pelanggan cPanel. Silakan masuk melalui server.karsacloud.biz.id.'
+        );
+        return;
       }
     }
 
@@ -497,17 +542,56 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
             ) : (
               /* ================= STANDARD CREDENTIALS FORM ================= */
               <>
+                {/* Portal Mode Header Badge & Title */}
                 <div className="flex items-center justify-between mb-1.5">
                   <h2 className="text-sm sm:text-base lg:text-lg font-extrabold text-white tracking-tight">
-                    Masuk ke Akun Portal
+                    {portalMode === 'server_admin'
+                      ? 'Login Admin Server'
+                      : 'Login Klien & Reseller'}
                   </h2>
-                  <span className="rounded-md border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-sky-300">
-                    SINGLE SIGN-ON
+                  <span
+                    className={`rounded-md border px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider ${
+                      portalMode === 'server_admin'
+                        ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
+                        : 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
+                    }`}
+                  >
+                    {portalMode === 'server_admin'
+                      ? 'server.karsacloud.biz.id'
+                      : 'client.karsacloud.biz.id'}
                   </span>
                 </div>
-                <p className="text-[11px] sm:text-xs text-slate-400 mb-3.5 sm:mb-4">
-                  Masukkan kredensial akun Anda. Sistem otomatis mengenali hak akses Anda (Root Admin, WHM Reseller, atau cPanel Klien) dan mengarahkan langsung ke dashboard yang sesuai.
+                <p className="text-[11px] sm:text-xs text-slate-400 mb-3">
+                  {portalMode === 'server_admin'
+                    ? 'Khusus Root Administrator Server. Masukkan kredensial admin Anda untuk mengakses Web Panel kontrol server.'
+                    : 'Khusus Mitra WHM Reseller & Pelanggan cPanel. Sistem otomatis mengarahkan ke dashboard yang sesuai hak akses Anda.'}
                 </p>
+
+                {/* Quick Portal Switcher Banner */}
+                <div className="mb-3.5 flex items-center justify-between p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-[10.5px]">
+                  <span className="text-slate-400">
+                    {portalMode === 'server_admin'
+                      ? 'Mitra Reseller atau Pelanggan?'
+                      : 'Administrator Server?'}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPortalMode(prev =>
+                        prev === 'server_admin' ? 'client_portal' : 'server_admin'
+                      );
+                      setErrorMessage('');
+                    }}
+                    className="font-semibold text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>
+                      {portalMode === 'server_admin'
+                        ? 'Beralih ke Login Klien (client.)'
+                        : 'Beralih ke Login Admin (server.)'}
+                    </span>
+                    <ArrowRight className="h-3 w-3" />
+                  </button>
+                </div>
 
                 {/* Smart Device Auto-Fill Status Banner */}
                 {isAutoFilledFromDevice && (
@@ -531,9 +615,37 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
                 )}
 
                 {errorMessage && (
-                  <div className="mb-3 rounded-xl border border-rose-500/40 bg-rose-950/50 p-2.5 sm:p-3 text-[11px] sm:text-xs text-rose-200 flex items-center gap-2">
-                    <AlertCircle className="h-4 w-4 text-rose-400 shrink-0" />
-                    <span>{errorMessage}</span>
+                  <div className="mb-3 rounded-xl border border-rose-500/40 bg-rose-950/50 p-2.5 sm:p-3 text-[11px] sm:text-xs text-rose-200 space-y-2">
+                    <div className="flex items-start gap-2">
+                      <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                      <span>{errorMessage}</span>
+                    </div>
+                    {errorMessage.includes('client.karsacloud.biz.id') && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPortalMode('client_portal');
+                          setErrorMessage('');
+                        }}
+                        className="w-full py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition-colors"
+                      >
+                        <span>Buka Login Klien & Reseller (client.karsacloud.biz.id) Sekarang</span>
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                    {errorMessage.includes('server.karsacloud.biz.id') && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPortalMode('server_admin');
+                          setErrorMessage('');
+                        }}
+                        className="w-full py-1.5 px-3 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition-colors"
+                      >
+                        <span>Buka Login Admin Server (server.karsacloud.biz.id) Sekarang</span>
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </button>
+                    )}
                   </div>
                 )}
 
@@ -614,7 +726,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
                     type="submit"
                     className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-sky-600 hover:bg-sky-500 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-sky-600/20 transition-all cursor-pointer active:scale-[0.99]"
                   >
-                    <span>Masuk ke Dashboard</span>
+                    <span>
+                      {portalMode === 'server_admin'
+                        ? 'Masuk ke Web Panel Admin (server.)'
+                        : 'Masuk ke Portal Klien & Reseller'}
+                    </span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
 

@@ -226,10 +226,24 @@ const AppContent: React.FC = () => {
   const isServerPanelDomain = typeof window !== "undefined" && (
     window.location.hostname === "server.karsacloud.biz.id" ||
     window.location.hostname.startsWith("server.") ||
+    window.location.hostname === "client.karsacloud.biz.id" ||
+    window.location.hostname.startsWith("client.") ||
     window.location.hostname.includes("servercloud") ||
     window.location.pathname.startsWith("/panel") ||
     new URLSearchParams(window.location.search).get("view") === "panel"
   );
+
+  const [landingTargetPortal, setLandingTargetPortal] = useState<'server_admin' | 'client_portal'>(() => {
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname.toLowerCase();
+      const sp = new URLSearchParams(window.location.search);
+      const p = sp.get('portal') || sp.get('mode');
+      if (p === 'client' || p === 'reseller' || p === 'customer') return 'client_portal';
+      if (p === 'server' || p === 'admin') return 'server_admin';
+      if (host === 'client.karsacloud.biz.id' || host.startsWith('client.')) return 'client_portal';
+    }
+    return 'server_admin';
+  });
 
   const [isLandingView, setIsLandingView] = useState<boolean>(() => {
     if (isServerPanelDomain) return false;
@@ -590,7 +604,12 @@ const AppContent: React.FC = () => {
   if (isLandingView) {
     return (
       <>
-        <LandingPage onGoToPanel={() => setIsLandingView(false)} />
+        <LandingPage
+          onGoToPanel={(portal) => {
+            if (portal) setLandingTargetPortal(portal);
+            setIsLandingView(false);
+          }}
+        />
         <WhatsAppFloatingButton defaultPhoneNumber="6281226738883" />
       </>
     );
@@ -600,7 +619,10 @@ const AppContent: React.FC = () => {
   if (!isAuthenticated || !currentUser) {
     return (
       <>
-        <LoginPage onBackToLanding={() => setIsLandingView(true)} />
+        <LoginPage
+          initialPortalMode={landingTargetPortal}
+          onBackToLanding={() => setIsLandingView(true)}
+        />
         <WhatsAppFloatingButton defaultPhoneNumber="6281226738883" />
       </>
     );
