@@ -49,7 +49,8 @@
       "creditBalance": 0,
       "twoFactorEnabled": false,
       "createdAt": "2026-10-02T12:18:20.036Z",
-      "_updatedAt": 1790943500037
+      "_updatedAt": 1790943500037,
+      "resellerId": "usr-reseller-denbaguse"
     },
     {
       "id": "usr-cust-1790943568539",
@@ -60,7 +61,8 @@
       "creditBalance": 0,
       "twoFactorEnabled": false,
       "createdAt": "2026-10-02T12:19:28.539Z",
-      "_updatedAt": 1790943568539
+      "_updatedAt": 1790943568539,
+      "resellerId": "usr-reseller-denbaguse"
     },
     {
       "id": "usr-cust-1791196211057",
@@ -662,7 +664,8 @@
       "createdAt": "2026-10-02T12:18:20.044Z",
       "expiresAt": "2027-10-02T12:18:20.044Z",
       "_updatedAt": 1790943500045,
-      "domain": "mimaarifnutipar.biz.id"
+      "domain": "mimaarifnutipar.biz.id",
+      "resellerId": "usr-reseller-denbaguse"
     },
     {
       "id": "acc-mimanu02kali-9k3p",
@@ -699,7 +702,8 @@
       "createdAt": "2026-10-02T12:19:28.548Z",
       "expiresAt": "2027-10-02T12:19:28.548Z",
       "_updatedAt": 1790943568548,
-      "domain": "mimanu02kaliwedi.biz.id"
+      "domain": "mimanu02kaliwedi.biz.id",
+      "resellerId": "usr-reseller-denbaguse"
     }
   ],
   "virtualFiles": [
@@ -6654,6 +6658,16 @@
       "permissions": "0755",
       "mimeType": "text/html",
       "updatedAt": "2026-10-06T08:44:47.211Z"
+    },
+    {
+      "id": "vf-mimaarif-index-html",
+      "accountId": "acc-mimaarifnuti-58fx",
+      "name": "index.html",
+      "path": "/public_html/index.html",
+      "type": "file",
+      "sizeBytes": 11717,
+      "content": "<!doctype html>\n<html lang=\"id\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=5.0\" />\n  <title>Portal Resmi MI MA'ARIF NU TIPAR | Lembaga Pendidikan Ma'arif NU</title>\n  <meta name=\"description\" content=\"Website Resmi MI MA'ARIF NU TIPAR - Menyemai Adab, Menumbuhkan Intelektual, Mengabdi untuk Kemuliaan Umat. Portal terpadu Si@Kad, Absensi GTK, Modul Ajar, dan Informasi Madrasah.\" />\n  <meta name=\"keywords\" content=\"MI MA'ARIF NU TIPAR, Madrasah Ibtidaiyah, Ma'arif NU, Siakad Madrasah, Pendidikan Islam Banyumas\" />\n  <meta name=\"author\" content=\"MI MA'ARIF NU TIPAR\" />\n  <meta name=\"theme-color\" content=\"#064e3b\" />\n  <link rel=\"canonical\" href=\"https://mimaarifnutipar.biz.id/\" />\n  <meta property=\"og:type\" content=\"website\" />\n  <meta property=\"og:site_name\" content=\"MI MA'ARIF NU TIPAR\" />\n  <meta property=\"og:title\" content=\"Portal Resmi MI MA'ARIF NU TIPAR\" />\n  <meta property=\"og:description\" content=\"Portal Resmi MI MA'ARIF NU TIPAR. Akses Si@Kad Madrasah, Absensi GTK, Modul Ajar, CBT Ujian, dan Info Pendaftaran.\" />\n  <meta property=\"og:url\" content=\"https://mimaarifnutipar.biz.id/\" />\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n  <link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap\" rel=\"stylesheet\">\n  <style>\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    body {\n      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;\n      background: #022c22;\n      color: #f8fafc;\n      min-height: 100vh;\n      line-height: 1.6;\n    }\n    .hero-bg {\n      background: radial-gradient(circle at 50% 20%, #065f46 0%, #064e3b 40%, #022c22 100%);\n      padding: 48px 20px 40px;\n      text-align: center;\n      position: relative;\n      overflow: hidden;\n      border-bottom: 2px solid rgba(245, 158, 11, 0.3);\n    }\n    .hero-bg::before {\n      content: \"\";\n      position: absolute;\n      inset: 0;\n      background-image: radial-gradient(rgba(245, 158, 11, 0.1) 1px, transparent 1px);\n      background-size: 24px 24px;\n      opacity: 0.5;\n      pointer-events: none;\n    }\n    .badge-top {\n      display: inline-flex;\n      align-items: center;\n      gap: 6px;\n      padding: 6px 14px;\n      background: rgba(6, 78, 59, 0.8);\n      border: 1px solid rgba(245, 158, 11, 0.5);\n      border-radius: 999px;\n      font-size: 11px;\n      font-weight: 700;\n      color: #fde68a;\n      letter-spacing: 0.5px;\n      text-transform: uppercase;\n      margin-bottom: 16px;\n    }\n    .arabic-bismillah {\n      font-family: 'Amiri', serif;\n      font-size: 26px;\n      color: #f59e0b;\n      margin-bottom: 8px;\n    }\n    .school-title {\n      font-size: 28px;\n      font-weight: 800;\n      color: #ffffff;\n      letter-spacing: -0.5px;\n      margin-bottom: 8px;\n      text-shadow: 0 2px 10px rgba(0,0,0,0.4);\n    }\n    .school-subtitle {\n      font-size: 14px;\n      color: #a7f3d0;\n      max-width: 580px;\n      margin: 0 auto 24px;\n    }\n    .meta-pills {\n      display: flex;\n      justify-content: center;\n      gap: 10px;\n      flex-wrap: wrap;\n      margin-bottom: 28px;\n    }\n    .meta-pill {\n      background: rgba(2, 44, 34, 0.8);\n      border: 1px solid rgba(16, 185, 129, 0.3);\n      padding: 4px 12px;\n      border-radius: 8px;\n      font-size: 11px;\n      font-weight: 600;\n      color: #6ee7b7;\n    }\n    .container {\n      max-width: 900px;\n      margin: 0 auto;\n      padding: 32px 20px 80px;\n    }\n    .section-title {\n      font-size: 18px;\n      font-weight: 800;\n      color: #ffffff;\n      margin-bottom: 6px;\n      display: flex;\n      align-items: center;\n      gap: 8px;\n    }\n    .section-desc {\n      font-size: 13px;\n      color: #94a3b8;\n      margin-bottom: 20px;\n    }\n    .portal-grid {\n      display: grid;\n      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n      gap: 16px;\n      margin-bottom: 36px;\n    }\n    .portal-card {\n      background: #064e3b;\n      border: 1px solid rgba(16, 185, 129, 0.3);\n      border-radius: 16px;\n      padding: 20px;\n      text-decoration: none;\n      color: inherit;\n      transition: all 0.2s ease;\n      display: flex;\n      flex-direction: column;\n      position: relative;\n    }\n    .portal-card:hover {\n      transform: translateY(-3px);\n      border-color: #f59e0b;\n      box-shadow: 0 10px 24px -6px rgba(0,0,0,0.5);\n      background: #075944;\n    }\n    .card-icon {\n      width: 42px;\n      height: 42px;\n      border-radius: 12px;\n      background: rgba(245, 158, 11, 0.15);\n      color: #f59e0b;\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      font-size: 20px;\n      margin-bottom: 12px;\n      border: 1px solid rgba(245, 158, 11, 0.3);\n    }\n    .card-title {\n      font-size: 15px;\n      font-weight: 700;\n      color: #ffffff;\n      margin-bottom: 4px;\n    }\n    .card-desc {\n      font-size: 12px;\n      color: #a7f3d0;\n      line-height: 1.4;\n      flex-grow: 1;\n    }\n    .card-badge {\n      display: inline-block;\n      align-self: flex-start;\n      margin-top: 12px;\n      font-size: 10px;\n      font-weight: 700;\n      color: #fef08a;\n      background: rgba(245, 158, 11, 0.2);\n      padding: 3px 8px;\n      border-radius: 6px;\n    }\n    .info-box {\n      background: #03392a;\n      border: 1px solid rgba(16, 185, 129, 0.25);\n      border-radius: 16px;\n      padding: 24px;\n      margin-bottom: 32px;\n    }\n    .info-grid {\n      display: grid;\n      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n      gap: 16px;\n      margin-top: 14px;\n    }\n    .info-item {\n      font-size: 13px;\n    }\n    .info-label {\n      color: #6ee7b7;\n      font-weight: 700;\n      font-size: 11px;\n      text-transform: uppercase;\n      letter-spacing: 0.5px;\n      margin-bottom: 2px;\n    }\n    .info-val {\n      color: #ffffff;\n      font-weight: 500;\n    }\n    .sticky-footer {\n      position: fixed;\n      bottom: 0;\n      left: 0;\n      right: 0;\n      background: rgba(2, 44, 34, 0.95);\n      backdrop-filter: blur(12px);\n      border-top: 1px solid rgba(245, 158, 11, 0.3);\n      padding: 8px 16px;\n      display: flex;\n      justify-content: center;\n      gap: 12px;\n      z-index: 50;\n    }\n    .footer-btn {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      text-decoration: none;\n      color: #cbd5e1;\n      font-size: 10px;\n      font-weight: 700;\n      padding: 4px 10px;\n      border-radius: 8px;\n      transition: all 0.15s ease;\n    }\n    .footer-btn:hover {\n      color: #f59e0b;\n      background: rgba(6, 78, 59, 0.6);\n    }\n    .footer-btn span.emoji {\n      font-size: 16px;\n      margin-bottom: 2px;\n    }\n  </style>\n</head>\n<body>\n  <header class=\"hero-bg\">\n    <div class=\"badge-top\">\n      <span>⭐ Lembaga Pendidikan Ma'arif NU</span>\n    </div>\n    <div class=\"arabic-bismillah\">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>\n    <h1 class=\"school-title\">MI MA'ARIF NU TIPAR</h1>\n    <p class=\"school-subtitle\">Menyemai Karakter Qur'ani, Berakhlakul Karimah, Unggul dalam Ilmu Pengetahuan &amp; Berprestasi.</p>\n    \n    <div class=\"meta-pills\">\n      <div class=\"meta-pill\">🏛️ NPSN: 60710298</div>\n      <div class=\"meta-pill\">📜 NSM: 111233020095</div>\n      <div class=\"meta-pill\">✅ Akreditasi A (Unggul)</div>\n      <div class=\"meta-pill\">🌐 mimaarifnutipar.biz.id</div>\n    </div>\n  </header>\n\n  <main class=\"container\">\n    <h2 class=\"section-title\">🚀 Layanan &amp; Aplikasi Terintegrasi</h2>\n    <p class=\"section-desc\">Pilih aplikasi pendidikan digital resmi madrasah di bawah ini:</p>\n\n    <div class=\"portal-grid\">\n      <a href=\"https://siakad-madrasah.mimaarifnutipar.biz.id\" class=\"portal-card\">\n        <div class=\"card-icon\">🏫</div>\n        <div class=\"card-title\">Si@Kad Madrasah</div>\n        <div class=\"card-desc\">Sistem Informasi Akademik, Buku Induk Siswa, Rapor Digital, &amp; Manajemen Nilai Terpadu.</div>\n        <span class=\"card-badge\">Buka Si@Kad →</span>\n      </a>\n\n      <a href=\"https://absensi-gtk.mimaarifnutipar.biz.id\" class=\"portal-card\">\n        <div class=\"card-icon\">⏰</div>\n        <div class=\"card-title\">Absensi GTK &amp; Siswa</div>\n        <div class=\"card-desc\">Presensi digital harian Guru, Tenaga Kependidikan, dan Peserta Didik berbasis geolokasi &amp; QR.</div>\n        <span class=\"card-badge\">Buka Absensi →</span>\n      </a>\n\n      <a href=\"https://modul-ajar.mimaarifnutipar.biz.id\" class=\"portal-card\">\n        <div class=\"card-icon\">📚</div>\n        <div class=\"card-title\">Modul Ajar KBC</div>\n        <div class=\"card-desc\">Perangkat pembelajaran kurikulum merdeka, materi ajar tematik, dan bank soal madrasah.</div>\n        <span class=\"card-badge\">Akses Modul →</span>\n      </a>\n\n      <a href=\"https://kartu-pelajar.mimaarifnutipar.biz.id\" class=\"portal-card\">\n        <div class=\"card-icon\">📇</div>\n        <div class=\"card-title\">Kartu Pelajar Digital</div>\n        <div class=\"card-desc\">Generator &amp; verifikasi kartu tanda pelajar digital dengan barcode resmi madrasah.</div>\n        <span class=\"card-badge\">Lihat Kartu →</span>\n      </a>\n\n      <a href=\"https://cbt.mimaarifnutipar.biz.id\" class=\"portal-card\">\n        <div class=\"card-icon\">📝</div>\n        <div class=\"card-title\">CBT Asesmen Ujian</div>\n        <div class=\"card-desc\">Pelaksanaan Asesmen Madrasah (AM), Penilaian Akhir Semester, dan tryout berbasis komputer.</div>\n        <span class=\"card-badge\">Masuk CBT →</span>\n      </a>\n\n      <a href=\"https://rdm.mimaarifnutipar.biz.id\" class=\"portal-card\">\n        <div class=\"card-icon\">📖</div>\n        <div class=\"card-title\">RDM (Rapor Kemenag)</div>\n        <div class=\"card-desc\">Sinkronisasi Rapor Digital Madrasah Kementerian Agama Republik Indonesia.</div>\n        <span class=\"card-badge\">Portal RDM →</span>\n      </a>\n    </div>\n\n    <div class=\"info-box\">\n      <h3 style=\"font-size:16px;font-weight:700;color:#ffffff;margin-bottom:6px;\">📍 Informasi Lembaga &amp; Kontak Madrasah</h3>\n      <div class=\"info-grid\">\n        <div class=\"info-item\">\n          <div class=\"info-label\">Alamat Lembaga</div>\n          <div class=\"info-val\">Jl. Pesantren No. 05 Tipar, Kec. Rawalo, Kab. Banyumas, Jawa Tengah</div>\n        </div>\n        <div class=\"info-item\">\n          <div class=\"info-label\">Email Resmi</div>\n          <div class=\"info-val\">mimaarifnutipar@gmail.com</div>\n        </div>\n        <div class=\"info-item\">\n          <div class=\"info-label\">WhatsApp Pelayanan</div>\n          <div class=\"info-val\">+62 812-2673-8883</div>\n        </div>\n        <div class=\"info-item\">\n          <div class=\"info-label\">Status Server Cloud</div>\n          <div class=\"info-val\" style=\"color:#34d399;\">● Online &amp; Terproteksi SSL</div>\n        </div>\n      </div>\n    </div>\n  </main>\n\n  <nav class=\"sticky-footer\">\n    <a href=\"#\" class=\"footer-btn\">\n      <span class=\"emoji\">🏠</span>\n      <span>Beranda</span>\n    </a>\n    <a href=\"https://siakad-madrasah.mimaarifnutipar.biz.id\" class=\"footer-btn\">\n      <span class=\"emoji\">🏫</span>\n      <span>Si@Kad</span>\n    </a>\n    <a href=\"https://absensi-gtk.mimaarifnutipar.biz.id\" class=\"footer-btn\">\n      <span class=\"emoji\">⏰</span>\n      <span>Absensi</span>\n    </a>\n    <a href=\"https://modul-ajar.mimaarifnutipar.biz.id\" class=\"footer-btn\">\n      <span class=\"emoji\">📚</span>\n      <span>Modul Ajar</span>\n    </a>\n    <a href=\"https://kartu-pelajar.mimaarifnutipar.biz.id\" class=\"footer-btn\">\n      <span class=\"emoji\">📇</span>\n      <span>Kartu Siswa</span>\n    </a>\n  </nav>\n</body>\n</html>",
+      "updatedAt": "2026-10-06T09:58:46.000Z"
     }
   ],
   "dnsRecords": [
@@ -10263,6 +10277,266 @@
       "createdAt": "2026-09-29T08:00:00Z"
     },
     {
+      "id": "dom-denbaguse-sub-siakad-madrasah",
+      "accountId": "acc-denbaguse-01",
+      "domain": "siakad-madrasah.denbaguse.my.id",
+      "type": "subdomain",
+      "parentDomain": "denbaguse.my.id",
+      "subdomainPrefix": "siakad-madrasah",
+      "documentRoot": "/public_html/siakad-madrasah",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-09-29T10:00:00Z"
+    },
+    {
+      "id": "dom-denbaguse-sub-absensi-gtk",
+      "accountId": "acc-denbaguse-01",
+      "domain": "absensi-gtk.denbaguse.my.id",
+      "type": "subdomain",
+      "parentDomain": "denbaguse.my.id",
+      "subdomainPrefix": "absensi-gtk",
+      "documentRoot": "/public_html/absensi-gtk",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-09-29T10:00:00Z"
+    },
+    {
+      "id": "dom-denbaguse-sub-modul-ajar",
+      "accountId": "acc-denbaguse-01",
+      "domain": "modul-ajar.denbaguse.my.id",
+      "type": "subdomain",
+      "parentDomain": "denbaguse.my.id",
+      "subdomainPrefix": "modul-ajar",
+      "documentRoot": "/public_html/modul-ajar",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-09-29T10:00:00Z"
+    },
+    {
+      "id": "dom-denbaguse-sub-kartu-pelajar",
+      "accountId": "acc-denbaguse-01",
+      "domain": "kartu-pelajar.denbaguse.my.id",
+      "type": "subdomain",
+      "parentDomain": "denbaguse.my.id",
+      "subdomainPrefix": "kartu-pelajar",
+      "documentRoot": "/public_html/kartu-pelajar",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-09-29T10:00:00Z"
+    },
+    {
+      "id": "dom-denbaguse-sub-cbt",
+      "accountId": "acc-denbaguse-01",
+      "domain": "cbt.denbaguse.my.id",
+      "type": "subdomain",
+      "parentDomain": "denbaguse.my.id",
+      "subdomainPrefix": "cbt",
+      "documentRoot": "/public_html/cbt",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-09-29T10:00:00Z"
+    },
+    {
+      "id": "dom-denbaguse-sub-rdm",
+      "accountId": "acc-denbaguse-01",
+      "domain": "rdm.denbaguse.my.id",
+      "type": "subdomain",
+      "parentDomain": "denbaguse.my.id",
+      "subdomainPrefix": "rdm",
+      "documentRoot": "/public_html/rdm",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-09-29T10:00:00Z"
+    },
+    {
+      "id": "dom-denbaguse-sub-elearning",
+      "accountId": "acc-denbaguse-01",
+      "domain": "elearning.denbaguse.my.id",
+      "type": "subdomain",
+      "parentDomain": "denbaguse.my.id",
+      "subdomainPrefix": "elearning",
+      "documentRoot": "/public_html/elearning",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-09-29T10:15:00Z"
+    },
+    {
+      "id": "dom-denbaguse-sub-adm",
+      "accountId": "acc-denbaguse-01",
+      "domain": "adm-madrasah.denbaguse.my.id",
+      "type": "subdomain",
+      "parentDomain": "denbaguse.my.id",
+      "subdomainPrefix": "adm-madrasah",
+      "documentRoot": "/public_html/adm-madrasah",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-04T02:10:00Z"
+    },
+    {
+      "id": "dom-primary-acc-mimaarifnuti-58fx",
+      "accountId": "acc-mimaarifnuti-58fx",
+      "domain": "mimaarifnutipar.biz.id",
+      "type": "primary",
+      "documentRoot": "/home/mimaarifnuti/public_html",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:18:20.044Z"
+    },
+    {
+      "id": "dom-mimaarif-sub-siakad-madrasah",
+      "accountId": "acc-mimaarifnuti-58fx",
+      "domain": "siakad-madrasah.mimaarifnutipar.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimaarifnutipar.biz.id",
+      "subdomainPrefix": "siakad-madrasah",
+      "documentRoot": "/public_html/siakad-madrasah",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:18:20.044Z"
+    },
+    {
+      "id": "dom-mimaarif-sub-absensi-gtk",
+      "accountId": "acc-mimaarifnuti-58fx",
+      "domain": "absensi-gtk.mimaarifnutipar.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimaarifnutipar.biz.id",
+      "subdomainPrefix": "absensi-gtk",
+      "documentRoot": "/public_html/absensi-gtk",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:18:20.044Z"
+    },
+    {
+      "id": "dom-mimaarif-sub-modul-ajar",
+      "accountId": "acc-mimaarifnuti-58fx",
+      "domain": "modul-ajar.mimaarifnutipar.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimaarifnutipar.biz.id",
+      "subdomainPrefix": "modul-ajar",
+      "documentRoot": "/public_html/modul-ajar",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:18:20.044Z"
+    },
+    {
+      "id": "dom-mimaarif-sub-kartu-pelajar",
+      "accountId": "acc-mimaarifnuti-58fx",
+      "domain": "kartu-pelajar.mimaarifnutipar.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimaarifnutipar.biz.id",
+      "subdomainPrefix": "kartu-pelajar",
+      "documentRoot": "/public_html/kartu-pelajar",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:18:20.044Z"
+    },
+    {
+      "id": "dom-mimaarif-sub-cbt",
+      "accountId": "acc-mimaarifnuti-58fx",
+      "domain": "cbt.mimaarifnutipar.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimaarifnutipar.biz.id",
+      "subdomainPrefix": "cbt",
+      "documentRoot": "/public_html/cbt",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:18:20.044Z"
+    },
+    {
+      "id": "dom-mimaarif-sub-rdm",
+      "accountId": "acc-mimaarifnuti-58fx",
+      "domain": "rdm.mimaarifnutipar.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimaarifnutipar.biz.id",
+      "subdomainPrefix": "rdm",
+      "documentRoot": "/public_html/rdm",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:18:20.044Z"
+    },
+    {
+      "id": "dom-primary-acc-mimanu02kali-9k3p",
+      "accountId": "acc-mimanu02kali-9k3p",
+      "domain": "mimanu02kaliwedi.biz.id",
+      "type": "primary",
+      "documentRoot": "/home/mimanu02kali/public_html",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:19:28.548Z"
+    },
+    {
+      "id": "dom-mimanu-sub-siakad-madrasah",
+      "accountId": "acc-mimanu02kali-9k3p",
+      "domain": "siakad-madrasah.mimanu02kaliwedi.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimanu02kaliwedi.biz.id",
+      "subdomainPrefix": "siakad-madrasah",
+      "documentRoot": "/public_html/siakad-madrasah",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:19:28.548Z"
+    },
+    {
+      "id": "dom-mimanu-sub-absensi-gtk",
+      "accountId": "acc-mimanu02kali-9k3p",
+      "domain": "absensi-gtk.mimanu02kaliwedi.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimanu02kaliwedi.biz.id",
+      "subdomainPrefix": "absensi-gtk",
+      "documentRoot": "/public_html/absensi-gtk",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:19:28.548Z"
+    },
+    {
+      "id": "dom-mimanu-sub-modul-ajar",
+      "accountId": "acc-mimanu02kali-9k3p",
+      "domain": "modul-ajar.mimanu02kaliwedi.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimanu02kaliwedi.biz.id",
+      "subdomainPrefix": "modul-ajar",
+      "documentRoot": "/public_html/modul-ajar",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:19:28.548Z"
+    },
+    {
+      "id": "dom-mimanu-sub-kartu-pelajar",
+      "accountId": "acc-mimanu02kali-9k3p",
+      "domain": "kartu-pelajar.mimanu02kaliwedi.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimanu02kaliwedi.biz.id",
+      "subdomainPrefix": "kartu-pelajar",
+      "documentRoot": "/public_html/kartu-pelajar",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:19:28.548Z"
+    },
+    {
+      "id": "dom-mimanu-sub-cbt",
+      "accountId": "acc-mimanu02kali-9k3p",
+      "domain": "cbt.mimanu02kaliwedi.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimanu02kaliwedi.biz.id",
+      "subdomainPrefix": "cbt",
+      "documentRoot": "/public_html/cbt",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:19:28.548Z"
+    },
+    {
+      "id": "dom-mimanu-sub-rdm",
+      "accountId": "acc-mimanu02kali-9k3p",
+      "domain": "rdm.mimanu02kaliwedi.biz.id",
+      "type": "subdomain",
+      "parentDomain": "mimanu02kaliwedi.biz.id",
+      "subdomainPrefix": "rdm",
+      "documentRoot": "/public_html/rdm",
+      "phpVersion": "8.2",
+      "sslStatus": "active",
+      "createdAt": "2026-10-02T12:19:28.548Z"
+    },
+    {
       "id": "dom-1790860281257-amam",
       "accountId": "acc-denbaguse-01",
       "domain": "siakad-madrasah.denbaguse.my.id",
@@ -10487,29 +10761,9 @@
       "sslStatus": "active",
       "createdAt": "2026-10-02T12:50:19.689Z",
       "_updatedAt": 1790945419689
-    },
-    {
-      "id": "dom-primary-acc-mimaarifnuti-58fx",
-      "accountId": "acc-mimaarifnuti-58fx",
-      "domain": "mimaarifnutipar.biz.id",
-      "type": "primary",
-      "documentRoot": "/home/mimaarifnuti/public_html",
-      "phpVersion": "8.2",
-      "sslStatus": "active",
-      "createdAt": "2026-10-02T12:18:20.044Z"
-    },
-    {
-      "id": "dom-primary-acc-mimanu02kali-9k3p",
-      "accountId": "acc-mimanu02kali-9k3p",
-      "domain": "mimanu02kaliwedi.biz.id",
-      "type": "primary",
-      "documentRoot": "/home/mimanu02kali/public_html",
-      "phpVersion": "8.2",
-      "sslStatus": "active",
-      "createdAt": "2026-10-02T12:19:28.548Z"
     }
   ],
-  "stateUpdatedAt": 1791279692185,
+  "stateUpdatedAt": 1791281723206,
   "deletedIds": [
     "inv-auto-1790932309706-6iij",
     "inv-auto-1790932309508-mu24",

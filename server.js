@@ -2124,6 +2124,16 @@ function resolveHostDocRoot(rawHost) {
     return normalizePath(info.explicitSub.documentRoot);
   }
   if (!info.isSubdomain) {
+    const candidatePrimaryDirs = [
+      `/public_html/domains/${info.cleanHost}`,
+      `/public_html/${info.cleanHost}`
+    ];
+    for (const cand of candidatePrimaryDirs) {
+      const rel = cand.replace(/^\//, "");
+      if (fs.existsSync(path.join(process.cwd(), rel)) || fs.existsSync(path.join(HOME_VAULT_DIR, rel))) {
+        return cand;
+      }
+    }
     return "/public_html";
   }
   const candidateSubDirs = [
@@ -2462,10 +2472,20 @@ function renderVirtualHostResponse(hostHeader, reqPath, forceAccountAndDir) {
     );
     const diskFound = readDiskFileInDocRoot(rootDir, rel);
     if (diskFound?.content && (!memFound || !memFound.content || memFound.id === "vf-personal-html" || memFound.content.includes("Selamat Datang di Portal Pribadi Den Baguse"))) {
-      return diskFound;
+      const isDenbaguseDisk = diskFound.content.includes("Jaenal Maskun") || diskFound.content.includes("Den Baguse");
+      const isClientAccount = matchedAccount && matchedAccount.primaryDomain !== "denbaguse.my.id" && matchedAccount.primaryDomain !== "karsacloud.biz.id";
+      if (!isClientAccount || !isDenbaguseDisk) {
+        return diskFound;
+      }
     }
     if (memFound) return memFound;
-    if (diskFound) return diskFound;
+    if (diskFound) {
+      const isDenbaguseDisk = Boolean(diskFound.content && (diskFound.content.includes("Jaenal Maskun") || diskFound.content.includes("Den Baguse")));
+      const isClientAccount = matchedAccount && matchedAccount.primaryDomain !== "denbaguse.my.id" && matchedAccount.primaryDomain !== "karsacloud.biz.id";
+      if (!isClientAccount || !isDenbaguseDisk) {
+        return diskFound;
+      }
+    }
     if (rel === "/index.html" || rel.endsWith("/") || rel === "") {
       const subRelDir = rel === "/index.html" || rel === "/" || rel === "" ? "" : rel.replace(/\/+$/, "");
       const candidates = [
@@ -2842,6 +2862,15 @@ ${cssFile.content}
       }
       return fullMatch;
     });
+    if (cleanHost !== "denbaguse.my.id" && !cleanHost.endsWith(".denbaguse.my.id")) {
+      const targetHostDomain = hostInfo.isSubdomain ? cleanHost : matchedAccount?.primaryDomain || cleanHost;
+      const targetParentDomain = hostInfo.parentDomain || matchedAccount?.primaryDomain || cleanHost;
+      body = body.replace(/https:\/\/siakad-madrasah\.denbaguse\.my\.id\/?/g, `https://${targetHostDomain}/`).replace(/siakad-madrasah\.denbaguse\.my\.id/g, targetHostDomain).replace(/https:\/\/denbaguse\.my\.id\/?/g, `https://${targetParentDomain}/`).replace(/https:\/\/jaenalmaskun\.biz\.id\/?/g, `https://${targetParentDomain}/`);
+      if (matchedAccount && matchedAccount.customerName && targetHostDomain.includes("siakad")) {
+        const clientSchool = matchedAccount.customerName;
+        body = body.replace(/SIAKAD MIMA 2 Sanggreman/g, `SIAKAD ${clientSchool}`);
+      }
+    }
     const baseMatch = body.match(/<base\s+href=["'](https?:\/\/[^/"']+)[^"']*["']/i) || body.match(/data-cloned-origin=["'](https?:\/\/[^/"']+)["']/i) || body.match(/var\s+ORIGIN\s*=\s*["'](https?:\/\/[^/"']+)["']/i);
     if (baseMatch && baseMatch[1]) {
       const originBase = baseMatch[1].replace(/\/$/, "");

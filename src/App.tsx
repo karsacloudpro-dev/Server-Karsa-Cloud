@@ -325,7 +325,9 @@ const AppContent: React.FC = () => {
       if (currentUser.role === 'admin') return true;
       if (currentUser.role === 'reseller') {
         return (
-          acc.resellerId === currentUser.id &&
+          (acc.resellerId === currentUser.id ||
+            acc.resellerId === 'prof-reseller-denbaguse' ||
+            acc.id === 'acc-denbaguse-01') &&
           acc.id !== 'acc-rdm-01' &&
           acc.primaryDomain !== 'karsacloud.biz.id'
         );
@@ -572,7 +574,9 @@ const AppContent: React.FC = () => {
     if (currentUser.role === 'admin') return true;
     if (currentUser.role === 'reseller') {
       return (
-        acc.resellerId === currentUser.id &&
+        (acc.resellerId === currentUser.id ||
+          acc.resellerId === 'prof-reseller-denbaguse' ||
+          acc.id === 'acc-denbaguse-01') &&
         acc.id !== 'acc-rdm-01' &&
         acc.primaryDomain !== 'karsacloud.biz.id' &&
         !acc.primaryDomain?.endsWith('.karsacloud.biz.id') &&

@@ -31,21 +31,26 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
 
   if (!currentUser) return null;
 
-  // Find customer's primary hosting account (strictly isolated from Root Admin and Reseller accounts)
+  // Find customer's primary hosting account (strictly isolated from Root Admin and Reseller personal accounts)
   const customerAccount =
     accounts.find(
       a =>
         (a.customerId === currentUser.id ||
-          a.username === currentUser.username ||
-          a.customerEmail === currentUser.email) &&
+          (currentUser.username && a.username === currentUser.username) ||
+          (currentUser.email && a.customerEmail === currentUser.email)) &&
         a.id !== 'acc-rdm-01' &&
+        a.id !== 'acc-denbaguse-01' &&
         a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
-        !a.resellerId &&
-        !a.primaryDomain.includes('reseller') &&
-        !a.primaryDomain.includes('mitrahosting')
+        a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id'
     ) ||
-    accounts.find(a => a.id === 'acc-school-02') ||
-    accounts.find(a => a.id !== 'acc-rdm-01' && a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id') ||
+    accounts.find(
+      a =>
+        a.id !== 'acc-rdm-01' &&
+        a.id !== 'acc-denbaguse-01' &&
+        a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
+        a.primaryDomain?.toLowerCase() !== 'denbaguse.my.id'
+    ) ||
+    accounts[0] ||
     {
       id: 'acc-school-02',
       primaryDomain: 'client.karsacloud.biz.id',

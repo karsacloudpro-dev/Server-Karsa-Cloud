@@ -134,7 +134,10 @@ export const ResellerDashboard: React.FC<ResellerDashboardProps> = ({
   // Filter accounts belonging to this reseller (excluding root server account)
   const resellerAccounts = accounts.filter(
     a =>
-      a.resellerId === currentUser.id &&
+      (a.resellerId === currentUser.id ||
+        a.resellerId === currentResellerProfile?.id ||
+        a.resellerId === 'prof-reseller-denbaguse' ||
+        a.id === 'acc-denbaguse-01') &&
       a.id !== 'acc-rdm-01' &&
       a.primaryDomain.toLowerCase() !== 'karsacloud.biz.id'
   );

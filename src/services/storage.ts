@@ -1420,6 +1420,172 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Ro
       sslStatus: 'active',
       createdAt: '2026-10-04T02:15:00Z',
     },
+    // MI MAARIF NU TIPAR
+    {
+      id: 'dom-primary-acc-mimaarifnuti-58fx',
+      accountId: 'acc-mimaarifnuti-58fx',
+      domain: 'mimaarifnutipar.biz.id',
+      type: 'primary',
+      documentRoot: '/public_html/domains/mimaarifnutipar.biz.id',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:18:20.044Z',
+    },
+    {
+      id: 'dom-mimaarif-sub-siakad',
+      accountId: 'acc-mimaarifnuti-58fx',
+      domain: 'siakad-madrasah.mimaarifnutipar.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimaarifnutipar.biz.id',
+      subdomainPrefix: 'siakad-madrasah',
+      documentRoot: '/public_html/siakad-madrasah',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:18:20.044Z',
+    },
+    {
+      id: 'dom-mimaarif-sub-absensi',
+      accountId: 'acc-mimaarifnuti-58fx',
+      domain: 'absensi-gtk.mimaarifnutipar.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimaarifnutipar.biz.id',
+      subdomainPrefix: 'absensi-gtk',
+      documentRoot: '/public_html/absensi-gtk',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:18:20.044Z',
+    },
+    {
+      id: 'dom-mimaarif-sub-modul',
+      accountId: 'acc-mimaarifnuti-58fx',
+      domain: 'modul-ajar.mimaarifnutipar.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimaarifnutipar.biz.id',
+      subdomainPrefix: 'modul-ajar',
+      documentRoot: '/public_html/modul-ajar',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:18:20.044Z',
+    },
+    {
+      id: 'dom-mimaarif-sub-kartu',
+      accountId: 'acc-mimaarifnuti-58fx',
+      domain: 'kartu-pelajar.mimaarifnutipar.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimaarifnutipar.biz.id',
+      subdomainPrefix: 'kartu-pelajar',
+      documentRoot: '/public_html/kartu-pelajar',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:18:20.044Z',
+    },
+    {
+      id: 'dom-mimaarif-sub-cbt',
+      accountId: 'acc-mimaarifnuti-58fx',
+      domain: 'cbt.mimaarifnutipar.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimaarifnutipar.biz.id',
+      subdomainPrefix: 'cbt',
+      documentRoot: '/public_html/cbt',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:18:20.044Z',
+    },
+    {
+      id: 'dom-mimaarif-sub-rdm',
+      accountId: 'acc-mimaarifnuti-58fx',
+      domain: 'rdm.mimaarifnutipar.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimaarifnutipar.biz.id',
+      subdomainPrefix: 'rdm',
+      documentRoot: '/public_html/rdm',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:18:20.044Z',
+    },
+    // MI MAARIF NU 2 KALIWEDI
+    {
+      id: 'dom-primary-acc-mimanu02kali-9k3p',
+      accountId: 'acc-mimanu02kali-9k3p',
+      domain: 'mimanu02kaliwedi.biz.id',
+      type: 'primary',
+      documentRoot: '/public_html/domains/mimanu02kaliwedi.biz.id',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:19:28.548Z',
+    },
+    {
+      id: 'dom-mimanu-sub-siakad',
+      accountId: 'acc-mimanu02kali-9k3p',
+      domain: 'siakad-madrasah.mimanu02kaliwedi.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimanu02kaliwedi.biz.id',
+      subdomainPrefix: 'siakad-madrasah',
+      documentRoot: '/public_html/siakad-madrasah',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:19:28.548Z',
+    },
+    {
+      id: 'dom-mimanu-sub-absensi',
+      accountId: 'acc-mimanu02kali-9k3p',
+      domain: 'absensi-gtk.mimanu02kaliwedi.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimanu02kaliwedi.biz.id',
+      subdomainPrefix: 'absensi-gtk',
+      documentRoot: '/public_html/absensi-gtk',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:19:28.548Z',
+    },
+    {
+      id: 'dom-mimanu-sub-modul',
+      accountId: 'acc-mimanu02kali-9k3p',
+      domain: 'modul-ajar.mimanu02kaliwedi.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimanu02kaliwedi.biz.id',
+      subdomainPrefix: 'modul-ajar',
+      documentRoot: '/public_html/modul-ajar',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:19:28.548Z',
+    },
+    {
+      id: 'dom-mimanu-sub-kartu',
+      accountId: 'acc-mimanu02kali-9k3p',
+      domain: 'kartu-pelajar.mimanu02kaliwedi.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimanu02kaliwedi.biz.id',
+      subdomainPrefix: 'kartu-pelajar',
+      documentRoot: '/public_html/kartu-pelajar',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:19:28.548Z',
+    },
+    {
+      id: 'dom-mimanu-sub-cbt',
+      accountId: 'acc-mimanu02kali-9k3p',
+      domain: 'cbt.mimanu02kaliwedi.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimanu02kaliwedi.biz.id',
+      subdomainPrefix: 'cbt',
+      documentRoot: '/public_html/cbt',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:19:28.548Z',
+    },
+    {
+      id: 'dom-mimanu-sub-rdm',
+      accountId: 'acc-mimanu02kali-9k3p',
+      domain: 'rdm.mimanu02kaliwedi.biz.id',
+      type: 'subdomain',
+      parentDomain: 'mimanu02kaliwedi.biz.id',
+      subdomainPrefix: 'rdm',
+      documentRoot: '/public_html/rdm',
+      phpVersion: '8.2',
+      sslStatus: 'active',
+      createdAt: '2026-10-02T12:19:28.548Z',
+    },
     {
       id: 'dom-primary-02',
       accountId: 'acc-school-02',
@@ -1695,30 +1861,17 @@ class StorageService {
             };
           }
 
-          // Strictly enforce that all educational & reseller subdomains belong under denbaguse.my.id, never karsacloud.biz.id
-          const denbagusePrefixes = [
-            'siakad-madrasah',
-            'rdm',
-            'cbt',
-            'elearning',
-            'kartu-pelajar',
-            'absensi-gtk',
-            'adm-madrasah',
-            'modul-ajar',
-            'panel',
-          ];
-          const matchedPrefix = denbagusePrefixes.find(
-            pfx => d.subdomainPrefix === pfx || d.domain.startsWith(`${pfx}.`)
-          );
-
-          if (matchedPrefix) {
+          // Ensure subdomains belong to their owner account's primary domain
+          if (d.type === 'subdomain') {
+            const ownerAcc = loadedAccounts.find(a => a.id === d.accountId);
+            const ownerPrimary = (ownerAcc?.primaryDomain || d.parentDomain || 'denbaguse.my.id').toLowerCase();
+            const prefix = d.subdomainPrefix || d.domain.split('.')[0];
             return {
               ...d,
-              accountId: 'acc-denbaguse-01',
-              domain: `${matchedPrefix}.denbaguse.my.id`,
-              parentDomain: 'denbaguse.my.id',
-              subdomainPrefix: matchedPrefix,
-              documentRoot: matchedPrefix === 'panel' ? '/public_html' : `/public_html/${matchedPrefix}`,
+              domain: `${prefix}.${ownerPrimary}`,
+              parentDomain: ownerPrimary,
+              subdomainPrefix: prefix,
+              documentRoot: prefix === 'panel' ? '/public_html' : (d.documentRoot || `/public_html/${prefix}`),
             };
           }
 
@@ -3252,32 +3405,23 @@ class StorageService {
         stateChanged = true;
       }
 
-      // Strictly enforce that reseller subdomains belong under denbaguse.my.id, never karsacloud.biz.id
-      const denbagusePrefixes = [
-        'siakad-madrasah',
-        'rdm',
-        'cbt',
-        'elearning',
-        'kartu-pelajar',
-        'absensi-gtk',
-        'adm-madrasah',
-        'modul-ajar',
-        'panel',
-      ];
-      const matchedPrefix = denbagusePrefixes.find(
-        pfx => current.subdomainPrefix === pfx || current.domain.startsWith(`${pfx}.`)
-      );
-
-      if (matchedPrefix && (current.parentDomain !== 'denbaguse.my.id' || current.accountId !== 'acc-denbaguse-01' || current.domain.endsWith('.karsacloud.biz.id'))) {
-        current = {
-          ...current,
-          accountId: 'acc-denbaguse-01',
-          domain: `${matchedPrefix}.denbaguse.my.id`,
-          parentDomain: 'denbaguse.my.id',
-          subdomainPrefix: matchedPrefix,
-          documentRoot: matchedPrefix === 'panel' ? '/public_html' : `/public_html/${matchedPrefix}`,
-        };
-        stateChanged = true;
+      // Ensure subdomains dynamically match their owner account's primary domain
+      if (current.type === 'subdomain') {
+        const ownerAcc = this.state.hostingAccounts.find(a => a.id === current.accountId);
+        if (ownerAcc) {
+          const expectedParent = ownerAcc.primaryDomain.toLowerCase();
+          const prefix = current.subdomainPrefix || current.domain.split('.')[0];
+          const expectedFull = `${prefix}.${expectedParent}`;
+          if (current.domain !== expectedFull || current.parentDomain !== expectedParent) {
+            current = {
+              ...current,
+              domain: expectedFull,
+              parentDomain: expectedParent,
+              subdomainPrefix: prefix,
+            };
+            stateChanged = true;
+          }
+        }
       }
 
       // If this domain's accountId no longer exists, either adopt it to a matching account by parentDomain or drop it

@@ -62,12 +62,10 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
     }
     if (currentUser.role === 'reseller') {
       return (
-        acc.primaryDomain.toLowerCase() === resellerBrandDomain ||
-        acc.primaryDomain.toLowerCase() === 'denbaguse.my.id' ||
         acc.id === `acc-own-${currentUser.id}` ||
         acc.id === 'acc-denbaguse-01' ||
         (acc.resellerId === currentUser.id && acc.customerId === currentUser.id) ||
-        (Boolean(currentResellerProfile) && acc.resellerId === currentResellerProfile?.id)
+        (acc.primaryDomain.toLowerCase() === resellerBrandDomain && acc.customerId === currentUser.id)
       );
     }
     return acc.customerId === currentUser.id;
@@ -83,12 +81,8 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
         a =>
           a.id === `acc-own-${currentUser.id}` ||
           a.id === 'acc-denbaguse-01' ||
-          a.primaryDomain.toLowerCase() === resellerBrandDomain ||
-          a.primaryDomain.toLowerCase() === 'denbaguse.my.id' ||
-          (a.resellerId === currentUser.id &&
-            (a.customerId === currentUser.id ||
-              a.primaryDomain.toLowerCase() === resellerBrandDomain)) ||
-          (Boolean(currentResellerProfile) && a.resellerId === currentResellerProfile?.id)
+          (a.resellerId === currentUser.id && a.customerId === currentUser.id) ||
+          (a.primaryDomain.toLowerCase() === resellerBrandDomain && a.customerId === currentUser.id)
       );
       const expectedCustomerName = currentResellerProfile?.brandName
         ? `${currentUser.name} (${currentResellerProfile.brandName})`
