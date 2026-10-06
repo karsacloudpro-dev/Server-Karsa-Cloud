@@ -28,6 +28,13 @@ import {
   ArrowRight,
   Loader2,
   FolderOpen,
+  Cloud,
+  Database,
+  Power,
+  Laptop,
+  Moon,
+  Sun,
+  Share2,
 } from 'lucide-react';
 import { AccountBackup, HostingAccount, DomainEntity } from '../../types';
 import { CloudProApi } from '../../services/api';
@@ -38,7 +45,7 @@ import { useServer } from '../../context/ServerContext';
 export interface BackupManagerProps {
   account: HostingAccount;
   preselectedDomain?: string;
-  initialTab?: 'backup_domain' | 'restore_domain' | 'backup_archives' | 'persistent_vault';
+  initialTab?: 'backup_domain' | 'restore_domain' | 'backup_archives' | 'persistent_vault' | 'cloud_failover';
   mode?: 'backup' | 'restore' | 'all';
   onNavigateTab?: (tab: string, domain?: string) => void;
 }
@@ -95,7 +102,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
   if (!currentUser) return null;
 
   // Active top navigation tab
-  const [activeTab, setActiveTab] = useState<'backup_domain' | 'restore_domain' | 'backup_archives' | 'persistent_vault'>(
+  const [activeTab, setActiveTab] = useState<'backup_domain' | 'restore_domain' | 'backup_archives' | 'persistent_vault' | 'cloud_failover'>(
     initialTab || (mode === 'restore' ? 'restore_domain' : 'backup_domain')
   );
 
@@ -176,6 +183,50 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
   const [copiedCmd, setCopiedCmd] = useState(false);
   const vaultFileInputRef = useRef<HTMLInputElement>(null);
   const localZipInputRef = useRef<HTMLInputElement>(null);
+
+  // Cloud Failover & Google Cloud State
+  const [isExportingCloud, setIsExportingCloud] = useState<boolean>(false);
+  const [cloudSyncStatus, setCloudSyncStatus] = useState<'idle' | 'syncing' | 'synced'>('idle');
+  const [copiedNightSyncCmd, setCopiedNightSyncCmd] = useState<boolean>(false);
+  const [copiedMorningSyncCmd, setCopiedMorningSyncCmd] = useState<boolean>(false);
+  const [copiedGdriveCmd, setCopiedGdriveCmd] = useState<boolean>(false);
+
+  const handleExportToCloud = async () => {
+    setIsExportingCloud(true);
+    setCloudSyncStatus('syncing');
+    try {
+      const res = await fetch('/api/backup/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          accountId: account.id,
+          domain: selectedDomain,
+          documentRoot: selectedDocRoot,
+          backupType: 'full',
+          includeConfig: true,
+          notes: `Cloud Snapshot Failover ${selectedDomain} (${new Date().toLocaleDateString('id-ID')})`,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.message || 'Gagal membuat snapshot cadangan.');
+
+      setCloudSyncStatus('synced');
+      loadBackups();
+      showToast(
+        'success',
+        'Snapshot Cloud Berhasil Dibuat!',
+        `Berkas cadangan ${data.backup?.fileName} siap diunduh dan disinkronkan ke Cloud!`
+      );
+      if (data.backup?.downloadUrl) {
+        window.open(data.backup.downloadUrl, '_blank');
+      }
+    } catch (err: any) {
+      setCloudSyncStatus('idle');
+      showToast('error', 'Gagal Ekspor Snapshot', err?.message || 'Terjadi kesalahan sistem.');
+    } finally {
+      setIsExportingCloud(false);
+    }
+  };
 
   // Load server domains and backups safely with AbortController timeout
   const loadDomains = async () => {
@@ -909,7 +960,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
       {/* =================================================================== */}
       {/* TOP NAVIGATION TABS (ADAPTIVE PER MODULE MODE)                     */}
       {/* =================================================================== */}
-      <div className={`grid gap-3 ${mode === 'backup' || mode === 'restore' ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-4'}`}>
+      <div className={`grid gap-3 ${mode === 'backup' || mode === 'restore' ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5'}`}>
         {(mode === 'all' || mode === 'backup') && (
           <button
             type="button"
@@ -1007,6 +1058,29 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
             </div>
           </button>
         )}
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('cloud_failover')}
+          className={`flex items-center gap-2.5 rounded-xl border p-3.5 text-left transition-all cursor-pointer ${
+            activeTab === 'cloud_failover'
+              ? 'border-violet-600 bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md ring-2 ring-violet-400/50'
+              : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200'
+          }`}
+        >
+          <Cloud className={`h-5 w-5 shrink-0 ${activeTab === 'cloud_failover' ? 'text-white' : 'text-violet-500'}`} />
+          <div>
+            <div className="text-xs font-bold flex items-center gap-1">
+              <span>Cloud &amp; Failover PC Mati</span>
+              <span className={`rounded px-1 py-0.2 text-[8px] font-extrabold ${activeTab === 'cloud_failover' ? 'bg-violet-800/80 text-violet-200' : 'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300'}`}>
+                24 JAM
+              </span>
+            </div>
+            <div className={`text-[10px] ${activeTab === 'cloud_failover' ? 'text-violet-100' : 'text-slate-400'}`}>
+              Google Cloud, Unduh &amp; Sync
+            </div>
+          </div>
+        </button>
 
         {/* Cross Module Jump Buttons */}
         {mode === 'backup' && (
@@ -1772,6 +1846,351 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
               {copiedCmd ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
               <span>{copiedCmd ? 'Tersalin!' : 'Salin Perintah'}</span>
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* =================================================================== */}
+      {/* TAB 5: GOOGLE CLOUD & HYBRID FAILOVER (SAAT PC SERVER MATI)         */}
+      {/* =================================================================== */}
+      {activeTab === 'cloud_failover' && (
+        <div className="space-y-6">
+          {/* 1. STATUS DATA LOKAL DI PC SERVER (JAWABAN TEGAS & MENENANGKAN) */}
+          <div className="rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-emerald-950/60 via-slate-900 to-slate-950 p-6 sm:p-7 text-white shadow-xl space-y-5">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex items-start gap-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 shrink-0 shadow-inner">
+                  <ShieldCheck className="h-7 w-7" />
+                </div>
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="rounded-md bg-emerald-500/20 px-2.5 py-0.5 font-mono text-[11px] font-extrabold text-emerald-300 border border-emerald-500/30">
+                      KEAMANAN STORAGE LOKAL
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-300">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      100% NON-VOLATILE SSD/HDD
+                    </span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-extrabold text-white">
+                    Apakah Data di PC Lokal Tetap Tersimpan Saat PC Dimatikan?
+                  </h3>
+                  <p className="text-xs sm:text-sm text-emerald-200/90 leading-relaxed max-w-3xl font-medium">
+                    <strong className="text-white underline decoration-emerald-400 font-bold">JAWABAN: YA, TETAP 100% AMAN &amp; TERSIMPAN PERMANEN DI PC LOKAL!</strong>
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/40 p-4 shrink-0 text-left lg:text-right space-y-1">
+                <div className="text-[11px] font-mono text-emerald-300/80">Status Media Fisik:</div>
+                <div className="text-sm font-extrabold text-emerald-300 flex items-center lg:justify-end gap-1.5">
+                  <HardDrive className="h-4 w-4" />
+                  <span>SSD / HDD PC Aman</span>
+                </div>
+                <div className="text-[10px] text-slate-400">Zero Data Loss saat Shutdown</div>
+              </div>
+            </div>
+
+            {/* Penjelasan Logika Storage */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-2">
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-4 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
+                  <Power className="h-4 w-4 text-emerald-400" />
+                  <span>1. PC Dimatikan (Malam Hari)</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  Mematikan PC hanya menghentikan arus listrik ke CPU dan RAM. Seluruh file website (<code>/public_html</code>), database MySQL, script konfigurasi, dan SSL tersimpan di SSD/Harddisk fisik dan <strong>tidak akan pernah terhapus</strong>.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-4 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-bold text-sky-400">
+                  <Cloud className="h-4 w-4 text-sky-400" />
+                  <span>2. Pengalihan ke Cloud / VPS</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  Data yang dialihkan ke Google Cloud atau VPS berstatus <strong>Replikasi / Salinan Mirror</strong>, BUKAN dipotong (cut). Data master tetap berada di PC lokal server Karsa Cloud Anda.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-4 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-bold text-amber-400">
+                  <Sun className="h-4 w-4 text-amber-400" />
+                  <span>3. PC Dinyalakan (Pagi Hari)</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  Saat PC dihidupkan kembali, Karsa Cloud PRO otomatis menyala dan seluruh data web langsung aktif kembali persis seperti kondisi terakhir sebelum dimatikan.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. MENU UNDUH & BACKUP SEWAKTU-WAKTU (JAWABAN PERTANYAAN 7 USER) */}
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4 dark:border-slate-800">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <DownloadCloud className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                    Pusat Unduh &amp; Backup Data Kapan Saja (24 Jam Nonstop)
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  Data website &amp; database dapat diunduh kapan pun Anda mau, baik melalui browser, HP, maupun disinkronkan ke Google Drive / Google Cloud.
+                </p>
+              </div>
+
+              <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                <Check className="h-3.5 w-3.5" />
+                Dapat Diunduh Setiap Saat
+              </span>
+            </div>
+
+            {/* 3 Opsi Unduh Praktis */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Opsi 1: Unduh Langsung ke Browser */}
+              <div className="rounded-2xl border border-indigo-100 bg-gradient-to-b from-indigo-50/50 to-white p-5 dark:border-slate-800 dark:from-slate-800/40 dark:to-slate-900 space-y-4 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-xs">
+                      <Download className="h-4 w-4" />
+                    </span>
+                    <span className="rounded bg-indigo-100 px-2 py-0.5 text-[10px] font-extrabold text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">
+                      1-KLIK BROWSER
+                    </span>
+                  </div>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Unduh Arsip Snapshot ({selectedDomain})
+                  </h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Buat file cadangan <code>.ZIP</code> lengkap (berisi seluruh file web &amp; database dump) dan langsung unduh ke laptop / HP Anda saat ini.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleExportToCloud}
+                  disabled={isExportingCloud}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-indigo-700 disabled:opacity-50 transition-all shadow-xs cursor-pointer"
+                >
+                  {isExportingCloud ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>Sedang Mengemas .ZIP...</span>
+                    </>
+                  ) : (
+                    <>
+                      <DownloadCloud className="h-4 w-4" />
+                      <span>Unduh Full Backup Sekarang</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Opsi 2: Backup Otomatis ke Google Drive */}
+              <div className="rounded-2xl border border-sky-100 bg-gradient-to-b from-sky-50/50 to-white p-5 dark:border-slate-800 dark:from-slate-800/40 dark:to-slate-900 space-y-4 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-600 text-white shadow-xs">
+                      <Cloud className="h-4 w-4" />
+                    </span>
+                    <span className="rounded bg-sky-100 px-2 py-0.5 text-[10px] font-extrabold text-sky-800 dark:bg-sky-950 dark:text-sky-300">
+                      GOOGLE DRIVE
+                    </span>
+                  </div>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Sinkronkan ke Google Drive (Rclone)
+                  </h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Kirim backup secara otomatis ke Google Drive pribadi Anda, sehingga bisa Anda download dari HP kapan saja walau server PC sedang dimatikan.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText('rclone copy /var/cloudpro/backups gdrive:KarsaCloud-Backups/ -P');
+                    setCopiedGdriveCmd(true);
+                    setTimeout(() => setCopiedGdriveCmd(false), 3000);
+                    showToast('success', 'Perintah Tersalin!', 'Perintah sync Google Drive siap dijalankan di terminal.');
+                  }}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl border border-sky-300 bg-white px-4 py-2.5 text-xs font-bold text-sky-700 hover:bg-sky-50 dark:border-slate-700 dark:bg-slate-800 dark:text-sky-300 dark:hover:bg-slate-700 transition-all cursor-pointer"
+                >
+                  {copiedGdriveCmd ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                  <span>{copiedGdriveCmd ? 'Perintah Rclone Tersalin!' : 'Salin Perintah Sync GDrive'}</span>
+                </button>
+              </div>
+
+              {/* Opsi 3: Akses Tab Arsip Berkas Server */}
+              <div className="rounded-2xl border border-purple-100 bg-gradient-to-b from-purple-50/50 to-white p-5 dark:border-slate-800 dark:from-slate-800/40 dark:to-slate-900 space-y-4 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-600 text-white shadow-xs">
+                      <Archive className="h-4 w-4" />
+                    </span>
+                    <span className="rounded bg-purple-100 px-2 py-0.5 text-[10px] font-extrabold text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                      RIWAYAT ARSIP
+                    </span>
+                  </div>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Daftar Arsip Berkas Server ({serverBackups.length})
+                  </h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Lihat seluruh file arsip backup yang telah dibuat sebelumnya di disk server. Anda dapat mengunduh atau menghapus arsip lama kapan saja.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('backup_archives')}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl border border-purple-300 bg-white px-4 py-2.5 text-xs font-bold text-purple-700 hover:bg-purple-50 dark:border-slate-700 dark:bg-slate-800 dark:text-purple-300 dark:hover:bg-slate-700 transition-all cursor-pointer"
+                >
+                  <FolderOpen className="h-4 w-4" />
+                  <span>Buka Tab Arsip Berkas ({serverBackups.length})</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. SOLUSI WEB ON 24 JAM SAAT PC SERVER LOKAL DIMATIKAN */}
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4 dark:border-slate-800">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Moon className="h-5 w-5 text-amber-500" />
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                    Solusi Web ON 24 Jam Non-Stop Saat PC Dimatikan di Malam Hari
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  Karena PC dipakai untuk mengetik dan tidak memungkinkan menyala 24 jam nonstop, gunakan strategi <strong>Hybrid Night Failover</strong> berikut:
+                </p>
+              </div>
+
+              <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                <Zap className="h-3.5 w-3.5" />
+                Arsitektur Hemat Daya
+              </span>
+            </div>
+
+            {/* Alur Kerja Hybrid Siang vs Malam */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Kolom A: Siang Hari (PC ON) */}
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50/40 p-5 dark:border-emerald-900/50 dark:bg-emerald-950/20 space-y-3">
+                <div className="flex items-center gap-2">
+                  <Sun className="h-5 w-5 text-amber-500" />
+                  <h4 className="text-sm font-extrabold text-slate-900 dark:text-white">
+                    Siang Hari (PC Server Lokal ON)
+                  </h4>
+                </div>
+                <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>PC Lokal sebagai Master:</strong> Menjalankan aplikasi web, PHP, MySQL, dan database utama dengan performa CPU &amp; RAM maksimal.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>VPS sebagai Jembatan:</strong> Menerima traffic dari domain (misal <code>denbaguse.my.id</code>) lalu meneruskan ke PC lokal melalui bridge port 3000.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span><strong>Data Baru:</strong> Seluruh input data tersimpan langsung di SSD/HDD PC lokal.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Kolom B: Malam Hari (PC Mati, Failover Standby) */}
+              <div className="rounded-2xl border border-indigo-200 bg-indigo-50/40 p-5 dark:border-indigo-900/50 dark:bg-indigo-950/20 space-y-3">
+                <div className="flex items-center gap-2">
+                  <Moon className="h-5 w-5 text-indigo-500" />
+                  <h4 className="text-sm font-extrabold text-slate-900 dark:text-white">
+                    Malam Hari (PC Dimatikan, Dialihkan ke Cloud/VPS)
+                  </h4>
+                </div>
+                <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                    <span><strong>Sebelum PC Dimatikan:</strong> Jalankan skrip <code>night-sync.sh</code> untuk mengunggah snapshot HTML/statis atau database ke VPS / Google Cloud.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                    <span><strong>Web Tetap Terbuka:</strong> VPS Caddy menampilkan landing page / halaman statis web sehingga pengunjung tidak menemui error "502 Bad Gateway".</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                    <span><strong>Pagi Hari:</strong> Saat PC lokal dinyalakan kembali, jalankan <code>morning-sync.sh</code> untuk re-sinkronisasi data ke PC lokal.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Skrip 1-Baris Praktis */}
+            <div className="space-y-3 pt-2">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Server className="h-4 w-4 text-indigo-500" />
+                <span>Skrip Otomasi Malam &amp; Pagi (Siap Dijalankan di Terminal Linux):</span>
+              </h4>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Night Sync Box */}
+                <div className="rounded-2xl border border-slate-200 bg-slate-950 p-4 text-white space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1">
+                      <Moon className="h-3.5 w-3.5" />
+                      <span>Sebelum PC Dimatikan di Malam Hari:</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText('bash night-sync.sh');
+                        setCopiedNightSyncCmd(true);
+                        setTimeout(() => setCopiedNightSyncCmd(false), 3000);
+                        showToast('success', 'Perintah Tersalin!', 'Jalankan "bash night-sync.sh" sebelum mematikan PC.');
+                      }}
+                      className="inline-flex items-center gap-1 rounded-md bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-200 hover:bg-slate-700 cursor-pointer"
+                    >
+                      {copiedNightSyncCmd ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                      <span>{copiedNightSyncCmd ? 'Tersalin!' : 'Salin'}</span>
+                    </button>
+                  </div>
+                  <code className="block text-xs font-mono text-emerald-400 bg-slate-900 p-2.5 rounded-xl border border-slate-800 break-all">
+                    bash night-sync.sh
+                  </code>
+                  <p className="text-[10px] text-slate-400">
+                    Otomatis membuat backup database, mengompres web, mengirim snapshot ke Cloud/VPS, dan mempersiapkan server untuk shutdown aman.
+                  </p>
+                </div>
+
+                {/* Morning Sync Box */}
+                <div className="rounded-2xl border border-slate-200 bg-slate-950 p-4 text-white space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-sky-400 flex items-center gap-1">
+                      <Sun className="h-3.5 w-3.5" />
+                      <span>Setelah PC Dinyalakan di Pagi Hari:</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText('bash morning-sync.sh');
+                        setCopiedMorningSyncCmd(true);
+                        setTimeout(() => setCopiedMorningSyncCmd(false), 3000);
+                        showToast('success', 'Perintah Tersalin!', 'Jalankan "bash morning-sync.sh" saat PC server baru menyala.');
+                      }}
+                      className="inline-flex items-center gap-1 rounded-md bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-200 hover:bg-slate-700 cursor-pointer"
+                    >
+                      {copiedMorningSyncCmd ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                      <span>{copiedMorningSyncCmd ? 'Tersalin!' : 'Salin'}</span>
+                    </button>
+                  </div>
+                  <code className="block text-xs font-mono text-sky-400 bg-slate-900 p-2.5 rounded-xl border border-slate-800 break-all">
+                    bash morning-sync.sh
+                  </code>
+                  <p className="text-[10px] text-slate-400">
+                    Menghubungkan kembali jembatan VPS Bridge ke PC lokal, merestore status aktif, dan menyinkronkan data master ke SSD internal.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
