@@ -255,12 +255,89 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
         try {
           const data = JSON.parse(text);
           if (data.ok && Array.isArray(data.domains)) {
-            const filteredDomains = currentUser?.role === 'admin'
-              ? data.domains
-              : data.domains.filter((d: ServerDomainItem) =>
-                  d.domain.toLowerCase() !== 'karsacloud.biz.id' &&
-                  !d.domain.toLowerCase().endsWith('.karsacloud.biz.id')
-                );
+            const knownEduPrefixes = new Set([
+              'siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan',
+              'simpatika', 'emis', 'absensi-gtk', 'adm-madrasah', 'kartu-pelajar', 'modul-ajar'
+            ]);
+
+            let filteredDomains: ServerDomainItem[] = [];
+
+            if (currentUser?.role === 'admin') {
+              // ROOT ADMIN sees ALL domains and subdomains across the server (excluding only phantom duplicates)
+              filteredDomains = data.domains.filter((d: ServerDomainItem) => {
+                const dLower = (d.domain || '').toLowerCase();
+                if (dLower.endsWith('.karsacloud.biz.id')) {
+                  const pfx = dLower.replace('.karsacloud.biz.id', '');
+                  if (knownEduPrefixes.has(pfx)) return false;
+                }
+                return true;
+              });
+
+              // Merge any subdomains from local db that might not be in server list yet
+              for (const ld of db.getDomains()) {
+                const ldLower = ld.domain.toLowerCase();
+                if (ldLower.endsWith('.karsacloud.biz.id')) {
+                  const pfx = ldLower.replace('.karsacloud.biz.id', '');
+                  if (knownEduPrefixes.has(pfx)) continue;
+                }
+                if (!filteredDomains.some(fd => fd.domain.toLowerCase() === ldLower)) {
+                  filteredDomains.push({
+                    id: ld.id,
+                    domain: ld.domain,
+                    type: ld.type as any,
+                    documentRoot: ld.documentRoot || '/public_html',
+                    accountId: ld.accountId,
+                    username: 'cloudpro',
+                    phpVersion: ld.phpVersion || '8.2',
+                    filesCount: 0,
+                    totalSizeBytes: 0,
+                    formattedSize: '0 B',
+                  });
+                }
+              }
+            } else if (currentUser?.role === 'reseller') {
+              // RESELLER sees their own primary domain, ALL their subdomains, and their clients' domains
+              const isDenbaguse = currentUser?.username === 'denbaguse' || account?.primaryDomain === 'denbaguse.my.id';
+              filteredDomains = data.domains.filter((d: ServerDomainItem) => {
+                const dLower = (d.domain || '').toLowerCase();
+                if (isDenbaguse) {
+                  return dLower.endsWith('denbaguse.my.id') || dLower === 'denbaguse.my.id' || knownEduPrefixes.has(dLower.split('.')[0]);
+                }
+                if (account?.primaryDomain) {
+                  const accDom = account.primaryDomain.toLowerCase();
+                  return dLower === accDom || dLower.endsWith(`.${accDom}`);
+                }
+                return true;
+              });
+
+              // Also merge subdomains from db for this reseller account
+              const resellerAccId = account?.id || (isDenbaguse ? 'acc-denbaguse-01' : 'acc-school-02');
+              const localResellerDoms = db.getDomains(resellerAccId);
+              for (const ld of localResellerDoms) {
+                if (!filteredDomains.some(fd => fd.domain.toLowerCase() === ld.domain.toLowerCase())) {
+                  filteredDomains.push({
+                    id: ld.id,
+                    domain: ld.domain,
+                    type: ld.type as any,
+                    documentRoot: ld.documentRoot || '/public_html',
+                    accountId: ld.accountId,
+                    username: currentUser?.username || 'reseller',
+                    phpVersion: ld.phpVersion || '8.2',
+                    filesCount: 0,
+                    totalSizeBytes: 0,
+                    formattedSize: '0 B',
+                  });
+                }
+              }
+            } else {
+              // Customer sees their own domains
+              filteredDomains = data.domains.filter((d: ServerDomainItem) => {
+                const accDom = (account?.primaryDomain || 'client.karsacloud.biz.id').toLowerCase();
+                const dLower = (d.domain || '').toLowerCase();
+                return dLower === accDom || dLower.endsWith(`.${accDom}`);
+              });
+            }
+
             setServerDomains(filteredDomains);
             const initial = filteredDomains.find(
               (d: ServerDomainItem) => d.domain.toLowerCase() === (preselectedDomain || account?.primaryDomain || '').toLowerCase()
@@ -276,10 +353,11 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
     } catch {}
 
     // Fallback to local db domains
-    const accId = account?.id || (currentUser?.role === 'admin' ? 'acc-rdm-01' : 'acc-school-02');
-    const accDomain = account?.primaryDomain || 'karsacloud.biz.id';
-    const accUser = account?.username || (currentUser?.role === 'admin' ? 'karsacloud' : 'pelanggan');
-    const localDoms = db.getDomains(accId);
+    const isDenFallback = currentUser?.username === 'denbaguse' || account?.primaryDomain === 'denbaguse.my.id';
+    const accId = account?.id || (currentUser?.role === 'admin' ? 'acc-rdm-01' : isDenFallback ? 'acc-denbaguse-01' : 'acc-school-02');
+    const accDomain = account?.primaryDomain || (currentUser?.role === 'admin' ? 'karsacloud.biz.id' : isDenFallback ? 'denbaguse.my.id' : 'client.karsacloud.biz.id');
+    const accUser = account?.username || (currentUser?.role === 'admin' ? 'karsacloud' : isDenFallback ? 'denbaguse' : 'pelanggan');
+    const localDoms = currentUser?.role === 'admin' ? db.getDomains() : db.getDomains(accId);
     const mapped: ServerDomainItem[] = [
       {
         id: 'dom-primary',
@@ -293,18 +371,20 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
         totalSizeBytes: 10485760,
         formattedSize: '10.5 MB',
       },
-      ...localDoms.map(d => ({
-        id: d.id,
-        domain: d.domain,
-        type: d.type as any,
-        documentRoot: d.documentRoot ? d.documentRoot.replace(`/home/${accUser}`, '') : '/public_html',
-        accountId: accId,
-        username: accUser,
-        phpVersion: d.phpVersion || '8.2',
-        filesCount: 0,
-        totalSizeBytes: 0,
-        formattedSize: '0 B',
-      })),
+      ...localDoms
+        .filter(d => d.domain.toLowerCase() !== accDomain.toLowerCase())
+        .map(d => ({
+          id: d.id,
+          domain: d.domain,
+          type: d.type as any,
+          documentRoot: d.documentRoot ? d.documentRoot.replace(`/home/${accUser}`, '') : '/public_html',
+          accountId: d.accountId || accId,
+          username: accUser,
+          phpVersion: d.phpVersion || '8.2',
+          filesCount: 0,
+          totalSizeBytes: 0,
+          formattedSize: '0 B',
+        })),
     ];
     setServerDomains(mapped);
   };
@@ -543,60 +623,76 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
 
             // Immediately scan and sync restored directory files into client VirtualFile database
             const docRootToScan = data.job.targetDir || selectedDocRoot || '/public_html';
-            fetch(`/api/files/disk-scan?dir=${encodeURIComponent(docRootToScan)}&accountId=${encodeURIComponent(account.id)}`)
-              .then(r => r.json())
-              .then(scanRes => {
-                if (scanRes?.ok && Array.isArray(scanRes.files)) {
-                  db.replaceDirectoryFilesFromDiskScan(account.id, docRootToScan, scanRes.files.map((f: any) => ({
-                    id: f.id || `vf-restored-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-                    accountId: account.id,
-                    name: f.name,
-                    path: f.path,
-                    type: f.type || 'file',
-                    sizeBytes: f.size || 1024,
-                    permissions: f.type === 'directory' ? '0755' : '0644',
-                    mimeType: 'text/html',
-                    updatedAt: new Date().toISOString(),
-                    content: f.content,
-                  })));
-                }
-                // Also scan parent /public_html so the restored folder itself is immediately indexed in /public_html
-                if (docRootToScan !== '/public_html') {
-                  const folderName = docRootToScan.replace(/^\/public_html\/?/, '').split('/')[0];
-                  if (folderName) {
-                    db.saveVirtualFile({
-                      id: `vf-dir-${folderName}`,
-                      accountId: account.id,
-                      name: folderName,
-                      path: `/public_html/${folderName}`,
-                      type: 'directory',
-                      sizeBytes: 0,
-                      permissions: '0755',
+            const targetDomainLower = (data.job.targetDomain || selectedDomain || '').toLowerCase();
+            const matchedServerDomain = serverDomains.find(d => d.domain.toLowerCase() === targetDomainLower);
+            const isDenbaguseTarget =
+              targetDomainLower.includes('denbaguse') ||
+              docRootToScan.includes('siakad-madrasah') ||
+              docRootToScan.includes('adm-madrasah') ||
+              docRootToScan.includes('absensi-gtk') ||
+              docRootToScan.includes('kartu-pelajar') ||
+              docRootToScan.includes('modul-ajar');
+            const targetAccId =
+              matchedServerDomain?.accountId ||
+              (isDenbaguseTarget ? 'acc-denbaguse-01' : account.id);
+
+            const accountsToSync = [targetAccId];
+            for (const accIdToSync of accountsToSync) {
+              fetch(`/api/files/disk-scan?dir=${encodeURIComponent(docRootToScan)}&accountId=${encodeURIComponent(accIdToSync)}`)
+                .then(r => r.json())
+                .then(scanRes => {
+                  if (scanRes?.ok && Array.isArray(scanRes.files)) {
+                    db.replaceDirectoryFilesFromDiskScan(accIdToSync, docRootToScan, scanRes.files.map((f: any) => ({
+                      id: f.id || `vf-restored-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+                      accountId: accIdToSync,
+                      name: f.name,
+                      path: f.path,
+                      type: f.type || 'file',
+                      sizeBytes: f.size || 1024,
+                      permissions: f.type === 'directory' ? '0755' : '0644',
+                      mimeType: 'text/html',
                       updatedAt: new Date().toISOString(),
-                    });
+                      content: f.content,
+                    })));
                   }
-                  fetch(`/api/files/disk-scan?dir=%2Fpublic_html&accountId=${encodeURIComponent(account.id)}`)
-                    .then(r => r.json())
-                    .then(pRes => {
-                      if (pRes?.ok && Array.isArray(pRes.files)) {
-                        db.replaceDirectoryFilesFromDiskScan(account.id, '/public_html', pRes.files.map((f: any) => ({
-                          id: f.id || `vf-restored-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-                          accountId: account.id,
-                          name: f.name,
-                          path: f.path,
-                          type: f.type || 'file',
-                          sizeBytes: f.size || 1024,
-                          permissions: f.type === 'directory' ? '0755' : '0644',
-                          mimeType: 'text/html',
-                          updatedAt: new Date().toISOString(),
-                          content: f.content,
-                        })));
-                      }
-                    })
-                    .catch(() => {});
-                }
-              })
-              .catch(() => {});
+                  // Also scan parent /public_html so the restored folder itself is immediately indexed in /public_html
+                  if (docRootToScan !== '/public_html') {
+                    const folderName = docRootToScan.replace(/^\/public_html\/?/, '').split('/')[0];
+                    if (folderName) {
+                      db.saveVirtualFile({
+                        id: `vf-dir-${folderName}-${accIdToSync}`,
+                        accountId: accIdToSync,
+                        name: folderName,
+                        path: `/public_html/${folderName}`,
+                        type: 'directory',
+                        sizeBytes: 0,
+                        permissions: '0755',
+                        updatedAt: new Date().toISOString(),
+                      });
+                    }
+                    fetch(`/api/files/disk-scan?dir=%2Fpublic_html&accountId=${encodeURIComponent(accIdToSync)}`)
+                      .then(r => r.json())
+                      .then(pRes => {
+                        if (pRes?.ok && Array.isArray(pRes.files)) {
+                          db.replaceDirectoryFilesFromDiskScan(accIdToSync, '/public_html', pRes.files.map((f: any) => ({
+                            id: f.id || `vf-restored-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+                            accountId: accIdToSync,
+                            name: f.name,
+                            path: f.path,
+                            type: f.type || 'file',
+                            sizeBytes: f.size || 1024,
+                            permissions: f.type === 'directory' ? '0755' : '0644',
+                            mimeType: 'text/html',
+                            updatedAt: new Date().toISOString(),
+                            content: f.content,
+                          })));
+                        }
+                      })
+                      .catch(() => {});
+                  }
+                })
+                .catch(() => {});
+            }
           } else if (data.job.status === 'error') {
             if (pollingTimerRef.current) clearInterval(pollingTimerRef.current);
             setIsPollingJob(false);

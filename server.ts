@@ -600,24 +600,48 @@ function isPathBelongingToDocRoot(filePath: string, docRoot: string, accountId?:
   return true;
 }
 
-function registerSubdomainIfSubdir(accountId: string, cleanDir: string) {
+function registerSubdomainIfSubdir(accountIdOrDir: string, dirOrAccountId?: string) {
+  let accountId = accountIdOrDir;
+  let cleanDir = dirOrAccountId || '';
+  if (accountIdOrDir.startsWith('/') || accountIdOrDir.includes('public_html')) {
+    cleanDir = accountIdOrDir;
+    accountId = dirOrAccountId || '';
+  }
   const normDir = normalizePath(cleanDir);
   const subFolderMatch = normDir.match(/^\/public_html\/([^/]+)$/);
   if (subFolderMatch && subFolderMatch[1]) {
     const subPrefix = subFolderMatch[1].toLowerCase();
     if (COMMON_WEBSITE_SUBDIRS.has(subPrefix)) return;
-    const acc = vhostStore.accounts.find(a => a.id === accountId) || vhostStore.accounts[0];
-    const parentDomain = acc?.primaryDomain || 'karsacloud.biz.id';
-    const fullSubDomain = `${subPrefix}.${parentDomain}`;
+
+    const isDenbaguseSub = [
+      'siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar',
+      'modul-ajar', 'rdm', 'cbt', 'elearning', 'panel'
+    ].includes(subPrefix);
+
+    const targetAccId = isDenbaguseSub ? 'acc-denbaguse-01' : (accountId || 'acc-rdm-01');
+    const acc = isDenbaguseSub
+      ? vhostStore.accounts.find(a => a.id === 'acc-denbaguse-01' || a.primaryDomain === 'denbaguse.my.id') || { id: 'acc-denbaguse-01', primaryDomain: 'denbaguse.my.id', username: 'denbaguse', phpVersion: '8.2' }
+      : vhostStore.accounts.find(a => a.id === targetAccId) || vhostStore.accounts[0];
+    const parentDomain = isDenbaguseSub ? 'denbaguse.my.id' : (acc?.primaryDomain || 'karsacloud.biz.id');
+    const fullSubDomain = isDenbaguseSub ? `${subPrefix}.denbaguse.my.id` : `${subPrefix}.${parentDomain}`;
+
+    // Purge any phantom karsacloud duplicate of this educational subdomain
+    if (isDenbaguseSub) {
+      vhostStore.subdomains = vhostStore.subdomains.filter(
+        s => s.fullDomain.toLowerCase() !== `${subPrefix}.karsacloud.biz.id`
+      );
+    }
+
     const existingSubIdx = vhostStore.subdomains.findIndex(
       s =>
         s.fullDomain.toLowerCase() === fullSubDomain.toLowerCase() ||
-        normalizePath(s.documentRoot).toLowerCase() === normDir.toLowerCase()
+        (isDenbaguseSub && normalizePath(s.documentRoot).toLowerCase() === normDir.toLowerCase())
     );
+
     const subEntry = {
       id: existingSubIdx >= 0 ? vhostStore.subdomains[existingSubIdx].id : `sub-${subPrefix}`,
-      accountId: acc?.id || accountId || 'acc-rdm-01',
-      fullDomain: existingSubIdx >= 0 ? vhostStore.subdomains[existingSubIdx].fullDomain : fullSubDomain,
+      accountId: targetAccId,
+      fullDomain: isDenbaguseSub ? `${subPrefix}.denbaguse.my.id` : fullSubDomain,
       documentRoot: normDir,
     };
     if (existingSubIdx >= 0) {
@@ -920,7 +944,11 @@ try {
                 fs.existsSync(path.join(fullP, 'index.php')) ||
                 fs.existsSync(path.join(fullP, 'index.htm'))
               ) {
-                registerSubdomainIfSubdir(primaryId, `/public_html/${item}`);
+                const isDenbaguse = [
+                  'siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar',
+                  'modul-ajar', 'rdm', 'cbt', 'elearning'
+                ].includes(item.toLowerCase());
+                registerSubdomainIfSubdir(isDenbaguse ? 'acc-denbaguse-01' : primaryId, `/public_html/${item}`);
               }
             }
             scanDirRecursive(fullP, relP, depth + 1);
@@ -937,12 +965,23 @@ try {
             if (isEntryFile && st.size <= 350_000) {
               try { content = fs.readFileSync(fullP, 'utf-8'); } catch {}
             }
-            const existingIdx = vhostStore.filesByAccount[primaryId].findIndex(
+
+            const isDenbaguseFile = [
+              'siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar',
+              'modul-ajar', 'rdm', 'cbt', 'elearning'
+            ].some(pfx => relP.toLowerCase().startsWith(pfx + '/'));
+
+            const targetAccId = isDenbaguseFile ? 'acc-denbaguse-01' : primaryId;
+            if (!vhostStore.filesByAccount[targetAccId]) {
+              vhostStore.filesByAccount[targetAccId] = [];
+            }
+
+            const existingIdx = vhostStore.filesByAccount[targetAccId].findIndex(
               (x: any) => normalizePath(x.path) === virtPath
             );
             const vfEntry = {
               id: `vf-phys-${relP.replace(/[^a-zA-Z0-9_-]/g, '_')}`,
-              accountId: primaryId,
+              accountId: targetAccId,
               name: item,
               path: virtPath,
               type: 'file' as const,
@@ -951,9 +990,9 @@ try {
               updatedAt: new Date().toISOString(),
             };
             if (existingIdx === -1) {
-              vhostStore.filesByAccount[primaryId].push(vfEntry);
-            } else if ((!vhostStore.filesByAccount[primaryId][existingIdx].content || lowerName === 'index.html') && content) {
-              vhostStore.filesByAccount[primaryId][existingIdx] = vfEntry;
+              vhostStore.filesByAccount[targetAccId].push(vfEntry);
+            } else if ((!vhostStore.filesByAccount[targetAccId][existingIdx].content || lowerName === 'index.html') && content) {
+              vhostStore.filesByAccount[targetAccId][existingIdx] = vfEntry;
             }
           }
         }
@@ -8649,12 +8688,22 @@ ftp.quit()
           });
         }
 
+        const denbagusePrefixes = new Set([
+          'siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar',
+          'modul-ajar', 'rdm', 'cbt', 'elearning', 'panel'
+        ]);
+
         for (const sub of (vhostStore.subdomains || [])) {
           if (list.some(l => l.domain.toLowerCase() === sub.fullDomain.toLowerCase())) continue;
+          const subLower = sub.fullDomain.toLowerCase();
+          const subPrefix = subLower.split('.')[0];
+          // NEVER emit educational subdomains attached to karsacloud.biz.id
+          if (subLower.endsWith('.karsacloud.biz.id') && denbagusePrefixes.has(subPrefix)) {
+            continue;
+          }
           const cleanDoc = normalizePath(sub.documentRoot || '/public_html');
           const absDoc = path.join(process.cwd(), cleanDoc.replace(/^\//, ''));
           const stats = calculateDirStats(absDoc);
-          const subPrefix = sub.fullDomain.split('.')[0].toLowerCase();
           const defaultSubPhp = subPrefix === 'rdm' ? '7.2' : subPrefix === 'cbt' ? '7.4' : '8.2';
           list.push({
             id: sub.id,
@@ -8688,50 +8737,111 @@ ftp.quit()
           });
         }
       } else if (callerRole === 'reseller') {
-        // Reseller: strictly include reseller's own domains from persisted state, exclude root admin & admin clients
+        // Reseller: strictly include reseller's own domains & subdomains, plus any client accounts owned by this reseller
         const rawAccounts: any[] =
-          persistedFullAppState && Array.isArray(persistedFullAppState.hostingAccounts)
+          persistedFullAppState && Array.isArray(persistedFullAppState.hostingAccounts) && persistedFullAppState.hostingAccounts.length > 0
             ? persistedFullAppState.hostingAccounts
-            : [];
-        const resellerAccs = rawAccounts.filter((a: any) =>
-          a.id !== 'acc-rdm-01' &&
-          a.primaryDomain?.toLowerCase() !== 'karsacloud.biz.id' &&
-          !a.primaryDomain?.toLowerCase().endsWith('.karsacloud.biz.id') &&
-          a.customerId !== 'usr-admin-01' &&
-          Boolean(a.resellerId && (callerUserId ? a.resellerId === callerUserId : true))
-        );
+            : vhostStore.accounts;
 
-        if (resellerAccs.length > 0) {
-          for (const acc of resellerAccs) {
-            const doc = `/home/${acc.username || 'pelanggan'}/public_html`;
-            const absDoc = path.join(process.cwd(), 'public_html', acc.username || 'pelanggan');
-            const stats = fs.existsSync(absDoc) ? calculateDirStats(absDoc) : { count: 0, totalSize: 0, formatted: '0 B' };
+        const isDenbaguseReseller = callerUsername === 'denbaguse' || callerUserId === 'usr-reseller-denbaguse';
+        const resellerAccs = rawAccounts.filter((a: any) => {
+          if (a.id === 'acc-rdm-01' || a.primaryDomain?.toLowerCase() === 'karsacloud.biz.id') return false;
+          if (isDenbaguseReseller) {
+            return (
+              a.id === 'acc-denbaguse-01' ||
+              a.primaryDomain?.toLowerCase() === 'denbaguse.my.id' ||
+              a.username?.toLowerCase() === 'denbaguse' ||
+              a.resellerId === 'prof-reseller-denbaguse' ||
+              a.resellerId === 'usr-reseller-denbaguse' ||
+              a.customerId === 'usr-reseller-denbaguse'
+            );
+          }
+          if (callerUserId && (a.resellerId === callerUserId || a.customerId === callerUserId)) return true;
+          if (callerUsername && a.username?.toLowerCase() === callerUsername) return true;
+          return false;
+        });
+
+        // If no matching accounts found, fallback to denbaguse if caller is denbaguse
+        if (resellerAccs.length === 0 && isDenbaguseReseller) {
+          const denAcc = vhostStore.accounts.find(a => a.id === 'acc-denbaguse-01' || a.primaryDomain === 'denbaguse.my.id');
+          if (denAcc) resellerAccs.push(denAcc);
+        }
+
+        const resellerAccIds = new Set(resellerAccs.map((a: any) => a.id));
+
+        for (const acc of resellerAccs) {
+          const doc = acc.documentRoot || `/home/${acc.username || 'pelanggan'}/public_html`;
+          const absDoc = path.join(process.cwd(), doc.replace(/^\//, ''));
+          const stats = fs.existsSync(absDoc) ? calculateDirStats(absDoc) : { count: 0, totalSize: 0, formatted: '0 B' };
+          list.push({
+            id: acc.id,
+            domain: acc.primaryDomain,
+            type: 'primary',
+            documentRoot: doc,
+            accountId: acc.id,
+            username: acc.username || 'reseller',
+            phpVersion: acc.phpVersion || '8.2',
+            filesCount: stats.count,
+            totalSizeBytes: stats.totalSize,
+            formattedSize: stats.formatted,
+          });
+        }
+
+        // Add all subdomains belonging to this reseller
+        for (const sub of (vhostStore.subdomains || [])) {
+          const subLower = sub.fullDomain.toLowerCase();
+          const belongsToReseller =
+            resellerAccIds.has(sub.accountId) ||
+            (isDenbaguseReseller && (subLower.endsWith('.denbaguse.my.id') || sub.accountId === 'acc-denbaguse-01'));
+          if (!belongsToReseller) continue;
+          if (list.some(l => l.domain.toLowerCase() === subLower)) continue;
+
+          const cleanDoc = normalizePath(sub.documentRoot || '/public_html');
+          const absDoc = path.join(process.cwd(), cleanDoc.replace(/^\//, ''));
+          const stats = calculateDirStats(absDoc);
+          const subPrefix = subLower.split('.')[0];
+          const defaultSubPhp = subPrefix === 'rdm' ? '7.2' : subPrefix === 'cbt' ? '7.4' : '8.2';
+          list.push({
+            id: sub.id,
+            domain: sub.fullDomain,
+            type: 'subdomain',
+            documentRoot: cleanDoc,
+            accountId: sub.accountId || (isDenbaguseReseller ? 'acc-denbaguse-01' : 'acc-reseller'),
+            username: callerUsername || 'reseller',
+            phpVersion: sub.phpVersion || defaultSubPhp,
+            filesCount: stats.count,
+            totalSizeBytes: stats.totalSize,
+            formattedSize: stats.formatted,
+          });
+        }
+
+        // Also check persisted full app state domains
+        if (persistedFullAppState && Array.isArray(persistedFullAppState.domains)) {
+          for (const d of persistedFullAppState.domains) {
+            if (!d || d.type !== 'subdomain') continue;
+            const dLower = (d.domain || '').toLowerCase();
+            const belongsToReseller =
+              resellerAccIds.has(d.accountId) ||
+              (isDenbaguseReseller && (dLower.endsWith('.denbaguse.my.id') || d.accountId === 'acc-denbaguse-01'));
+            if (!belongsToReseller) continue;
+            if (list.some(l => l.domain.toLowerCase() === dLower)) continue;
+
+            const cleanDoc = normalizePath(d.documentRoot || `/public_html/${d.subdomainPrefix || ''}`);
+            const absDoc = path.join(process.cwd(), cleanDoc.replace(/^\//, ''));
+            const stats = calculateDirStats(absDoc);
             list.push({
-              id: acc.id,
-              domain: acc.primaryDomain,
-              type: 'primary',
-              documentRoot: doc,
-              accountId: acc.id,
-              username: acc.username || 'reseller',
-              phpVersion: acc.phpVersion || '8.2',
+              id: d.id,
+              domain: d.domain,
+              type: 'subdomain',
+              documentRoot: cleanDoc,
+              accountId: d.accountId || (isDenbaguseReseller ? 'acc-denbaguse-01' : 'acc-reseller'),
+              username: callerUsername || 'reseller',
+              phpVersion: d.phpVersion || '8.2',
               filesCount: stats.count,
               totalSizeBytes: stats.totalSize,
               formattedSize: stats.formatted,
             });
           }
-        } else {
-          list.push({
-            id: `dom-reseller-${callerUserId || 'own'}`,
-            domain: 'mitrahosting.my.id',
-            type: 'primary',
-            documentRoot: `/home/${callerUsername || 'reseller'}/public_html`,
-            accountId: `acc-reseller-${callerUserId || 'own'}`,
-            username: callerUsername || 'reseller',
-            phpVersion: '8.2',
-            filesCount: 0,
-            totalSizeBytes: 0,
-            formattedSize: '0 B',
-          });
         }
       } else {
         // Customer: strictly customer's own domain
@@ -9430,12 +9540,22 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
             a.primaryDomain.toLowerCase() === targetDomain.toLowerCase() ||
             targetDomain.toLowerCase().endsWith('.' + a.primaryDomain.toLowerCase())
         );
-        const relevantAccountIds = Array.from(new Set([
-          primaryId,
-          matchedAcc?.id,
-          'acc-denbaguse-01',
-          'acc-rdm-01'
-        ].filter(Boolean) as string[]));
+        const isDenbaguseTarget =
+          targetDomain.toLowerCase().includes('denbaguse') ||
+          cleanDir.includes('siakad-madrasah') ||
+          cleanDir.includes('adm-madrasah') ||
+          cleanDir.includes('absensi-gtk') ||
+          cleanDir.includes('kartu-pelajar') ||
+          cleanDir.includes('modul-ajar') ||
+          cleanDir.includes('rdm') ||
+          cleanDir.includes('cbt') ||
+          cleanDir.includes('elearning');
+
+        const targetAccId = isDenbaguseTarget
+          ? 'acc-denbaguse-01'
+          : (matchedAcc?.id || (cleanDir === '/public_html' ? primaryId : 'acc-rdm-01'));
+
+        const relevantAccountIds = [targetAccId];
 
         const scanAndIndexRestored = (dir: string, relPrefix: string) => {
           if (!fs.existsSync(dir)) return;

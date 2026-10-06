@@ -1640,6 +1640,26 @@ class StorageService {
             ? parsed.virtualFiles
             : INITIAL_STATE.virtualFiles;
 
+        // Segregate educational & portfolio subdomains so they strictly belong to acc-denbaguse-01 (denbaguse.my.id)
+        const denbaguseSubRoots = [
+          '/public_html/siakad-madrasah',
+          '/public_html/adm-madrasah',
+          '/public_html/absensi-gtk',
+          '/public_html/kartu-pelajar',
+          '/public_html/modul-ajar',
+          '/public_html/rdm',
+          '/public_html/cbt',
+          '/public_html/elearning'
+        ];
+        loadedFiles = loadedFiles.map(f => {
+          const p = (f.path || '').toLowerCase();
+          const isDenbaguseSub = denbaguseSubRoots.some(sr => p === sr || p.startsWith(sr + '/'));
+          if (isDenbaguseSub && f.accountId !== 'acc-denbaguse-01') {
+            return { ...f, accountId: 'acc-denbaguse-01' };
+          }
+          return f;
+        });
+
         // Clean out legacy Rapor Digital Madrasah placeholder files from localStorage so they never override the user's personal website
         const hadLegacyRdmPlaceholder = loadedFiles.some(
           f =>
@@ -1746,6 +1766,17 @@ class StorageService {
           !d.domain.endsWith('.websitepelanggan.my.id') &&
           d.parentDomain !== 'websitepelanggan.my.id'
         );
+
+        // Purge any duplicated educational subdomains falsely attached to karsacloud.biz.id
+        loadedDomains = loadedDomains.filter(d => {
+          const dom = (d.domain || '').toLowerCase();
+          if (dom.endsWith('.karsacloud.biz.id')) {
+            const prefix = dom.replace('.karsacloud.biz.id', '');
+            const denbagusePrefixes = ['siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar', 'modul-ajar', 'rdm', 'cbt', 'elearning'];
+            if (denbagusePrefixes.includes(prefix)) return false;
+          }
+          return true;
+        });
 
         INITIAL_STATE.domains.forEach(defDom => {
           if (defDom.domain.endsWith('.denbaguse.my.id') || defDom.domain === 'denbaguse.my.id') {
@@ -3259,6 +3290,37 @@ class StorageService {
             : 'karsacloud.biz.id';
         current = { ...current, domain: fixedPrimary };
         stateChanged = true;
+      }
+
+      // Segregate educational & school subdomains so they STRICTLY belong to acc-denbaguse-01 (denbaguse.my.id)
+      // NEVER allow them to be attached to karsacloud.biz.id or duplicated to the main server domain!
+      const denbagusePrefixes = [
+        'siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar',
+        'modul-ajar', 'rdm', 'cbt', 'elearning', 'panel'
+      ];
+      const curPrefix = (current.subdomainPrefix || current.domain.split('.')[0] || '').toLowerCase();
+      if (denbagusePrefixes.includes(curPrefix)) {
+        const denbaguseAcc = this.state.hostingAccounts.find(
+          a => a.id === 'acc-denbaguse-01' || a.primaryDomain?.toLowerCase() === 'denbaguse.my.id'
+        );
+        if (denbaguseAcc) {
+          const expectedFull = `${curPrefix}.${denbaguseAcc.primaryDomain}`;
+          if (
+            current.accountId !== denbaguseAcc.id ||
+            current.parentDomain !== denbaguseAcc.primaryDomain ||
+            current.domain !== expectedFull
+          ) {
+            current = {
+              ...current,
+              accountId: denbaguseAcc.id,
+              parentDomain: denbaguseAcc.primaryDomain,
+              domain: expectedFull,
+              subdomainPrefix: curPrefix,
+              documentRoot: curPrefix === 'panel' ? '/public_html' : `/public_html/${curPrefix}`,
+            };
+            stateChanged = true;
+          }
+        }
       }
 
       // Ensure subdomains dynamically match their owner account's primary domain

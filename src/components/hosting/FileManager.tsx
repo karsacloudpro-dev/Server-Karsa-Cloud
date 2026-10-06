@@ -139,6 +139,21 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
     const subdomains = accountDomains.filter(d => d.type === 'subdomain');
     const addonDomains = accountDomains.filter(d => d.type === 'addon');
 
+    const isKarsacloudMain = account.id === 'acc-rdm-01' || account.primaryDomain === 'karsacloud.biz.id';
+    const knownDenbagusePrefixes = new Set([
+      'siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan',
+      'simpatika', 'emis', 'absensi-gtk', 'adm-madrasah', 'kartu-pelajar', 'modul-ajar'
+    ]);
+
+    const validSubdomains = subdomains.filter(sub => {
+      const pfx = (sub.subdomainPrefix || sub.domain.split('.')[0] || '').toLowerCase();
+      // karsacloud.biz.id must NEVER inherit or duplicate educational/school subdomains!
+      if (isKarsacloudMain && (knownDenbagusePrefixes.has(pfx) || sub.domain.toLowerCase().endsWith('.karsacloud.biz.id'))) {
+        return false;
+      }
+      return true;
+    });
+
     const targets: Array<{
       id: string;
       name: string;
@@ -153,7 +168,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
         docRoot: '/public_html',
         label: `${account.primaryDomain} (Domain Utama)`,
       },
-      ...subdomains.map(sub => {
+      ...validSubdomains.map(sub => {
         const cleanRoot = resolveCleanPath(
           sub.documentRoot || `/public_html/${sub.subdomainPrefix || sub.domain.split('.')[0]}`
         );
@@ -177,35 +192,46 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
       }),
     ];
 
-    // Detect known educational & app subdirectories so they appear in workspace switcher for all accounts
-    const knownSubPrefixes = ['siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan', 'simpatika', 'emis', 'absensi-gtk', 'adm-madrasah', 'kartu-pelajar', 'modul-ajar'];
-    for (const prefix of knownSubPrefixes) {
-      const candidateRoot = `/public_html/${prefix}`;
-      const alreadyListed = targets.some(
-        t => t.docRoot.toLowerCase() === candidateRoot || t.name.toLowerCase().startsWith(`${prefix}.`)
-      );
-      const existsInFiles = allFiles.some(f => {
-        const p = resolveCleanPath(f.path).toLowerCase();
-        return p === candidateRoot || p.startsWith(`${candidateRoot}/`);
-      });
-      if (!alreadyListed && (prefix === 'siakad-madrasah' || existsInFiles)) {
-        targets.push({
-          id: `sub-preset-${prefix}`,
-          name: `${prefix}.${account.primaryDomain}`,
-          type: 'subdomain',
-          docRoot: candidateRoot,
-          label: `${prefix}.${account.primaryDomain} (Subdomain)`,
+    // Detect known educational & app subdirectories ONLY for denbaguse.my.id (where they legitimately belong)
+    // NEVER duplicate denbaguse's subdomains into karsacloud.biz.id or other hosting accounts!
+    const isDenbaguseAccount = account.id === 'acc-denbaguse-01' || account.primaryDomain === 'denbaguse.my.id';
+    if (isDenbaguseAccount) {
+      const knownSubPrefixes = [
+        'siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan',
+        'simpatika', 'emis', 'absensi-gtk', 'adm-madrasah', 'kartu-pelajar', 'modul-ajar'
+      ];
+      for (const prefix of knownSubPrefixes) {
+        const candidateRoot = `/public_html/${prefix}`;
+        const alreadyListed = targets.some(
+          t => t.docRoot.toLowerCase() === candidateRoot || t.name.toLowerCase().startsWith(`${prefix}.`)
+        );
+        const existsInFiles = allFiles.some(f => {
+          const p = resolveCleanPath(f.path).toLowerCase();
+          return p === candidateRoot || p.startsWith(`${candidateRoot}/`);
         });
+        if (!alreadyListed && (prefix === 'siakad-madrasah' || existsInFiles)) {
+          targets.push({
+            id: `sub-preset-${prefix}`,
+            name: `${prefix}.denbaguse.my.id`,
+            type: 'subdomain',
+            docRoot: candidateRoot,
+            label: `${prefix}.denbaguse.my.id (Subdomain)`,
+          });
+        }
       }
     }
 
     return targets;
-  }, [accountDomains, account.primaryDomain, allFiles]);
+  }, [accountDomains, account.primaryDomain, account.id, allFiles]);
 
   // Set of all subdomain/addon document roots
   const isolatedSubdomainRoots = React.useMemo(() => {
     const roots = new Set<string>([
       '/public_html/siakad-madrasah',
+      '/public_html/adm-madrasah',
+      '/public_html/absensi-gtk',
+      '/public_html/kartu-pelajar',
+      '/public_html/modul-ajar',
       '/public_html/rdm',
       '/public_html/cbt',
       '/public_html/elearning',
@@ -217,6 +243,12 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
     for (const t of allDomainTargets) {
       if (t.type !== 'primary' && t.docRoot.toLowerCase() !== '/public_html') {
         roots.add(t.docRoot.toLowerCase());
+      }
+    }
+    // Also include subdomains from any other accounts in DB so /public_html never leaks subdomain files
+    for (const d of db.getDomains()) {
+      if (d.type === 'subdomain' && d.documentRoot && d.documentRoot.toLowerCase() !== '/public_html') {
+        roots.add(d.documentRoot.toLowerCase());
       }
     }
     return roots;
@@ -318,6 +350,24 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
     if (!diskScanAttemptedRef.current[scanKey]) {
       diskScanAttemptedRef.current[scanKey] = true;
       syncFromDisk(currentPath, false);
+    }
+
+    // If active account is denbaguse.my.id, ensure all its educational subdirectories are indexed
+    if (account.id === 'acc-denbaguse-01' || account.primaryDomain === 'denbaguse.my.id') {
+      const denbaguseDirs = [
+        '/public_html/siakad-madrasah',
+        '/public_html/adm-madrasah',
+        '/public_html/absensi-gtk',
+        '/public_html/kartu-pelajar',
+        '/public_html/modul-ajar',
+      ];
+      for (const d of denbaguseDirs) {
+        const k = `${account.id}:${d}`;
+        if (!diskScanAttemptedRef.current[k]) {
+          diskScanAttemptedRef.current[k] = true;
+          syncFromDisk(d, false);
+        }
+      }
     }
   }, [currentPath, account.id]);
 
