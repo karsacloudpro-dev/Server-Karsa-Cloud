@@ -118,19 +118,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     emailOrUser: string,
     role?: 'admin' | 'reseller' | 'customer'
   ): { required: boolean; secret: string; email: string; user?: User } => {
-    const cleanInput = emailOrUser.trim();
-    const targetRole = role || 'admin';
+    const cleanInput = emailOrUser.trim().toLowerCase();
     const all = db.getUsers();
+    
+    // First attempt: match any existing user across all roles if role is not strictly provided
     let target = all.find(
       u =>
-        u.role === targetRole &&
-        (u.email.toLowerCase() === cleanInput.toLowerCase() ||
-          u.name.toLowerCase() === cleanInput.toLowerCase() ||
-          (u.username ? u.username.toLowerCase() === cleanInput.toLowerCase() : false) ||
-          (u.role === 'admin' && ['karsacloud', 'gridmaster', 'admin', 'root'].includes(cleanInput.toLowerCase())))
+        (!role || u.role === role) &&
+        (u.email.toLowerCase() === cleanInput ||
+          u.name.toLowerCase() === cleanInput ||
+          (u.username ? u.username.toLowerCase() === cleanInput : false) ||
+          (u.role === 'admin' && ['karsacloud', 'gridmaster', 'admin', 'root'].includes(cleanInput)))
     );
+
+    // If still not matched and role wasn't provided, try detecting from input
     if (!target) {
-      target = ensureRoleUser(targetRole, cleanInput);
+      const resolvedRole: 'admin' | 'reseller' | 'customer' =
+        role ||
+        (['karsacloud', 'admin', 'root', 'gridmaster'].includes(cleanInput) || cleanInput.includes('admin')
+          ? 'admin'
+          : cleanInput.includes('reseller') || cleanInput.includes('mitra')
+          ? 'reseller'
+          : 'customer');
+      target = ensureRoleUser(resolvedRole, emailOrUser.trim());
     }
 
     // Root Admin ALWAYS requires 2FA by default for enterprise security hardening
@@ -174,19 +184,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     role?: 'admin' | 'reseller' | 'customer',
     twoFactorVerified = false
   ) => {
-    const cleanInput = emailOrUser.trim();
-    const targetRole = role || 'admin';
+    const cleanInput = emailOrUser.trim().toLowerCase();
     const all = db.getUsers();
+    
+    // First attempt: match any existing user across all roles if role is not strictly provided
     let target = all.find(
       u =>
-        u.role === targetRole &&
-        (u.email.toLowerCase() === cleanInput.toLowerCase() ||
-          u.name.toLowerCase() === cleanInput.toLowerCase() ||
-          (u.username ? u.username.toLowerCase() === cleanInput.toLowerCase() : false) ||
-          (u.role === 'admin' && ['karsacloud', 'gridmaster', 'admin', 'root'].includes(cleanInput.toLowerCase())))
+        (!role || u.role === role) &&
+        (u.email.toLowerCase() === cleanInput ||
+          u.name.toLowerCase() === cleanInput ||
+          (u.username ? u.username.toLowerCase() === cleanInput : false) ||
+          (u.role === 'admin' && ['karsacloud', 'gridmaster', 'admin', 'root'].includes(cleanInput)))
     );
+
+    // If still not matched, resolve role and ensure user
     if (!target) {
-      target = ensureRoleUser(targetRole, cleanInput);
+      const resolvedRole: 'admin' | 'reseller' | 'customer' =
+        role ||
+        (['karsacloud', 'admin', 'root', 'gridmaster'].includes(cleanInput) || cleanInput.includes('admin')
+          ? 'admin'
+          : cleanInput.includes('reseller') || cleanInput.includes('mitra')
+          ? 'reseller'
+          : 'customer');
+      target = ensureRoleUser(resolvedRole, emailOrUser.trim());
     }
     if (target.role === 'reseller') {
       try {

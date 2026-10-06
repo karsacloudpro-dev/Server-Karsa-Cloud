@@ -383,7 +383,14 @@ const AppContent: React.FC = () => {
 
     const effectiveRole = authenticatedRole || currentUser.role;
 
-    if (effectiveRole === 'reseller') {
+    if (effectiveRole === 'admin') {
+      if (
+        activeTab === 'reseller-dashboard' ||
+        activeTab === 'customer-dashboard'
+      ) {
+        setActiveTabState('dashboard');
+      }
+    } else if (effectiveRole === 'reseller') {
       if (
         activeTab === 'dashboard' ||
         activeTab === 'admin-dashboard' ||
@@ -1247,14 +1254,35 @@ const AppContent: React.FC = () => {
             />
           )
         );
-      case 'domains':
-      case 'subdomains':
-      case 'cpanel-domains':
+      case 'server-domains':
+      case 'core-domains':
         return renderAccountSuiteWrapper(
-          'Domain & Subdomain Manager',
+          'Domain Infrastruktur Utama Server',
           (acc) => (
             <DomainSubdomainManager
               account={acc}
+              initialScopeTab="server_infra"
+              onOpenFileManager={(targetPath) => {
+                setFileManagerPath(targetPath);
+                setActiveTab('file-manager');
+              }}
+              onNavigateTab={(tab, domain) => {
+                if (domain) setBackupPreselectedDomain(domain);
+                setActiveTab(tab);
+              }}
+            />
+          )
+        );
+      case 'domains':
+      case 'subdomains':
+      case 'cpanel-domains':
+      case 'client-domains':
+        return renderAccountSuiteWrapper(
+          'Domain & Subdomain Milik Klien',
+          (acc) => (
+            <DomainSubdomainManager
+              account={acc}
+              initialScopeTab="client_domains"
               onOpenFileManager={(targetPath) => {
                 setFileManagerPath(targetPath);
                 setActiveTab('file-manager');

@@ -31,6 +31,7 @@ import {
   Activity,
   Zap,
   GitBranch,
+  ShieldCheck,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useServer } from '../../context/ServerContext';
@@ -181,6 +182,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         title: 'Hosting & Domain Suite',
         items: [
           {
+            id: 'server-domains',
+            aliases: ['core-domains', 'infra-domains'],
+            label: 'Domain Server Utama',
+            icon: ShieldCheck,
+            badge: {
+              text: 'CORE',
+            },
+          },
+          {
             id: 'accounts',
             aliases: ['hosting-accounts', 'hosting'],
             label: 'Akun Hosting (vHosts)',
@@ -188,8 +198,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           },
           {
             id: 'domains',
-            aliases: ['cpanel-domains', 'subdomains'],
-            label: 'Domain & Subdomain',
+            aliases: ['cpanel-domains', 'subdomains', 'client-domains'],
+            label: 'Domain Klien & Reseller',
             icon: Globe,
           },
           {

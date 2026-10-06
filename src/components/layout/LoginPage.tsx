@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CloudProLogo } from '../common/CloudProLogo';
 import { useAuth } from '../../context/AuthContext';
+import { db } from '../../services/storage';
 import { verifyTotpCode, EMERGENCY_RESCUE_CODE } from '../../services/totp';
 import {
   ArrowRight,
@@ -55,21 +56,40 @@ interface LoginPageProps {
 export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
   const { login, check2FARequired } = useAuth();
 
-  const [selectedRole, setSelectedRole] = useState<PortalRole>(() => {
-    try {
-      const savedRole = localStorage.getItem(DEVICE_LAST_ROLE_KEY) as PortalRole | null;
-      if (savedRole === 'admin' || savedRole === 'reseller' || savedRole === 'customer') {
-        return savedRole;
-      }
-    } catch {}
-    return 'admin';
-  });
-
   // Empty by default on a new device; auto-filled only if this device has logged in before
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem('cloudpro_saved_login_user');
+      if (saved) return saved;
+      const map = readDeviceCredentials();
+      const anyUser = map.admin?.user || map.reseller?.user || map.customer?.user;
+      return anyUser || '';
+    } catch {
+      return '';
+    }
+  });
+  const [password, setPassword] = useState<string>(() => {
+    try {
+      const savedPass = localStorage.getItem('cloudpro_saved_login_pass');
+      if (savedPass) return savedPass;
+      const map = readDeviceCredentials();
+      const anyPass = map.admin?.pass || map.reseller?.pass || map.customer?.pass;
+      return anyPass || '';
+    } catch {
+      return '';
+    }
+  });
   const [rememberDevice, setRememberDevice] = useState<boolean>(true);
-  const [isAutoFilledFromDevice, setIsAutoFilledFromDevice] = useState<boolean>(false);
+  const [isAutoFilledFromDevice, setIsAutoFilledFromDevice] = useState<boolean>(() => {
+    try {
+      return Boolean(
+        localStorage.getItem('cloudpro_saved_login_user') ||
+        localStorage.getItem(DEVICE_CREDS_STORAGE_KEY)
+      );
+    } catch {
+      return false;
+    }
+  });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -84,21 +104,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
   const [showEmergencyHelp, setShowEmergencyHelp] = useState<boolean>(false);
   const [secondsRemaining, setSecondsRemaining] = useState<number>(30);
   const totpInputRef = useRef<HTMLInputElement>(null);
-
-  // Load saved credentials for the selected role if this device has previously logged in
-  useEffect(() => {
-    const map = readDeviceCredentials();
-    const saved = map[selectedRole];
-    if (saved && saved.user) {
-      setUsername(saved.user);
-      setPassword(saved.pass || '');
-      setIsAutoFilledFromDevice(true);
-    } else {
-      setUsername('');
-      setPassword('');
-      setIsAutoFilledFromDevice(false);
-    }
-  }, [selectedRole]);
 
   // Live countdown for TOTP 30-second window
   useEffect(() => {
@@ -115,22 +120,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
     return () => clearInterval(timer);
   }, [is2FAPending]);
 
-  const handleRoleSelect = (role: PortalRole) => {
-    setSelectedRole(role);
-    setErrorMessage('');
-    setIs2FAPending(false);
-    setTotpCode('');
-    setTotpError('');
-    try {
-      localStorage.setItem(DEVICE_LAST_ROLE_KEY, role);
-    } catch {}
-  };
-
   const handleClearDeviceMemory = () => {
     try {
-      const map = readDeviceCredentials();
-      delete map[selectedRole];
-      localStorage.setItem(DEVICE_CREDS_STORAGE_KEY, JSON.stringify(map));
+      localStorage.removeItem('cloudpro_saved_login_user');
+      localStorage.removeItem('cloudpro_saved_login_pass');
+      localStorage.removeItem(DEVICE_CREDS_STORAGE_KEY);
+      localStorage.removeItem(DEVICE_LAST_ROLE_KEY);
     } catch {}
     setUsername('');
     setPassword('');
@@ -151,27 +146,66 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
 
     setErrorMessage('');
 
-    // Save credentials on this device so subsequent visits auto-fill automatically
+    // Auto-detect role directly from user data or username heuristics
+    const lowerUser = cleanUser.toLowerCase();
+    const allUsers = db.getUsers();
+    const matchedUser = allUsers.find(
+      u =>
+        u.email.toLowerCase() === lowerUser ||
+        u.name.toLowerCase() === lowerUser ||
+        (u.username ? u.username.toLowerCase() === lowerUser : false) ||
+        (['karsacloud', 'gridmaster', 'admin', 'root'].includes(lowerUser) && u.role === 'admin')
+    );
+
+    let detectedRole: PortalRole = 'customer';
+    if (matchedUser) {
+      detectedRole = matchedUser.role;
+    } else if (
+      lowerUser.includes('admin') ||
+      lowerUser === 'karsacloud' ||
+      lowerUser === 'root' ||
+      lowerUser === 'gridmaster' ||
+      lowerUser.endsWith('@karsacloud.biz.id')
+    ) {
+      detectedRole = 'admin';
+    } else if (lowerUser.includes('reseller') || lowerUser.includes('mitra')) {
+      detectedRole = 'reseller';
+    } else {
+      const allAccs = db.getHostingAccounts();
+      const matchedAcc = allAccs.find(
+        a =>
+          a.username.toLowerCase() === lowerUser ||
+          (a.customerEmail && a.customerEmail.toLowerCase() === lowerUser)
+      );
+      if (matchedAcc) {
+        detectedRole = 'customer';
+      }
+    }
+
+    // Save credentials on this device if requested
     try {
-      localStorage.setItem(DEVICE_LAST_ROLE_KEY, selectedRole);
-      const map = readDeviceCredentials();
       if (rememberDevice) {
-        map[selectedRole] = {
+        localStorage.setItem('cloudpro_saved_login_user', cleanUser);
+        localStorage.setItem('cloudpro_saved_login_pass', cleanPass);
+        localStorage.setItem(DEVICE_LAST_ROLE_KEY, detectedRole);
+        const map = readDeviceCredentials();
+        map[detectedRole] = {
           user: cleanUser,
-          pass: password,
+          pass: cleanPass,
           updatedAt: new Date().toISOString(),
         };
+        localStorage.setItem(DEVICE_CREDS_STORAGE_KEY, JSON.stringify(map));
       } else {
-        delete map[selectedRole];
+        localStorage.removeItem('cloudpro_saved_login_user');
+        localStorage.removeItem('cloudpro_saved_login_pass');
       }
-      localStorage.setItem(DEVICE_CREDS_STORAGE_KEY, JSON.stringify(map));
     } catch {}
 
     // Check if 2FA is required for this role/account
-    const twoFaCheck = check2FARequired(cleanUser, selectedRole);
+    const twoFaCheck = check2FARequired(cleanUser, detectedRole);
     if (twoFaCheck.required) {
       setPendingUser(cleanUser);
-      setPendingRole(selectedRole);
+      setPendingRole(detectedRole);
       setPendingSecret(twoFaCheck.secret);
       setPendingEmail(twoFaCheck.email);
       setTotpCode('');
@@ -180,7 +214,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
       return;
     }
 
-    login(cleanUser, selectedRole, false);
+    login(cleanUser, detectedRole, false);
   };
 
   const handleTotpChange = (val: string) => {
@@ -228,24 +262,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
     setIs2FAPending(false);
     setTotpCode('');
     setTotpError('');
-  };
-
-  const roleLabels: Record<PortalRole, { title: string; badge: string; placeholder: string }> = {
-    admin: {
-      title: 'Root Administrator',
-      badge: 'CLUSTER ROOT',
-      placeholder: 'Username / email Root Admin (mis. karsacloud atau admin)...',
-    },
-    reseller: {
-      title: 'WHM Reseller Partner',
-      badge: 'WHM PORTAL',
-      placeholder: 'Username / email Mitra Reseller...',
-    },
-    customer: {
-      title: 'cPanel Web Client',
-      badge: 'CPANEL SUITE',
-      placeholder: 'Username / email Klien cPanel...',
-    },
   };
 
   return (
@@ -483,52 +499,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
               <>
                 <div className="flex items-center justify-between mb-1.5">
                   <h2 className="text-sm sm:text-base lg:text-lg font-extrabold text-white tracking-tight">
-                    Autentikasi Portal
+                    Masuk ke Akun Portal
                   </h2>
                   <span className="rounded-md border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-sky-300">
-                    {roleLabels[selectedRole].badge}
+                    SINGLE SIGN-ON
                   </span>
                 </div>
                 <p className="text-[11px] sm:text-xs text-slate-400 mb-3.5 sm:mb-4">
-                  Pilih tingkat otorisasi portal dan masukkan kredensial akun Anda.
+                  Masukkan kredensial akun Anda. Sistem otomatis mengenali hak akses Anda (Root Admin, WHM Reseller, atau cPanel Klien) dan mengarahkan langsung ke dashboard yang sesuai.
                 </p>
-
-                {/* Touch-Friendly Role Selector Tabs */}
-                <div className="grid grid-cols-3 gap-1 p-1 bg-slate-950 rounded-xl border border-slate-800/90 mb-3.5 sm:mb-4 text-xs">
-                  <button
-                    type="button"
-                    onClick={() => handleRoleSelect('admin')}
-                    className={`py-2 sm:py-2.5 px-1 rounded-lg font-bold transition-all cursor-pointer text-center text-[10.5px] sm:text-xs ${
-                      selectedRole === 'admin'
-                        ? 'bg-sky-600 text-white shadow-xs'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/70'
-                    }`}
-                  >
-                    Root Admin
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleRoleSelect('reseller')}
-                    className={`py-2 sm:py-2.5 px-1 rounded-lg font-bold transition-all cursor-pointer text-center text-[10.5px] sm:text-xs ${
-                      selectedRole === 'reseller'
-                        ? 'bg-sky-600 text-white shadow-xs'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/70'
-                    }`}
-                  >
-                    Reseller
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleRoleSelect('customer')}
-                    className={`py-2 sm:py-2.5 px-1 rounded-lg font-bold transition-all cursor-pointer text-center text-[10.5px] sm:text-xs ${
-                      selectedRole === 'customer'
-                        ? 'bg-sky-600 text-white shadow-xs'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/70'
-                    }`}
-                  >
-                    cPanel Klien
-                  </button>
-                </div>
 
                 {/* Smart Device Auto-Fill Status Banner */}
                 {isAutoFilledFromDevice && (
@@ -565,7 +544,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
                         Username / Email Akun
                       </label>
                       <span className="font-mono text-[9px] sm:text-[10px] text-slate-500">
-                        {roleLabels[selectedRole].title}
+                        Admin / Reseller / Klien
                       </span>
                     </div>
                     <div className="relative">
@@ -576,7 +555,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
                         type="text"
                         name="username"
                         autoComplete="username"
-                        placeholder={roleLabels[selectedRole].placeholder}
+                        placeholder="Username atau email akun Anda..."
                         value={username}
                         onChange={e => {
                           setUsername(e.target.value);
@@ -635,14 +614,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
                     type="submit"
                     className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-sky-600 hover:bg-sky-500 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-sky-600/20 transition-all cursor-pointer active:scale-[0.99]"
                   >
-                    <span>
-                      Masuk Portal{' '}
-                      {selectedRole === 'admin'
-                        ? 'Root Admin'
-                        : selectedRole === 'reseller'
-                        ? 'Reseller'
-                        : 'cPanel Klien'}
-                    </span>
+                    <span>Masuk ke Dashboard</span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
 

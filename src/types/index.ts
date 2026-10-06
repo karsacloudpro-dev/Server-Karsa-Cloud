@@ -527,4 +527,29 @@ export interface OptimizedMediaFile {
   dataBase64?: string;
 }
 
+export interface CoreServerDomainInfo {
+  id: string;
+  domain: string;
+  title: string;
+  roleDescription: string;
+  category: 'apex_website' | 'admin_panel' | 'client_portal';
+  badge: string;
+  badgeColor: 'sky' | 'amber' | 'emerald' | 'indigo';
+  targetPort: number;
+  engine: string;
+  documentRoot: string;
+  sslStatus: 'active' | 'renewing';
+  sslProvider: string;
+  sslType: string;
+  sslExpires: string;
+  ipAddress: string;
+  dnsProvider: string;
+  proxyStatus: 'active' | 'bypassed';
+  caddyConfigured: boolean;
+  reverseProxyRule: string;
+  customHeaders?: string[];
+  isLocked: boolean;
+  lastVerifiedAt: string;
+}
+
 export * from './ip';

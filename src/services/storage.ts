@@ -25,7 +25,20 @@ import {
   DomainEntity,
   DatabaseTableEntity,
   CloudProLetterheadConfig,
+  CoreServerDomainInfo,
 } from '../types';
+
+export const isCoreServerDomain = (domain: string): boolean => {
+  if (!domain) return false;
+  const d = domain.trim().toLowerCase();
+  return (
+    d === 'karsacloud.biz.id' ||
+    d === 'server.karsacloud.biz.id' ||
+    d === 'client.karsacloud.biz.id' ||
+    d === 'ns1.karsacloud.biz.id' ||
+    d === 'ns2.karsacloud.biz.id'
+  );
+};
 
 const STORAGE_KEY = 'cloudpro_hosting_v9_clean';
 const LETTERHEAD_STORAGE_KEY = 'cloudpro_letterhead_config_v1';
@@ -1702,6 +1715,84 @@ class StorageService {
     this.markDeleted(id);
     this.state.dnsRecords = this.state.dnsRecords.filter(d => d.id !== id);
     this.saveState(true, true);
+  }
+
+  // --- Core Server Infrastructure Domains ---
+  public getCoreServerDomains(): CoreServerDomainInfo[] {
+    const primaryNode = this.getServerNodes().find(n => n.isPrimary) || this.getServerNodes()[0];
+    const nodeIp = primaryNode?.ipAddress || '178.83.181.238';
+
+    return [
+      {
+        id: 'core-dom-01',
+        domain: 'karsacloud.biz.id',
+        title: 'Website Utama & Branding Portal',
+        roleDescription: 'Apex domain resmi untuk landing page promosi, katalog paket cloud hosting, pendaftaran pelanggan, dan integrasi WhatsApp.',
+        category: 'apex_website',
+        badge: 'APEX DOMAIN',
+        badgeColor: 'sky',
+        targetPort: 3000,
+        engine: 'Node.js 22 + React 19 Engine',
+        documentRoot: '/var/www/html (Public Portal)',
+        sslStatus: 'active',
+        sslProvider: "Let's Encrypt Wildcard (*.karsacloud.biz.id)",
+        sslType: 'TLS 1.3 / HTTP/3 ALPN',
+        sslExpires: '2027-01-01T00:00:00Z',
+        ipAddress: nodeIp,
+        dnsProvider: 'Cloudflare Anycast DDoS Mitigation',
+        proxyStatus: 'active',
+        caddyConfigured: true,
+        reverseProxyRule: 'karsacloud.biz.id -> reverse_proxy localhost:3000',
+        isLocked: true,
+        lastVerifiedAt: new Date().toISOString(),
+      },
+      {
+        id: 'core-dom-02',
+        domain: 'server.karsacloud.biz.id',
+        title: 'Web Panel Admin & API Node Gateway',
+        roleDescription: 'Endpoint utama kontrol server, API telemetri hardware, daemon service, manajemen vHost, database, dan Web Terminal SSH root.',
+        category: 'admin_panel',
+        badge: 'CONTROL CENTER',
+        badgeColor: 'amber',
+        targetPort: 3000,
+        engine: 'Karsa Cloud PRO High-Perf Daemon',
+        documentRoot: '/app/applet (System Core Root)',
+        sslStatus: 'active',
+        sslProvider: "Let's Encrypt Enterprise SSL",
+        sslType: 'Dual TLS 1.3 + HTTP/2 Multiplex',
+        sslExpires: '2027-01-01T00:00:00Z',
+        ipAddress: nodeIp,
+        dnsProvider: 'DNS A Record -> 178.83.181.238 (Auto-Sync)',
+        proxyStatus: 'active',
+        caddyConfigured: true,
+        reverseProxyRule: 'server.karsacloud.biz.id -> reverse_proxy localhost:3000',
+        isLocked: true,
+        lastVerifiedAt: new Date().toISOString(),
+      },
+      {
+        id: 'core-dom-03',
+        domain: 'client.karsacloud.biz.id',
+        title: 'Portal Akses Mandiri Klien (cPanel SSO)',
+        roleDescription: 'Gerbang masuk pelanggan mandiri untuk mengelola file manager web masing-masing, basis data phpMyAdmin, email webmail, dan billing faktur.',
+        category: 'client_portal',
+        badge: 'CLIENT GATEWAY',
+        badgeColor: 'emerald',
+        targetPort: 3000,
+        engine: 'cPanel CloudPRO Multi-Tenant SSO',
+        documentRoot: '/home/client/public_html',
+        sslStatus: 'active',
+        sslProvider: "Let's Encrypt Authority X3",
+        sslType: 'TLS 1.3 Auto-Managed',
+        sslExpires: '2027-01-01T00:00:00Z',
+        ipAddress: nodeIp,
+        dnsProvider: 'Cloudflare CNAME / A Record',
+        proxyStatus: 'active',
+        caddyConfigured: true,
+        reverseProxyRule: 'client.karsacloud.biz.id -> reverse_proxy localhost:3000',
+        isLocked: true,
+        lastVerifiedAt: new Date().toISOString(),
+      },
+    ];
   }
 
   // --- Domains & Subdomains ---
