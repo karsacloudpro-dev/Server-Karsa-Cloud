@@ -36,6 +36,7 @@ interface TopBarProps {
   onBack?: () => void;
   canGoBack?: boolean;
   onNavigate?: (tab: string) => void;
+  onOpenLanding?: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -46,6 +47,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onBack,
   canGoBack,
   onNavigate,
+  onOpenLanding,
 }) => {
   const { currentUser, switchUser, switchRole, allUsers, currentResellerProfile, logout, authenticatedRole } = useAuth();
   const { servers, activeJobsCount, notifications, resetDatabase } = useServer();
@@ -254,6 +256,16 @@ export const TopBar: React.FC<TopBarProps> = ({
 
         {/* Right Zone: Quick Action Controls */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {onOpenLanding && (
+            <button
+              onClick={onOpenLanding}
+              title="Kunjungi Website Utama Promosi (karsacloud.biz.id)"
+              className="flex items-center gap-1.5 rounded-xl border border-sky-300/80 bg-sky-50 dark:bg-sky-950/60 dark:border-sky-700/60 px-2.5 py-1.5 text-xs font-bold text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors shadow-2xs cursor-pointer"
+            >
+              <Globe className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
+              <span className="hidden sm:inline">Website Utama</span>
+            </button>
+          )}
           {/* Git Commit Status Button: KHUSUS DESKTOP (hidden di Android/Mobile agar tidak menutupi judul header) */}
           <button
             onClick={() => setShowCommitModal(true)}

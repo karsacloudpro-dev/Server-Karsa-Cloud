@@ -27,14 +27,14 @@ import {
   CloudProLetterheadConfig,
 } from '../types';
 
-const STORAGE_KEY = 'cloudpro_hosting_v4';
+const STORAGE_KEY = 'cloudpro_hosting_v9_clean';
 const LETTERHEAD_STORAGE_KEY = 'cloudpro_letterhead_config_v1';
 
 export const DEFAULT_LETTERHEAD_CONFIG: CloudProLetterheadConfig = {
   headerTitle: 'KARSA CLOUD PRO',
   headerSubtitle: 'Layanan Enterprise Cloud Hosting, Domain, Virtual Server (VPS) & Infrastruktur Digital',
-  serverDomain: 'karsacloud.biz.id',
-  officeAddress: 'Server Utama: karsacloud.biz.id • NOC Data Center Singapore & Jakarta • Indonesia',
+  serverDomain: 'server.karsacloud.biz.id',
+  officeAddress: 'Server Utama: server.karsacloud.biz.id • Website: karsacloud.biz.id • Indonesia',
   officialEmail: 'admin@karsacloud.biz.id',
   officialWhatsApp: '+62 812-2673-8883',
   ownerName: 'Jaenal Maskun',
@@ -90,121 +90,34 @@ export interface DatabaseState {
 const INITIAL_STATE: DatabaseState = {
   users: [
     {
-      id: 'usr-admin-01',
-      name: 'Jaenal Maskun',
-      username: 'karsacloud',
-      email: 'admin@karsacloud.biz.id',
-      role: 'admin',
-      status: 'active',
+      id: "usr-admin-01",
+      name: "Jaenal Maskun",
+      username: "karsacloud",
+      email: "admin@karsacloud.biz.id",
+      role: "admin",
+      status: "active",
       creditBalance: 50000.0,
-      companyName: 'Karsa Cloud PRO (karsacloud.biz.id)',
-      phone: '+62 812-2673-8883',
-      twoFactorEnabled: true,
-      twoFactorSecret: 'KARSACLOUDSECRET23',
-      createdAt: '2026-01-10T08:00:00Z',
-      lastLogin: '2026-09-30T08:00:00Z',
-    },
-    {
-      id: 'usr-reseller-denbaguse',
-      name: 'Jaenal Maskun (Den Baguse)',
-      username: 'denbaguse',
-      email: 'admin@denbaguse.my.id',
-      role: 'reseller',
-      status: 'active',
-      creditBalance: 2500.0,
-      companyName: 'Den Baguse Digital Media',
-      phone: '+62 812-2673-8883',
+      companyName: "Karsa Cloud PRO (server.karsacloud.biz.id)",
+      phone: "+62 812-2673-8883",
       twoFactorEnabled: false,
-      createdAt: '2026-02-01T08:00:00Z',
-      lastLogin: '2026-10-05T08:00:00Z',
-    },
-    {
-      id: 'usr-reseller-01',
-      name: 'Mitra Reseller Cloud',
-      username: 'reseller',
-      email: 'reseller@mitrahosting.my.id',
-      role: 'reseller',
-      status: 'active',
-      creditBalance: 1500.0,
-      companyName: 'Mitra Cloud Hosting Partner',
-      phone: '+62 812-2673-8883',
-      twoFactorEnabled: false,
-      createdAt: '2026-03-15T09:00:00Z',
-      lastLogin: '2026-09-30T08:10:00Z',
-    },
-    {
-      id: 'usr-cust-02',
-      name: 'Pelanggan Hosting cPanel',
-      username: 'pelanggan',
-      email: 'pelanggan@karsacloud.biz.id',
-      role: 'customer',
-      status: 'active',
-      creditBalance: 250.0,
-      companyName: 'Portal Website Pelanggan',
-      phone: '+62 812-2673-8883',
-      twoFactorEnabled: false,
-      createdAt: '2026-06-20T10:00:00Z',
-      lastLogin: '2026-09-30T08:15:00Z',
+      twoFactorSecret: "KARSACLOUDSECRET23",
+      createdAt: "2026-01-10T08:00:00Z",
+      lastLogin: "2026-10-06T08:00:00Z",
     },
   ],
 
-  resellerProfiles: [
-    {
-      id: 'prof-reseller-denbaguse',
-      userId: 'usr-reseller-denbaguse',
-      brandName: 'Den Baguse Cloud',
-      companyName: 'Den Baguse Digital Media',
-      themeColor: '#6366f1',
-      panelDomain: 'panel.denbaguse.my.id',
-      primaryDomain: 'denbaguse.my.id',
-      supportEmail: 'admin@denbaguse.my.id',
-      nameserver1: 'ns1.denbaguse.my.id',
-      nameserver2: 'ns2.denbaguse.my.id',
-      nameservers: ['ns1.denbaguse.my.id', 'ns2.denbaguse.my.id'],
-      assignedIp: '103.147.154.21',
-      allocatedDiskMb: 102400,
-      allocatedBandwidthMb: 1024000,
-      maxAccounts: 50,
-      allocatedDatabases: 100,
-      allocatedEmails: 250,
-      allocatedDomains: 50,
-      hideUpstreamBranding: true,
-      customInvoiceHeader: 'Den Baguse Digital Media — Layanan Cloud & Hosting Resmi',
-    },
-    {
-      id: 'prof-reseller-01',
-      userId: 'usr-reseller-01',
-      brandName: 'Mitra Cloud Hosting',
-      companyName: 'PT Mitra Cloud Nusantara',
-      themeColor: '#0ea5e9',
-      panelDomain: 'panel.mitrahosting.my.id',
-      primaryDomain: 'mitrahosting.my.id',
-      supportEmail: 'support@mitrahosting.my.id',
-      nameserver1: 'ns1.mitrahosting.my.id',
-      nameserver2: 'ns2.mitrahosting.my.id',
-      nameservers: ['ns1.mitrahosting.my.id', 'ns2.mitrahosting.my.id'],
-      assignedIp: '172.67.223.133',
-      allocatedDiskMb: 102400,
-      allocatedBandwidthMb: 1024000,
-      maxAccounts: 50,
-      allocatedDatabases: 100,
-      allocatedEmails: 250,
-      allocatedDomains: 50,
-      hideUpstreamBranding: true,
-      customInvoiceHeader: 'Layanan Web Hosting & Cloud Server Mitra Resmi',
-    },
-  ],
+  resellerProfiles: [],
 
   serverNodes: [
     {
-      id: 'srv-sg-01',
-      name: 'cloudpro (VPS Utama Anda)',
-      hostname: 'cloudpro.karsacloud.biz.id',
-      ipAddress: '178.83.181.238',
-      location: 'Cloud Node (SRV-04)',
-      countryCode: 'US',
-      osType: 'Ubuntu 24.04 LTS (64-bit)',
-      status: 'online',
+      id: "srv-sg-01",
+      name: "Karsa Cloud Node (VPS Utama)",
+      hostname: "server.karsacloud.biz.id",
+      ipAddress: "178.83.181.238",
+      location: "Cloud Node (Singapore & Global)",
+      countryCode: "SG",
+      osType: "Ubuntu 24.04 LTS (64-bit)",
+      status: "online",
       totalCpuCores: 1,
       cpuUsagePct: 4.45,
       totalRamMb: 1024,
@@ -215,86 +128,28 @@ const INITIAL_STATE: DatabaseState = {
       loadAverage: [0.08, 0.12, 0.10],
       uptimeDays: 2,
       isPrimary: true,
-      assignedAccountsCount: 2,
-      services: [
-        { name: 'caddy', displayName: 'Caddy v2 (Reverse Proxy & Auto-SSL HTTPS)', status: 'running', port: 443, version: '2.11.7', memoryMb: 120, uptime: '48d 14h' },
-        { name: 'nodejs', displayName: 'Karsa Cloud PRO Engine (Node.js)', status: 'running', port: 3000, version: '22.14.0', memoryMb: 350, uptime: '48d 14h' },
-        { name: 'sshd', displayName: 'OpenSSH Daemon (Terminal Remote)', status: 'running', port: 22, version: '9.6p1', memoryMb: 45, uptime: '48d 14h' },
-        { name: 'nginx', displayName: 'Nginx High-Perf Web Server', status: 'running', port: 80, version: '1.26.1', memoryMb: 210, uptime: '48d 14h' },
-        { name: 'mariadb', displayName: 'MariaDB SQL Database Server', status: 'running', port: 3306, version: '10.11.8', memoryMb: 850, uptime: '48d 14h' },
-        { name: 'pure_ftpd', displayName: 'Pure-FTPd Secure Daemon', status: 'running', port: 21, version: '1.0.51', memoryMb: 60, uptime: '48d 14h' },
-      ],
-    },
-    {
-      id: 'srv-id-01',
-      name: 'JKT-Cyber1-Node02',
-      hostname: 'id-node-01.cloudpro.net',
-      ipAddress: '103.253.212.88',
-      location: 'Jakarta (Cyber 1 DC)',
-      countryCode: 'ID',
-      osType: 'Ubuntu 24.04 LTS',
-      status: 'online',
-      totalCpuCores: 8,
-      cpuUsagePct: 18.2,
-      totalRamMb: 32768, // 32 GB
-      ramUsageMb: 8900,
-      totalDiskGb: 1000,
-      diskUsageGb: 310,
-      bandwidthUsageGb: 890,
-      loadAverage: [0.22, 0.31, 0.28],
-      uptimeDays: 89,
-      isPrimary: false,
       assignedAccountsCount: 0,
       services: [
-        { name: 'nginx', displayName: 'Nginx High-Perf Web Server', status: 'running', port: 80, version: '1.26.1', memoryMb: 310, uptime: '89d 12h' },
-        { name: 'mariadb', displayName: 'MariaDB Relational Server', status: 'running', port: 3306, version: '10.11.8-GA', memoryMb: 1250, uptime: '89d 12h' },
-        { name: 'php_fpm', displayName: 'PHP-FPM Process Manager', status: 'running', port: 9000, version: '8.2.19 & 8.3.8', memoryMb: 760, uptime: '89d 12h' },
-        { name: 'named', displayName: 'BIND9 Authoritative DNS', status: 'running', port: 53, version: '9.18.26', memoryMb: 210, uptime: '89d 12h' },
-        { name: 'postfix', displayName: 'Postfix Mail Transfer Daemon', status: 'running', port: 25, version: '3.8.6', memoryMb: 140, uptime: '89d 12h' },
-        { name: 'pure_ftpd', displayName: 'Pure-FTPd Secure Daemon', status: 'running', port: 21, version: '1.0.51', memoryMb: 70, uptime: '89d 12h' },
-      ],
-    },
-    {
-      id: 'srv-us-01',
-      name: 'VA-Ashburn-Node03',
-      hostname: 'us-node-01.cloudpro.net',
-      ipAddress: '198.51.100.45',
-      location: 'US East (Ashburn VA)',
-      countryCode: 'US',
-      osType: 'Debian 12 Bookworm',
-      status: 'online',
-      totalCpuCores: 8,
-      cpuUsagePct: 12.0,
-      totalRamMb: 32768,
-      ramUsageMb: 6100,
-      totalDiskGb: 1000,
-      diskUsageGb: 190,
-      bandwidthUsageGb: 430,
-      loadAverage: [0.15, 0.18, 0.20],
-      uptimeDays: 204,
-      isPrimary: false,
-      assignedAccountsCount: 0,
-      services: [
-        { name: 'nginx', displayName: 'Nginx High-Perf Web Server', status: 'running', port: 80, version: '1.26.1', memoryMb: 290, uptime: '204d 4h' },
-        { name: 'mariadb', displayName: 'MariaDB Relational Server', status: 'running', port: 3306, version: '10.11.8-GA', memoryMb: 1100, uptime: '204d 4h' },
-        { name: 'php_fpm', displayName: 'PHP-FPM Process Manager', status: 'running', port: 9000, version: '8.2.19 & 8.3.8', memoryMb: 640, uptime: '204d 4h' },
-        { name: 'named', displayName: 'BIND9 Authoritative DNS', status: 'running', port: 53, version: '9.18.26', memoryMb: 195, uptime: '204d 4h' },
-        { name: 'postfix', displayName: 'Postfix Mail Transfer Daemon', status: 'running', port: 25, version: '3.8.6', memoryMb: 130, uptime: '204d 4h' },
-        { name: 'pure_ftpd', displayName: 'Pure-FTPd Secure Daemon', status: 'running', port: 21, version: '1.0.51', memoryMb: 65, uptime: '204d 4h' },
+        { name: "caddy", displayName: "Caddy v2 (Reverse Proxy & Auto-SSL HTTPS)", status: "running", port: 443, version: "2.11.7", memoryMb: 120, uptime: "48d 14h" },
+        { name: "nodejs", displayName: "Karsa Cloud PRO Engine (Node.js)", status: "running", port: 3000, version: "22.14.0", memoryMb: 350, uptime: "48d 14h" },
+        { name: "sshd", displayName: "OpenSSH Daemon (Terminal Remote)", status: "running", port: 22, version: "9.6p1", memoryMb: 45, uptime: "48d 14h" },
+        { name: "nginx", displayName: "Nginx High-Perf Web Server", status: "running", port: 80, version: "1.26.1", memoryMb: 210, uptime: "48d 14h" },
+        { name: "mariadb", displayName: "MariaDB SQL Database Server", status: "running", port: 3306, version: "10.11.8", memoryMb: 850, uptime: "48d 14h" },
+        { name: "pure_ftpd", displayName: "Pure-FTPd Secure Daemon", status: "running", port: 21, version: "1.0.51", memoryMb: 60, uptime: "48d 14h" },
       ],
     },
   ],
 
   hostingPlans: [
     {
-      id: 'plan-starter',
-      name: 'Cloud Starter',
-      slug: 'cloud-starter',
-      description: 'Ideal untuk website personal, portfolio, blog dan UMKM tahap awal.',
-      diskMb: 5120, // 5 GB
-      bandwidthMb: 102400, // 100 GB
-      cpuLimitPct: 100, // 1 Core
-      ramLimitMb: 1024, // 1 GB
+      id: "plan-starter",
+      name: "Cloud Starter",
+      slug: "cloud-starter",
+      description: "Ideal untuk website personal, portfolio, blog dan UMKM.",
+      diskMb: 5120,
+      bandwidthMb: 102400,
+      cpuLimitPct: 100,
+      ramLimitMb: 1024,
       maxDomains: 1,
       maxSubdomains: 5,
       maxDatabases: 2,
@@ -303,42 +158,42 @@ const INITIAL_STATE: DatabaseState = {
       hasSsl: true,
       hasBackup: true,
       hasCron: true,
-      priceMonthly: 4.5,
-      priceYearly: 45.0,
-      currency: 'USD',
+      priceMonthly: 29000,
+      priceYearly: 290000,
+      currency: "IDR",
       isActive: true,
     },
     {
-      id: 'plan-pro',
-      name: 'Cloud Business Pro',
-      slug: 'cloud-pro',
-      description: 'Performa tinggi untuk toko online, portal media berita, dan web bisnis.',
-      diskMb: 25600, // 25 GB
-      bandwidthMb: 512000, // 500 GB
-      cpuLimitPct: 200, // 2 Cores
-      ramLimitMb: 4096, // 4 GB
-      maxDomains: 5,
-      maxSubdomains: 20,
-      maxDatabases: 10,
-      maxEmails: 25,
+      id: "plan-pro",
+      name: "Cloud Business Pro",
+      slug: "cloud-pro",
+      description: "Performa tinggi NVMe untuk website bisnis, e-commerce, dan madrasah.",
+      diskMb: 25600,
+      bandwidthMb: 512000,
+      cpuLimitPct: 200,
+      ramLimitMb: 4096,
+      maxDomains: 10,
+      maxSubdomains: 50,
+      maxDatabases: 20,
+      maxEmails: 50,
       maxFtp: 10,
       hasSsl: true,
       hasBackup: true,
       hasCron: true,
-      priceMonthly: 14.0,
-      priceYearly: 140.0,
-      currency: 'USD',
+      priceMonthly: 75000,
+      priceYearly: 750000,
+      currency: "IDR",
       isActive: true,
     },
     {
-      id: 'plan-enterprise',
-      name: 'Cloud Enterprise Ultra',
-      slug: 'cloud-enterprise',
-      description: 'Resource dedicated tanpa batas untuk agensi digital dan traffic jutaan per bulan.',
-      diskMb: 102400, // 100 GB NVMe
-      bandwidthMb: 2048000, // 2 TB
-      cpuLimitPct: 400, // 4 Cores
-      ramLimitMb: 8192, // 8 GB
+      id: "plan-enterprise",
+      name: "Cloud Enterprise",
+      slug: "cloud-enterprise",
+      description: "Resource terdedikasi untuk aplikasi skala besar dan reseller.",
+      diskMb: 102400,
+      bandwidthMb: 2048000,
+      cpuLimitPct: 400,
+      ramLimitMb: 8192,
       maxDomains: 999,
       maxSubdomains: 999,
       maxDatabases: 999,
@@ -347,1112 +202,67 @@ const INITIAL_STATE: DatabaseState = {
       hasSsl: true,
       hasBackup: true,
       hasCron: true,
-      priceMonthly: 39.0,
-      priceYearly: 390.0,
-      currency: 'USD',
+      priceMonthly: 150000,
+      priceYearly: 1500000,
+      currency: "IDR",
       isActive: true,
     },
   ],
 
-  hostingAccounts: [
-    {
-      id: 'acc-rdm-01',
-      primaryDomain: 'karsacloud.biz.id',
-      domain: 'karsacloud.biz.id',
-      username: 'karsacloud',
-      customerId: 'usr-admin-01',
-      customerName: 'Jaenal Maskun',
-      customerEmail: 'admin@karsacloud.biz.id',
-      serverId: 'srv-sg-01',
-      serverName: 'SG-Edge-01 (Singapore)',
-      planId: 'plan-pro',
-      planName: 'Karsa Cloud PRO NVMe',
-      diskUsedMb: 23,
-      diskLimitMb: 25600,
-      bandwidthUsedMb: 8450,
-      bandwidthLimitMb: 512000,
-      phpVersion: '8.2',
-      phpExtensions: [
-        'ioncube',
-        'mysqli',
-        'pdo',
-        'curl',
-        'gd',
-        'mbstring',
-        'zip',
-        'xml',
-        'fileinfo',
-        'intl',
-        'bcmath',
-        'soap',
-        'opcache',
-      ],
-      status: 'active',
-      sslStatus: 'active',
-      sslProvider: "Let's Encrypt / ZeroSSL",
-      sslExpiresAt: '2027-01-01T00:00:00Z',
-      forceHttps: true,
-      documentRoot: '/home/karsacloud/public_html',
-      ipAddress: '103.147.154.21',
-      databaseCount: 1,
-      emailCount: 2,
-      ftpCount: 1,
-      nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
-      createdAt: '2026-09-25T10:00:00Z',
-    },
-    {
-      id: 'acc-denbaguse-01',
-      primaryDomain: 'denbaguse.my.id',
-      domain: 'denbaguse.my.id',
-      username: 'denbaguse',
-      customerId: 'usr-reseller-denbaguse',
-      customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
-      customerEmail: 'admin@denbaguse.my.id',
-      serverId: 'srv-sg-01',
-      serverName: 'SG-Edge-01 (Singapore)',
-      resellerId: 'prof-reseller-denbaguse',
-      planId: 'plan-pro',
-      planName: 'Cloud Business Pro',
-      diskUsedMb: 1240,
-      diskLimitMb: 25600,
-      bandwidthUsedMb: 4200,
-      bandwidthLimitMb: 512000,
-      phpVersion: '8.2',
-      phpExtensions: [
-        'ioncube', 'mysqli', 'pdo', 'curl', 'gd', 'mbstring', 'zip', 'xml', 'fileinfo', 'intl', 'bcmath', 'soap', 'opcache'
-      ],
-      status: 'active',
-      sslStatus: 'active',
-      sslProvider: "Let's Encrypt / ZeroSSL",
-      sslExpiresAt: '2027-01-01T00:00:00Z',
-      forceHttps: true,
-      documentRoot: '/public_html',
-      ipAddress: '103.147.154.21',
-      databaseCount: 1,
-      emailCount: 2,
-      ftpCount: 1,
-      nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
-      createdAt: '2026-09-25T10:00:00Z',
-    },
-    {
-      id: 'acc-school-02',
-      primaryDomain: 'client.karsacloud.biz.id',
-      domain: 'client.karsacloud.biz.id',
-      username: 'pelanggan',
-      customerId: 'usr-cust-02',
-      customerName: 'Pelanggan Hosting cPanel',
-      customerEmail: 'pelanggan@karsacloud.biz.id',
-      serverId: 'srv-id-01',
-      serverName: 'ID-Cyber-01 (Jakarta)',
-      planId: 'plan-starter',
-      planName: 'Cloud Starter NVMe',
-      diskUsedMb: 1,
-      diskLimitMb: 10240,
-      bandwidthUsedMb: 2150,
-      bandwidthLimitMb: 102400,
-      phpVersion: '8.2',
-      phpExtensions: ['mysqli', 'pdo', 'curl', 'opcache', 'gd', 'mbstring', 'zip'],
-      status: 'active',
-      sslStatus: 'active',
-      sslProvider: "Let's Encrypt",
-      sslExpiresAt: '2026-12-15T00:00:00Z',
-      forceHttps: true,
-      documentRoot: '/home/pelanggan/public_html',
-      ipAddress: '172.67.223.133',
-      databaseCount: 1,
-      emailCount: 1,
-      ftpCount: 1,
-      nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
-      createdAt: '2026-09-26T14:30:00Z',
-    },
-  ],
+  hostingAccounts: [],
+  virtualFiles: [],
+  dnsRecords: [],
+  databases: [],
+  databaseTables: {},
+  emailMailboxes: [],
+  cronJobs: [],
+  backups: [],
+  invoices: [],
+  auditLogs: [],
+  firewallRules: [],
+  apiKeys: [],
+  notifications: [],
+  vpsInstances: [],
+  vpsSnapshots: [],
+  vpsFirewallRules: [],
 
-  virtualFiles: [
-    {
-      id: 'vf-01',
-      accountId: 'acc-rdm-01',
-      name: 'public_html',
-      path: '/public_html',
-      type: 'directory',
-      sizeBytes: 4096,
-      permissions: '0755',
-      updatedAt: '2026-09-28T09:12:00Z',
-    },
-    {
-      id: 'vf-personal-html',
-      accountId: 'acc-rdm-01',
-      name: 'index.html',
-      path: '/public_html/index.html',
-      type: 'file',
-      sizeBytes: 4850,
-      permissions: '0644',
-      mimeType: 'text/html',
-      updatedAt: '2026-09-30T05:00:00Z',
-      content: `<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Karsa Cloud — Reseller Hosting Management Panel</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <nav class="navbar">
-    <div class="container nav-inner">
-      <div class="brand">KARSA<span>CLOUD</span>.BIZ.ID</div>
-      <div class="nav-links">
-        <a href="#beranda">Beranda</a>
-        <a href="#profil">Profil</a>
-        <a href="#karya">Layanan &amp; Karya</a>
-        <a href="#kontak">Kontak</a>
-      </div>
-    </div>
-  </nav>
-
-  <header id="beranda" class="hero">
-    <div class="container hero-grid">
-      <div class="hero-text">
-        <span class="pill">● PORTAL HOSTING RESMI &bull; ONLINE</span>
-        <h1>Selamat Datang di Portal Resmi <span>Karsa Cloud</span></h1>
-        <p>Ruang kreasi digital, pengembangan sistem informasi modern, infrastruktur cloud server mandiri, dan inovasi teknologi berbasis web.</p>
-        <div class="hero-actions">
-          <a href="#karya" class="btn-primary">Jelajahi Karya &amp; Proyek</a>
-          <a href="#kontak" class="btn-outline">Hubungi Saya</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <div class="card-glow"></div>
-        <h3>Profil Singkat</h3>
-        <p class="role">Full-Stack Developer &amp; System Architect</p>
-        <ul class="stats-list">
-          <li><strong>Domain Utama:</strong> karsacloud.biz.id</li>
-          <li><strong>Infrastruktur:</strong> Cloud PRO Self-Hosted Linux</li>
-          <li><strong>Fokus Keahlian:</strong> Web App, Cloud Server, Jaringan &amp; Otomasi</li>
-          <li><strong>Status Layanan:</strong> Aktif 24/7 (Cloudflare Edge)</li>
-        </ul>
-      </div>
-    </div>
-  </header>
-
-  <section id="karya" class="section">
-    <div class="container">
-      <h2 class="section-title">Fokus Pengembangan &amp; Proyek Digital</h2>
-      <div class="grid-3">
-        <div class="feature-box">
-          <div class="icon">01</div>
-          <h3>Pengembangan Web Modern</h3>
-          <p>Membangun website pribadi, portal instansi, dan aplikasi web responsif berkecepatan tinggi dengan arsitektur modern.</p>
-        </div>
-        <div class="feature-box">
-          <div class="icon">02</div>
-          <h3>Cloud &amp; Infrastruktur Server</h3>
-          <p>Manajemen server Linux mandiri, optimasi Nginx/PHP-FPM, keamanan SSL otomatis, dan integrasi Cloudflare Zero Trust.</p>
-        </div>
-        <div class="feature-box">
-          <div class="icon">03</div>
-          <h3>Transformasi &amp; Solusi Digital</h3>
-          <p>Konsultasi dan implementasi sistem terintegrasi yang andal, aman, dan mudah dikelola dari mana saja.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer id="kontak" class="footer">
-    <div class="container footer-inner">
-      <div>
-        <h4>KARSACLOUD.BIZ.ID — Website Portal Utama</h4>
-        <p>Dikelola langsung melalui Cloud PRO Linux Virtual Host (/public_html).</p>
-      </div>
-      <div class="footer-right">
-        <span>&copy; 2026 Karsa Cloud. All rights reserved.</span>
-      </div>
-    </div>
-  </footer>
-</body>
-</html>`,
-    },
-    {
-      id: 'vf-personal-css',
-      accountId: 'acc-rdm-01',
-      name: 'style.css',
-      path: '/public_html/style.css',
-      type: 'file',
-      sizeBytes: 2450,
-      permissions: '0644',
-      mimeType: 'text/css',
-      updatedAt: '2026-09-30T05:00:00Z',
-      content: `* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #090d16; color: #f1f5f9; line-height: 1.6; }
-.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-.navbar { position: sticky; top: 0; z-index: 20; background: rgba(9, 13, 22, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #1e293b; padding: 16px 0; }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; }
-.brand { font-weight: 800; font-size: 18px; letter-spacing: 0.5px; color: #ffffff; }
-.brand span { color: #38bdf8; }
-.nav-links { display: flex; gap: 24px; }
-.nav-links a { color: #cbd5e1; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-.nav-links a:hover { color: #38bdf8; }
-.hero { padding: 84px 0 72px; background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.15), transparent 55%); border-bottom: 1px solid #1e293b; }
-.hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; }
-.pill { display: inline-block; background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 999px; margin-bottom: 18px; letter-spacing: 0.4px; }
-.hero h1 { font-size: 42px; font-weight: 800; line-height: 1.18; margin-bottom: 18px; color: #ffffff; }
-.hero h1 span { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p { font-size: 16px; color: #94a3b8; margin-bottom: 28px; max-width: 560px; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
-.btn-primary { background: linear-gradient(135deg, #0284c7, #4f46e5); color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 22px; border-radius: 12px; box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.4); }
-.btn-outline { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; text-decoration: none; font-weight: 600; font-size: 14px; padding: 12px 22px; border-radius: 12px; }
-.hero-card { background: #111827; border: 1px solid #1e293b; border-radius: 20px; padding: 28px; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5); }
-.hero-card h3 { font-size: 20px; color: #ffffff; margin-bottom: 4px; }
-.hero-card .role { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 18px; }
-.stats-list { list-style: none; space-y: 10px; }
-.stats-list li { padding: 10px 0; border-top: 1px solid #1e293b; font-size: 13px; color: #cbd5e1; }
-.stats-list li strong { color: #94a3b8; display: inline-block; width: 135px; }
-.section { padding: 72px 0; }
-.section-title { font-size: 26px; font-weight: 800; margin-bottom: 32px; text-align: center; color: #ffffff; }
-.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-.feature-box { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 26px; }
-.feature-box .icon { display: inline-block; font-family: monospace; font-size: 13px; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 8px; margin-bottom: 14px; }
-.feature-box h3 { font-size: 18px; margin-bottom: 10px; color: #f8fafc; }
-.feature-box p { font-size: 14px; color: #94a3b8; }
-.footer { border-top: 1px solid #1e293b; padding: 32px 0; background: #06090f; color: #64748b; font-size: 13px; }
-.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
-.footer h4 { color: #e2e8f0; margin-bottom: 4px; }
-@media (max-width: 768px) { .hero-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 30px; } .nav-links { display: none; } }`,
-    },
-    {
-      id: 'vf-03',
-      accountId: 'acc-rdm-01',
-      name: '.htaccess',
-      path: '/public_html/.htaccess',
-      type: 'file',
-      sizeBytes: 420,
-      permissions: '0644',
-      mimeType: 'text/plain',
-      updatedAt: '2026-09-28T09:16:00Z',
-      content: 'RewriteEngine On\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteCond %{REQUEST_FILENAME} !-d\nRewriteRule ^(.*)$ index.html [L]',
-    },
-  ],
-
-  dnsRecords: [
-    {
-      id: 'dns-01',
-      accountId: 'acc-rdm-01',
-      name: 'karsacloud.biz.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-02',
-      accountId: 'acc-rdm-01',
-      name: 'www.karsacloud.biz.id',
-      type: 'CNAME',
-      content: 'karsacloud.biz.id',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-03',
-      accountId: 'acc-rdm-01',
-      name: 'karsacloud.biz.id',
-      type: 'MX',
-      content: 'mail.karsacloud.biz.id',
-      ttl: 3600,
-      priority: 10,
-    },
-    {
-      id: 'dns-denbaguse-01',
-      accountId: 'acc-denbaguse-01',
-      name: 'denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-02',
-      accountId: 'acc-denbaguse-01',
-      name: 'www.denbaguse.my.id',
-      type: 'CNAME',
-      content: 'denbaguse.my.id',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-panel',
-      accountId: 'acc-denbaguse-01',
-      name: 'panel.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-siakad',
-      accountId: 'acc-denbaguse-01',
-      name: 'siakad-madrasah.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-rdm',
-      accountId: 'acc-denbaguse-01',
-      name: 'rdm.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-cbt',
-      accountId: 'acc-denbaguse-01',
-      name: 'cbt.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-elearning',
-      accountId: 'acc-denbaguse-01',
-      name: 'elearning.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-kartu',
-      accountId: 'acc-denbaguse-01',
-      name: 'kartu-pelajar.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-absensi',
-      accountId: 'acc-denbaguse-01',
-      name: 'absensi-gtk.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-adm',
-      accountId: 'acc-denbaguse-01',
-      name: 'adm-madrasah.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-    {
-      id: 'dns-denbaguse-modul',
-      accountId: 'acc-denbaguse-01',
-      name: 'modul-ajar.denbaguse.my.id',
-      type: 'A',
-      content: '103.147.154.21',
-      ttl: 3600,
-    },
-  ],
-
-  databases: [
-    {
-      id: 'db-01',
-      accountId: 'acc-rdm-01',
-      dbName: 'madrasah_rdm',
-      dbUser: 'madrasah_dbuser',
-      sizeMb: 64.5,
-      charset: 'utf8mb4_unicode_ci',
-      type: 'mysql',
-      createdAt: '2026-09-25T10:05:00Z',
-    },
-  ],
-
-  databaseTables: {
-    'madrasah_rdm': [
-      { name: 'rdm_siswa', dbName: 'madrasah_rdm', rows: 420, sizeKb: 680, engine: 'InnoDB', collation: 'utf8mb4_unicode_ci' },
-      { name: 'rdm_nilai', dbName: 'madrasah_rdm', rows: 1250, sizeKb: 1420, engine: 'InnoDB', collation: 'utf8mb4_unicode_ci' },
-      { name: 'rdm_guru', dbName: 'madrasah_rdm', rows: 38, sizeKb: 120, engine: 'InnoDB', collation: 'utf8mb4_unicode_ci' },
-      { name: 'rdm_kelas', dbName: 'madrasah_rdm', rows: 18, sizeKb: 64, engine: 'InnoDB', collation: 'utf8mb4_unicode_ci' },
-      { name: 'users', dbName: 'madrasah_rdm', rows: 458, sizeKb: 512, engine: 'InnoDB', collation: 'utf8mb4_unicode_ci' },
-      { name: 'options', dbName: 'madrasah_rdm', rows: 164, sizeKb: 256, engine: 'InnoDB', collation: 'utf8mb4_unicode_ci' },
-      { name: 'sessions', dbName: 'madrasah_rdm', rows: 12, sizeKb: 96, engine: 'Memory', collation: 'utf8mb4_unicode_ci' },
-    ],
-  },
-
-  emailMailboxes: [
-    {
-      id: 'em-01',
-      accountId: 'acc-rdm-01',
-      emailAddress: 'admin@karsacloud.biz.id',
-      quotaMb: 2048,
-      usedMb: 142,
-      createdAt: '2026-09-25T10:10:00Z',
-    },
-    {
-      id: 'em-02',
-      accountId: 'acc-rdm-01',
-      emailAddress: 'rapor@karsacloud.biz.id',
-      quotaMb: 2048,
-      usedMb: 68,
-      createdAt: '2026-09-25T10:12:00Z',
-    },
-  ],
-
-  cronJobs: [
-    {
-      id: 'cron-01',
-      accountId: 'acc-rdm-01',
-      command: 'php /home/karsacloud/public_html/artisan schedule:run >> /dev/null 2>&1',
-      schedule: '0 2 * * *',
-      description: 'Daily Automated RDM Database Sync & Backup',
-      isActive: true,
-    },
-  ],
-
-  backups: [
-    {
-      id: 'bk-auto-01',
-      accountId: 'acc-rdm-01',
-      accountDomain: 'karsacloud.biz.id',
-      fileName: 'backup-full-karsacloud.biz.id-20260930.tar.gz',
-      type: 'full',
-      sizeMb: 248.4,
-      status: 'completed',
-      createdAt: '2026-09-30T02:00:00Z',
-    },
-    {
-      id: 'bk-auto-02',
-      accountId: 'acc-school-02',
-      accountDomain: 'client.karsacloud.biz.id',
-      fileName: 'backup-full-client.karsacloud.biz.id-20260930.tar.gz',
-      type: 'full',
-      sizeMb: 84.2,
-      status: 'completed',
-      createdAt: '2026-09-30T02:30:00Z',
-    },
-  ],
-  invoices: [
-    {
-      id: 'inv-default-unpaid-01',
-      invoiceNumber: 'INV-AUTO-202609-1002',
-      userId: 'usr-cust-02',
-      accountId: 'acc-school-02',
-      userName: 'Pelanggan Hosting cPanel',
-      userEmail: 'pelanggan@karsacloud.biz.id',
-      userPhone: '+62 812-2673-8883',
-      billingSource: 'automated',
-      items: [
-        {
-          description: 'Perpanjangan Paket Cloud Starter NVMe (client.karsacloud.biz.id) — 1 Tahun',
-          qty: 1,
-          unitPrice: 350000,
-          amount: 350000,
-        },
-        {
-          description: 'Perpanjangan Domain .MY.ID (client.karsacloud.biz.id) — 1 Tahun',
-          qty: 1,
-          unitPrice: 50000,
-          amount: 50000,
-        },
-      ],
-      amount: 400000,
-      currency: 'IDR',
-      status: 'unpaid',
-      dueDate: new Date(Date.now() + 7 * 86400000).toISOString(),
-      createdAt: new Date().toISOString(),
-      whatsappSentAt: new Date().toISOString(),
-      emailSentAt: new Date().toISOString(),
-      paymentNotes: 'Bukti Tagihan Unpaid Otomatis (H-7 Jatuh Tempo). Harap lunasi sebelum tanggal jatuh tempo agar layanan tetap aktif.',
-    },
-    {
-      id: 'inv-default-unpaid-root-02',
-      invoiceNumber: 'INV-AUTO-202609-1003',
-      userId: 'usr-admin-01',
-      userName: 'Jaenal Maskun (Website Pribadi - karsacloud.biz.id)',
-      userEmail: 'admin@karsacloud.biz.id',
-      userPhone: '+62 812-2673-8883',
-      billingSource: 'automated',
-      items: [
-        {
-          description: 'Tagihan Bulanan Otomatis Karsa Cloud SSD (karsacloud.biz.id) — Periode Oktober 2026',
-          qty: 1,
-          unitPrice: 150000,
-          amount: 150000,
-        },
-      ],
-      amount: 150000,
-      currency: 'IDR',
-      status: 'unpaid',
-      dueDate: new Date(Date.now() + 7 * 86400000).toISOString(),
-      createdAt: new Date().toISOString(),
-      whatsappSentAt: new Date().toISOString(),
-      emailSentAt: new Date().toISOString(),
-      paymentNotes: 'Diterbitkan otomatis oleh Mesin Auto-Billing Karsa Cloud (Status: UNPAID / Menunggu Pembayaran).',
-    },
-    {
-      id: 'inv-default-paid-01',
-      invoiceNumber: 'INV-2026-1001',
-      receiptNumber: 'KW-202609-1001',
-      userId: 'usr-admin-01',
-      userName: 'Jaenal Maskun (Website Pribadi)',
-      userEmail: 'admin@karsacloud.biz.id',
-      userPhone: '+62 812-2673-8883',
-      billingSource: 'manual',
-      items: [
-        {
-          description: 'Lisensi Karsa Cloud SSD & Infrastruktur Domain Utama (karsacloud.biz.id)',
-          qty: 1,
-          unitPrice: 450000,
-          amount: 450000,
-        },
-      ],
-      amount: 450000,
-      currency: 'IDR',
-      status: 'paid',
-      dueDate: '2026-10-25T00:00:00Z',
-      createdAt: '2026-09-25T10:00:00Z',
-      paidAt: '2026-09-25T10:15:00Z',
-      paymentMethod: 'Transfer Bank BCA Manual (Terverifikasi)',
-      paymentReference: 'REF-BCA-99281741',
-      payerName: 'Jaenal Maskun',
-      verifiedBy: 'Jaenal Maskun',
-      whatsappSentAt: '2026-09-25T10:16:00Z',
-      emailSentAt: '2026-09-25T10:16:00Z',
-      signatureHash: 'SIG-CPRO-KW2026091001-VERIFIED',
-      paymentNotes: 'Pembayaran lunas diterima penuh. Bukti pembayaran resmi (Kwitansi Lunas) telah diterbitkan.',
-    },
-  ],
-
-  auditLogs: [
-    {
-      id: 'aud-01',
-      userId: 'usr-admin-01',
-      userName: 'Root Administrator',
-      role: 'admin',
-      action: 'SYSTEM_INITIALIZATION',
-      category: 'SERVER',
-      ipAddress: '127.0.0.1',
-      details: 'Karsa Cloud system initialized for domain karsacloud.biz.id',
-      timestamp: '2026-09-28T18:30:15Z',
-    },
-  ],
-
-  firewallRules: [
-    {
-      id: 'fw-01',
-      ipOrSubnet: '182.253.110.0/24',
-      type: 'whitelist',
-      reason: 'Admin Management NOC Subnet',
-      hits: 14820,
-      createdAt: '2026-01-10T00:00:00Z',
-      isActive: true,
-    },
-    {
-      id: 'fw-02',
-      ipOrSubnet: '45.154.255.90',
-      type: 'blacklist',
-      reason: 'Repeated SSH port 22 brute-force botnet attack',
-      hits: 394,
-      createdAt: '2026-09-28T04:12:44Z',
-      isActive: true,
-    },
-    {
-      id: 'fw-03',
-      ipOrSubnet: '194.26.29.0/24',
-      type: 'blacklist',
-      reason: 'Known spam relay proxy range',
-      hits: 1205,
-      createdAt: '2026-08-15T00:00:00Z',
-      isActive: true,
-    },
-  ],
-
-  apiKeys: [
-    {
-      id: 'key-01',
-      name: 'Primary Enterprise REST API Key',
-      keyPrefix: 'cpro_live_99a8',
-      tokenMasked: 'cpro_live_99a8*******************d90b',
-      userId: 'usr-admin-01',
-      scopes: ['accounts:read', 'accounts:write', 'dns:read', 'dns:write', 'billing:read', 'vps:manage'],
-      createdAt: '2026-04-01T00:00:00Z',
-      lastUsedAt: '2026-09-28T17:15:00Z',
-    },
-  ],
-
-  notifications: [
-    {
-      id: 'notif-01',
-      title: 'Selamat Datang di Karsa Cloud',
-      message: 'Panel hosting aktif dan siap dikonfigurasi untuk domain karsacloud.biz.id.',
-      type: 'success',
-      timestamp: '2026-09-28T18:35:00Z',
-      isRead: false,
-    },
-  ],
-  vpsInstances: [
-    {
-      id: 'vps-cgk-prod-01',
-      name: 'jkt-app-production-01',
-      hostname: 'prod-app01.siakad.cloudpro.net',
-      customerId: 'usr-admin-01',
-      customerName: 'Root Administrator',
-      region: 'ID-CGK1',
-      regionName: 'Jakarta (ID-CGK1 Data Center)',
-      countryCode: 'id',
-      osDistro: 'Ubuntu 24.04 LTS (Noble Numbat)',
-      osIcon: 'ubuntu',
-      status: 'running',
-      vCpu: 4,
-      ramMb: 8192,
-      diskGb: 160,
-      bandwidthLimitGb: 5000,
-      bandwidthUsedGb: 842,
-      ipV4: '103.147.154.22',
-      ipV6: '2001:df0:340:1::22',
-      gateway: '103.147.154.1',
-      reverseDns: 'app01.siakad.cloudpro.net',
-      liveCpuPct: 24.5,
-      liveRamMb: 4210,
-      uptime: '48 days, 14 hours',
-      monthlyPrice: 32.0,
-      currency: 'USD',
-      autoBackupEnabled: true,
-      createdAt: '2026-08-11T09:20:00Z',
-      rootPassword: 'cPro#SecureRoot991!',
-      sshKeyName: 'id_ed25519_production',
-    },
-    {
-      id: 'vps-sin-db-02',
-      name: 'sg-db-cluster-node',
-      hostname: 'db01.singapore.cloudpro.net',
-      customerId: 'usr-admin-01',
-      customerName: 'Root Administrator',
-      region: 'SG-SIN1',
-      regionName: 'Singapore (SG-SIN1 Jurong Node)',
-      countryCode: 'sg',
-      osDistro: 'Debian 12 Bookworm',
-      osIcon: 'debian',
-      status: 'running',
-      vCpu: 8,
-      ramMb: 16384,
-      diskGb: 320,
-      bandwidthLimitGb: 10000,
-      bandwidthUsedGb: 2140,
-      ipV4: '139.180.201.88',
-      ipV6: '2400:8902::f03c:91ff:fe18:db01',
-      gateway: '139.180.201.1',
-      reverseDns: 'db01.cloudpro.net',
-      liveCpuPct: 38.2,
-      liveRamMb: 11250,
-      uptime: '112 days, 3 hours',
-      monthlyPrice: 64.0,
-      currency: 'USD',
-      autoBackupEnabled: true,
-      createdAt: '2026-06-08T11:00:00Z',
-      rootPassword: 'dbRoot#Cluster99!',
-      sshKeyName: 'db_admin_key',
-    },
-    {
-      id: 'vps-tokyo-dev-03',
-      name: 'tyo-dev-docker-runner',
-      hostname: 'runner-tyo.cloudpro.net',
-      customerId: 'usr-admin-01',
-      customerName: 'Root Administrator',
-      region: 'JP-HND1',
-      regionName: 'Tokyo (JP-HND1 Equinix TY8)',
-      countryCode: 'jp',
-      osDistro: 'Rocky Linux 9.4 (Blue Onyx)',
-      osIcon: 'rocky',
-      status: 'running',
-      vCpu: 2,
-      ramMb: 4096,
-      diskGb: 80,
-      bandwidthLimitGb: 3000,
-      bandwidthUsedGb: 310,
-      ipV4: '172.105.228.45',
-      ipV6: '2400:8901::f03c:92ff:fe33:aa12',
-      gateway: '172.105.228.1',
-      reverseDns: 'runner.tokyo.cloudpro.net',
-      liveCpuPct: 11.8,
-      liveRamMb: 1840,
-      uptime: '19 days, 8 hours',
-      monthlyPrice: 18.0,
-      currency: 'USD',
-      autoBackupEnabled: false,
-      createdAt: '2026-09-09T08:30:00Z',
-      rootPassword: 'rockyDev#Runner2026!',
-    },
-    {
-      id: 'vps-staging-04',
-      name: 'staging-sandbox-node',
-      hostname: 'staging.internal.cloudpro.net',
-      customerId: 'usr-admin-01',
-      customerName: 'Root Administrator',
-      region: 'ID-CGK1',
-      regionName: 'Jakarta (ID-CGK1 Data Center)',
-      countryCode: 'id',
-      osDistro: 'Alpine Linux 3.19',
-      osIcon: 'alpine',
-      status: 'stopped',
-      vCpu: 1,
-      ramMb: 2048,
-      diskGb: 40,
-      bandwidthLimitGb: 1000,
-      bandwidthUsedGb: 88,
-      ipV4: '103.147.155.109',
-      ipV6: '2001:df0:340:2::109',
-      gateway: '103.147.155.1',
-      reverseDns: 'staging.cloudpro.net',
-      liveCpuPct: 0,
-      liveRamMb: 0,
-      uptime: '0 hours (stopped)',
-      monthlyPrice: 10.0,
-      currency: 'USD',
-      autoBackupEnabled: false,
-      createdAt: '2026-09-18T16:00:00Z',
-    },
-  ],
-  vpsSnapshots: [
-    {
-      id: 'snap-01',
-      vpsId: 'vps-cgk-prod-01',
-      name: 'pre-deployment-v2.4-migration',
-      sizeGb: 14.2,
-      createdAt: '2026-09-24T03:15:00Z',
-    },
-    {
-      id: 'snap-02',
-      vpsId: 'vps-sin-db-02',
-      name: 'weekly-golden-image-db',
-      sizeGb: 28.6,
-      createdAt: '2026-09-27T00:00:00Z',
-    },
-  ],
   ipAddresses: [
     {
-      id: 'ip-cf-anycast-01',
-      ip: '172.67.223.133',
-      subnet: '255.255.255.0 (/24)',
-      gateway: '172.67.223.1',
-      serverId: 'srv-sg-01',
-      serverName: 'CloudPRO-Server (Cloudflare Edge + Tunnel Hybrid)',
-      type: 'shared',
-      status: 'assigned',
-      assignedToType: 'server',
-      assignedToId: 'srv-sg-01',
-      assignedToName: 'Primary Anycast IPv4 + Tunnel CloudPRO-Server',
-      assignedDomain: 'karsacloud.biz.id',
-      ptrRecord: 'servercloud.karsacloud.biz.id',
+      id: "ip-01",
+      ip: "178.83.181.238",
+      gateway: "178.83.181.1",
+      type: "dedicated",
+      status: "assigned",
+      serverId: "srv-sg-01",
+      serverName: "Karsa Cloud Node (VPS Utama)",
+      assignedToType: "server",
+      assignedToId: "srv-sg-01",
+      assignedToName: "server.karsacloud.biz.id",
+      ptrRecord: "server.karsacloud.biz.id",
       isPrimaryServerIp: true,
-      notes: 'IPv4 Anycast Publik Cloudflare (Aktif Bersamaan dengan Tunnel CloudPRO-Server)',
-      createdAt: '2026-09-30T00:00:00Z',
-    },
-    {
-      id: 'ip-cf-anycast-02',
-      ip: '104.21.95.88',
-      subnet: '255.255.255.0 (/24)',
-      gateway: '104.21.95.1',
-      serverId: 'srv-sg-01',
-      serverName: 'CloudPRO-Server (Cloudflare Edge Secondary)',
-      type: 'shared',
-      status: 'assigned',
-      assignedToType: 'nameserver',
-      assignedToId: 'ns2',
-      assignedToName: 'Secondary Anycast IPv4 + NS2 Failover',
-      assignedDomain: 'ns2.karsacloud.biz.id',
-      ptrRecord: 'ns2.karsacloud.biz.id',
-      isPrimaryServerIp: false,
-      notes: 'Secondary IPv4 Anycast Publik Cloudflare (Redundansi Otomatis)',
-      createdAt: '2026-09-30T00:00:00Z',
+      createdAt: "2026-01-10T08:00:00Z",
     },
   ],
-  vpsFirewallRules: [
-    {
-      id: 'vfw-01',
-      vpsId: 'vps-cgk-prod-01',
-      protocol: 'TCP',
-      portRange: '22',
-      source: '0.0.0.0/0',
-      action: 'ACCEPT',
-      description: 'OpenSSH Remote Management',
-    },
-    {
-      id: 'vfw-02',
-      vpsId: 'vps-cgk-prod-01',
-      protocol: 'TCP',
-      portRange: '80',
-      source: '0.0.0.0/0',
-      action: 'ACCEPT',
-      description: 'HTTP Inbound Web Traffic',
-    },
-    {
-      id: 'vfw-03',
-      vpsId: 'vps-cgk-prod-01',
-      protocol: 'TCP',
-      portRange: '443',
-      source: '0.0.0.0/0',
-      action: 'ACCEPT',
-      description: 'HTTPS Secure SSL/TLS Traffic',
-    },
-    {
-      id: 'vfw-04',
-      vpsId: 'vps-sin-db-02',
-      protocol: 'TCP',
-      portRange: '3306',
-      source: '103.147.154.22/32',
-      action: 'ACCEPT',
-      description: 'Allow MySQL connection from JKT App Production only',
-    },
-  ],
+
   nameserverConfigs: [
     {
-      id: 'ns-cfg-default',
-      domain: 'karsacloud.biz.id',
-      ns1Host: 'ns1.karsacloud.biz.id',
-      ns1Ip: '103.147.154.21',
-      ns1Ipv6: '2606:4700:50::a29f:26c1',
-      ns2Host: 'ns2.karsacloud.biz.id',
-      ns2Ip: '103.147.154.21',
-      ns2Ipv6: '2606:4700:58::a29f:2ce4',
-      dnssecEnabled: true,
-      dnssecKeyTag: 23719,
-      dnssecAlgorithm: 13, // ECDSAP256SHA256
-      dnssecDigestType: 2, // SHA-256
-      dnssecDigest: '48F82C99D34F181BAEF37C2F0E2A5D076E1B6833D224859A3BC85A094EE12A1B',
-      soaEmail: 'hostmaster.karsacloud.biz.id',
+      id: "ns-cfg-01",
+      domain: "karsacloud.biz.id",
+      ns1Host: "ns1.karsacloud.biz.id",
+      ns1Ip: "178.83.181.238",
+      ns2Host: "ns2.karsacloud.biz.id",
+      ns2Ip: "103.253.212.88",
+      dnssecEnabled: false,
+      soaEmail: "admin.karsacloud.biz.id",
       defaultTtl: 3600,
-      bindServiceStatus: 'active',
-      isDefaultGlobal: true,
-      updatedAt: '2026-10-05T08:30:00Z',
+      updatedAt: "2026-01-10T08:00:00Z",
     },
   ],
-  r2Configs: [
-    {
-      id: 'r2-cfg-default',
-      accountId: 'global',
-      bucketName: 'media-madrasah-cloudpro',
-      accountIdCloudflare: 'cf_acc_9837190f84a1e948',
-      accessKeyId: 'a8e99bc1289fe83d1004',
-      secretAccessKeyMasked: 'd893f0192a838bc8e9102830f81********************',
-      publicCdnDomain: 'https://media.karsacloud.biz.id',
-      autoWebpCompression: true,
-      compressionQuality: 82,
-      maxDimensionPx: 1920,
-      stripExifGps: true,
-      status: 'connected',
-      lastSyncedAt: '2026-09-29T10:15:00Z',
-    },
-  ],
-  optimizedMedia: [
-    {
-      id: 'med-01',
-      accountId: 'acc-rdm-01',
-      fileName: 'upacara_hari_guru_nasional_2026.webp',
-      originalFileName: 'IMG_20260925_073014_RAW_CAMERA.jpg',
-      mimeType: 'image/webp',
-      originalSizeBytes: 8493020, // ~8.49 MB
-      compressedSizeBytes: 342110, // ~342 KB (96% savings!)
-      compressionRatioPct: 95.9,
-      width: 1920,
-      height: 1280,
-      url: 'https://media.karsacloud.biz.id/upacara_hari_guru_nasional_2026.webp',
-      storageTarget: 'cloudflare_r2',
-      category: 'activity',
-      uploadedBy: 'admin_madrasah',
-      uploadedAt: '2026-09-28T09:30:00Z',
-    },
-    {
-      id: 'med-02',
-      accountId: 'acc-rdm-01',
-      fileName: 'wisuda_tahfidz_al_quran_angkatan_viii.webp',
-      originalFileName: 'DSC_0982_HIGHRES_FULL.png',
-      mimeType: 'image/webp',
-      originalSizeBytes: 12840192, // ~12.8 MB
-      compressedSizeBytes: 489200, // ~489 KB (96.2% savings!)
-      compressionRatioPct: 96.2,
-      width: 1920,
-      height: 1080,
-      url: 'https://media.karsacloud.biz.id/wisuda_tahfidz_al_quran_angkatan_viii.webp',
-      storageTarget: 'cloudflare_r2',
-      category: 'activity',
-      uploadedBy: 'humas_madrasah',
-      uploadedAt: '2026-09-28T14:15:00Z',
-    },
-    {
-      id: 'med-03',
-      accountId: 'acc-rdm-01',
-      fileName: 'fasilitas_laboratorium_komputer_cbt.webp',
-      originalFileName: 'PXL_20260920_112000.jpg',
-      mimeType: 'image/webp',
-      originalSizeBytes: 6291456, // ~6.2 MB
-      compressedSizeBytes: 275000, // ~275 KB (95.6% savings!)
-      compressionRatioPct: 95.6,
-      width: 1920,
-      height: 1280,
-      url: 'https://media.karsacloud.biz.id/fasilitas_laboratorium_komputer_cbt.webp',
-      storageTarget: 'cloudflare_r2',
-      category: 'facility',
-      uploadedBy: 'proktor_cbt',
-      uploadedAt: '2026-09-27T11:45:00Z',
-    },
-  ],
-  domains: [
-    {
-      id: 'dom-primary-01',
-      accountId: 'acc-rdm-01',
-      domain: 'karsacloud.biz.id',
-      type: 'primary',
-      documentRoot: '/home/karsacloud/public_html',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-09-28T08:00:00Z',
-    },
-    {
-      id: 'dom-denbaguse-01',
-      accountId: 'acc-denbaguse-01',
-      domain: 'denbaguse.my.id',
-      type: 'primary',
-      documentRoot: '/public_html',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-09-28T08:00:00Z',
-    },
-    {
-      id: 'dom-denbaguse-sub-panel',
-      accountId: 'acc-denbaguse-01',
-      domain: 'panel.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'panel',
-      documentRoot: '/public_html',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-09-29T08:00:00Z',
-    },
-    {
-      id: 'dom-1790860281257-amam',
-      accountId: 'acc-denbaguse-01',
-      domain: 'siakad-madrasah.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'siakad-madrasah',
-      documentRoot: '/public_html/siakad-madrasah',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-09-29T10:00:00Z',
-    },
-    {
-      id: 'dom-1790860258687-un1o',
-      accountId: 'acc-denbaguse-01',
-      domain: 'rdm.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'rdm',
-      documentRoot: '/public_html/rdm',
-      phpVersion: '7.2',
-      sslStatus: 'active',
-      createdAt: '2026-09-29T10:05:00Z',
-    },
-    {
-      id: 'dom-1790860261766-ao51',
-      accountId: 'acc-denbaguse-01',
-      domain: 'cbt.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'cbt',
-      documentRoot: '/public_html/cbt',
-      phpVersion: '7.4',
-      sslStatus: 'active',
-      createdAt: '2026-09-29T10:10:00Z',
-    },
-    {
-      id: 'dom-1790860263159-b5gq',
-      accountId: 'acc-denbaguse-01',
-      domain: 'elearning.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'elearning',
-      documentRoot: '/public_html/elearning',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-09-29T10:15:00Z',
-    },
-    {
-      id: 'dom-kartu-pelajar-01',
-      accountId: 'acc-denbaguse-01',
-      domain: 'kartu-pelajar.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'kartu-pelajar',
-      documentRoot: '/public_html/kartu-pelajar',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-10-04T02:00:00Z',
-    },
-    {
-      id: 'sub-absensi-gtk',
-      accountId: 'acc-denbaguse-01',
-      domain: 'absensi-gtk.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'absensi-gtk',
-      documentRoot: '/public_html/absensi-gtk',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-10-04T02:05:00Z',
-    },
-    {
-      id: 'sub-adm-madrasah',
-      accountId: 'acc-denbaguse-01',
-      domain: 'adm-madrasah.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'adm-madrasah',
-      documentRoot: '/public_html/adm-madrasah',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-10-04T02:10:00Z',
-    },
-    {
-      id: 'sub-modul-ajar',
-      accountId: 'acc-denbaguse-01',
-      domain: 'modul-ajar.denbaguse.my.id',
-      type: 'subdomain',
-      parentDomain: 'denbaguse.my.id',
-      subdomainPrefix: 'modul-ajar',
-      documentRoot: '/public_html/modul-ajar',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-10-04T02:15:00Z',
-    },
-    // MI MAARIF NU TIPAR (Primary Domain Only)
-    {
-      id: 'dom-primary-acc-mimaarifnuti-58fx',
-      accountId: 'acc-mimaarifnuti-58fx',
-      domain: 'mimaarifnutipar.biz.id',
-      type: 'primary',
-      documentRoot: '/public_html/domains/mimaarifnutipar.biz.id',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-10-02T12:18:20.044Z',
-    },
-    // MI MAARIF NU 2 KALIWEDI (Primary Domain Only)
-    {
-      id: 'dom-primary-acc-mimanu02kali-9k3p',
-      accountId: 'acc-mimanu02kali-9k3p',
-      domain: 'mimanu02kaliwedi.biz.id',
-      type: 'primary',
-      documentRoot: '/public_html/domains/mimanu02kaliwedi.biz.id',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-10-02T12:19:28.548Z',
-    },
-    {
-      id: 'dom-primary-02',
-      accountId: 'acc-school-02',
-      domain: 'client.karsacloud.biz.id',
-      type: 'primary',
-      documentRoot: '/home/pelanggan/public_html',
-      phpVersion: '8.2',
-      sslStatus: 'active',
-      createdAt: '2026-09-28T09:00:00Z',
-    },
-  ],
+
+  r2Configs: [],
+  optimizedMedia: [],
+  domains: [],
+  deletedIds: [],
 };
 
 class StorageService {
@@ -1500,462 +310,93 @@ class StorageService {
 
   private loadState(): DatabaseState {
     try {
-      // 1. Purge legacy bloated keys from previous versions to immediately reclaim browser quota
-      const legacyKeys = [
-        'cloudpro_persistent_vault_backup',
-        'cloudpro_hosting_v5',
-        'cloudpro_hosting_v3',
-        'cloudpro_hosting_v2',
-        'cloudpro_hosting_v1',
-      ];
-      for (const k of legacyKeys) {
-        try {
-          localStorage.removeItem(k);
-        } catch {
-          // Ignore
-        }
-      }
+      ["cloudpro_hosting_v4", "cloudpro_hosting_v5", "cloudpro_hosting_v6", "cloudpro_hosting_v7", "cloudpro_database_v6"].forEach(k => {
+        try { localStorage.removeItem(k); } catch {}
+      });
 
       let serialized: string | null = null;
       try {
         serialized = localStorage.getItem(STORAGE_KEY);
-      } catch {
-        // Ignore read error
-      }
+      } catch {}
 
-      // If the existing stored payload is from an older unoptimized release (> 200KB),
-      // we remove the bloated item from localStorage immediately so quota is freed
-      if (serialized && serialized.length > 250_000) {
-        try {
-          localStorage.removeItem(STORAGE_KEY);
-        } catch {
-          // Ignore
-        }
-      }
-      if (serialized && serialized.includes('websitepelanggan.my.id')) {
-        serialized = serialized.replace(/websitepelanggan\.my\.id/g, 'client.karsacloud.biz.id')
-                               .replace(/admin@websitepelanggan/g, 'pelanggan@karsacloud');
-      }
       if (serialized) {
         const parsed = JSON.parse(serialized);
-        const hasAccounts = Array.isArray(parsed.hostingAccounts) && parsed.hostingAccounts.length > 0;
-        let loadedAccounts: HostingAccount[] = hasAccounts ? parsed.hostingAccounts : INITIAL_STATE.hostingAccounts;
-        // Total system migration: acc-rdm-01 is Root Admin on karsacloud.biz.id
-        loadedAccounts = loadedAccounts.map(acc => {
-          if (acc.id === 'acc-rdm-01') {
-            const nextCustName =
-              !acc.customerName ||
-              acc.customerName === 'Karsa Cloud Root System' ||
-              acc.customerName.toLowerCase().includes('root system')
-                ? 'Jaenal Maskun'
-                : acc.customerName;
-            return {
-              ...acc,
-              primaryDomain: 'karsacloud.biz.id',
-              domain: 'karsacloud.biz.id',
-              username: 'karsacloud',
-              documentRoot: '/home/karsacloud/public_html',
-              customerName: nextCustName,
-              customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
-              diskUsedMb: 23,
-              resellerId: undefined,
-            };
-          }
-          if (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id' || acc.domain === 'denbaguse.my.id') {
-            return {
-              ...acc,
-              id: 'acc-denbaguse-01',
-              primaryDomain: 'denbaguse.my.id',
-              domain: 'denbaguse.my.id',
-              username: 'denbaguse',
-              customerId: 'usr-reseller-denbaguse',
-              customerName: 'Jaenal Maskun (Website Pribadi & Portofolio)',
-              customerEmail: 'admin@denbaguse.my.id',
-              resellerId: 'prof-reseller-denbaguse',
-              documentRoot: '/public_html',
-              status: 'active',
-            };
-          }
-          if (acc.id === 'acc-school-02' || acc.customerId === 'usr-cust-02') {
-            const cleanDom =
-              acc.primaryDomain === 'klien-reseller.my.id' ||
-              acc.primaryDomain === 'portal.karsacloud.biz.id' ||
-              acc.primaryDomain.includes('reseller') ||
-              acc.primaryDomain.includes('websitepelanggan')
-                ? 'client.karsacloud.biz.id'
-                : acc.primaryDomain;
-            return {
-              ...acc,
-              primaryDomain: cleanDom,
-              domain: cleanDom,
-              username: acc.username === 'klienweb' ? 'pelanggan' : acc.username,
-              diskUsedMb: acc.diskUsedMb === 480 ? 1 : acc.diskUsedMb,
-              customerName:
-                !acc.customerName || acc.customerName.toLowerCase().includes('reseller')
-                  ? 'Pelanggan Hosting cPanel'
-                  : acc.customerName,
-              customerEmail:
-                !acc.customerEmail || acc.customerEmail.toLowerCase().includes('reseller') || acc.customerEmail.includes('websitepelanggan')
-                  ? 'pelanggan@karsacloud.biz.id'
-                  : acc.customerEmail,
-              documentRoot:
-                acc.documentRoot === '/home/klienweb/public_html'
-                  ? '/home/pelanggan/public_html'
-                  : acc.documentRoot,
-              resellerId: undefined,
-            };
-          }
-          return acc;
-        });
-
-        // Permanently purge any websitepelanggan.my.id account
-        loadedAccounts = loadedAccounts.filter(acc =>
-          acc.primaryDomain !== 'websitepelanggan.my.id' &&
-          acc.domain !== 'websitepelanggan.my.id'
-        );
-
-        // Filter out duplicate denbaguse accounts created by auto-seed
-        const filteredAccounts: HostingAccount[] = [];
-        let hasCanonicalDenbaguse = false;
-        for (const a of loadedAccounts) {
-          if (a.id === 'acc-own-usr-reseller-denbaguse') continue;
-          if (a.primaryDomain.toLowerCase() === 'denbaguse.my.id' || a.id === 'acc-denbaguse-01') {
-            if (hasCanonicalDenbaguse) continue;
-            hasCanonicalDenbaguse = true;
-          }
-          filteredAccounts.push(a);
-        }
-        loadedAccounts = filteredAccounts;
-
-        // Ensure denbaguse.my.id Reseller account is always present
-        if (!loadedAccounts.some(a => a.id === 'acc-denbaguse-01' || a.primaryDomain === 'denbaguse.my.id')) {
-          const denbaguseAcc = INITIAL_STATE.hostingAccounts.find(a => a.id === 'acc-denbaguse-01');
-          if (denbaguseAcc) {
-            loadedAccounts.push(denbaguseAcc);
-          }
-        }
-
-        let loadedFiles: VirtualFile[] =
-          hasAccounts && Array.isArray(parsed.virtualFiles) && parsed.virtualFiles.length > 0
-            ? parsed.virtualFiles
-            : INITIAL_STATE.virtualFiles;
-
-        // Segregate educational & portfolio subdomains so they strictly belong to acc-denbaguse-01 (denbaguse.my.id)
-        const denbaguseSubRoots = [
-          '/public_html/siakad-madrasah',
-          '/public_html/adm-madrasah',
-          '/public_html/absensi-gtk',
-          '/public_html/kartu-pelajar',
-          '/public_html/modul-ajar',
-          '/public_html/rdm',
-          '/public_html/cbt',
-          '/public_html/elearning'
-        ];
-        loadedFiles = loadedFiles.map(f => {
-          const p = (f.path || '').toLowerCase();
-          const isDenbaguseSub = denbaguseSubRoots.some(sr => p === sr || p.startsWith(sr + '/'));
-          if (isDenbaguseSub && f.accountId !== 'acc-denbaguse-01') {
-            return { ...f, accountId: 'acc-denbaguse-01' };
-          }
-          return f;
-        });
-
-        // Clean out legacy Rapor Digital Madrasah placeholder files from localStorage so they never override the user's personal website
-        const hadLegacyRdmPlaceholder = loadedFiles.some(
-          f =>
-            f.id === 'vf-02' ||
-            (typeof f.content === 'string' && f.content.includes('Rapor Digital Madrasah - Server Siap!'))
-        );
-        if (hadLegacyRdmPlaceholder) {
-          loadedFiles = loadedFiles.filter(
-            f =>
-              f.id !== 'vf-02' &&
-              !(typeof f.content === 'string' && f.content.includes('Rapor Digital Madrasah - Server Siap!'))
-          );
-          const hasRootEntry = loadedFiles.some(
-            f =>
-              f.accountId === 'acc-rdm-01' &&
-              (f.path.toLowerCase() === '/public_html/index.html' || f.path.toLowerCase() === '/public_html/index.php')
-          );
-          if (!hasRootEntry) {
-            const defaultPersonalFiles = INITIAL_STATE.virtualFiles.filter(
-              df => df.id === 'vf-personal-html' || df.id === 'vf-personal-css'
-            );
-            loadedFiles = [...loadedFiles, ...defaultPersonalFiles];
-          }
-        }
-
-        let loadedUsers: User[] = Array.isArray(parsed.users) ? [...parsed.users] : [...INITIAL_STATE.users];
-        loadedUsers = loadedUsers.map(u => {
-          if (u.id === 'usr-admin-01' || u.role === 'admin') {
-            const nextName = (!u.name || u.name === 'Root Administrator' || u.name === 'Admin') ? 'Jaenal Maskun' : u.name;
-            return {
-              ...u,
-              name: nextName,
-            };
-          }
-          if (u.id === 'usr-cust-02' || (u.role === 'customer' && u.email === 'admin@klien-reseller.my.id')) {
-            return {
-              ...u,
-              name: u.name.toLowerCase().includes('reseller') ? 'Pelanggan Hosting cPanel' : u.name,
-              username: u.username === 'klienweb' ? 'pelanggan' : (u.username || 'pelanggan'),
-              email: u.email.toLowerCase().includes('reseller') || u.email.includes('websitepelanggan') ? 'pelanggan@karsacloud.biz.id' : u.email,
-              companyName: u.companyName?.toLowerCase().includes('reseller') ? 'Portal Website Pelanggan' : (u.companyName || 'Portal Website Pelanggan'),
-              resellerId: undefined,
-              phone: u.phone || '+62 812-2673-8883',
-            };
-          }
-          return u;
-        });
-        INITIAL_STATE.users.forEach(defU => {
-          // Always ensure Root Administrator and Den Baguse Reseller exist
-          if ((defU.role === 'admin' || defU.username === 'denbaguse') && !loadedUsers.some(u => u.id === defU.id || u.username === defU.username)) {
-            loadedUsers.push(defU);
-          }
-        });
-
-        let loadedDomains: DomainEntity[] =
-          hasAccounts && Array.isArray(parsed.domains) && parsed.domains.length > 0
-            ? parsed.domains
-            : INITIAL_STATE.domains;
-        loadedDomains = loadedDomains.map(d => {
-          const updatedDocRoot = (d.documentRoot || '')
-            .replace('/home/madrasah', '/home/karsacloud')
-            .replace('/home/cloudpro', '/home/karsacloud');
-          if (d.accountId === 'acc-rdm-01' && d.type === 'primary') {
-            return {
-              ...d,
-              domain: 'karsacloud.biz.id',
-              documentRoot: '/home/karsacloud/public_html',
-            };
-          }
-          if (d.accountId === 'acc-school-02' && (d.domain.includes('reseller') || d.domain === 'portal.karsacloud.biz.id')) {
-            return {
-              ...d,
-              domain: 'client.karsacloud.biz.id',
-              documentRoot: '/home/pelanggan/public_html',
-            };
-          }
-
-          // Ensure subdomains belong to their owner account's primary domain
-          if (d.type === 'subdomain') {
-            const ownerAcc = loadedAccounts.find(a => a.id === d.accountId);
-            const ownerPrimary = (ownerAcc?.primaryDomain || d.parentDomain || 'denbaguse.my.id').toLowerCase();
-            const prefix = d.subdomainPrefix || d.domain.split('.')[0];
-            return {
-              ...d,
-              domain: `${prefix}.${ownerPrimary}`,
-              parentDomain: ownerPrimary,
-              subdomainPrefix: prefix,
-              documentRoot: prefix === 'panel' ? '/public_html' : (d.documentRoot || `/public_html/${prefix}`),
-            };
-          }
-
-          if (updatedDocRoot !== d.documentRoot) {
-            return {
-              ...d,
-              documentRoot: updatedDocRoot,
-            };
-          }
-          return d;
-        });
-
-        // Permanently purge websitepelanggan.my.id from domains
-        loadedDomains = loadedDomains.filter(d =>
-          d.domain !== 'websitepelanggan.my.id' &&
-          !d.domain.endsWith('.websitepelanggan.my.id') &&
-          d.parentDomain !== 'websitepelanggan.my.id'
-        );
-
-        // Purge any duplicated educational subdomains falsely attached to karsacloud.biz.id
-        loadedDomains = loadedDomains.filter(d => {
-          const dom = (d.domain || '').toLowerCase();
-          if (dom.endsWith('.karsacloud.biz.id')) {
-            const prefix = dom.replace('.karsacloud.biz.id', '');
-            const denbagusePrefixes = ['siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar', 'modul-ajar', 'rdm', 'cbt', 'elearning'];
-            if (denbagusePrefixes.includes(prefix)) return false;
-          }
-          return true;
-        });
-
-        INITIAL_STATE.domains.forEach(defDom => {
-          if (defDom.domain.endsWith('.denbaguse.my.id') || defDom.domain === 'denbaguse.my.id') {
-            if (!loadedDomains.some(d => d.domain === defDom.domain)) {
-              loadedDomains.push(defDom);
-            }
-          }
-        });
-
-        let loadedInvoices: Invoice[] =
-          Array.isArray(parsed.invoices) && parsed.invoices.length > 0
-            ? parsed.invoices
-            : INITIAL_STATE.invoices;
-        loadedInvoices = loadedInvoices.map(inv => {
-          const safeItems =
-            Array.isArray(inv.items) && inv.items.length > 0
-              ? inv.items.map(it => ({
-                  description: String(it?.description || 'Layanan Cloud Hosting & Domain'),
-                  qty: Number(it?.qty) || 1,
-                  unitPrice: Number(it?.unitPrice ?? it?.amount ?? inv.amount ?? 350000),
-                  amount: Number(it?.amount ?? inv.amount ?? 350000),
-                }))
-              : [
-                  {
-                    description: String((inv as any).description || 'Tagihan Otomatis Perpanjangan Cloud Hosting & Domain'),
-                    qty: 1,
-                    unitPrice: Number(inv.amount) || 350000,
-                    amount: Number(inv.amount) || 350000,
-                  },
-                ];
-
-          if (inv.id === 'inv-default-unpaid-01' || inv.userId === 'usr-cust-02') {
-            return {
-              ...inv,
-              accountId: inv.accountId || 'acc-school-02',
-              userName: (inv.userName || '').toLowerCase().includes('reseller') ? 'Pelanggan Hosting cPanel' : (inv.userName || 'Pelanggan Hosting cPanel'),
-              userEmail: inv.userEmail?.toLowerCase().includes('reseller') || inv.userEmail?.includes('websitepelanggan') ? 'pelanggan@karsacloud.biz.id' : (inv.userEmail || 'pelanggan@karsacloud.biz.id'),
-              userPhone: inv.userPhone || '+62 812-2673-8883',
-              resellerId: undefined,
-              billingSource: inv.billingSource || 'automated',
-              amount: Number(inv.amount) || 400000,
-              currency: inv.currency || 'IDR',
-              status: inv.status || 'unpaid',
-              dueDate: inv.dueDate || new Date(Date.now() + 7 * 86400000).toISOString(),
-              createdAt: inv.createdAt || new Date().toISOString(),
-              items: safeItems.map(it => ({
-                ...it,
-                description: it.description.replace(/klien-reseller\.my\.id/g, 'client.karsacloud.biz.id').replace(/websitepelanggan\.my\.id/g, 'client.karsacloud.biz.id'),
-              })),
-            };
-          }
-          return {
-            ...inv,
-            userName: inv.userName || 'Pelanggan Cloud PRO',
-            userPhone: inv.userPhone || '+62 812-2673-8883',
-            amount: Number(inv.amount) || 350000,
-            currency: inv.currency || 'IDR',
-            status: inv.status || 'unpaid',
-            dueDate: inv.dueDate || new Date(Date.now() + 7 * 86400000).toISOString(),
-            createdAt: inv.createdAt || new Date().toISOString(),
-            items: safeItems,
-          };
-        });
-
-        // Ensure default customer automatic invoice exists in loadedInvoices
-        if (!loadedInvoices.some(i => i.userId === 'usr-cust-02' || i.accountId === 'acc-school-02')) {
-          loadedInvoices.unshift(JSON.parse(JSON.stringify(INITIAL_STATE.invoices[0])));
-        }
-
-        const loadedBackups: AccountBackup[] =
-          Array.isArray(parsed.backups) && parsed.backups.length > 0
-            ? parsed.backups.map((b: any) => ({
-                ...b,
-                sizeMb: Number(b?.sizeMb) || 50.0,
-                createdAt: b?.createdAt || new Date().toISOString(),
-              }))
-            : INITIAL_STATE.backups;
-
-        let loadedLetterhead: CloudProLetterheadConfig | undefined = parsed.letterheadConfig || undefined;
-        try {
-          const rawLh = localStorage.getItem(LETTERHEAD_STORAGE_KEY);
-          if (rawLh && rawLh.trim()) {
-            loadedLetterhead = { ...DEFAULT_LETTERHEAD_CONFIG, ...JSON.parse(rawLh) };
-          }
-        } catch {}
-
         const loadedDeletedIds: string[] = Array.isArray(parsed.deletedIds) ? parsed.deletedIds : [];
         const deletedSet = new Set<string>(loadedDeletedIds);
 
-        const loadedPlans: HostingPlan[] = (
-          Array.isArray(parsed.hostingPlans) ? (parsed.hostingPlans as HostingPlan[]) : INITIAL_STATE.hostingPlans
-        ).filter((p: HostingPlan) => !deletedSet.has(p.id));
+        const loadedAccounts: HostingAccount[] = (
+          Array.isArray(parsed.hostingAccounts) ? (parsed.hostingAccounts as HostingAccount[]) : []
+        ).filter(a => {
+          if (!a || !a.id) return false;
+          const dom = (a.primaryDomain || "").toLowerCase();
+          if (dom.includes("denbaguse") || dom.includes("websitepelanggan") || dom === "client.karsacloud.biz.id") return false;
+          if (a.id === "acc-denbaguse-01" || a.id === "acc-school-02" || a.id === "acc-own-usr-reseller-denbaguse") return false;
+          return !deletedSet.has(a.id);
+        });
 
-        const loadedServers: ServerNode[] = (
-          Array.isArray(parsed.serverNodes) ? (parsed.serverNodes as ServerNode[]) : INITIAL_STATE.serverNodes
-        ).filter((s: ServerNode) => !deletedSet.has(s.id));
+        const loadedUsers: User[] = (
+          Array.isArray(parsed.users) ? (parsed.users as User[]) : INITIAL_STATE.users
+        )
+          .filter(u => {
+            if (!u || !u.id) return false;
+            if (u.id === "usr-reseller-denbaguse" || u.id === "usr-reseller-01" || u.id === "usr-cust-02") return false;
+            if (u.username === "denbaguse" || u.username === "reseller" || u.username === "pelanggan") return false;
+            return !deletedSet.has(u.id);
+          })
+          .map(u => {
+            if (u.id === "usr-admin-01" || u.role === "admin") {
+              return {
+                ...u,
+                name: "Jaenal Maskun",
+                email: "admin@karsacloud.biz.id",
+                role: "admin",
+              };
+            }
+            return u;
+          });
+
+        if (!loadedUsers.some(u => u.id === "usr-admin-01")) {
+          loadedUsers.unshift(INITIAL_STATE.users[0]);
+        }
+
+        const loadedDomains: DomainEntity[] = (
+          Array.isArray(parsed.domains) ? (parsed.domains as DomainEntity[]) : []
+        ).filter(d => {
+          if (!d || !d.id || !d.domain) return false;
+          const dom = d.domain.toLowerCase();
+          if (dom.includes("denbaguse") || dom.includes("websitepelanggan") || dom === "client.karsacloud.biz.id") return false;
+          return !deletedSet.has(d.id);
+        });
+
+        const loadedResellers: ResellerProfile[] = (
+          Array.isArray(parsed.resellerProfiles) ? (parsed.resellerProfiles as ResellerProfile[]) : []
+        ).filter(r => {
+          if (!r || !r.id) return false;
+          if (r.id === "prof-reseller-denbaguse" || r.id === "prof-reseller-01") return false;
+          return !deletedSet.has(r.id);
+        });
 
         return {
           ...INITIAL_STATE,
           ...parsed,
-          users: loadedUsers
-            .filter((u: User) => !deletedSet.has(u.id) || u.role === 'admin')
-            .map((u: User) => ({
-              ...u,
-              creditBalance: typeof u.creditBalance === 'number' && !Number.isNaN(u.creditBalance) ? u.creditBalance : 0,
-            })),
-          resellerProfiles: (() => {
-            const list = (Array.isArray(parsed.resellerProfiles) ? (parsed.resellerProfiles as ResellerProfile[]) : INITIAL_STATE.resellerProfiles)
-              .filter((r: ResellerProfile) => !deletedSet.has(r.id));
-            if (!list.some(p => p.id === 'prof-reseller-denbaguse' || p.primaryDomain === 'denbaguse.my.id')) {
-              const denProf = INITIAL_STATE.resellerProfiles.find(p => p.id === 'prof-reseller-denbaguse');
-              if (denProf) list.push(denProf);
-            }
-            return list;
-          })(),
-          serverNodes: loadedServers,
-          hostingPlans: loadedPlans,
-          backups: loadedBackups.filter((b: AccountBackup) => !deletedSet.has(b.id)),
-          invoices: loadedInvoices.filter((i: Invoice) => !deletedSet.has(i.id)),
-          ipAddresses: ((Array.isArray(parsed.ipAddresses)) ? parsed.ipAddresses : INITIAL_STATE.ipAddresses)
-            .filter((ip: any) => !deletedSet.has(ip.id)),
-          hostingAccounts: loadedAccounts.filter((a: HostingAccount) => !deletedSet.has(a.id)),
-          virtualFiles: loadedFiles.filter((f: VirtualFile) => !deletedSet.has(f.id)),
-          databases: ((Array.isArray(parsed.databases)) ? parsed.databases : INITIAL_STATE.databases)
-            .filter((db: any) => !deletedSet.has(db.id)),
-          emailMailboxes: ((Array.isArray(parsed.emailMailboxes)) ? parsed.emailMailboxes : INITIAL_STATE.emailMailboxes)
-            .filter((em: any) => !deletedSet.has(em.id)),
-          dnsRecords: ((Array.isArray(parsed.dnsRecords)) ? parsed.dnsRecords : INITIAL_STATE.dnsRecords)
-            .filter((d: any) => !deletedSet.has(d.id)),
-          cronJobs: (((Array.isArray(parsed.cronJobs)) ? parsed.cronJobs : INITIAL_STATE.cronJobs) as CronJobItem[])
-            .filter((c: any) => !deletedSet.has(c.id))
-            .map((c: any) => ({
-              ...c,
-              command: (c.command || '')
-                .replace('/home/madrasah', '/home/karsacloud')
-                .replace('/home/cloudpro', '/home/karsacloud'),
-            })),
-          vpsInstances: ((Array.isArray(parsed.vpsInstances)) ? parsed.vpsInstances : INITIAL_STATE.vpsInstances)
-            .filter((v: any) => !deletedSet.has(v.id)),
-          vpsSnapshots: ((Array.isArray(parsed.vpsSnapshots)) ? parsed.vpsSnapshots : INITIAL_STATE.vpsSnapshots)
-            .filter((s: any) => !deletedSet.has(s.id)),
-          vpsFirewallRules: ((Array.isArray(parsed.vpsFirewallRules)) ? parsed.vpsFirewallRules : INITIAL_STATE.vpsFirewallRules)
-            .filter((r: any) => !deletedSet.has(r.id)),
-          firewallRules: (Array.isArray(parsed.firewallRules) ? (parsed.firewallRules as FirewallRule[]) : INITIAL_STATE.firewallRules)
-            .filter((f: FirewallRule) => !deletedSet.has(f.id)),
-          apiKeys: (Array.isArray(parsed.apiKeys) ? (parsed.apiKeys as ApiKeyItem[]) : INITIAL_STATE.apiKeys)
-            .filter((k: ApiKeyItem) => !deletedSet.has(k.id)),
-          nameserverConfigs: ((Array.isArray(parsed.nameserverConfigs)) ? parsed.nameserverConfigs : INITIAL_STATE.nameserverConfigs)
-            .filter((ns: any) => !deletedSet.has(ns.id))
-            .map((ns: any) => {
-              if (!ns.ns1Host || ns.ns1Host === 'nia.ns.cloudflare.com' || ns.ns1Host.includes('cloudflare.com')) {
-                return {
-                  ...ns,
-                  domain: ns.domain || 'karsacloud.biz.id',
-                  ns1Host: 'ns1.karsacloud.biz.id',
-                  ns2Host: 'ns2.karsacloud.biz.id',
-                  ns1Ip: ns.ns1Ip || '103.147.154.21',
-                  ns2Ip: ns.ns2Ip || '103.147.154.21',
-                };
-              }
-              return ns;
-            }),
-          r2Configs: ((Array.isArray(parsed.r2Configs)) ? parsed.r2Configs : INITIAL_STATE.r2Configs)
-            .filter((r: any) => !deletedSet.has(r.id)),
-          optimizedMedia: (((Array.isArray(parsed.optimizedMedia)) ? parsed.optimizedMedia : INITIAL_STATE.optimizedMedia) as OptimizedMediaFile[])
-            .filter(m => !deletedSet.has(m.id))
-            .map((m: any) => ({
-              ...m,
-              accountId: m.accountId === 'acc-madrasah-01' ? 'acc-rdm-01' : m.accountId,
-            })),
-          domains: loadedDomains.filter(d => !deletedSet.has(d.id)),
-          databaseTables: parsed.databaseTables || INITIAL_STATE.databaseTables,
+          users: loadedUsers,
+          resellerProfiles: loadedResellers,
+          hostingAccounts: loadedAccounts,
+          domains: loadedDomains,
+          virtualFiles: (Array.isArray(parsed.virtualFiles) ? parsed.virtualFiles : []).filter((f: any) => !deletedSet.has(f.id)),
+          dnsRecords: (Array.isArray(parsed.dnsRecords) ? parsed.dnsRecords : []).filter((d: any) => !deletedSet.has(d.id)),
+          databases: (Array.isArray(parsed.databases) ? parsed.databases : []).filter((db: any) => !deletedSet.has(db.id)),
+          emailMailboxes: (Array.isArray(parsed.emailMailboxes) ? parsed.emailMailboxes : []).filter((em: any) => !deletedSet.has(em.id)),
+          cronJobs: (Array.isArray(parsed.cronJobs) ? parsed.cronJobs : []).filter((c: any) => !deletedSet.has(c.id)),
+          backups: (Array.isArray(parsed.backups) ? parsed.backups : []).filter((b: any) => !deletedSet.has(b.id)),
+          invoices: (Array.isArray(parsed.invoices) ? parsed.invoices : []).filter((i: any) => !deletedSet.has(i.id)),
           deletedIds: loadedDeletedIds,
-          letterheadConfig: loadedLetterhead,
+          letterheadConfig: parsed.letterheadConfig || DEFAULT_LETTERHEAD_CONFIG,
           stateUpdatedAt: parsed.stateUpdatedAt || Date.now(),
         };
       }
     } catch (err) {
-      console.warn('Failed to load state from localStorage, falling back to default:', err);
+      console.warn("Failed to load state from localStorage, falling back to default:", err);
     }
     return JSON.parse(JSON.stringify(INITIAL_STATE));
   }

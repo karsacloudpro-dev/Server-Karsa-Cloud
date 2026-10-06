@@ -39,6 +39,7 @@ import { CustomerDashboard } from './components/dashboard/CustomerDashboard';
 import { JobQueueDrawer } from './components/layout/JobQueueDrawer';
 import { NotificationDrawer } from './components/layout/NotificationDrawer';
 import { LoginPage } from './components/layout/LoginPage';
+import { LandingPage } from './components/landing/LandingPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ServerProvider, useServer } from './context/ServerContext';
 import { ConfirmationModal } from './components/common/ConfirmationModal';
@@ -221,6 +222,25 @@ const AppContent: React.FC = () => {
       clearInterval(interval);
     };
   }, []);
+
+  const isServerPanelDomain = typeof window !== "undefined" && (
+    window.location.hostname === "server.karsacloud.biz.id" ||
+    window.location.hostname.startsWith("server.") ||
+    window.location.hostname.includes("servercloud") ||
+    window.location.pathname.startsWith("/panel") ||
+    new URLSearchParams(window.location.search).get("view") === "panel"
+  );
+
+  const [isLandingView, setIsLandingView] = useState<boolean>(() => {
+    if (isServerPanelDomain) return false;
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      if (sp.get("view") === "panel") return false;
+      if (sp.get("view") === "landing") return true;
+      if (sp.get("tab")) return false;
+    } catch {}
+    return true;
+  });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth >= 1024 : false
@@ -559,11 +579,21 @@ const AppContent: React.FC = () => {
     }
   }, [currentUser?.id, currentUser?.role]);
 
-  // If not logged in, show LoginPage
+  // If landing page is active (default for karsacloud.biz.id and promotional website)
+  if (isLandingView) {
+    return (
+      <>
+        <LandingPage onGoToPanel={() => setIsLandingView(false)} />
+        <WhatsAppFloatingButton defaultPhoneNumber="6281226738883" />
+      </>
+    );
+  }
+
+  // If not logged in, show LoginPage with link back to Landing Page
   if (!isAuthenticated || !currentUser) {
     return (
       <>
-        <LoginPage />
+        <LoginPage onBackToLanding={() => setIsLandingView(true)} />
         <WhatsAppFloatingButton defaultPhoneNumber="6281226738883" />
       </>
     );
@@ -1425,6 +1455,7 @@ const AppContent: React.FC = () => {
           onBack={handleGoBack}
           canGoBack={!isRootDashboard || navHistory.length > 0}
           onNavigate={setActiveTab}
+          onOpenLanding={() => setIsLandingView(true)}
         />
         <main className="flex-1 min-w-0 w-full max-w-full overflow-x-clip bg-exec-canvas p-3 sm:p-6 lg:p-8">
           <div className="mx-auto max-w-7xl w-full min-w-0">

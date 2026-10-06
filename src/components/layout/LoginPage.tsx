@@ -21,6 +21,7 @@ import {
   ChevronLeft,
   Timer,
   HelpCircle,
+  Globe,
 } from 'lucide-react';
 
 type PortalRole = 'admin' | 'reseller' | 'customer';
@@ -47,7 +48,11 @@ const readDeviceCredentials = (): DeviceSavedCredentialsMap => {
   }
 };
 
-export const LoginPage: React.FC = () => {
+interface LoginPageProps {
+  onBackToLanding?: () => void;
+}
+
+export const LoginPage: React.FC<LoginPageProps> = ({ onBackToLanding }) => {
   const { login, check2FARequired } = useAuth();
 
   const [selectedRole, setSelectedRole] = useState<PortalRole>(() => {
@@ -640,6 +645,17 @@ export const LoginPage: React.FC = () => {
                     </span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
+
+                  {onBackToLanding && (
+                    <button
+                      type="button"
+                      onClick={onBackToLanding}
+                      className="w-full mt-2.5 py-2 px-3 rounded-xl border border-slate-800 bg-slate-950/80 hover:bg-slate-900 text-slate-300 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Globe className="h-3.5 w-3.5 text-sky-400" />
+                      <span>Website Utama Promosi (karsacloud.biz.id)</span>
+                    </button>
+                  )}
                 </form>
               </>
             )}

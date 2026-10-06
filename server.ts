@@ -181,94 +181,8 @@ interface DdnsConfig {
 }
 
 let vhostStore: VhostStore = {
-  accounts: [
-    {
-      id: 'acc-rdm-01',
-      primaryDomain: 'karsacloud.biz.id',
-      username: 'karsacloud',
-      phpVersion: '8.2',
-    },
-    {
-      id: 'acc-denbaguse-01',
-      primaryDomain: 'denbaguse.my.id',
-      username: 'denbaguse',
-      phpVersion: '8.2',
-    },
-    {
-      id: 'acc-school-02',
-      primaryDomain: 'client.karsacloud.biz.id',
-      username: 'pelanggan',
-      phpVersion: '8.2',
-    },
-  ],
-  subdomains: [
-    {
-      id: 'dom-primary-01',
-      accountId: 'acc-rdm-01',
-      fullDomain: 'karsacloud.biz.id',
-      documentRoot: '/public_html',
-    },
-    {
-      id: 'dom-denbaguse-01',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'denbaguse.my.id',
-      documentRoot: '/public_html',
-    },
-    {
-      id: 'dom-denbaguse-sub-panel',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'panel.denbaguse.my.id',
-      documentRoot: '/public_html',
-    },
-    {
-      id: 'dom-siakad-madrasah-denbaguse',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'siakad-madrasah.denbaguse.my.id',
-      documentRoot: '/public_html/siakad-madrasah',
-    },
-    {
-      id: 'dom-rdm-denbaguse',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'rdm.denbaguse.my.id',
-      documentRoot: '/public_html/rdm',
-    },
-    {
-      id: 'dom-cbt-denbaguse',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'cbt.denbaguse.my.id',
-      documentRoot: '/public_html/cbt',
-    },
-    {
-      id: 'dom-elearning-denbaguse',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'elearning.denbaguse.my.id',
-      documentRoot: '/public_html/elearning',
-    },
-    {
-      id: 'dom-kartu-pelajar-denbaguse',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'kartu-pelajar.denbaguse.my.id',
-      documentRoot: '/public_html/kartu-pelajar',
-    },
-    {
-      id: 'dom-absensi-gtk-denbaguse',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'absensi-gtk.denbaguse.my.id',
-      documentRoot: '/public_html/absensi-gtk',
-    },
-    {
-      id: 'dom-adm-madrasah-denbaguse',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'adm-madrasah.denbaguse.my.id',
-      documentRoot: '/public_html/adm-madrasah',
-    },
-    {
-      id: 'dom-modul-ajar-denbaguse',
-      accountId: 'acc-denbaguse-01',
-      fullDomain: 'modul-ajar.denbaguse.my.id',
-      documentRoot: '/public_html/modul-ajar',
-    },
-  ],
+  accounts: [],
+  subdomains: [],
   filesByAccount: {},
 };
 
@@ -1550,7 +1464,9 @@ function isOfficialPanelHostname(rawHost: string): boolean {
     h.endsWith('.ts.net') ||
     h.endsWith('.local') ||
     h.endsWith('.lan') ||
+    h === 'server.karsacloud.biz.id' ||
     h === 'karsacloud.biz.id' ||
+    h.startsWith('server.') ||
     h === 'cloudpro.karsacloud.biz.id' ||
     h === 'servercloud.karsacloud.biz.id' ||
     h === 'panel.karsacloud.biz.id' ||
