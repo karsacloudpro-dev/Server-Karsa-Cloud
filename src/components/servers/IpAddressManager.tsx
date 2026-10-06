@@ -425,43 +425,43 @@ export const IpAddressManager: React.FC = () => {
         </div>
       </div>
 
-      {/* CLOUDFLARE ANYCAST PUBLIC IPv4 INTEGRATION */}
-      <div className="rounded-xl border border-sky-300 bg-sky-50/80 p-5 shadow-xs dark:border-sky-800/70 dark:bg-sky-950/30">
+      {/* OPSIONAL: CLOUDFLARE EDGE & TUNNEL (HANYA UNTUK SERVER TANPA IP PUBLIK) */}
+      <div className="rounded-xl border border-slate-300 bg-slate-50/80 p-5 shadow-xs dark:border-slate-800/70 dark:bg-slate-900/40">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="space-y-2 min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <Globe className="h-5 w-5 text-sky-600 dark:text-sky-400 shrink-0" />
+              <Globe className="h-5 w-5 text-slate-500 dark:text-slate-400 shrink-0" />
               <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                Integrasi IPv4 Publik Anycast Cloudflare Edge
+                Opsi Cadangan: Jaringan Cloudflare Anycast (Khusus Server Rumah / Tanpa IP Publik)
               </h3>
             </div>
-            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-              Alokasi 2 IPv4 Anycast publik dari jaringan <strong>Cloudflare Zero Trust Tunnel (<code>CloudPRO-Server</code>)</strong> untuk domain <code>karsacloud.biz.id</code> dan seluruh virtual host aktif.
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              Jika Anda menyewa VPS dengan IP Publik, <strong>abaikan tombol ini</strong> dan gunakan <em>&ldquo;Terapkan IP Publik&rdquo;</em> di atas. Modul ini hanya digunakan jika server dijalankan dari rumah/PC lokal tanpa IP publik langsung.
             </p>
 
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 pt-1">
-              <div className="rounded-xl border border-sky-200/90 bg-white px-3 py-2 dark:border-sky-800/60 dark:bg-slate-900">
+              <div className="rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-800 dark:bg-slate-900">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Primary Anycast IPv4
+                  Cloudflare Anycast #1
                 </div>
-                <div className="mt-0.5 font-mono text-xs font-bold text-sky-700 dark:text-sky-400 truncate">
+                <div className="mt-0.5 font-mono text-xs font-bold text-slate-600 dark:text-slate-400 truncate">
                   {cfEdgeIpv4List[0]}
                 </div>
               </div>
-              <div className="rounded-xl border border-sky-200/90 bg-white px-3 py-2 dark:border-sky-800/60 dark:bg-slate-900">
+              <div className="rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-800 dark:bg-slate-900">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Secondary Anycast IPv4
+                  Cloudflare Anycast #2
                 </div>
-                <div className="mt-0.5 font-mono text-xs font-bold text-sky-700 dark:text-sky-400 truncate">
+                <div className="mt-0.5 font-mono text-xs font-bold text-slate-600 dark:text-slate-400 truncate">
                   {cfEdgeIpv4List[1]}
                 </div>
               </div>
-              <div className="col-span-2 sm:col-span-1 rounded-xl border border-sky-200/90 bg-white px-3 py-2 dark:border-sky-800/60 dark:bg-slate-900">
+              <div className="col-span-2 sm:col-span-1 rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-800 dark:bg-slate-900">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Status Jaringan
+                  Status Mode
                 </div>
-                <div className="mt-0.5 font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400 truncate">
-                  Cloudflare Edge Active
+                <div className="mt-0.5 font-mono text-xs font-bold text-slate-500 dark:text-slate-400 truncate">
+                  Fallback / Tunnel Only
                 </div>
               </div>
             </div>
@@ -471,10 +471,10 @@ export const IpAddressManager: React.FC = () => {
             type="button"
             onClick={handleApplyCloudflareAnycastIpv4}
             disabled={isApplyingCfIpv4}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-sky-500 shadow-xs cursor-pointer shrink-0"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white dark:bg-slate-800 px-4 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 shadow-2xs cursor-pointer shrink-0"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${isApplyingCfIpv4 ? 'animate-spin' : ''}`} />
-            <span>Sinkronkan IPv4 Cloudflare ({cfEdgeIpv4List[0]})</span>
+            <span>Pasang IP Cloudflare ({cfEdgeIpv4List[0]})</span>
           </button>
         </div>
       </div>

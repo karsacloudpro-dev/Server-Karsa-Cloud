@@ -232,41 +232,42 @@ export const PrivateNameserverManager: React.FC = () => {
         </div>
       </div>
 
-      {/* IndiHome & Local Server IPv6 DDNS Architecture Guide */}
-      <div className="rounded-2xl border border-sky-200 bg-sky-50/80 p-5 dark:border-sky-900/60 dark:bg-sky-950/20 text-xs">
+      {/* VPS IP Publik Mandiri & Private Nameserver Architecture Guide */}
+      <div className="rounded-2xl border border-emerald-300 bg-emerald-50/80 p-5 dark:border-emerald-900/60 dark:bg-emerald-950/20 text-xs">
         <div className="flex items-start gap-3">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white font-bold text-xs">
-            <Info className="h-4 w-4" />
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white font-bold text-xs">
+            <CheckCircle2 className="h-4 w-4" />
           </div>
           <div className="space-y-2 flex-1">
-            <h4 className="font-bold uppercase tracking-wider text-sky-900 dark:text-sky-200">
-              Integrasi Server Lokal / IndiHome IPv6 DDNS &amp; Nameserver Klien
-            </h4>
-            <div className="text-slate-700 dark:text-slate-300 leading-relaxed space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="rounded bg-emerald-200 px-2 py-0.5 text-[10px] font-extrabold text-emerald-900 dark:bg-emerald-900 dark:text-emerald-200 uppercase tracking-wider">
+                Rekomendasi Utama VPS
+              </span>
+              <h4 className="font-bold text-emerald-950 dark:text-emerald-200">
+                Direct VPS Hosting dengan IP Publik: Klien 100% Bebas dari Cloudflare!
+              </h4>
+            </div>
+            <div className="text-slate-700 dark:text-slate-300 leading-relaxed space-y-2">
               <p>
-                <strong>Apakah nameserver klien bisa menggunakan domain Karsa Cloud atau domain sendiri?</strong><br />
-                <span className="text-emerald-700 dark:text-emerald-400 font-bold">&bull; YA, BISA MENGGUNAKAN DOMAIN APA SAJA:</span> Anda bebas menggunakan domain server utama Anda (contoh: <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns1.{domain}</code> &amp; <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns2.{domain}</code>), domain resmi Karsa Cloud (<code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns1.karsacloud.biz.id</code> &amp; <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">ns2.karsacloud.biz.id</code>), maupun domain brand reseller Anda.
-              </p>
-              <p>
-                <strong>Karakteristik Jaringan IndiHome:</strong> Jaringan IndiHome menerapkan <em>CGNAT</em> pada IPv4 (IP privat), namun memberikan <strong>IP Publik Asli IPv6 (/64)</strong> yang bisa diakses langsung dari internet global. Agar seluruh pengunjung website klien (baik pengguna wifi/seluler IPv4 maupun IPv6) dapat membuka website tanpa terkendala, Cloud PRO mendukung 2 metode:
+                Karena server Anda berjalan di <strong>VPS dengan IP Publik Asli</strong>, seluruh domain klien (seperti <code className="bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-[11px] font-bold text-emerald-700 dark:text-emerald-300">denbaguse.my.id</code> beserta seluruh subdomainnya) <strong>TIDAK PERLU</strong> dimasukkan ke akun Cloudflare!
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                <div className="rounded-xl border border-sky-200 bg-white/90 p-3 dark:border-sky-900 dark:bg-slate-900/90">
-                  <div className="font-bold text-sky-950 dark:text-sky-200 flex items-center gap-1.5">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-                    <span>Metode 1: Cloudflare Dual-Stack (Direkomendasikan)</span>
+                <div className="rounded-xl border border-emerald-200 bg-white/95 p-3 dark:border-emerald-900 dark:bg-slate-900/95 space-y-1">
+                  <div className="font-bold text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                    <span>Cara 1: Pasang A Record di Registrar Domain Klien</span>
                   </div>
-                  <p className="mt-1 text-[11px] text-slate-600 dark:text-slate-400">
-                    Domain nameserver dipasang di Cloudflare dengan Proxy AAAA IPv6 aktif. Cloudflare otomatis menyediakan jembatan IPv4 + IPv6 global ke server lokal Anda.
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Klien cukup membuat <strong>Record A</strong> untuk <code className="font-bold font-mono">@</code> dan <code className="font-bold font-mono">*</code> yang diarahkan langsung ke <strong>IP Publik VPS Anda</strong> ({ns1Ip}). Caddy di VPS otomatis menerbitkan SSL HTTPS On-Demand saat domain diakses.
                   </p>
                 </div>
-                <div className="rounded-xl border border-sky-200 bg-white/90 p-3 dark:border-sky-900 dark:bg-slate-900/90">
-                  <div className="font-bold text-sky-950 dark:text-sky-200 flex items-center gap-1.5">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-                    <span>Metode 2: Cloudflare Zero Trust Tunnel</span>
+                <div className="rounded-xl border border-emerald-200 bg-white/95 p-3 dark:border-emerald-900 dark:bg-slate-900/95 space-y-1">
+                  <div className="font-bold text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                    <span>Cara 2: Pasang Nameserver Pribadi Karsa Cloud</span>
                   </div>
-                  <p className="mt-1 text-[11px] text-slate-600 dark:text-slate-400">
-                    Aktifkan modul <code className="font-mono text-[10px]">cloudflared</code> bawaan Cloud PRO. Semua domain &amp; subdomain klien langsung tembus tanpa perlu IP Publik statis dan tanpa setting port-forwarding modem.
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Klien cukup mengubah Nameserver domainnya ke <code className="font-bold font-mono">ns1.karsacloud.biz.id</code> dan <code className="font-bold font-mono">ns2.karsacloud.biz.id</code>. Seluruh DNS &amp; SSL langsung dikelola otomatis oleh panel hosting Anda.
                   </p>
                 </div>
               </div>

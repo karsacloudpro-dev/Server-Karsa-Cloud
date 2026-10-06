@@ -5114,10 +5114,59 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
   });
 
   // GET /api/vhost/check-domain - On-Demand TLS Domain Verification for Caddy
-  app.get('/api/vhost/check-domain', (req, res) => {
-    const domain = String(req.query.domain || '').trim().toLowerCase();
-    if (!domain) return res.status(400).send('Domain query parameter missing');
+  app.get(['/api/vhost/check-domain', '/check-domain'], (req, res) => {
+    const domain = String(req.query.domain || req.query.name || req.query.host || '').trim().toLowerCase();
+    // Always return 200 OK so Caddy's On-Demand TLS immediately approves SSL issuance
     return res.status(200).send('OK');
+  });
+
+  // POST /api/network/vps-bridge/test - Uji Konektivitas IP VPS & Port
+  app.post('/api/network/vps-bridge/test', async (req, res) => {
+    try {
+      const vpsIp = String(req.body?.vpsIp || '').trim();
+      const sshPort = parseInt(req.body?.sshPort || '22', 10);
+      if (!vpsIp) {
+        return res.status(400).json({ ok: false, message: 'Alamat IP VPS tidak boleh kosong.' });
+      }
+
+      const netMod = await import('net');
+      const testPort = (host: string, port: number, timeoutMs = 3000): Promise<boolean> => {
+        return new Promise((resolve) => {
+          const socket = new netMod.Socket();
+          socket.setTimeout(timeoutMs);
+          socket.once('connect', () => {
+            socket.destroy();
+            resolve(true);
+          });
+          socket.once('timeout', () => {
+            socket.destroy();
+            resolve(false);
+          });
+          socket.once('error', () => {
+            socket.destroy();
+            resolve(false);
+          });
+          socket.connect(port, host);
+        });
+      };
+
+      const sshOpen = await testPort(vpsIp, sshPort);
+      const httpOpen = await testPort(vpsIp, 80);
+      const httpsOpen = await testPort(vpsIp, 443);
+
+      return res.json({
+        ok: true,
+        vpsIp,
+        sshOpen,
+        httpOpen,
+        httpsOpen,
+        message: sshOpen 
+          ? `Koneksi ke ${vpsIp} berhasil! Port SSH (${sshPort}) terbuka.${httpOpen || httpsOpen ? ' Port 80/443 juga aktif.' : ' Port 80/443 belum aktif, silakan jalankan bash setup-vps-gateway.sh di VPS.'}`
+          : `Gagal menjangkau port SSH ${sshPort} di ${vpsIp}. Pastikan VPS aktif dan firewall mengizinkan port ${sshPort}.`,
+      });
+    } catch (err: any) {
+      return res.status(500).json({ ok: false, message: err?.message || 'Gagal menguji VPS.' });
+    }
   });
 
   // GET /api/system/node-telemetry - Real-time Host VPS Telemetry (CPU, RAM, Swap, Disk, OS)

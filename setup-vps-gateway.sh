@@ -1,24 +1,15 @@
 #!/usr/bin/env bash
 # =========================================================================
-# Karsa Cloud PRO - Enterprise Universal Caddy Reverse Proxy & Auto-SSL
+# Karsa Cloud PRO - Enterprise Universal Caddy Gateway Configuration
 # Domain Utama Server: karsacloud.biz.id
-# Domain Klien: denbaguse.my.id & Seluruh Subdomainnya
+# Domain Klien: denbaguse.my.id & Subdomain (siakad-madrasah, rdm, dll)
 # =========================================================================
 
 echo "=========================================================="
-echo " 🔒 [Karsa Cloud PRO] Universal Auto-SSL & Caddy Gateway"
+echo " 🔒 [Karsa Cloud PRO] Konfigurasi Caddy Gateway & Auto-SSL"
 echo "=========================================================="
 
-CADDY_FILE="/etc/caddy/Caddyfile"
-SUDO_CMD=""
-if [ "$(id -u)" -ne 0 ]; then
-  SUDO_CMD="sudo"
-fi
-
-$SUDO_CMD systemctl stop nginx apache2 2>/dev/null || true
-$SUDO_CMD systemctl disable nginx apache2 2>/dev/null || true
-
-cat << 'EOF' > /tmp/caddyfile-karsacloud-pro
+cat << 'EOF' > /etc/caddy/Caddyfile
 {
     email mimaarifnu2sanggreman@gmail.com
     on_demand_tls {
@@ -37,7 +28,7 @@ karsacloud.biz.id, www.karsacloud.biz.id, cloudpro.karsacloud.biz.id, serverclou
     }
 }
 
-# 2. Domain Klien denbaguse.my.id & Seluruh Subdomain Madrasah (SSL Otomatis)
+# 2. Domain Klien denbaguse.my.id & Seluruh Subdomain Madrasah (HTTP-01 SSL Otomatis)
 denbaguse.my.id, www.denbaguse.my.id, siakad-madrasah.denbaguse.my.id, rdm.denbaguse.my.id, adm-madrasah.denbaguse.my.id, cbt.denbaguse.my.id, elearning.denbaguse.my.id, ppdb.denbaguse.my.id {
     encode gzip zstd
     reverse_proxy 127.0.0.1:3000 {
@@ -76,11 +67,6 @@ denbaguse.my.id, www.denbaguse.my.id, siakad-madrasah.denbaguse.my.id, rdm.denba
 }
 EOF
 
-$SUDO_CMD cp -f /tmp/caddyfile-karsacloud-pro "$CADDY_FILE"
-rm -f /tmp/caddyfile-karsacloud-pro
-
-if command -v caddy &>/dev/null; then
-  $SUDO_CMD caddy validate --config "$CADDY_FILE" 2>/dev/null || true
-fi
-
-$SUDO_CMD systemctl restart caddy 2>/dev/null || $SUDO_CMD service caddy restart 2>/dev/null || true
+caddy validate --config /etc/caddy/Caddyfile
+systemctl restart caddy
+systemctl status caddy --no-pager

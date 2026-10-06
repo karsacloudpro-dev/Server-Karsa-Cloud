@@ -3893,6 +3893,10 @@ class StorageService {
       updatedAccounts++;
     });
 
+    (this.state.resellerProfiles || []).forEach(res => {
+      res.assignedIp = cleanIp;
+    });
+
     (this.state.dnsRecords || []).forEach(dns => {
       if (dns.type === 'A') {
         dns.content = cleanIp;

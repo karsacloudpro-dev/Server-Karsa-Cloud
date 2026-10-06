@@ -14,6 +14,14 @@ import {
   ExternalLink,
   CheckCircle2,
   AlertTriangle,
+  Server,
+  ArrowRight,
+  Shield,
+  Cpu,
+  HelpCircle,
+  HardDrive,
+  Key,
+  ArrowUpRight,
 } from 'lucide-react';
 import { HostingAccount } from '../../types';
 import { db } from '../../services/storage';
@@ -32,8 +40,52 @@ export const GatewayTunnelManager: React.FC<GatewayTunnelManagerProps> = ({
 }) => {
   const { showToast } = useServer();
 
-  const [activeModeTab, setActiveModeTab] = useState<'tunnel' | 'ipv6_ddns' | 'vhost_routes'>('tunnel');
+  const [activeModeTab, setActiveModeTab] = useState<'vps_bridge' | 'tunnel' | 'ipv6_ddns' | 'vhost_routes'>('vps_bridge');
   const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  // Dedicated VPS Bridge & Public IP State
+  const [vpsIpInput, setVpsIpInput] = useState<string>(() => {
+    return localStorage.getItem('karsacloud_vps_ip') || '';
+  });
+  const [vpsSshPort, setVpsSshPort] = useState<string>('22');
+  const [vpsSshUser, setVpsSshUser] = useState<string>('root');
+  const [isTestingVps, setIsTestingVps] = useState<boolean>(false);
+  const [vpsTestResult, setVpsTestResult] = useState<{
+    ok: boolean;
+    sshOpen?: boolean;
+    httpOpen?: boolean;
+    httpsOpen?: boolean;
+    message?: string;
+  } | null>(null);
+
+  const handleTestVpsBridge = async () => {
+    if (!vpsIpInput.trim()) {
+      showToast('warning', 'IP Kosong', 'Silakan masukkan alamat IP VPS Anda.');
+      return;
+    }
+    setIsTestingVps(true);
+    setVpsTestResult(null);
+    try {
+      localStorage.setItem('karsacloud_vps_ip', vpsIpInput.trim());
+      const res = await fetch('/api/network/vps-bridge/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vpsIp: vpsIpInput.trim(), sshPort: vpsSshPort }),
+      });
+      const data = await res.json();
+      setVpsTestResult(data);
+      if (data?.ok && data?.sshOpen) {
+        showToast('success', 'VPS Terkoneksi', data.message);
+      } else {
+        showToast('error', 'Koneksi Gagal', data?.message || 'Port SSH tidak dapat dijangkau.');
+      }
+    } catch (err: any) {
+      setVpsTestResult({ ok: false, message: err?.message || 'Gagal menghubungi server tes.' });
+      showToast('error', 'Error', 'Gagal menguji koneksi ke VPS.');
+    } finally {
+      setIsTestingVps(false);
+    }
+  };
 
   // Native Linux cloudflared Tunnel Daemon State
   const DEFAULT_USER_TUNNEL_TOKEN =
@@ -452,6 +504,19 @@ export const GatewayTunnelManager: React.FC<GatewayTunnelManagerProps> = ({
       <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-xs dark:border-slate-800 dark:bg-slate-900">
         <button
           type="button"
+          onClick={() => setActiveModeTab('vps_bridge')}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
+            activeModeTab === 'vps_bridge'
+              ? 'bg-amber-600 text-white shadow-xs'
+              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+          }`}
+        >
+          <Server className="h-4 w-4" />
+          <span>VPS Gateway &amp; IP Publik Bridge (Tanpa CF)</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveModeTab('tunnel')}
           className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
             activeModeTab === 'tunnel'
@@ -489,6 +554,294 @@ export const GatewayTunnelManager: React.FC<GatewayTunnelManagerProps> = ({
           <span>Tabel Rute Wildcard &amp; Virtual Host</span>
         </button>
       </div>
+
+      {/* =================================================================== */}
+      {/* TAB 0: VPS DEDICATED GATEWAY & PUBLIC IP BRIDGE (BEBAS CLOUDFLARE)  */}
+      {/* =================================================================== */}
+      {activeModeTab === 'vps_bridge' && (
+        <div className="space-y-5">
+          {/* Jawaban Langsung Arsitektur */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="rounded-2xl border border-amber-300 bg-amber-50/90 p-5 dark:border-amber-900/60 dark:bg-amber-950/30">
+              <div className="flex items-start gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-600 text-white font-bold text-sm shadow-xs">
+                  1
+                </div>
+                <div className="space-y-1.5">
+                  <h4 className="text-xs font-extrabold uppercase tracking-wider text-amber-900 dark:text-amber-300">
+                    Apakah Semua Harus Diarahkan ke VPS?
+                  </h4>
+                  <p className="text-xs leading-relaxed text-slate-800 dark:text-slate-200">
+                    <strong>YA, BENAR SEKALI!</strong> Semua domain klien (<code className="font-mono font-bold bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded text-amber-800 dark:text-amber-300">denbaguse.my.id</code>, <code className="font-mono font-bold bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded text-amber-800 dark:text-amber-300">*.denbaguse.my.id</code>, dan seluruh domain klien lainnya) <strong>cukup diarahkan ke IP Publik VPS Anda</strong> (A Record @ dan * ke IP VPS).
+                  </p>
+                  <p className="text-[11px] text-amber-900 dark:text-amber-400 font-semibold">
+                    ✨ Klien TIDAK PERLU punya akun Cloudflare dan tidak perlu repot ganti DNS ke Cloudflare!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-sky-300 bg-sky-50/90 p-5 dark:border-sky-900/60 dark:bg-sky-950/30">
+              <div className="flex items-start gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-sky-600 text-white font-bold text-sm shadow-xs">
+                  2
+                </div>
+                <div className="space-y-1.5">
+                  <h4 className="text-xs font-extrabold uppercase tracking-wider text-sky-900 dark:text-sky-300">
+                    Apakah Putus Semua Hub Tunnel?
+                  </h4>
+                  <p className="text-xs leading-relaxed text-slate-800 dark:text-slate-200">
+                    <strong>JANGAN DIPUTUS SEMBARANGAN!</strong> Karena Server Lokal Anda berada di jaringan IndiHome/LAN (terkena CGNAT tanpa IP publik langsung), Server Lokal <strong>tetap butuh jembatan (tunnel/bridge) ke VPS Anda</strong>.
+                  </p>
+                  <p className="text-[11px] text-sky-900 dark:text-sky-400 font-semibold">
+                    💡 Gunakan <strong>VPS Bridge Connector</strong> (SSH Reverse Tunnel / Autossh) di bawah agar port 3000 Server Lokal otomatis terhubung ke VPS secara 24/7 tanpa putus!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Konfigurasi & Tes IP VPS */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 dark:border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400">
+                  <Cpu className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Konfigurasi IP Publik VPS &amp; Uji Konektivitas
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Masukkan IP Publik VPS yang Anda sewa untuk menguji kesiapan gateway &amp; membuat skrip penghubung otomatis.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="sm:col-span-2 space-y-1.5">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                  Alamat IP Publik VPS Anda
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={vpsIpInput}
+                    onChange={e => setVpsIpInput(e.target.value)}
+                    placeholder="Contoh: 103.186.201.88 atau IP VPS Anda"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 font-mono text-xs text-slate-900 focus:border-amber-500 focus:bg-white focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                  Port SSH VPS
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={vpsSshPort}
+                    onChange={e => setVpsSshPort(e.target.value)}
+                    placeholder="22"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 font-mono text-xs text-slate-900 focus:border-amber-500 focus:bg-white focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleTestVpsBridge}
+                    disabled={isTestingVps || !vpsIpInput.trim()}
+                    className="flex shrink-0 items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2 text-xs font-bold text-white hover:bg-amber-500 disabled:opacity-50 transition-colors shadow-xs cursor-pointer"
+                  >
+                    {isTestingVps ? (
+                      <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <Zap className="h-3.5 w-3.5" />
+                    )}
+                    <span>Uji Koneksi</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Hasil Uji Konektivitas */}
+            {vpsTestResult && (
+              <div
+                className={`rounded-xl border p-4 text-xs ${
+                  vpsTestResult.ok && vpsTestResult.sshOpen
+                    ? 'border-emerald-300 bg-emerald-50/80 text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200'
+                    : 'border-rose-300 bg-rose-50/80 text-rose-950 dark:border-rose-900 dark:bg-rose-950/30 dark:text-rose-200'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 font-bold">
+                    {vpsTestResult.sshOpen ? (
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    ) : (
+                      <AlertTriangle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+                    )}
+                    <span>{vpsTestResult.message}</span>
+                  </div>
+                  <div className="flex items-center gap-2 font-mono text-[11px]">
+                    <span className={`px-2 py-0.5 rounded ${vpsTestResult.sshOpen ? 'bg-emerald-200 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200' : 'bg-rose-200 text-rose-800'}`}>
+                      SSH Port {vpsSshPort}: {vpsTestResult.sshOpen ? 'OPEN' : 'CLOSED'}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded ${vpsTestResult.httpOpen ? 'bg-emerald-200 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'}`}>
+                      HTTP 80: {vpsTestResult.httpOpen ? 'OPEN' : 'WAITING'}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded ${vpsTestResult.httpsOpen ? 'bg-emerald-200 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'}`}>
+                      HTTPS 443: {vpsTestResult.httpsOpen ? 'OPEN' : 'WAITING'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 2 Langkah Mudah Eksekusi */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
+            {/* Langkah 1: VPS Gateway */}
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5 text-white shadow-lg space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 font-bold text-xs text-slate-950">
+                  A
+                </span>
+                <h4 className="font-bold text-amber-400 text-sm">
+                  Langkah 1: Setup di Terminal VPS Anda (1x Seumur Hidup)
+                </h4>
+              </div>
+              <p className="text-slate-300 leading-relaxed text-[11px]">
+                Buka terminal SSH VPS Anda (<code className="text-amber-300 font-mono">ssh root@{vpsIpInput || 'IP_VPS'}</code>), lalu jalankan perintah berikut untuk mengonfigurasi Caddy On-Demand TLS universal &amp; membuka firewall:
+              </p>
+              <div className="relative rounded-xl border border-slate-700 bg-slate-950 p-3 font-mono text-[11px] text-amber-300">
+                <code>
+                  bash setup-vps-gateway.sh
+                </code>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText('bash setup-vps-gateway.sh');
+                    setCopiedField('cmd_vps');
+                    showToast('success', 'Disalin', 'Perintah VPS berhasil disalin.');
+                    setTimeout(() => setCopiedField(null), 2000);
+                  }}
+                  className="absolute right-2 top-2 rounded-lg bg-slate-800 p-1.5 text-slate-400 hover:text-white"
+                >
+                  {copiedField === 'cmd_vps' ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                </button>
+              </div>
+              <ul className="space-y-1.5 text-[11px] text-slate-400">
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Otomatis memasang Caddy dengan On-Demand TLS Let's Encrypt / ZeroSSL.</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Membuka port 80 &amp; 443 di firewall VPS.</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Dinamis untuk SEMUA domain klien tanpa perlu didaftarkan manual satu per satu!</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Langkah 2: Server Lokal Bridge */}
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5 text-white shadow-lg space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500 font-bold text-xs text-slate-950">
+                  B
+                </span>
+                <h4 className="font-bold text-sky-400 text-sm">
+                  Langkah 2: Hubungkan Server Lokal ke VPS
+                </h4>
+              </div>
+              <p className="text-slate-300 leading-relaxed text-[11px]">
+                Buka terminal Server Lokal (<code className="text-sky-300 font-mono">karsacloud.biz.id</code>), lalu jalankan perintah berikut untuk mengaktifkan koneksi 24/7 otomatis:
+              </p>
+              <div className="relative rounded-xl border border-slate-700 bg-slate-950 p-3 font-mono text-[11px] text-sky-300">
+                <code>
+                  bash connect-vps-bridge.sh {vpsIpInput || '<IP_VPS>'} root {vpsSshPort || '22'}
+                </code>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const cmd = `bash connect-vps-bridge.sh ${vpsIpInput || '<IP_VPS>'} root ${vpsSshPort || '22'}`;
+                    navigator.clipboard.writeText(cmd);
+                    setCopiedField('cmd_local');
+                    showToast('success', 'Disalin', 'Perintah Server Lokal berhasil disalin.');
+                    setTimeout(() => setCopiedField(null), 2000);
+                  }}
+                  className="absolute right-2 top-2 rounded-lg bg-slate-800 p-1.5 text-slate-400 hover:text-white"
+                >
+                  {copiedField === 'cmd_local' ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                </button>
+              </div>
+              <ul className="space-y-1.5 text-[11px] text-slate-400">
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Membuat Systemd daemon (24/7) dengan auto-reconnect saat IndiHome restart.</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Menghubungkan port 3000 Server Lokal langsung ke IP Publik VPS.</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Trafik pengunjung VPS langsung dilayani oleh Virtual Host Server Lokal!</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Panduan Setting DNS Klien */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-900 text-xs space-y-3">
+            <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Globe className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+              <span>Cara Setting DNS Domain Klien (denbaguse.my.id &amp; domain klien lainnya)</span>
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-2">
+                <div className="font-bold text-slate-900 dark:text-white text-[11px]">
+                  Opsi 1: A Record di Registrar Domain Klien
+                </div>
+                <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
+                  Klien cukup membuat 2 Record DNS di registrar mereka (Niagahoster, Domainesia, Namecheap, dll):
+                </p>
+                <div className="space-y-1 font-mono text-[11px] bg-white dark:bg-slate-900 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Record Type A:</span>
+                    <span className="font-bold text-teal-600 dark:text-teal-400">@ ➔ {vpsIpInput || 'IP_VPS'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Record Type A:</span>
+                    <span className="font-bold text-teal-600 dark:text-teal-400">* ➔ {vpsIpInput || 'IP_VPS'}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-2">
+                <div className="font-bold text-slate-900 dark:text-white text-[11px]">
+                  Opsi 2: Ganti Nameserver ke Brand Anda
+                </div>
+                <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
+                  Klien cukup mengganti Nameserver domain mereka ke Private Nameserver Karsa Cloud:
+                </p>
+                <div className="space-y-1 font-mono text-[11px] bg-white dark:bg-slate-900 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Nameserver 1:</span>
+                    <span className="font-bold text-teal-600 dark:text-teal-400">ns1.{rootDomain}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Nameserver 2:</span>
+                    <span className="font-bold text-teal-600 dark:text-teal-400">ns2.{rootDomain}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* =================================================================== */}
       {/* TAB 1: CLOUDFLARE ZERO TRUST TUNNEL (1-TIME WILDCARD SETUP)         */}

@@ -433,9 +433,15 @@ if [ -n "$CLEAN_RES" ]; then
   echo " [DISK CLEANER] Sampah sisa instalasi lama berhasil dibersihkan otomatis!"
 fi
 
-# Auto-heal Caddyfile & SSL Subdomain
+# Auto-heal Caddyfile & SSL Subdomain (Universal on-demand TLS untuk SEMUA domain klien)
+chmod +x "$SCRIPT_DIR/fix-caddy-ssl.sh" "$SCRIPT_DIR/connect-vps-bridge.sh" "$SCRIPT_DIR/setup-vps-gateway.sh" 2>/dev/null || true
 if [ -f "$SCRIPT_DIR/fix-caddy-ssl.sh" ]; then
   bash "$SCRIPT_DIR/fix-caddy-ssl.sh" >/dev/null 2>&1 || true
+fi
+
+# Cek dan pertahankan koneksi VPS Bridge jika sudah pernah dikonfigurasi
+if systemctl is-enabled karsacloud-vps-bridge &>/dev/null; then
+  systemctl restart karsacloud-vps-bridge >/dev/null 2>&1 || true
 fi
 
 
