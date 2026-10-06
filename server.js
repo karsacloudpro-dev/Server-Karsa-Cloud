@@ -343,6 +343,7 @@ function renderWebTerminalHtml(host, initialCwd) {
       <button class="quick-btn" onclick="runCommand('pm2 restart karsacloud 2>/dev/null || pm2 restart cloudpro 2>/dev/null || pm2 restart all')">\u{1F504} PM2 Restart</button>
       <button class="quick-btn" onclick="runCommand('pm2 status')">\u{1F4CA} PM2 Status</button>
       <button class="quick-btn" onclick="runCommand('pm2 logs --lines 25')">\u{1F4DC} PM2 Logs</button>
+      <button class="quick-btn" style="background:#7c3aed; color:#fff; font-weight:700;" onclick="runCommand('bash fix-caddy-ssl.sh')">\u{1F512} Fix SSL Subdomain (Caddy)</button>
       <button class="quick-btn" onclick="runCommand('systemctl status caddy --no-pager')">\u{1F310} Caddy Status</button>
       <button class="quick-btn" onclick="runCommand('systemctl reload caddy')">\u{1F504} Caddy Reload</button>
       <button class="quick-btn" onclick="runCommand('ss -tulpn | grep LISTEN')">\u{1F50C} Port Aktif</button>

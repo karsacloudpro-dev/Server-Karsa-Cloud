@@ -16,6 +16,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Archive,
+  AlertTriangle,
+  Terminal,
 } from 'lucide-react';
 import { HostingAccount, DomainEntity, PhpVersion } from '../../types';
 import { CloudProApi } from '../../services/api';
@@ -563,6 +565,71 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
               )}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* SSL Subdomain Troubleshooting & Cloudflare Proxy Guide */}
+      <div className="rounded-2xl border border-amber-200 bg-amber-50/60 p-5 dark:border-amber-900/50 dark:bg-amber-950/20">
+        <div className="flex items-start gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500 text-white shadow-xs">
+            <AlertTriangle className="h-5 w-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span>Subdomain Muncul Error &quot;ERR_SSL_PROTOCOL_ERROR&quot; di Browser?</span>
+              <span className="rounded-md bg-amber-200/80 px-2 py-0.5 text-[10px] font-bold text-amber-900 dark:bg-amber-900 dark:text-amber-200">
+                PANDUAN SOLUSI CEPAT
+              </span>
+            </h4>
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Jika saat membuka subdomain (misal: <code>siakad-madrasah.denbaguse.my.id</code>) muncul peringatan <em>&quot;Situs ini tidak dapat menyediakan sambungan aman (ERR_SSL_PROTOCOL_ERROR)&quot;</em>, berikut 2 cara memperbaikinya:
+            </p>
+
+            <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              {/* Cara 1: Cloudflare Proxy */}
+              <div className="rounded-xl border border-white/80 bg-white p-3.5 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
+                <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-white text-[10px]">1</span>
+                  <span>Solusi 1: Aktifkan Cloudflare Proxy (🟠 Paling Mudah)</span>
+                </div>
+                <p className="mt-1.5 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Buka akun <strong>Cloudflare</strong> &gt; Menu <strong>DNS</strong> &gt; cari record subdomain Anda (misal <code>siakad-madrasah</code>):
+                </p>
+                <div className="mt-2 rounded-lg bg-slate-50 p-2 dark:bg-slate-800 font-mono text-[11px] text-slate-700 dark:text-slate-300">
+                  Ubah Proxy Status dari <strong>DNS only (Awan Abu-Abu)</strong> menjadi <strong>Proxied (Awan Oranye 🟠)</strong>.
+                </div>
+                <p className="mt-2 text-[10.5px] text-emerald-600 dark:text-emerald-400 font-medium">
+                  ✓ Universal SSL Cloudflare otomatis mengamankan seluruh subdomain (*.{account.primaryDomain}) tanpa setup tambahan!
+                </p>
+              </div>
+
+              {/* Cara 2: Web SSH / Caddy Fix */}
+              <div className="rounded-xl border border-white/80 bg-white p-3.5 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
+                <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-violet-600 text-white text-[10px]">2</span>
+                  <span>Solusi 2: 1-Click Fix via Web SSH Terminal</span>
+                </div>
+                <p className="mt-1.5 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Jika tidak menggunakan proxy Cloudflare, daftarkan subdomain ke web server Caddy VPS Anda:
+                </p>
+                <div className="mt-2 rounded-lg bg-slate-900 p-2 text-emerald-400 font-mono text-[11px] flex items-center justify-between">
+                  <span>bash fix-caddy-ssl.sh</span>
+                  <a
+                    href="/ssh"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1 rounded bg-violet-600 px-2 py-0.5 text-[10px] font-bold text-white hover:bg-violet-500"
+                  >
+                    <Terminal className="h-3 w-3" />
+                    <span>Buka Web SSH</span>
+                  </a>
+                </div>
+                <p className="mt-2 text-[10.5px] text-slate-500 dark:text-slate-400">
+                  Di Web SSH, cukup klik tombol ungu <strong>&quot;🔒 Fix SSL Subdomain (Caddy)&quot;</strong>. Caddy otomatis meminta sertifikat SSL Let&apos;s Encrypt / ZeroSSL!
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

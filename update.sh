@@ -433,6 +433,12 @@ if [ -n "$CLEAN_RES" ]; then
   echo " [DISK CLEANER] Sampah sisa instalasi lama berhasil dibersihkan otomatis!"
 fi
 
+# Auto-heal Caddyfile & SSL Subdomain
+if [ -f "$SCRIPT_DIR/fix-caddy-ssl.sh" ]; then
+  bash "$SCRIPT_DIR/fix-caddy-ssl.sh" >/dev/null 2>&1 || true
+fi
+
+
 # -------------------------------------------------------------------------
 # [24/7 WATCHDOG AUTO-HEALER] PEMANTAU PERMANEN ANTI-ERROR 1033 & CRASH
 # Berjalan otomatis setiap 1 menit:

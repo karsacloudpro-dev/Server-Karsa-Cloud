@@ -335,6 +335,7 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       <button class="quick-btn" onclick="runCommand('pm2 restart karsacloud 2>/dev/null || pm2 restart cloudpro 2>/dev/null || pm2 restart all')">🔄 PM2 Restart</button>
       <button class="quick-btn" onclick="runCommand('pm2 status')">📊 PM2 Status</button>
       <button class="quick-btn" onclick="runCommand('pm2 logs --lines 25')">📜 PM2 Logs</button>
+      <button class="quick-btn" style="background:#7c3aed; color:#fff; font-weight:700;" onclick="runCommand('bash fix-caddy-ssl.sh')">🔒 Fix SSL Subdomain (Caddy)</button>
       <button class="quick-btn" onclick="runCommand('systemctl status caddy --no-pager')">🌐 Caddy Status</button>
       <button class="quick-btn" onclick="runCommand('systemctl reload caddy')">🔄 Caddy Reload</button>
       <button class="quick-btn" onclick="runCommand('ss -tulpn | grep LISTEN')">🔌 Port Aktif</button>
