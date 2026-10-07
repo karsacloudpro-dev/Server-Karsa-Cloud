@@ -289,18 +289,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
       {/* ========================================================================= */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/90 border-b border-slate-800/80 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
-          {/* Left: Brand Identity */}
+          {/* Left: Brand Identity (Single Official Logo & Title) */}
           <div className="flex items-center gap-3">
-            <CloudProLogo className="h-9 sm:h-10 w-auto" />
-            <div className="flex flex-col">
-              <span className="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-1.5 leading-none">
-                KARSA CLOUD
-                <span className="text-amber-400 font-bold text-[10px] sm:text-xs">PRO</span>
-              </span>
-              <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium tracking-tight mt-1">
-                karsacloud.biz.id
-              </span>
-            </div>
+            <CloudProLogo
+              variant="compact"
+              size="md"
+              cloudTextColor="text-white"
+              showSubtitle={true}
+              subtitleText="karsacloud.biz.id"
+            />
           </div>
 
           {/* Center: Desktop Navigation Links */}
@@ -322,15 +319,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
             </a>
             <a href="#faq" className="hover:text-amber-400 transition-colors">
               FAQ
-            </a>
-            <a
-              href={officialWaLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-emerald-400 transition-colors flex items-center gap-1.5 text-emerald-400"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp</span>
             </a>
           </nav>
 
@@ -442,18 +430,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
                 className="p-2.5 rounded-lg hover:bg-slate-900 hover:text-white"
               >
                 Pertanyaan Umum (FAQ)
-              </a>
-              <a
-                href={officialWaLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 flex items-center justify-between"
-              >
-                <span className="flex items-center gap-2">
-                  <MessageCircle className="w-4 h-4 text-emerald-400" />
-                  <span>Konsultasi WhatsApp</span>
-                </span>
-                <ArrowRight className="w-4 h-4" />
               </a>
             </nav>
           </div>
