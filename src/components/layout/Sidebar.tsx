@@ -807,7 +807,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-[100] flex h-dvh max-h-dvh w-72 flex-col border-r border-sky-100/90 bg-gradient-to-b from-[#f9fbfe] via-[#f1f6fd] to-[#e8f2fc] text-slate-700 shadow-xl shadow-sky-950/5 transition-transform duration-300 ease-in-out lg:w-64 lg:translate-x-0 relative overflow-hidden backdrop-blur-xl ${
+        className={`fixed inset-y-0 left-0 z-[100] flex h-dvh max-h-dvh w-72 flex-col border-r border-sky-100/90 bg-gradient-to-b from-[#f9fbfe] via-[#f1f6fd] to-[#e8f2fc] text-slate-700 shadow-xl shadow-sky-950/5 transition-transform duration-300 ease-in-out lg:w-64 lg:translate-x-0 overflow-hidden backdrop-blur-xl ${
           isOpen
             ? 'translate-x-0 pointer-events-auto'
             : '-translate-x-full pointer-events-none lg:translate-x-0 lg:pointer-events-auto'
