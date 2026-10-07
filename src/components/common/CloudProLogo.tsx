@@ -49,116 +49,46 @@ export const CloudProLogo: React.FC<CloudProLogoProps> = ({
 
   return (
     <div className={`inline-flex items-center gap-2 sm:gap-2.5 select-none min-w-0 max-w-full ${className}`}>
-      {/* Cloud PRO Classy Modern Vector Emblem */}
+      {/* Official Karsa Cloud Vector Emblem */}
       <div 
-        className={`relative shrink-0 ${iconPixelSizes[size]} transition-all duration-300 group-hover:scale-105 group-hover:shadow-sky-500/30 flex items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500/15 via-blue-600/10 to-indigo-600/20 p-1 border border-sky-400/30 shadow-md shadow-sky-500/15 backdrop-blur-md`}
+        className={`relative shrink-0 ${iconPixelSizes[size]} transition-transform duration-200 group-hover:scale-105 overflow-hidden flex items-center justify-center`}
         style={{
-          width: size === 'sm' ? 28 : size === 'md' ? 36 : size === 'lg' ? 46 : 58,
-          height: size === 'sm' ? 28 : size === 'md' ? 36 : size === 'lg' ? 46 : 58,
+          width: size === 'sm' ? 28 : size === 'md' ? 34 : size === 'lg' ? 44 : 56,
+          height: size === 'sm' ? 28 : size === 'md' ? 34 : size === 'lg' ? 44 : 56,
         }}
       >
         <svg
           viewBox="0 0 100 100"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full drop-shadow-sm"
+          style={{ width: '100%', height: '100%', display: 'block' }}
         >
           <defs>
-            {/* Primary Cloud Body Metallic Gradient */}
-            <linearGradient id={`cloudGrad_${gradId}`} x1="15%" y1="10%" x2="85%" y2="90%">
-              <stop offset="0%" stopColor="#38bdf8" />
-              <stop offset="40%" stopColor="#0284c7" />
-              <stop offset="85%" stopColor="#0369a1" />
-              <stop offset="100%" stopColor="#1e3a8a" />
-            </linearGradient>
-            {/* Volumetric Crest Highlight */}
-            <linearGradient id={`cloudCrest_${gradId}`} x1="30%" y1="0%" x2="70%" y2="100%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
-              <stop offset="60%" stopColor="#bae6fd" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
-            </linearGradient>
-            {/* Lower Shadow Depth */}
-            <linearGradient id={`cloudShade_${gradId}`} x1="50%" y1="50%" x2="50%" y2="100%">
-              <stop offset="0%" stopColor="#0f172a" stopOpacity="0" />
-              <stop offset="100%" stopColor="#0c4a6e" stopOpacity="0.45" />
-            </linearGradient>
-            {/* PRO Golden Spark */}
-            <linearGradient id={`goldSpark_${gradId}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#fef08a" />
-              <stop offset="50%" stopColor="#f59e0b" />
-              <stop offset="100%" stopColor="#d97706" />
+            <linearGradient id={`cloudGrad_${gradId}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#005dbd" />
+              <stop offset="100%" stopColor="#003e82" />
             </linearGradient>
           </defs>
-
-          {/* Ambient Outer Cloud Aura */}
           <path
-            d="M 28 78 C 16 78 8 70 8 59 C 8 49 16 41 26 39 C 29 25 41 16 55 16 C 68 16 78 23 82 34 C 91 36 98 44 98 55 C 98 67 89 77 78 78 Z"
+            d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z"
             fill={`url(#cloudGrad_${gradId})`}
           />
-
-          {/* Underbelly Depth */}
           <path
-            d="M 28 78 C 16 78 8 70 8 59 C 8 55 10 52 13 49 C 18 68 33 76 56 76 C 72 76 86 68 93 54 C 95 56 96 58 96 61 C 96 71 88 78 78 78 Z"
-            fill={`url(#cloudShade_${gradId})`}
-          />
-
-          {/* Inner Crest Reflection Curve */}
-          <path
-            d="M 32 37 C 35 27 44 20 55 20 C 65 20 73 25 77 33"
-            stroke={`url(#cloudCrest_${gradId})`}
-            strokeWidth="3.2"
-            strokeLinecap="round"
-          />
-
-          {/* Center Cloud Core Puff Highlight */}
-          <ellipse
-            cx="44"
-            cy="46"
-            rx="14"
-            ry="9"
-            fill="#ffffff"
-            fillOpacity="0.18"
-            transform="rotate(-15 44 46)"
-          />
-
-          {/* Sleek Enterprise Fiber Data Streamlines (Classy speed arcs) */}
-          <path
-            d="M 22 66 H 58"
+            d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37"
             stroke="#ffffff"
-            strokeWidth="3.2"
+            strokeWidth="5.5"
             strokeLinecap="round"
-            strokeOpacity="0.95"
+            strokeLinejoin="round"
+            fill="none"
           />
+          <polygon points="72,27 88,32 78,46 76,40 68,44" fill="#ffffff" />
           <path
-            d="M 64 66 H 76"
+            d="M 24 82 C 28 73 34 66 41 63"
             stroke="#ffffff"
-            strokeWidth="3.2"
+            strokeWidth="4.5"
             strokeLinecap="round"
-            strokeOpacity="0.95"
+            fill="none"
           />
-          <path
-            d="M 28 58 H 48"
-            stroke="#bae6fd"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-            strokeOpacity="0.8"
-          />
-          <path
-            d="M 54 58 H 68"
-            stroke="#bae6fd"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-            strokeOpacity="0.8"
-          />
-
-          {/* Classy "PRO" Gold Spark Star (Top Right) */}
-          <g transform="translate(73, 20) scale(0.9)">
-            <path
-              d="M 12 0 L 14.5 8.5 L 23 11 L 14.5 13.5 L 12 22 L 9.5 13.5 L 1 11 L 9.5 8.5 Z"
-              fill={`url(#goldSpark_${gradId})`}
-            />
-            <circle cx="12" cy="11" r="1.8" fill="#ffffff" />
-          </g>
         </svg>
       </div>
 

@@ -26,8 +26,30 @@ function renderWebTerminalHtml(host, initialCwd) {
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     
-    /* Modern Cloud (Awan) Theme Core Variables */
+    /* Modern Cloud (Awan) Theme Core Variables - Default Modern Cloud Palette (Bukan Hitam) */
     :root {
+      --cloud-bg: #f0f7fe;
+      --cloud-screen: #f8fbff;
+      --cloud-header: rgba(255, 255, 255, 0.96);
+      --cloud-dock: rgba(255, 255, 255, 0.98);
+      --cloud-quickbar: #e5f1fe;
+      --cloud-border: rgba(14, 165, 233, 0.25);
+      --cloud-border-strong: #0284c7;
+      --cloud-text: #0f172a;
+      --cloud-text-muted: #475569;
+      --cloud-primary: #0284c7;
+      --cloud-primary-hover: #0369a1;
+      --cloud-cyan: #0284c7;
+      --cloud-card: rgba(255, 255, 255, 0.95);
+      --cloud-input-bg: #ffffff;
+      --cloud-key-bg: #e0f2fe;
+      --cloud-key-text: #0369a1;
+      --cloud-prompt-user: #059669;
+      --cloud-prompt-path: #0284c7;
+    }
+
+    /* Optional Dark Cloud Theme (Awan Malam) */
+    body.theme-dark-cloud {
       --cloud-bg: #0b1526;
       --cloud-screen: #070e1b;
       --cloud-header: rgba(15, 29, 52, 0.95);
@@ -46,28 +68,6 @@ function renderWebTerminalHtml(host, initialCwd) {
       --cloud-key-text: #bae6fd;
       --cloud-prompt-user: #10b981;
       --cloud-prompt-path: #38bdf8;
-    }
-
-    /* Light Cloud Theme (Awan Putih Murni Modern) */
-    body.theme-light-cloud {
-      --cloud-bg: #f4f8fe;
-      --cloud-screen: #ffffff;
-      --cloud-header: rgba(255, 255, 255, 0.96);
-      --cloud-dock: rgba(255, 255, 255, 0.98);
-      --cloud-quickbar: #edf5fe;
-      --cloud-border: rgba(14, 165, 233, 0.22);
-      --cloud-border-strong: #0284c7;
-      --cloud-text: #0f172a;
-      --cloud-text-muted: #475569;
-      --cloud-primary: #0284c7;
-      --cloud-primary-hover: #0369a1;
-      --cloud-cyan: #0284c7;
-      --cloud-card: rgba(255, 255, 255, 0.94);
-      --cloud-input-bg: #f8fafc;
-      --cloud-key-bg: #e0f2fe;
-      --cloud-key-text: #0369a1;
-      --cloud-prompt-user: #059669;
-      --cloud-prompt-path: #0284c7;
     }
 
     html, body {
@@ -538,34 +538,15 @@ function renderWebTerminalHtml(host, initialCwd) {
         <div class="cloud-logo-emblem" title="Karsa Cloud PRO Logo">
           <svg viewBox="0 0 100 100" fill="none" class="cloud-svg" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="cloudGradHead" x1="15%" y1="10%" x2="85%" y2="90%">
-                <stop offset="0%" stop-color="#38bdf8" />
-                <stop offset="40%" stop-color="#0284c7" />
-                <stop offset="85%" stop-color="#0369a1" />
-                <stop offset="100%" stop-color="#1e3a8a" />
-              </linearGradient>
-              <linearGradient id="cloudCrestHead" x1="30%" y1="0%" x2="70%" y2="100%">
-                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
-                <stop offset="60%" stop-color="#bae6fd" stop-opacity="0.4" />
-                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
-              </linearGradient>
-              <linearGradient id="goldSparkHead" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fef08a" />
-                <stop offset="50%" stop-color="#f59e0b" />
-                <stop offset="100%" stop-color="#d97706" />
+              <linearGradient id="cloudGradHead" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#005dbd" />
+                <stop offset="100%" stop-color="#003e82" />
               </linearGradient>
             </defs>
-            <path d="M 28 78 C 16 78 8 70 8 59 C 8 49 16 41 26 39 C 29 25 41 16 55 16 C 68 16 78 23 82 34 C 91 36 98 44 98 55 C 98 67 89 77 78 78 Z" fill="url(#cloudGradHead)" />
-            <path d="M 32 37 C 35 27 44 20 55 20 C 65 20 73 25 77 33" stroke="url(#cloudCrestHead)" stroke-width="3.2" stroke-linecap="round" />
-            <ellipse cx="44" cy="46" rx="14" ry="9" fill="#ffffff" fill-opacity="0.18" transform="rotate(-15 44 46)" />
-            <path d="M 22 66 H 58" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.95" />
-            <path d="M 64 66 H 76" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.95" />
-            <path d="M 28 58 H 48" stroke="#bae6fd" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.8" />
-            <path d="M 54 58 H 68" stroke="#bae6fd" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.8" />
-            <g transform="translate(73, 20) scale(0.9)">
-              <path d="M 12 0 L 14.5 8.5 L 23 11 L 14.5 13.5 L 12 22 L 9.5 13.5 L 1 11 L 9.5 8.5 Z" fill="url(#goldSparkHead)" />
-              <circle cx="12" cy="11" r="1.8" fill="#ffffff" />
-            </g>
+            <path d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z" fill="url(#cloudGradHead)"/>
+            <path d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <polygon points="72,27 88,32 78,46 76,40 68,44" fill="#ffffff"/>
+            <path d="M 24 82 C 28 73 34 66 41 63" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none"/>
           </svg>
         </div>
         <div class="header-brand">
@@ -667,34 +648,15 @@ function renderWebTerminalHtml(host, initialCwd) {
       <div class="modal-icon-cloud">
         <svg viewBox="0 0 100 100" fill="none" class="cloud-svg" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="cloudModalGrad" x1="15%" y1="10%" x2="85%" y2="90%">
-              <stop offset="0%" stop-color="#38bdf8" />
-              <stop offset="40%" stop-color="#0284c7" />
-              <stop offset="85%" stop-color="#0369a1" />
-              <stop offset="100%" stop-color="#1e3a8a" />
-            </linearGradient>
-            <linearGradient id="cloudModalCrest" x1="30%" y1="0%" x2="70%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
-              <stop offset="60%" stop-color="#bae6fd" stop-opacity="0.4" />
-              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
-            </linearGradient>
-            <linearGradient id="goldSparkModal" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#fef08a" />
-              <stop offset="50%" stop-color="#f59e0b" />
-              <stop offset="100%" stop-color="#d97706" />
+            <linearGradient id="cloudModalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#005dbd" />
+              <stop offset="100%" stop-color="#003e82" />
             </linearGradient>
           </defs>
-          <path d="M 28 78 C 16 78 8 70 8 59 C 8 49 16 41 26 39 C 29 25 41 16 55 16 C 68 16 78 23 82 34 C 91 36 98 44 98 55 C 98 67 89 77 78 78 Z" fill="url(#cloudModalGrad)" />
-          <path d="M 32 37 C 35 27 44 20 55 20 C 65 20 73 25 77 33" stroke="url(#cloudModalCrest)" stroke-width="3.2" stroke-linecap="round" />
-          <ellipse cx="44" cy="46" rx="14" ry="9" fill="#ffffff" fill-opacity="0.18" transform="rotate(-15 44 46)" />
-          <path d="M 22 66 H 58" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.95" />
-          <path d="M 64 66 H 76" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.95" />
-          <path d="M 28 58 H 48" stroke="#bae6fd" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.8" />
-          <path d="M 54 58 H 68" stroke="#bae6fd" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.8" />
-          <g transform="translate(73, 20) scale(0.9)">
-            <path d="M 12 0 L 14.5 8.5 L 23 11 L 14.5 13.5 L 12 22 L 9.5 13.5 L 1 11 L 9.5 8.5 Z" fill="url(#goldSparkModal)" />
-            <circle cx="12" cy="11" r="1.8" fill="#ffffff" />
-          </g>
+          <path d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z" fill="url(#cloudModalGrad)"/>
+          <path d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <polygon points="72,27 88,32 78,46 76,40 68,44" fill="#ffffff"/>
+          <path d="M 24 82 C 28 73 34 66 41 63" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none"/>
         </svg>
       </div>
       <div class="modal-title">Karsa Cloud PRO Web SSH</div>
@@ -731,17 +693,17 @@ function renderWebTerminalHtml(host, initialCwd) {
     const pinInput = document.getElementById('pinInput');
 
     function toggleCloudTheme() {
-      const isLight = document.body.classList.toggle('theme-light-cloud');
-      localStorage.setItem('karsacloud_terminal_theme', isLight ? 'light' : 'dark');
+      const isDark = document.body.classList.toggle('theme-dark-cloud');
+      localStorage.setItem('karsacloud_terminal_theme', isDark ? 'dark' : 'light');
       const btn = document.getElementById('themeToggleBtn');
-      if (btn) btn.innerHTML = isLight ? '\u2601\uFE0F Awan Malam' : '\u2601\uFE0F Awan Terang';
+      if (btn) btn.innerHTML = isDark ? '\u2601\uFE0F Awan Terang' : '\u2601\uFE0F Awan Malam';
     }
 
-    // Init theme
-    if (localStorage.getItem('karsacloud_terminal_theme') === 'light') {
-      document.body.classList.add('theme-light-cloud');
+    // Init theme: Default Modern Light Cloud (warna awan putih & biru cerah)
+    if (localStorage.getItem('karsacloud_terminal_theme') === 'dark') {
+      document.body.classList.add('theme-dark-cloud');
       const btn = document.getElementById('themeToggleBtn');
-      if (btn) btn.innerHTML = '\u2601\uFE0F Awan Malam';
+      if (btn) btn.innerHTML = '\u2601\uFE0F Awan Terang';
     }
 
     function safeFocus(el) {
