@@ -6136,6 +6136,142 @@ ${routeFixScript}`);
       vhostStore
     });
   });
+  app.get("/api/support/tickets", (_req, res) => {
+    try {
+      const tickets = Array.isArray(persistedFullAppState?.supportTickets) ? persistedFullAppState.supportTickets : [];
+      res.json({ ok: true, tickets });
+    } catch (err) {
+      res.status(500).json({ ok: false, error: err.message });
+    }
+  });
+  app.post("/api/support/tickets", (req, res) => {
+    try {
+      if (!persistedFullAppState) {
+        persistedFullAppState = {};
+      }
+      if (!Array.isArray(persistedFullAppState.supportTickets)) {
+        persistedFullAppState.supportTickets = [];
+      }
+      const data = req.body || {};
+      const nowIso = (/* @__PURE__ */ new Date()).toISOString();
+      const ticketNum = "TIK-" + (/* @__PURE__ */ new Date()).getFullYear() + "-" + Math.floor(1e3 + Math.random() * 9e3);
+      const ticketId = "tik-" + Date.now();
+      const firstMessage = {
+        id: "msg-" + Date.now(),
+        ticketId,
+        authorId: data.authorId || data.customerId || "usr-cust-01",
+        authorName: data.authorName || data.customerName || "Customer",
+        authorRole: data.authorRole || "customer",
+        authorEmail: data.customerEmail,
+        message: data.message || "",
+        isStaffReply: false,
+        createdAt: nowIso
+      };
+      const newTicket = {
+        id: ticketId,
+        ticketNumber: ticketNum,
+        subject: data.subject || "Permintaan Bantuan",
+        department: data.department || "technical",
+        priority: data.priority || "medium",
+        status: "open",
+        customerId: data.customerId || "usr-cust-01",
+        customerName: data.customerName || "Customer",
+        customerEmail: data.customerEmail || "",
+        resellerId: data.resellerId,
+        relatedDomain: data.relatedDomain,
+        relatedService: data.relatedService,
+        messages: [firstMessage],
+        lastReplyAt: nowIso,
+        lastReplyBy: data.customerName || "Customer",
+        createdAt: nowIso,
+        updatedAt: nowIso
+      };
+      persistedFullAppState.supportTickets.unshift(newTicket);
+      persistFullAppState(persistedFullAppState);
+      res.json({ ok: true, ticket: newTicket });
+    } catch (err) {
+      res.status(500).json({ ok: false, error: err.message });
+    }
+  });
+  app.post("/api/support/tickets/:id/reply", (req, res) => {
+    try {
+      const ticketId = req.params.id;
+      const { authorId, authorName, authorRole, authorEmail, message, isStaffReply, isInternalNote, statusUpdate } = req.body || {};
+      if (!persistedFullAppState?.supportTickets) {
+        return res.status(404).json({ ok: false, error: "Ticket not found" });
+      }
+      const ticket = persistedFullAppState.supportTickets.find((t) => t.id === ticketId || t.ticketNumber === ticketId);
+      if (!ticket) {
+        return res.status(404).json({ ok: false, error: "Ticket not found" });
+      }
+      const nowIso = (/* @__PURE__ */ new Date()).toISOString();
+      const newMsg = {
+        id: "msg-" + Date.now(),
+        ticketId: ticket.id,
+        authorId: authorId || "usr-staff",
+        authorName: authorName || "Support Staff",
+        authorRole: authorRole || "admin",
+        authorEmail,
+        message: message || "",
+        isStaffReply: Boolean(isStaffReply),
+        isInternalNote: Boolean(isInternalNote),
+        createdAt: nowIso
+      };
+      ticket.messages = ticket.messages || [];
+      ticket.messages.push(newMsg);
+      ticket.updatedAt = nowIso;
+      ticket.lastReplyAt = nowIso;
+      ticket.lastReplyBy = authorName || "Support Staff";
+      if (statusUpdate) {
+        ticket.status = statusUpdate;
+      } else if (isStaffReply && !isInternalNote) {
+        ticket.status = "answered";
+      } else if (!isStaffReply && !isInternalNote) {
+        ticket.status = "customer_reply";
+      }
+      persistFullAppState(persistedFullAppState);
+      res.json({ ok: true, ticket, message: newMsg });
+    } catch (err) {
+      res.status(500).json({ ok: false, error: err.message });
+    }
+  });
+  app.post("/api/support/tickets/:id/status", (req, res) => {
+    try {
+      const ticketId = req.params.id;
+      const { status, assignedStaffId, assignedStaffName, priority } = req.body || {};
+      if (!persistedFullAppState?.supportTickets) {
+        return res.status(404).json({ ok: false, error: "Ticket not found" });
+      }
+      const ticket = persistedFullAppState.supportTickets.find((t) => t.id === ticketId || t.ticketNumber === ticketId);
+      if (!ticket) {
+        return res.status(404).json({ ok: false, error: "Ticket not found" });
+      }
+      const nowIso = (/* @__PURE__ */ new Date()).toISOString();
+      if (status) ticket.status = status;
+      if (priority) ticket.priority = priority;
+      if (assignedStaffId !== void 0) ticket.assignedStaffId = assignedStaffId;
+      if (assignedStaffName !== void 0) ticket.assignedStaffName = assignedStaffName;
+      ticket.updatedAt = nowIso;
+      persistFullAppState(persistedFullAppState);
+      res.json({ ok: true, ticket });
+    } catch (err) {
+      res.status(500).json({ ok: false, error: err.message });
+    }
+  });
+  app.delete("/api/support/tickets/:id", (req, res) => {
+    try {
+      const ticketId = req.params.id;
+      if (Array.isArray(persistedFullAppState?.supportTickets)) {
+        persistedFullAppState.supportTickets = persistedFullAppState.supportTickets.filter(
+          (t) => t.id !== ticketId && t.ticketNumber !== ticketId
+        );
+        persistFullAppState(persistedFullAppState);
+      }
+      res.json({ ok: true });
+    } catch (err) {
+      res.status(500).json({ ok: false, error: err.message });
+    }
+  });
   app.get("/api/tunnel/diagnose", async (_req, res) => {
     const activeTunnelId = decodeTunnelIdFromJwt(tunnelTokenSaved || DEFAULT_TUNNEL_TOKEN);
     const cnameTarget = `${activeTunnelId}.cfargotunnel.com`;
@@ -9073,6 +9209,193 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
     }
     return res.status(404).json({ ok: false, message: "Berkas tidak ditemukan." });
   });
+  const autoRestoreBackupsOnBoot = (force = false) => {
+    try {
+      const candidateScanDirs = [
+        path.join(process.cwd(), ".cloudpro-data", "backups"),
+        LOCAL_BACKUPS_DIR,
+        BACKUPS_DIR,
+        path.join(HOME_VAULT_DIR, "backups")
+      ];
+      const markerPath = path.join(LOCAL_DATA_DIR, "cloudpro-auto-restore-stamp.json");
+      let lastStamp = {};
+      try {
+        if (fs.existsSync(markerPath)) {
+          lastStamp = JSON.parse(fs.readFileSync(markerPath, "utf-8"));
+        }
+      } catch {
+      }
+      const foundZips = [];
+      const seenNames = /* @__PURE__ */ new Set();
+      for (const d of candidateScanDirs) {
+        if (!fs.existsSync(d)) continue;
+        try {
+          for (const f of fs.readdirSync(d)) {
+            if (f.toLowerCase().endsWith(".zip") && !f.startsWith("snapshot-before-restore-") && !seenNames.has(f)) {
+              seenNames.add(f);
+              const p = path.join(d, f);
+              const st = fs.statSync(p);
+              if (st.isFile()) {
+                foundZips.push({ fullPath: p, name: f, mtime: st.mtimeMs });
+              }
+            }
+          }
+        } catch {
+        }
+      }
+      if (foundZips.length === 0) return { ok: true, restored: [] };
+      foundZips.sort((a, b) => b.mtime - a.mtime);
+      const restoredList = [];
+      for (const zipItem of foundZips) {
+        const prevExtractedTime = lastStamp[zipItem.name] || 0;
+        if (!force && prevExtractedTime >= Math.floor(zipItem.mtime)) {
+          continue;
+        }
+        console.log(`[CloudPRO Auto-Restore] Menemukan berkas cadangan: ${zipItem.name}. Menjalankan restorasi otomatis...`);
+        const lower = zipItem.name.toLowerCase();
+        const targetDirs = [];
+        if (lower.includes("siakad") || lower.includes("madrasah")) {
+          targetDirs.push({
+            physicalTarget: path.join(process.cwd(), "public_html", "siakad-madrasah"),
+            docRoot: "/public_html/siakad-madrasah",
+            domain: "siakad-madrasah.denbaguse.my.id"
+          });
+          targetDirs.push({
+            physicalTarget: path.join(process.cwd(), "public_html"),
+            docRoot: "/public_html",
+            domain: "denbaguse.my.id"
+          });
+        } else {
+          targetDirs.push({
+            physicalTarget: path.join(process.cwd(), "public_html"),
+            docRoot: "/public_html",
+            domain: "karsacloud.biz.id"
+          });
+        }
+        const stageDir = path.join(TMP_DIR, `auto-restore-stage-${Date.now()}`);
+        fs.mkdirSync(stageDir, { recursive: true });
+        try {
+          execSync(`unzip -q -o "${zipItem.fullPath}" -d "${stageDir}"`, { timeout: 3e5 });
+        } catch {
+          try {
+            execSync(`python3 -c "
+import zipfile
+with zipfile.ZipFile('${zipItem.fullPath}', 'r') as zf:
+    zf.extractall('${stageDir}')
+"`, { timeout: 3e5 });
+          } catch (e) {
+            console.error("[CloudPRO Auto-Restore] Gagal mengekstrak zip:", e?.message);
+            continue;
+          }
+        }
+        let finalSource = stageDir;
+        try {
+          const topItems = fs.readdirSync(stageDir, { withFileTypes: true });
+          const hasDirectIndex = topItems.some(
+            (e) => e.isFile() && (e.name.toLowerCase() === "index.html" || e.name.toLowerCase() === "index.php")
+          );
+          if (!hasDirectIndex) {
+            const nonJunk = topItems.filter((e) => e.name !== "__MACOSX" && e.name !== ".DS_Store");
+            if (nonJunk.length === 1 && nonJunk[0].isDirectory()) {
+              finalSource = path.join(stageDir, nonJunk[0].name);
+            }
+          }
+        } catch {
+        }
+        pruneDeadViteAssets(finalSource);
+        const indexRestoredDirectory = (dir, relPrefix) => {
+          if (!fs.existsSync(dir)) return;
+          try {
+            for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
+              if (item.name === ".git" || item.name === "node_modules" || item.name === "__MACOSX") continue;
+              const fullP = path.join(dir, item.name);
+              const vPath = normalizePath(`${relPrefix}/${item.name}`);
+              const isDir = item.isDirectory();
+              let size = 0;
+              let content = void 0;
+              try {
+                const st = fs.statSync(fullP);
+                size = st.size;
+                if (!isDir && size <= 1e5) {
+                  content = fs.readFileSync(fullP, "utf-8");
+                }
+              } catch {
+              }
+              for (const accId of ["acc-denbaguse-01", "acc-rdm-01"]) {
+                if (!vhostStore.filesByAccount[accId]) vhostStore.filesByAccount[accId] = [];
+                const existingIdx = vhostStore.filesByAccount[accId].findIndex(
+                  (x) => normalizePath(x.path).toLowerCase() === vPath.toLowerCase()
+                );
+                const entry = {
+                  id: existingIdx >= 0 ? vhostStore.filesByAccount[accId][existingIdx].id : `vf-auto-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+                  accountId: accId,
+                  name: item.name,
+                  path: vPath,
+                  type: isDir ? "directory" : "file",
+                  size,
+                  content,
+                  updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+                };
+                if (existingIdx === -1) {
+                  vhostStore.filesByAccount[accId].push(entry);
+                } else {
+                  vhostStore.filesByAccount[accId][existingIdx] = { ...vhostStore.filesByAccount[accId][existingIdx], ...entry };
+                }
+              }
+              if (isDir) {
+                indexRestoredDirectory(fullP, vPath);
+              }
+            }
+          } catch {
+          }
+        };
+        for (const tgt of targetDirs) {
+          try {
+            fs.mkdirSync(tgt.physicalTarget, { recursive: true });
+            execSync(`cp -rf "${finalSource}/." "${tgt.physicalTarget}/"`, { stdio: "ignore" });
+            applyWebsiteDataBackupToDocRoot(finalSource, tgt.physicalTarget, tgt.docRoot);
+            try {
+              execSync(`find "${tgt.physicalTarget}" -type d -exec chmod 755 {} + 2>/dev/null || true`, { stdio: "ignore" });
+              execSync(`find "${tgt.physicalTarget}" -type f -exec chmod 644 {} + 2>/dev/null || true`, { stdio: "ignore" });
+            } catch {
+            }
+            const vaultTarget = path.join(HOME_VAULT_DIR, tgt.docRoot.replace(/^\//, ""));
+            try {
+              fs.mkdirSync(vaultTarget, { recursive: true });
+              execSync(`cp -rf "${tgt.physicalTarget}/." "${vaultTarget}/" 2>/dev/null || true`, { stdio: "ignore" });
+            } catch {
+            }
+            indexRestoredDirectory(tgt.physicalTarget, tgt.docRoot);
+          } catch (e) {
+            console.error(`[CloudPRO Auto-Restore] Gagal memulihkan ke ${tgt.docRoot}:`, e?.message);
+          }
+        }
+        try {
+          fs.rmSync(stageDir, { recursive: true, force: true });
+        } catch {
+        }
+        lastStamp[zipItem.name] = Math.floor(zipItem.mtime);
+        restoredList.push(zipItem.name);
+      }
+      if (restoredList.length > 0) {
+        fs.writeFileSync(markerPath, JSON.stringify(lastStamp, null, 2), "utf-8");
+        persistVhostStore();
+      }
+      return { ok: true, restored: restoredList };
+    } catch (err) {
+      console.warn("[CloudPRO Auto-Restore Warning]", err?.message);
+      return { ok: false, error: err?.message };
+    }
+  };
+  app.post(["/api/backup/auto-restore-now", "/api/backup/sync-extract"], async (req, res) => {
+    const force = req.body?.force === true;
+    const result = autoRestoreBackupsOnBoot(force);
+    res.json({
+      ok: true,
+      message: result.restored && result.restored.length > 0 ? `Berhasil mengekstrak & menyinkronkan ${result.restored.length} berkas cadangan ke direktori website!` : "Semua berkas cadangan sudah disinkronkan ke versi terbaru.",
+      restored: result.restored || []
+    });
+  });
   app.post("/api/cloner/aistudio-build", async (req, res) => {
     const {
       accountId = "acc-rdm-01",
@@ -10005,6 +10328,9 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
   process.on("SIGINT", gracefulShutdown);
   server.listen(PORT, "0.0.0.0", () => {
     console.log(`Karsa Cloud PRO Enterprise Server running with Dual HTTP/HTTPS on http://0.0.0.0:${PORT}`);
+    setTimeout(() => {
+      autoRestoreBackupsOnBoot();
+    }, 1200);
   });
 }
 startServer();

@@ -33,6 +33,7 @@ import {
   GitBranch,
   ShieldCheck,
   ShoppingBag,
+  LifeBuoy,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useServer } from '../../context/ServerContext';
@@ -319,6 +320,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
             icon: CreditCard,
           },
           {
+            id: 'tickets',
+            aliases: ['support', 'helpdesk', 'tiket'],
+            label: 'Support Tickets',
+            icon: LifeBuoy,
+            badge: { text: '24/7' },
+          },
+          {
             id: 'security',
             label: 'Firewall & Security',
             icon: Shield,
@@ -513,6 +521,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
             icon: CreditCard,
           },
           {
+            id: 'tickets',
+            aliases: ['support', 'helpdesk', 'tiket'],
+            label: 'Support Tickets',
+            icon: LifeBuoy,
+            badge: { text: '24/7' },
+          },
+          {
             id: 'security',
             label: 'Aktivitas & Keamanan',
             icon: Shield,
@@ -656,6 +671,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
             aliases: ['invoices'],
             label: 'Tagihan & Invoicing',
             icon: CreditCard,
+          },
+          {
+            id: 'tickets',
+            aliases: ['support', 'helpdesk', 'tiket'],
+            label: 'Tiket Bantuan (Support)',
+            icon: LifeBuoy,
+            badge: { text: '24/7' },
           },
           {
             id: 'security',

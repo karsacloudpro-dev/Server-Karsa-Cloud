@@ -30,6 +30,7 @@ import { SecurityCenter } from './components/security/SecurityCenter';
 import { TailscaleMeshNode } from './components/security/TailscaleMeshNode';
 import { GatewayTunnelManager } from './components/network/GatewayTunnelManager';
 import { BillingOverview } from './components/billing/BillingOverview';
+import { SupportTicketManager } from './components/support/SupportTicketManager';
 import { WhiteLabelSettings } from './components/whitelabel/WhiteLabelSettings';
 import { ApiDocsExplorer } from './components/api-explorer/ApiDocsExplorer';
 import { ArchitectureView } from './components/architecture/ArchitectureView';
@@ -1458,6 +1459,16 @@ const AppContent: React.FC = () => {
           'Invoicing, Tagihan & Kwitansi Resmi',
           'Manajemen invoice otomatis, verifikasi pembayaran, dan cetak kwitansi Karsa Cloud',
           <BillingOverview />
+        );
+      case 'tickets':
+      case 'support':
+      case 'helpdesk':
+      case 'tiket':
+        return renderSystemModuleWrapper(
+          'SUPPORT & HELPDESK 24/7',
+          'Layanan Tiket Bantuan & Dukungan Teknis',
+          'Pusat bantuan pelanggan terpadu untuk kendala server, domain, SSL, dan billing Karsa Cloud',
+          <SupportTicketManager />
         );
       case 'security':
         return renderSystemModuleWrapper(

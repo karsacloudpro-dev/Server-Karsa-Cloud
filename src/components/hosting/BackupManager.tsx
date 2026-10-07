@@ -942,6 +942,35 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
     }
   };
 
+  const [isAutoRestoringAll, setIsAutoRestoringAll] = useState<boolean>(false);
+  const handleAutoRestoreAll = async () => {
+    setIsAutoRestoringAll(true);
+    try {
+      const res = await fetch('/api/backup/auto-restore-now', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ force: true }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast(
+          'success',
+          'Ekstraksi Berhasil!',
+          data.message || 'Semua berkas cadangan telah diekstrak dan disinkronkan ke direktori website.'
+        );
+        await loadBackups();
+        await loadDomains();
+        refreshAll();
+      } else {
+        showToast('error', 'Gagal Auto-Restore', data.message || 'Terjadi kesalahan.');
+      }
+    } catch (err: any) {
+      showToast('error', 'Gagal Auto-Restore', err?.message || 'Koneksi ke server gagal.');
+    } finally {
+      setIsAutoRestoringAll(false);
+    }
+  };
+
   const safeUpdateCommand = `mkdir -p ~/.cloudpro-persistent-vault && cp -f .cloudpro-data/*.json ~/.cloudpro-persistent-vault/ 2>/dev/null || true && git pull && npm run build`;
   const copyUpdateCmd = () => {
     navigator.clipboard?.writeText(safeUpdateCommand);
@@ -1872,6 +1901,30 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
               </p>
             </div>
 
+            {/* Auto-Extract & Sync Quick Action */}
+            <div className="rounded-xl border border-sky-400/40 bg-gradient-to-r from-sky-500/10 via-blue-500/10 to-indigo-500/10 p-4 dark:border-sky-500/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <Sparkles className="h-5 w-5 text-sky-500 shrink-0" />
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                    Ekstrak Otomatis Cadangan Terbaru (.ZIP)
+                  </h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    Otomatis mengekstrak file restore terbaru ke direktori website dan menyinkronkan database, pengaturan, serta media.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                disabled={isAutoRestoringAll}
+                onClick={handleAutoRestoreAll}
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2 text-xs font-bold text-white hover:bg-sky-500 shadow-xs cursor-pointer disabled:opacity-50 shrink-0"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${isAutoRestoringAll ? 'animate-spin' : ''}`} />
+                <span>{isAutoRestoringAll ? 'Mengekstrak...' : 'Ekstrak & Sinkronkan Sekarang'}</span>
+              </button>
+            </div>
+
             {/* Target Indicator Banner (Proteksi Terisolasi) */}
             <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${
               isPrimarySelected
@@ -2250,14 +2303,25 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={loadBackups}
-              className="flex items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 cursor-pointer"
-            >
-              <RefreshCw className={`h-3.5 w-3.5 ${isLoadingBackups ? 'animate-spin' : ''}`} />
-              <span>Muat Ulang Berkas</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={isAutoRestoringAll}
+                onClick={handleAutoRestoreAll}
+                className="flex items-center gap-1.5 rounded-xl bg-sky-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-sky-500 shadow-xs cursor-pointer disabled:opacity-50"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${isAutoRestoringAll ? 'animate-spin' : ''}`} />
+                <span>{isAutoRestoringAll ? 'Mengekstrak...' : 'Ekstrak Semua Cadangan'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={loadBackups}
+                className="flex items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 cursor-pointer"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${isLoadingBackups ? 'animate-spin' : ''}`} />
+                <span>Muat Ulang Berkas</span>
+              </button>
+            </div>
           </div>
 
           <div className="overflow-x-auto w-full">

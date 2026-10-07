@@ -26,6 +26,12 @@ import {
   DatabaseTableEntity,
   CloudProLetterheadConfig,
   CoreServerDomainInfo,
+  SupportTicket,
+  TicketMessage,
+  TicketStatus,
+  TicketPriority,
+  TicketDepartment,
+  TicketAttachment,
 } from '../types';
 
 export const isCoreServerDomain = (domain: string): boolean => {
@@ -95,6 +101,7 @@ export interface DatabaseState {
   r2Configs: CloudflareR2Config[];
   optimizedMedia: OptimizedMediaFile[];
   domains: DomainEntity[];
+  supportTickets?: SupportTicket[];
   deletedIds?: string[];
   letterheadConfig?: CloudProLetterheadConfig;
   stateUpdatedAt?: number;
@@ -275,6 +282,95 @@ const INITIAL_STATE: DatabaseState = {
   r2Configs: [],
   optimizedMedia: [],
   domains: [],
+  supportTickets: [
+    {
+      id: "tik-001",
+      ticketNumber: "TIK-2026-001",
+      subject: "Bantuan Konfigurasi DNS & SSL Subdomain Madrasah",
+      department: "domain_ssl",
+      priority: "high",
+      status: "answered",
+      customerId: "usr-cust-02",
+      customerName: "Den Baguse",
+      customerEmail: "admin@denbaguse.my.id",
+      resellerId: "prof-reseller-denbaguse",
+      assignedStaffId: "usr-admin-01",
+      assignedStaffName: "Jaenal Maskun",
+      relatedDomain: "siakad-madrasah.denbaguse.my.id",
+      relatedService: "Cloud Pro SSD (WHM Reseller)",
+      messages: [
+        {
+          id: "msg-001-1",
+          ticketId: "tik-001",
+          authorId: "usr-cust-02",
+          authorName: "Den Baguse",
+          authorRole: "customer",
+          authorEmail: "admin@denbaguse.my.id",
+          message: "Halo Tim Support Karsa Cloud, mohon bantuan untuk verifikasi sertifikat SSL Let's Encrypt pada subdomain siakad-madrasah.denbaguse.my.id. Apakah perlu setup record CNAME tambahan atau sudah otomatis dari tunnel?",
+          isStaffReply: false,
+          createdAt: "2026-10-06T10:15:00.000Z",
+        },
+        {
+          id: "msg-001-2",
+          ticketId: "tik-001",
+          authorId: "usr-admin-01",
+          authorName: "Jaenal Maskun",
+          authorRole: "admin",
+          authorEmail: "admin@karsacloud.biz.id",
+          message: "Halo Den Baguse, sertifikat SSL Let's Encrypt sudah otomatis terbit dan di-route via Cloudflare Tunnel edge. Pastikan status DNS di menu DNS Zone Editor menunjukkan proxy aktif. Kami telah memverifikasi subdomain Anda sudah dapat diakses dengan protokol HTTPS aman.",
+          isStaffReply: true,
+          createdAt: "2026-10-06T10:35:00.000Z",
+        }
+      ],
+      lastReplyAt: "2026-10-06T10:35:00.000Z",
+      lastReplyBy: "Jaenal Maskun",
+      createdAt: "2026-10-06T10:15:00.000Z",
+      updatedAt: "2026-10-06T10:35:00.000Z",
+    },
+    {
+      id: "tik-002",
+      ticketNumber: "TIK-2026-002",
+      subject: "Optimasi Koneksi MySQL Bridge & Kuota Penyimpanan",
+      department: "technical",
+      priority: "medium",
+      status: "in_progress",
+      customerId: "usr-cust-02",
+      customerName: "Den Baguse",
+      customerEmail: "admin@denbaguse.my.id",
+      assignedStaffId: "usr-admin-01",
+      assignedStaffName: "Jaenal Maskun",
+      relatedDomain: "denbaguse.my.id",
+      relatedService: "MySQL / MariaDB Service",
+      messages: [
+        {
+          id: "msg-002-1",
+          ticketId: "tik-002",
+          authorId: "usr-cust-02",
+          authorName: "Den Baguse",
+          authorRole: "customer",
+          authorEmail: "admin@denbaguse.my.id",
+          message: "Selamat siang, kami melihat sinkronisasi database MySQL Bridge berjalan lancar. Apakah kuota disk akun kami dapat dinaikkan jika data arsip SIAKAD bertambah di akhir semester?",
+          isStaffReply: false,
+          createdAt: "2026-10-06T14:20:00.000Z",
+        },
+        {
+          id: "msg-002-2",
+          ticketId: "tik-002",
+          authorId: "usr-admin-01",
+          authorName: "Jaenal Maskun",
+          authorRole: "admin",
+          authorEmail: "admin@karsacloud.biz.id",
+          message: "Tentu, kuota disk Anda saat ini adalah 100 GB SSD NVMe. Jika memerlukan ekspansi kuota lebih dari 100 GB, kami dapat mengalokasikan storage tambahan langsung dari cluster server.",
+          isStaffReply: true,
+          createdAt: "2026-10-06T14:45:00.000Z",
+        }
+      ],
+      lastReplyAt: "2026-10-06T14:45:00.000Z",
+      lastReplyBy: "Jaenal Maskun",
+      createdAt: "2026-10-06T14:20:00.000Z",
+      updatedAt: "2026-10-06T14:45:00.000Z",
+    }
+  ],
   deletedIds: [],
 };
 
@@ -403,6 +499,7 @@ class StorageService {
           cronJobs: (Array.isArray(parsed.cronJobs) ? parsed.cronJobs : []).filter((c: any) => !deletedSet.has(c.id)),
           backups: (Array.isArray(parsed.backups) ? parsed.backups : []).filter((b: any) => !deletedSet.has(b.id)),
           invoices: (Array.isArray(parsed.invoices) ? parsed.invoices : []).filter((i: any) => !deletedSet.has(i.id)),
+          supportTickets: (Array.isArray(parsed.supportTickets) ? parsed.supportTickets : (INITIAL_STATE.supportTickets || [])).filter((t: any) => !deletedSet.has(t.id)),
           deletedIds: loadedDeletedIds,
           letterheadConfig: parsed.letterheadConfig || DEFAULT_LETTERHEAD_CONFIG,
           stateUpdatedAt: parsed.stateUpdatedAt || Date.now(),
@@ -640,6 +737,7 @@ class StorageService {
         this.state.nameserverConfigs = syncCollection(vault.nameserverConfigs, this.state.nameserverConfigs, false);
         this.state.r2Configs = syncCollection(vault.r2Configs, this.state.r2Configs, false);
         this.state.optimizedMedia = syncCollection(vault.optimizedMedia, this.state.optimizedMedia, false);
+        this.state.supportTickets = syncCollection(vault.supportTickets, this.state.supportTickets, false);
 
         if (vault.databaseTables && typeof vault.databaseTables === 'object') {
           const mergedTables = {
@@ -2847,6 +2945,172 @@ class StorageService {
       // ignore
     }
     this.saveState();
+  }
+
+  // --- Support Tickets ---
+  public getSupportTickets(filter?: { customerId?: string; resellerId?: string; role?: string }): SupportTicket[] {
+    if (!Array.isArray(this.state.supportTickets)) {
+      this.state.supportTickets = [...(INITIAL_STATE.supportTickets || [])];
+    }
+    const tickets = this.state.supportTickets;
+    if (!filter) return tickets;
+    if (filter.role === 'admin') return tickets;
+    if (filter.role === 'reseller' && filter.resellerId) {
+      return tickets.filter(t => t.resellerId === filter.resellerId || t.customerId === filter.customerId);
+    }
+    if (filter.customerId) {
+      return tickets.filter(t => t.customerId === filter.customerId);
+    }
+    return tickets;
+  }
+
+  public getSupportTicketById(id: string): SupportTicket | undefined {
+    return this.getSupportTickets().find(t => t.id === id || t.ticketNumber === id);
+  }
+
+  public saveSupportTicket(ticket: SupportTicket): void {
+    if (!Array.isArray(this.state.supportTickets)) {
+      this.state.supportTickets = [];
+    }
+    const idx = this.state.supportTickets.findIndex(t => t.id === ticket.id);
+    if (idx >= 0) {
+      this.state.supportTickets[idx] = { ...ticket, updatedAt: new Date().toISOString() };
+    } else {
+      this.state.supportTickets.unshift({ ...ticket, updatedAt: new Date().toISOString() });
+    }
+    this.saveState(true, true);
+  }
+
+  public createSupportTicket(data: {
+    subject: string;
+    department: TicketDepartment;
+    priority: TicketPriority;
+    customerId: string;
+    customerName: string;
+    customerEmail: string;
+    resellerId?: string;
+    relatedDomain?: string;
+    relatedService?: string;
+    initialMessage: string;
+    authorRole?: 'admin' | 'reseller' | 'customer';
+  }): SupportTicket {
+    const nowIso = new Date().toISOString();
+    const id = `tik-${Date.now().toString().slice(-6)}`;
+    const ticketNumber = `TIK-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const initialMsg: TicketMessage = {
+      id: `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      ticketId: id,
+      authorId: data.customerId,
+      authorName: data.customerName,
+      authorRole: data.authorRole || 'customer',
+      authorEmail: data.customerEmail,
+      message: data.initialMessage,
+      isStaffReply: data.authorRole === 'admin' || data.authorRole === 'reseller',
+      createdAt: nowIso,
+    };
+
+    const newTicket: SupportTicket = {
+      id,
+      ticketNumber,
+      subject: data.subject,
+      department: data.department,
+      priority: data.priority,
+      status: 'open',
+      customerId: data.customerId,
+      customerName: data.customerName,
+      customerEmail: data.customerEmail,
+      resellerId: data.resellerId,
+      assignedStaffId: 'usr-admin-01',
+      assignedStaffName: 'Jaenal Maskun',
+      relatedDomain: data.relatedDomain,
+      relatedService: data.relatedService,
+      messages: [initialMsg],
+      lastReplyAt: nowIso,
+      lastReplyBy: data.customerName,
+      createdAt: nowIso,
+      updatedAt: nowIso,
+    };
+
+    if (!Array.isArray(this.state.supportTickets)) {
+      this.state.supportTickets = [];
+    }
+    this.state.supportTickets.unshift(newTicket);
+    this.saveState(true, true);
+    return newTicket;
+  }
+
+  public replySupportTicket(
+    ticketId: string,
+    reply: {
+      authorId: string;
+      authorName: string;
+      authorRole: 'admin' | 'reseller' | 'customer';
+      authorEmail?: string;
+      message: string;
+      isStaffReply: boolean;
+      isInternalNote?: boolean;
+      attachments?: TicketAttachment[];
+    }
+  ): SupportTicket | null {
+    const ticket = this.getSupportTicketById(ticketId);
+    if (!ticket) return null;
+
+    const nowIso = new Date().toISOString();
+    const newMsg: TicketMessage = {
+      id: `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      ticketId: ticket.id,
+      authorId: reply.authorId,
+      authorName: reply.authorName,
+      authorRole: reply.authorRole,
+      authorEmail: reply.authorEmail,
+      message: reply.message,
+      attachments: reply.attachments,
+      isStaffReply: reply.isStaffReply,
+      isInternalNote: reply.isInternalNote,
+      createdAt: nowIso,
+    };
+
+    ticket.messages.push(newMsg);
+    if (!reply.isInternalNote) {
+      ticket.lastReplyAt = nowIso;
+      ticket.lastReplyBy = reply.authorName;
+      if (reply.isStaffReply) {
+        ticket.status = 'answered';
+      } else {
+        ticket.status = 'customer_reply';
+      }
+    }
+    ticket.updatedAt = nowIso;
+
+    this.saveSupportTicket(ticket);
+    return ticket;
+  }
+
+  public updateSupportTicketStatus(ticketId: string, status: TicketStatus): boolean {
+    const ticket = this.getSupportTicketById(ticketId);
+    if (!ticket) return false;
+    ticket.status = status;
+    ticket.updatedAt = new Date().toISOString();
+    this.saveSupportTicket(ticket);
+    return true;
+  }
+
+  public updateSupportTicketPriority(ticketId: string, priority: TicketPriority): boolean {
+    const ticket = this.getSupportTicketById(ticketId);
+    if (!ticket) return false;
+    ticket.priority = priority;
+    ticket.updatedAt = new Date().toISOString();
+    this.saveSupportTicket(ticket);
+    return true;
+  }
+
+  public deleteSupportTicket(ticketId: string): void {
+    this.markDeleted(ticketId);
+    if (Array.isArray(this.state.supportTickets)) {
+      this.state.supportTickets = this.state.supportTickets.filter(t => t.id !== ticketId && t.ticketNumber !== ticketId);
+    }
+    this.saveState(true, true);
   }
 }
 

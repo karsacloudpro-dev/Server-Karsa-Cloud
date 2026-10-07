@@ -552,4 +552,50 @@ export interface CoreServerDomainInfo {
   lastVerifiedAt: string;
 }
 
+export type TicketStatus = 'open' | 'in_progress' | 'answered' | 'customer_reply' | 'closed' | 'on_hold';
+export type TicketPriority = 'low' | 'medium' | 'high' | 'critical';
+export type TicketDepartment = 'technical' | 'billing' | 'server_network' | 'domain_ssl' | 'general';
+
+export interface TicketAttachment {
+  name: string;
+  url: string;
+  size?: number;
+}
+
+export interface TicketMessage {
+  id: string;
+  ticketId: string;
+  authorId: string;
+  authorName: string;
+  authorRole: UserRole;
+  authorEmail?: string;
+  message: string;
+  attachments?: TicketAttachment[];
+  isStaffReply: boolean;
+  isInternalNote?: boolean;
+  createdAt: string;
+}
+
+export interface SupportTicket {
+  id: string; // e.g. TIK-8492
+  ticketNumber: string;
+  subject: string;
+  department: TicketDepartment;
+  priority: TicketPriority;
+  status: TicketStatus;
+  customerId: string;
+  customerName: string;
+  customerEmail: string;
+  resellerId?: string;
+  assignedStaffId?: string;
+  assignedStaffName?: string;
+  relatedDomain?: string;
+  relatedService?: string;
+  messages: TicketMessage[];
+  lastReplyAt: string;
+  lastReplyBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export * from './ip';

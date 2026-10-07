@@ -1,22 +1,22 @@
 {
   "siteContent": {
     "profile": {
-      "name": "Ust. Jaenal Maskun",
+      "name": "Jaenal Maskun",
       "arabicName": "الأستاذ زين الماسكون",
-      "title": " Jaenal Maskun",
+      "title": " Jaenal Maskun, S.Pd.I.",
       "degrees": "S.Pd.I.",
-      "role": "Pendidik & Dev APP Madrasah",
-      "institution": "MI Ma'arif NU 2 Sanggreman",
+      "role": "Pendidik, Akademisi & Dev APP Madrasah",
+      "institution": "Lembaga Pendidikan & Madrasah Unggulan",
       "tagline": "Menyemai Adab, Menumbuhkan Intelektual, Mengabdi untuk Kemuliaan Umat",
       "bio": "Lebih dari 15 tahun mendedikasikan diri dalam dunia pendidikan Islam, pengembangan kurikulum madrasah terpadu, serta pembinaan akhlak santri dan generasi muda. Berkomitmen menghadirkan ekosistem madrasah yang adaptif terhadap sains-teknologi modern tanpa mencabut akar tradisi keilmuan Islam dan kearifan pesantren.",
       "motto": "العِلْمُ بِلَا عَمَلٍ كَالشَّجَرِ بِلَا ثَمَرٍ — Ilmu tanpa amal laksana pohon tanpa buah.",
-      "location": "Gentawangi, Indonesia",
-      "email": "jaenalmaskun@gmail.com",
-      "phone": "+62 812-2673-8883",
-      "avatarUrl": "/uploads/hero_1787971417_48afa4.jpg",
+      "location": "Gentawangi , Indonesia",
+      "email": "jaenalmaskun.ai@gmail.com",
+      "phone": "+62 812-3456-7890",
+      "avatarUrl": "/uploads/avatar_1787051686042_07hu2t.jpg",
       "socials": {
-        "whatsapp": "https://wa.me/6281226738883",
-        "youtube": "https://www.youtube.com/@jaenalmaskunofficial3977",
+        "whatsapp": "https://wa.me/6281234567890",
+        "youtube": "https://youtube.com/@jaenalmaskun",
         "instagram": "https://instagram.com/jaenalmaskun",
         "facebook": "https://facebook.com/jaenalmaskun",
         "linkedin": "https://linkedin.com/in/jaenalmaskun"
@@ -34,12 +34,12 @@
         },
         {
           "label": "Guru Terlatih",
-          "value": "3+",
+          "value": "3.500+",
           "subtext": "Pelatihan PKB & Pedagogi"
         },
         {
           "label": "Santri & Siswa Dibina",
-          "value": "12+",
+          "value": "12.000+",
           "subtext": "Alumni Berprestasi"
         }
       ]
@@ -49,15 +49,13 @@
         "year": "2013",
         "degree": "Sarjana Pendidikan S1",
         "institution": "IAIIG Cilacap",
-        "focus": "Konsentrasi Manajemen Pendidikan Islam",
-        "field": "Konsentrasi Manajemen Pendidikan Islam"
+        "focus": "Konsentrasi Manajemen Pendidikan Islam & Kurikulum (Cum Laude)"
       },
       {
         "year": "2013",
         "degree": "Sarjana Pendidikan Agama Islam (S.Pd.I.)",
         "institution": "Fakultas Tarbiyah dan Keguruan",
-        "focus": "Pendidikan Agama Islam",
-        "field": "Pendidikan Agama Islam"
+        "focus": "Pendidikan Agama Islam, Metodologi Pengajaran & Bahasa Arab"
       },
       {
         "year": "1995",
@@ -209,8 +207,7 @@
           "Meningkatkan akreditasi madrasah menjadi Unggul (A) secara konsisten",
           "Menginisiasi program Tahfidz Berbasis Pemahaman Makna (Fahmul Qur'an)",
           "Digitalisasi rapor dan sistem evaluasi pembelajaran madrasah"
-        ],
-        "isActive": false
+        ]
       },
       {
         "id": "exp-2",
@@ -222,8 +219,7 @@
         "achievements": [
           "Telah melatih lebih dari 3.500 guru Madrasah Ibtidaiyah, Tsanawiyah, & Aliyah",
           "Penyusun instrumen workshop literasi numerasi madrasah"
-        ],
-        "isActive": false
+        ]
       },
       {
         "id": "exp-3",
@@ -235,18 +231,17 @@
         "achievements": [
           "Membimbing santri meraih medali emas KSM (Kompetisi Sains Madrasah) tingkat provinsi",
           "Membangun program Duta Akhlak dan Budaya Literasi 15 Menit"
-        ],
-        "isActive": false
+        ]
       },
       {
         "id": "exp-4",
         "period": "2010 — 2015",
-        "role": "Guru Pendidikan Agama Islam & Bahasa Arab",
-        "organization": "Madrasah",
+        "role": "Guru Senior Pendidikan Agama Islam & Bahasa Arab",
+        "organization": "Madrasah & Pesantren As-Salam",
         "type": "Pengabdian",
         "description": "Mengajar ilmu Fiqh, Nahwu Shorof dasar, serta pendampingan asrama santri.",
         "achievements": [
-          "Pengelola data lembaga Madrasah. "
+          "Dinobatkan sebagai Guru Teladan Tingkat Kabupaten tahun 2014"
         ]
       }
     ],
@@ -290,569 +285,58 @@
     ],
     "gallery": [
       {
-        "id": "gal-1787971755762",
-        "title": "Dokumentasi Aktivitas Santri",
-        "category": "Kegiatan Ziaroh Makam ",
-        "image": "/uploads/gallery_1787972017_520578.jpg",
-        "videoUrl": "",
-        "description": "Deskripsi singkat suasana dan momentum kegiatan. Ziaroh Makam Pendiri NU Tanggal 5 Maulid bertepatan tanggal 17 Agustus 2026."
-      }
-    ],
-    "youtubeChannel": {
-      "enabled": true,
-      "channelHandle": "@jaenalmaskun",
-      "channelTitle": "Kanal YouTube Ust. Jaenal Maskun",
-      "channelId": "",
-      "channelUrl": "https://www.youtube.com/@jaenalmaskunofficial3977",
-      "playlistId": "",
-      "autoFetch": true,
-      "videos": [
-        {
-          "id": "vid-1787972226166",
-          "videoId": "1KpAN-YhwC0",
-          "title": "Mars Madrasah",
-          "description": "Penjelasan materi dan ringkasan isi video kajian.",
-          "publishedAt": "Terbaru",
-          "thumbnailUrl": "https://img.youtube.com/vi/1KpAN-YhwC0/hqdefault.jpg",
-          "thumbnail": "https://img.youtube.com/vi/1KpAN-YhwC0/hqdefault.jpg",
-          "videoUrl": "https://youtu.be/1KpAN-YhwC0?si=ObTm04qydybwotu7",
-          "platform": "youtube",
-          "channelName": "Ust. Jaenal Maskun Official",
-          "duration": "10:00",
-          "views": "1K tayangan"
-        },
-        {
-          "id": "vid-1787972169943",
-          "videoId": "qcvt8-M5nEg",
-          "title": "Mars Ma'arif NU",
-          "description": "Penjelasan materi dan ringkasan isi video kajian.",
-          "publishedAt": "Terbaru",
-          "thumbnailUrl": "https://img.youtube.com/vi/qcvt8-M5nEg/hqdefault.jpg",
-          "thumbnail": "https://img.youtube.com/vi/qcvt8-M5nEg/hqdefault.jpg",
-          "videoUrl": "https://youtu.be/qcvt8-M5nEg?si=pPwZnNSPTnvfONQh",
-          "platform": "youtube",
-          "channelName": "Ust. Jaenal Maskun Official",
-          "duration": "10:00",
-          "views": "1K tayangan"
-        },
-        {
-          "id": "vid-1787972105010",
-          "videoId": "gSRIT25inx4",
-          "title": "Lagu Sedih",
-          "description": "Penjelasan materi dan ringkasan isi video kajian.",
-          "publishedAt": "Terbaru",
-          "thumbnailUrl": "https://img.youtube.com/vi/gSRIT25inx4/hqdefault.jpg",
-          "thumbnail": "https://img.youtube.com/vi/gSRIT25inx4/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/live/gSRIT25inx4?si=7YNcAn5SnXwolV9m",
-          "platform": "youtube",
-          "channelName": "Ust. Jaenal Maskun Official",
-          "duration": "10:00",
-          "views": "1K tayangan"
-        },
-        {
-          "id": "vid-1787971358290",
-          "videoId": "p-unGL9l7Jk",
-          "title": "Kalisadang Bersholawat",
-          "description": "Penjelasan materi dan ringkasan isi video kajian.",
-          "publishedAt": "Terbaru",
-          "thumbnailUrl": "/uploads/video_thumb_1787971380_80db05.jpg",
-          "thumbnail": "/uploads/video_thumb_1787971380_80db05.jpg",
-          "videoUrl": "https://youtu.be/p-unGL9l7Jk?si=pn1YeaSXCky7GT3m",
-          "platform": "youtube",
-          "channelName": "Ust. Jaenal Maskun Official",
-          "duration": "10:00",
-          "views": "1K tayangan"
-        },
-        {
-          "id": "vid-1787971179287",
-          "videoId": "6zp1vEyBBr4",
-          "title": "Mahallul Qiyam",
-          "description": "Penjelasan materi dan ringkasan isi video kajian.",
-          "publishedAt": "Terbaru",
-          "thumbnailUrl": "https://img.youtube.com/vi/6zp1vEyBBr4/hqdefault.jpg",
-          "thumbnail": "https://img.youtube.com/vi/6zp1vEyBBr4/hqdefault.jpg",
-          "videoUrl": "https://youtu.be/6zp1vEyBBr4?si=wTSQvBqAx4kG8_Ab",
-          "platform": "youtube",
-          "channelName": "Ust. Jaenal Maskun Official",
-          "duration": "10:00",
-          "views": "1K tayangan"
-        },
-        {
-          "id": "yt-vid-3VMTHgGM_HY",
-          "videoId": "3VMTHgGM_HY",
-          "title": "PROYEK KELAS 4",
-          "description": "KEGIATAN MEMBUAT PROYEK POSTER SURAT AL ASR",
-          "thumbnail": "https://img.youtube.com/vi/3VMTHgGM_HY/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=3VMTHgGM_HY",
-          "publishedAt": "31 Jul 2025",
-          "views": "1 tayangan",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-PDY0zq86Cjo",
-          "videoId": "PDY0zq86Cjo",
-          "title": "P5RA IZZATI PEMANFAATAN LIMBAH KERTAS DISULAP MENJADI WADAH PENSIL",
-          "description": "Pemanfaatan limbah kertas karya santri Izzati menjadi wadah pensil yang estetik dan bernilai guna.",
-          "thumbnail": "https://img.youtube.com/vi/PDY0zq86Cjo/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=PDY0zq86Cjo",
-          "publishedAt": "9 Des 2024",
-          "views": "Resmi",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-UZn726QfQcg",
-          "videoId": "UZn726QfQcg",
-          "title": "P5RA LIA PEMANFAATAN LIMBAH SAMPAH MENJADI TEMPAT BERGUNA",
-          "description": "Kreativitas santri madrasah dalam proyek penguatan profil pelajar Pancasila & Rahmatan Lil Alamin.",
-          "thumbnail": "https://img.youtube.com/vi/UZn726QfQcg/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=UZn726QfQcg",
-          "publishedAt": "9 Des 2024",
-          "views": "Resmi",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-soDxFQnksoU",
-          "videoId": "soDxFQnksoU",
-          "title": "P5RA SAFA PEMANFAATAN LIMBAH MENJADI TEMPAT PENSIL",
-          "description": "Kreasi santriwati Safa mengolah limbah anorganik menjadi perlengkapan belajar yang bermanfaat.",
-          "thumbnail": "https://img.youtube.com/vi/soDxFQnksoU/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=soDxFQnksoU",
-          "publishedAt": "9 Des 2024",
-          "views": "Resmi",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-Q_xR5d0aQD4",
-          "videoId": "Q_xR5d0aQD4",
-          "title": "P5RA FADHIL PEMANFAATN LIMBAH SAMPAH MENJADI KREASI",
-          "description": "Dokumentasi karya proyek P5RA santri Fadhil dalam daur ulang limbah madrasah.",
-          "thumbnail": "https://img.youtube.com/vi/Q_xR5d0aQD4/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=Q_xR5d0aQD4",
-          "publishedAt": "9 Des 2024",
-          "views": "Resmi",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-V4PYiei0vWk",
-          "videoId": "V4PYiei0vWk",
-          "title": "KEGIATAN PAS 1 TAHUN 2024",
-          "description": "Pelaksanaan Penilaian Akhir Semester (PAS) 1 Tahun Ajaran 2024 MI Ma'arif NU 2 Sanggreman.",
-          "thumbnail": "https://img.youtube.com/vi/V4PYiei0vWk/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=V4PYiei0vWk",
-          "publishedAt": "6 Des 2024",
-          "views": "4 tayangan",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-EjoWi0uaqLw",
-          "videoId": "EjoWi0uaqLw",
-          "title": "JADWAL PAS 1 2024",
-          "description": "Pengumuman dan sosialisasi jadwal asesmen akhir semester madrasah.",
-          "thumbnail": "https://img.youtube.com/vi/EjoWi0uaqLw/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=EjoWi0uaqLw",
-          "publishedAt": "6 Des 2024",
-          "views": "24 tayangan",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-QQCwic3yObA",
-          "videoId": "QQCwic3yObA",
-          "title": "ZIAROH WALI SE BANYUMAS",
-          "description": "Rihlah religi ziarah auliya dan sesepuh pejuang Islam se-Kabupaten Banyumas.",
-          "thumbnail": "https://img.youtube.com/vi/QQCwic3yObA/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=QQCwic3yObA",
-          "publishedAt": "24 Jul 2023",
-          "views": "2 tayangan",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-s2HEgG5ymg8",
-          "videoId": "s2HEgG5ymg8",
-          "title": "BAHAGIA ITU SEDERHANA",
-          "description": "Keceriaan dan kebersamaan di lingkungan madrasah bersama para pendidik dan peserta didik.",
-          "thumbnail": "https://img.youtube.com/vi/s2HEgG5ymg8/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=s2HEgG5ymg8",
-          "publishedAt": "28 Sep 2022",
-          "views": "4 tayangan",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "yt-vid-HR_gu-3Isdo",
-          "videoId": "HR_gu-3Isdo",
-          "title": "ZIAROH WALI BANYUMAS",
-          "description": "Dokumentasi perjalanan spiritual ziarah makam wali Banyumas meneladani jejak dakwah.",
-          "thumbnail": "https://img.youtube.com/vi/HR_gu-3Isdo/hqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/watch?v=HR_gu-3Isdo",
-          "publishedAt": "28 Sep 2022",
-          "views": "15 tayangan",
-          "channelName": "JAENAL MASKUN OFFICIAL",
-          "platform": "youtube"
-        },
-        {
-          "id": "tiktok-vid-1",
-          "videoId": "7320000000000000001",
-          "title": "Kutipan Hikmah Santri: Adab & Keberkahan Menuntut Ilmu di Madrasah",
-          "description": "Pesan singkat penuh inspirasi tentang keutamaan tawadhu', adab kepada guru, dan semangat belajar santri.",
-          "thumbnail": "https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=800&q=80",
-          "thumbnailUrl": "https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=800&q=80",
-          "videoUrl": "https://www.tiktok.com/@jaenalmaskun",
-          "platform": "tiktok",
-          "channelName": "Ust. Jaenal Maskun (@jaenalmaskun)",
-          "publishedAt": "Siaran TikTok",
-          "views": "12.8K Pengikut"
-        },
-        {
-          "id": "tiktok-live-1",
-          "videoId": "live",
-          "title": "Siaran Langsung Dakwah & Tanya Jawab Fikih Santri",
-          "description": "Kajian siaran langsung interaktif membahas adab harian, tanya jawab hukum Islam, dan motivasi mengajar.",
-          "thumbnail": "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?auto=format&fit=crop&w=800&q=80",
-          "thumbnailUrl": "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?auto=format&fit=crop&w=800&q=80",
-          "videoUrl": "https://www.tiktok.com/@jaenalmaskun/live",
-          "platform": "tiktok",
-          "channelName": "Ust. Jaenal Maskun (@jaenalmaskun)",
-          "publishedAt": "Siaran Langsung",
-          "views": "Live Streaming"
-        }
-      ],
-      "channels": [
-        {
-          "id": "channel-yt",
-          "platform": "youtube",
-          "channelName": "Jaenal Maskun Official",
-          "channelHandle": "@jaenalmaskun",
-          "channelUrl": "https://www.youtube.com/@jaenalmaskun",
-          "subscribersOrFollowers": "3.5K Pelanggan",
-          "description": "Saluran resmi kajian kitab, ceramah ilmiah madrasah, dan tutorial pendidikan Islam.",
-          "isPrimary": true
-        },
-        {
-          "id": "channel-tiktok",
-          "platform": "tiktok",
-          "channelName": "Jaenal Maskun (@jaenalmaskun)",
-          "channelHandle": "@jaenalmaskun",
-          "channelUrl": "https://www.tiktok.com/@jaenalmaskun",
-          "subscribersOrFollowers": "12.8K Pengikut",
-          "description": "Kutipan hikmah santri, video singkat dakwah milenial, dan inspirasi harian guru madrasah.",
-          "isPrimary": false
-        },
-        {
-          "id": "channel-ig",
-          "platform": "instagram",
-          "channelName": "Jaenal Maskun Official IG",
-          "channelHandle": "@jaenalmaskun",
-          "channelUrl": "https://www.instagram.com/jaenalmaskun",
-          "subscribersOrFollowers": "5.2K Pengikut",
-          "description": "Galeri foto pengabdian, cuplikan Reels motivasi, dan liputan kegiatan madrasah.",
-          "isPrimary": false
-        },
-        {
-          "id": "channel-fb",
-          "platform": "facebook",
-          "channelName": "Jaenal Maskun (Facebook Page)",
-          "channelHandle": "jaenal.maskun",
-          "channelUrl": "https://www.facebook.com/jaenal.maskun",
-          "subscribersOrFollowers": "4.1K Sahabat",
-          "description": "Wadah silaturahmi alumni madrasah, wali santri, dan komunitas pendidik Islam.",
-          "isPrimary": false
-        }
-      ],
-      "lastFetched": 1787576602014
-    },
-    "youtubeVideos": [
-      {
-        "id": "vid-1787972226166",
-        "videoId": "1KpAN-YhwC0",
-        "title": "Mars Madrasah",
-        "description": "Penjelasan materi dan ringkasan isi video kajian.",
-        "publishedAt": "Terbaru",
-        "thumbnailUrl": "https://img.youtube.com/vi/1KpAN-YhwC0/hqdefault.jpg",
-        "thumbnail": "https://img.youtube.com/vi/1KpAN-YhwC0/hqdefault.jpg",
-        "videoUrl": "https://youtu.be/1KpAN-YhwC0?si=ObTm04qydybwotu7",
-        "platform": "youtube",
-        "channelName": "Ust. Jaenal Maskun Official",
-        "duration": "10:00",
-        "views": "1K tayangan"
+        "id": "gal-1",
+        "title": "Halaqah Kajian Keilmuan Santri",
+        "category": "Kegiatan Belajar",
+        "description": "Suasana diskusi interaktif santri dalam membedah teks kitab kuning dengan pendekatan kontekstual.",
+        "image": "https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=800&q=80"
       },
       {
-        "id": "vid-1787972169943",
-        "videoId": "qcvt8-M5nEg",
-        "title": "Mars Ma'arif NU",
-        "description": "Penjelasan materi dan ringkasan isi video kajian.",
-        "publishedAt": "Terbaru",
-        "thumbnailUrl": "https://img.youtube.com/vi/qcvt8-M5nEg/hqdefault.jpg",
-        "thumbnail": "https://img.youtube.com/vi/qcvt8-M5nEg/hqdefault.jpg",
-        "videoUrl": "https://youtu.be/qcvt8-M5nEg?si=pPwZnNSPTnvfONQh",
-        "platform": "youtube",
-        "channelName": "Ust. Jaenal Maskun Official",
-        "duration": "10:00",
-        "views": "1K tayangan"
+        "id": "gal-2",
+        "title": "Pelatihan Kurikulum Guru Madrasah",
+        "category": "Pelatihan Guru",
+        "description": "Sesi workshop praktikum asesmen diagnostik bersama para tenaga pendidik se-wilayah.",
+        "image": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80"
       },
       {
-        "id": "vid-1787972105010",
-        "videoId": "gSRIT25inx4",
-        "title": "Lagu Sedih",
-        "description": "Penjelasan materi dan ringkasan isi video kajian.",
-        "publishedAt": "Terbaru",
-        "thumbnailUrl": "https://img.youtube.com/vi/gSRIT25inx4/hqdefault.jpg",
-        "thumbnail": "https://img.youtube.com/vi/gSRIT25inx4/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/live/gSRIT25inx4?si=7YNcAn5SnXwolV9m",
-        "platform": "youtube",
-        "channelName": "Ust. Jaenal Maskun Official",
-        "duration": "10:00",
-        "views": "1K tayangan"
+        "id": "gal-3",
+        "title": "Wisuda Tahfidz & Peneguhan Sanad",
+        "category": "Kajian & Doa",
+        "description": "Momen sakral penganugerahan syahadah bagi santri yang menuntaskan hafalan Al-Qur'an.",
+        "image": "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=800&q=80"
       },
       {
-        "id": "vid-1787971358290",
-        "videoId": "p-unGL9l7Jk",
-        "title": "Kalisadang Bersholawat",
-        "description": "Penjelasan materi dan ringkasan isi video kajian.",
-        "publishedAt": "Terbaru",
-        "thumbnailUrl": "/uploads/video_thumb_1787971380_80db05.jpg",
-        "thumbnail": "/uploads/video_thumb_1787971380_80db05.jpg",
-        "videoUrl": "https://youtu.be/p-unGL9l7Jk?si=pn1YeaSXCky7GT3m",
-        "platform": "youtube",
-        "channelName": "Ust. Jaenal Maskun Official",
-        "duration": "10:00",
-        "views": "1K tayangan"
-      },
-      {
-        "id": "vid-1787971179287",
-        "videoId": "6zp1vEyBBr4",
-        "title": "Mahallul Qiyam",
-        "description": "Penjelasan materi dan ringkasan isi video kajian.",
-        "publishedAt": "Terbaru",
-        "thumbnailUrl": "https://img.youtube.com/vi/6zp1vEyBBr4/hqdefault.jpg",
-        "thumbnail": "https://img.youtube.com/vi/6zp1vEyBBr4/hqdefault.jpg",
-        "videoUrl": "https://youtu.be/6zp1vEyBBr4?si=wTSQvBqAx4kG8_Ab",
-        "platform": "youtube",
-        "channelName": "Ust. Jaenal Maskun Official",
-        "duration": "10:00",
-        "views": "1K tayangan"
-      },
-      {
-        "id": "yt-vid-3VMTHgGM_HY",
-        "videoId": "3VMTHgGM_HY",
-        "title": "PROYEK KELAS 4",
-        "description": "KEGIATAN MEMBUAT PROYEK POSTER SURAT AL ASR",
-        "thumbnail": "https://img.youtube.com/vi/3VMTHgGM_HY/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=3VMTHgGM_HY",
-        "publishedAt": "31 Jul 2025",
-        "views": "1 tayangan",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-PDY0zq86Cjo",
-        "videoId": "PDY0zq86Cjo",
-        "title": "P5RA IZZATI PEMANFAATAN LIMBAH KERTAS DISULAP MENJADI WADAH PENSIL",
-        "description": "Pemanfaatan limbah kertas karya santri Izzati menjadi wadah pensil yang estetik dan bernilai guna.",
-        "thumbnail": "https://img.youtube.com/vi/PDY0zq86Cjo/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=PDY0zq86Cjo",
-        "publishedAt": "9 Des 2024",
-        "views": "Resmi",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-UZn726QfQcg",
-        "videoId": "UZn726QfQcg",
-        "title": "P5RA LIA PEMANFAATAN LIMBAH SAMPAH MENJADI TEMPAT BERGUNA",
-        "description": "Kreativitas santri madrasah dalam proyek penguatan profil pelajar Pancasila & Rahmatan Lil Alamin.",
-        "thumbnail": "https://img.youtube.com/vi/UZn726QfQcg/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=UZn726QfQcg",
-        "publishedAt": "9 Des 2024",
-        "views": "Resmi",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-soDxFQnksoU",
-        "videoId": "soDxFQnksoU",
-        "title": "P5RA SAFA PEMANFAATAN LIMBAH MENJADI TEMPAT PENSIL",
-        "description": "Kreasi santriwati Safa mengolah limbah anorganik menjadi perlengkapan belajar yang bermanfaat.",
-        "thumbnail": "https://img.youtube.com/vi/soDxFQnksoU/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=soDxFQnksoU",
-        "publishedAt": "9 Des 2024",
-        "views": "Resmi",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-Q_xR5d0aQD4",
-        "videoId": "Q_xR5d0aQD4",
-        "title": "P5RA FADHIL PEMANFAATN LIMBAH SAMPAH MENJADI KREASI",
-        "description": "Dokumentasi karya proyek P5RA santri Fadhil dalam daur ulang limbah madrasah.",
-        "thumbnail": "https://img.youtube.com/vi/Q_xR5d0aQD4/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=Q_xR5d0aQD4",
-        "publishedAt": "9 Des 2024",
-        "views": "Resmi",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-V4PYiei0vWk",
-        "videoId": "V4PYiei0vWk",
-        "title": "KEGIATAN PAS 1 TAHUN 2024",
-        "description": "Pelaksanaan Penilaian Akhir Semester (PAS) 1 Tahun Ajaran 2024 MI Ma'arif NU 2 Sanggreman.",
-        "thumbnail": "https://img.youtube.com/vi/V4PYiei0vWk/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=V4PYiei0vWk",
-        "publishedAt": "6 Des 2024",
-        "views": "4 tayangan",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-EjoWi0uaqLw",
-        "videoId": "EjoWi0uaqLw",
-        "title": "JADWAL PAS 1 2024",
-        "description": "Pengumuman dan sosialisasi jadwal asesmen akhir semester madrasah.",
-        "thumbnail": "https://img.youtube.com/vi/EjoWi0uaqLw/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=EjoWi0uaqLw",
-        "publishedAt": "6 Des 2024",
-        "views": "24 tayangan",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-QQCwic3yObA",
-        "videoId": "QQCwic3yObA",
-        "title": "ZIAROH WALI SE BANYUMAS",
-        "description": "Rihlah religi ziarah auliya dan sesepuh pejuang Islam se-Kabupaten Banyumas.",
-        "thumbnail": "https://img.youtube.com/vi/QQCwic3yObA/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=QQCwic3yObA",
-        "publishedAt": "24 Jul 2023",
-        "views": "2 tayangan",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-s2HEgG5ymg8",
-        "videoId": "s2HEgG5ymg8",
-        "title": "BAHAGIA ITU SEDERHANA",
-        "description": "Keceriaan dan kebersamaan di lingkungan madrasah bersama para pendidik dan peserta didik.",
-        "thumbnail": "https://img.youtube.com/vi/s2HEgG5ymg8/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=s2HEgG5ymg8",
-        "publishedAt": "28 Sep 2022",
-        "views": "4 tayangan",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "yt-vid-HR_gu-3Isdo",
-        "videoId": "HR_gu-3Isdo",
-        "title": "ZIAROH WALI BANYUMAS",
-        "description": "Dokumentasi perjalanan spiritual ziarah makam wali Banyumas meneladani jejak dakwah.",
-        "thumbnail": "https://img.youtube.com/vi/HR_gu-3Isdo/hqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=HR_gu-3Isdo",
-        "publishedAt": "28 Sep 2022",
-        "views": "15 tayangan",
-        "channelName": "JAENAL MASKUN OFFICIAL",
-        "platform": "youtube"
-      },
-      {
-        "id": "tiktok-vid-1",
-        "videoId": "7320000000000000001",
-        "title": "Kutipan Hikmah Santri: Adab & Keberkahan Menuntut Ilmu di Madrasah",
-        "description": "Pesan singkat penuh inspirasi tentang keutamaan tawadhu', adab kepada guru, dan semangat belajar santri.",
-        "thumbnail": "https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=800&q=80",
-        "thumbnailUrl": "https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=800&q=80",
-        "videoUrl": "https://www.tiktok.com/@jaenalmaskun",
-        "platform": "tiktok",
-        "channelName": "Ust. Jaenal Maskun (@jaenalmaskun)",
-        "publishedAt": "Siaran TikTok",
-        "views": "12.8K Pengikut"
-      },
-      {
-        "id": "tiktok-live-1",
-        "videoId": "live",
-        "title": "Siaran Langsung Dakwah & Tanya Jawab Fikih Santri",
-        "description": "Kajian siaran langsung interaktif membahas adab harian, tanya jawab hukum Islam, dan motivasi mengajar.",
-        "thumbnail": "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?auto=format&fit=crop&w=800&q=80",
-        "thumbnailUrl": "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?auto=format&fit=crop&w=800&q=80",
-        "videoUrl": "https://www.tiktok.com/@jaenalmaskun/live",
-        "platform": "tiktok",
-        "channelName": "Ust. Jaenal Maskun (@jaenalmaskun)",
-        "publishedAt": "Siaran Langsung",
-        "views": "Live Streaming"
-      }
-    ],
-    "mediaChannels": [
-      {
-        "id": "channel-yt",
-        "platform": "youtube",
-        "channelName": "Jaenal Maskun Official",
-        "channelHandle": "@jaenalmaskun",
-        "channelUrl": "https://www.youtube.com/@jaenalmaskun",
-        "subscribersOrFollowers": "3.5K Pelanggan",
-        "description": "Saluran resmi kajian kitab, ceramah ilmiah madrasah, dan tutorial pendidikan Islam.",
-        "isPrimary": true
-      },
-      {
-        "id": "channel-tiktok",
-        "platform": "tiktok",
-        "channelName": "Jaenal Maskun (@jaenalmaskun)",
-        "channelHandle": "@jaenalmaskun",
-        "channelUrl": "https://www.tiktok.com/@jaenalmaskun",
-        "subscribersOrFollowers": "12.8K Pengikut",
-        "description": "Kutipan hikmah santri, video singkat dakwah milenial, dan inspirasi harian guru madrasah.",
-        "isPrimary": false
-      },
-      {
-        "id": "channel-ig",
-        "platform": "instagram",
-        "channelName": "Jaenal Maskun Official IG",
-        "channelHandle": "@jaenalmaskun",
-        "channelUrl": "https://www.instagram.com/jaenalmaskun",
-        "subscribersOrFollowers": "5.2K Pengikut",
-        "description": "Galeri foto pengabdian, cuplikan Reels motivasi, dan liputan kegiatan madrasah.",
-        "isPrimary": false
-      },
-      {
-        "id": "channel-fb",
-        "platform": "facebook",
-        "channelName": "Jaenal Maskun (Facebook Page)",
-        "channelHandle": "jaenal.maskun",
-        "channelUrl": "https://www.facebook.com/jaenal.maskun",
-        "subscribersOrFollowers": "4.1K Sahabat",
-        "description": "Wadah silaturahmi alumni madrasah, wali santri, dan komunitas pendidik Islam.",
-        "isPrimary": false
+        "id": "gal-4",
+        "title": "Anugerah Dedikasi Pendidik Inspiratif",
+        "category": "Penghargaan",
+        "description": "Apresiasi atas inovasi pembelajaran ramah anak dan pengembangan literasi madrasah.",
+        "image": "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80"
       }
     ],
     "visibility": {
       "hero": true,
       "about": true,
       "pillars": true,
-      "publications": false,
+      "publications": true,
       "experience": true,
       "agenda": true,
       "islamicTools": true,
       "gallery": true,
-      "youtubeChannel": true,
       "contact": true
     },
     "heroSettings": {
       "badgeText": "Guru",
       "greetingTitle": "Assalamu’alaikum Warahmatullahi Wabarakatuh",
-      "greetingSub": "Khidmat untuk Madrasah",
+      "greetingSub": "Khidmat untuk Pendidikan Islam & Literasi Madrasah",
       "showStats": true,
       "showDownloadCV": true,
-      "heroImage": "/uploads/hero_1787971417_48afa4.jpg",
+      "heroImage": "/uploads/hero_1787051686043_doq56m.jpg",
       "photoBadgeText": "Pejuang MI"
     },
     "shareSettings": {
       "title": "Jaenal Maskun, S.Pd.I. | Pendidik, Akademisi & Penggerak Madrasah",
       "description": "Website Resmi Jaenal Maskun, S.Pd.I. - Menyemai Adab, Menumbuhkan Intelektual, Mengabdi untuk Kemuliaan Umat. Eksplorasi profil, modul pembelajaran madrasah, tasbih digital, dan agenda kajian.",
-      "thumbnailUrl": "/uploads/share_thumb_1787972377.jpg",
+      "thumbnailUrl": "/og-image.jpg?v=1787035370",
       "authorName": "Jaenal Maskun, S.Pd.I.",
       "badgeText": "Website Resmi Madrasah"
     }
@@ -860,8 +344,8 @@
   "logoConfig": {
     "type": "custom_image",
     "monogramText": "HJ",
-    "brandName": "GARDA",
-    "badgeText": "MADRASAH NU",
+    "brandName": "GARDA MADRASAH",
+    "badgeText": "MADRASAH",
     "taglineText": "Pendidik & Dev APP Madrasah",
     "shape": "circle",
     "borderStyle": "gold",
@@ -869,18 +353,14 @@
     "showBadge": true,
     "size": "large",
     "fitMode": "cover",
-    "zoomLevel": 115,
-    "backgroundColor": "transparent",
-    "faviconUrl": "/uploads/favicon_1788507233_abba34.png",
+    "zoomLevel": 100,
+    "backgroundColor": "emerald",
+    "faviconUrl": "/favicon.ico",
     "footerLogoType": "sync_header",
-    "customImageUrl": "/uploads/logo_1788507216_652bd7.jpg",
-    "blendMode": "normal",
-    "footerLogoMode": "match_header"
+    "customImageUrl": "/uploads/logo_1787054962785_na1vhf.jpg"
   },
   "stickyFooterConfig": {
     "enabled": true,
-    "showOnDesktop": true,
-    "showOnMobile": true,
     "position": "floating",
     "theme": "emerald_gold",
     "maxWidth": "max-w-4xl",
@@ -911,8 +391,8 @@
         "badgeColor": "gold",
         "visible": true,
         "linkType": "url",
-        "url": "https://siakad-madrasah.denbaguse.my.id",
-        "externalUrl": "https://siakad-madrasah.denbaguse.my.id",
+        "url": "https://siakad-madrasah.jaenalmaskun.biz.id",
+        "externalUrl": "https://siakad-madrasah.jaenalmaskun.biz.id",
         "isExternal": true,
         "openInNewTab": true
       },
@@ -927,46 +407,32 @@
       },
       {
         "id": "item-fitur-islami",
-        "label": "Absensi GTK",
+        "label": "Absensi",
         "sectionId": "fitur-islami",
         "icon": "Sparkles",
         "visible": true,
         "linkType": "url",
-        "url": "https://absensi-gtk.denbaguse.my.id",
-        "externalUrl": "https://absensi-gtk.denbaguse.my.id",
+        "url": "https://absensi.jaenalmaskun.biz.id",
+        "externalUrl": "https://absensi.jaenalmaskun.biz.id",
         "isExternal": true,
         "openInNewTab": true,
-        "badgeText": "Absensi GTK"
+        "badgeText": "Absensi"
       },
       {
         "id": "item-1786987370070",
         "label": "Modul Ajar KBC",
         "linkType": "url",
         "sectionId": "kustom-url",
-        "url": "https://modul-ajar.denbaguse.my.id",
-        "externalUrl": "https://modul-ajar.denbaguse.my.id",
+        "url": "https://modul-ajar-kbc.jaenalmaskun.biz.id",
+        "externalUrl": "https://modul-ajar-kbc.jaenalmaskun.biz.id",
         "openInNewTab": true,
         "isExternal": true,
         "icon": "Sparkles",
         "badgeColor": "gold",
         "visible": true,
         "badgeText": "Modul KBC"
-      },
-      {
-        "id": "item-1788567481871",
-        "label": "Kartu Pelajar",
-        "linkType": "url",
-        "sectionId": "kustom-url",
-        "url": "https://kartu-pelajar.denbaguse.my.id",
-        "externalUrl": "https://kartu-pelajar.denbaguse.my.id",
-        "openInNewTab": true,
-        "isExternal": true,
-        "icon": "Sparkles",
-        "badgeText": "Kartu Pelajar",
-        "badgeColor": "gold",
-        "visible": true
       }
     ]
   },
-  "lastUpdated": 1790734710000
+  "lastUpdated": 1787161028130
 }
