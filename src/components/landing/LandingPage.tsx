@@ -1321,9 +1321,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
             <div className="space-y-3">
               <div className="flex items-center gap-2.5">
                 <CloudProLogo className="h-8 w-auto" cloudTextColor="text-white" />
-                <span className="font-extrabold text-white text-base">
-                  KARSA CLOUD <span className="text-amber-400 text-xs">PRO</span>
-                </span>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Penyedia infrastruktur cloud hosting, WHM reseller, dan VPS enterprise dengan storage 100% NVMe Gen4 dan jaringan Tier-3 berkecepatan tinggi.
