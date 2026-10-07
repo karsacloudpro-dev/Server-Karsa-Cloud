@@ -314,6 +314,12 @@ function sanitizeVhostStore(store: VhostStore): VhostStore {
         username: 'cloudpro',
         phpVersion: '8.2',
       },
+      {
+        id: 'acc-denbaguse-01',
+        primaryDomain: 'denbaguse.my.id',
+        username: 'denbaguse',
+        phpVersion: '8.2',
+      },
     ];
   } else {
     store.accounts = store.accounts.map(acc => {
@@ -327,6 +333,14 @@ function sanitizeVhostStore(store: VhostStore): VhostStore {
       }
       return acc;
     });
+    if (!store.accounts.some(a => a.id === 'acc-denbaguse-01' || a.primaryDomain?.toLowerCase() === 'denbaguse.my.id')) {
+      store.accounts.push({
+        id: 'acc-denbaguse-01',
+        primaryDomain: 'denbaguse.my.id',
+        username: 'denbaguse',
+        phpVersion: '8.2',
+      });
+    }
   }
 
   if (!store.filesByAccount || typeof store.filesByAccount !== 'object') {

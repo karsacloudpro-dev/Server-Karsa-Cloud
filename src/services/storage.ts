@@ -853,6 +853,10 @@ class StorageService {
               };
             }
           }
+          if (acc.id !== 'acc-rdm-01' && acc.primaryDomain !== 'karsacloud.biz.id' && acc.customerName === 'Jaenal Maskun') {
+            updated = true;
+            acc.customerName = (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id') ? 'Den Baguse' : 'Pelanggan Hosting cPanel';
+          }
           return acc;
         });
 
@@ -1267,6 +1271,12 @@ class StorageService {
             documentRoot: '/public_html',
           };
         }
+        if (acc.id !== 'acc-rdm-01' && acc.primaryDomain !== 'karsacloud.biz.id' && acc.customerName === 'Jaenal Maskun') {
+          return {
+            ...acc,
+            customerName: (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id') ? 'Den Baguse' : 'Pelanggan Hosting cPanel',
+          };
+        }
         return acc;
       });
   }
@@ -1308,6 +1318,12 @@ class StorageService {
         resellerId: 'prof-reseller-denbaguse',
         customerId: 'usr-reseller-denbaguse',
         documentRoot: '/public_html',
+      };
+    }
+    if (acc.id !== 'acc-rdm-01' && acc.primaryDomain !== 'karsacloud.biz.id' && acc.customerName === 'Jaenal Maskun') {
+      return {
+        ...acc,
+        customerName: (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id') ? 'Den Baguse' : 'Pelanggan Hosting cPanel',
       };
     }
     return acc;

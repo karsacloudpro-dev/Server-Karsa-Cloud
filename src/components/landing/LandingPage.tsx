@@ -15,6 +15,7 @@ import {
   Activity,
   Layers,
   ChevronDown,
+  ChevronRight,
   Search,
   Check,
   Star,
@@ -285,12 +286,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-amber-400 selection:text-slate-950 overflow-x-hidden">
       {/* ========================================================================= */}
-      {/* 1. CLEAN EXECUTIVE NAVBAR (NO RIGHT-SIDE TITLE TEXTS)                     */}
+      {/* 1. CLEAN EXECUTIVE NAVBAR (PRESTISIUS & BERKELAS DI ANDROID & DESKTOP)   */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/90 border-b border-slate-800/80 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
-          {/* Left: Brand Identity (Single Official Logo & Title) */}
-          <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-50 backdrop-blur-2xl bg-slate-950/95 border-b border-slate-800/90 transition-all shadow-xl shadow-black/20">
+        {/* Subtle Luxury Top Hairline Accent */}
+        <div className="h-0.5 w-full bg-gradient-to-r from-amber-500/80 via-sky-500 to-indigo-500" />
+        
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+          {/* Left: Brand Identity (Official Logo with Live Status Beacon) */}
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <CloudProLogo
               variant="compact"
               size="md"
@@ -298,6 +302,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
               showSubtitle={true}
               subtitleText="karsacloud.biz.id"
             />
+            <span className="hidden min-[400px]:inline-flex items-center gap-1 font-mono text-[9px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded-full shrink-0">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>ONLINE</span>
+            </span>
           </div>
 
           {/* Center: Desktop Navigation Links */}
@@ -322,116 +330,182 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
             </a>
           </nav>
 
-          {/* Right: Functional Action Buttons ONLY (No Title Text) */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Portal Klien Button (client.karsacloud.biz.id) */}
-            <button
-              type="button"
-              onClick={() => onGoToPanel('client_portal')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-white px-3 sm:px-4 py-2 sm:py-2.5 text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95"
-              title="Akses Portal Klien & Reseller (client.karsacloud.biz.id)"
-            >
-              <Users className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="hidden xs:inline">Portal</span>
-              <span>Klien</span>
-            </button>
+          {/* Right: Functional Action Buttons */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Desktop Actions (Hidden on Mobile < lg to avoid crowding) */}
+            <div className="hidden lg:flex items-center gap-2.5">
+              {/* Portal Klien Button (client.karsacloud.biz.id) */}
+              <button
+                type="button"
+                onClick={() => onGoToPanel('client_portal')}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-white px-3.5 py-2 text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95"
+                title="Akses Portal Klien & Reseller (client.karsacloud.biz.id)"
+              >
+                <Users className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Portal Klien</span>
+              </button>
 
-            {/* Panel Admin Button (server.karsacloud.biz.id) */}
-            <button
-              type="button"
-              onClick={() => onGoToPanel('server_admin')}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white px-3 sm:px-4 py-2 sm:py-2.5 text-xs font-bold transition-all cursor-pointer shadow-md shadow-sky-600/20 active:scale-95"
-              title="Akses Panel Admin Server (server.karsacloud.biz.id)"
-            >
-              <Server className="w-3.5 h-3.5 text-amber-300" />
-              <span className="hidden xs:inline">Panel</span>
-              <span>Admin</span>
-            </button>
+              {/* Panel Admin Button (server.karsacloud.biz.id) */}
+              <button
+                type="button"
+                onClick={() => onGoToPanel('server_admin')}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 text-white px-3.5 py-2 text-xs font-bold transition-all cursor-pointer shadow-md shadow-sky-600/20 active:scale-95"
+                title="Akses Panel Admin Server (server.karsacloud.biz.id)"
+              >
+                <Server className="w-3.5 h-3.5 text-amber-300" />
+                <span>Panel Admin</span>
+              </button>
+            </div>
 
-            {/* Mobile Hamburger Toggle */}
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl border border-slate-800 text-slate-300 hover:bg-slate-900 transition-colors cursor-pointer"
-              aria-label="Toggle Menu"
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+            {/* Mobile / Android Dedicated Compact Action (Sleek & Uncrowded) */}
+            <div className="flex lg:hidden items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => onGoToPanel('client_portal')}
+                className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-sky-700 active:from-sky-700 active:to-sky-800 text-white px-3 py-2 text-xs font-bold shadow-md shadow-sky-600/20 transition-all cursor-pointer"
+              >
+                <Users className="w-3.5 h-3.5 text-emerald-300" />
+                <span>Masuk Portal</span>
+              </button>
+
+              {/* Mobile Hamburger Toggle with Refined Tactile Surface */}
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-xl border border-slate-800 bg-slate-900/90 text-slate-200 hover:text-white hover:border-slate-700 transition-all cursor-pointer flex items-center justify-center min-w-[38px] min-h-[38px] active:scale-95"
+                aria-label="Toggle Menu"
+              >
+                {isMobileMenuOpen ? <X className="w-4.5 h-4.5 text-amber-400" /> : <Menu className="w-4.5 h-4.5" />}
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Mobile Slide-down Drawer (Full Nyaman di Android) */}
+        {/* Mobile Slide-down Drawer (VIP Executive Design for Android) */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-slate-800 bg-slate-950/98 px-4 py-5 space-y-4 animate-in slide-in-from-top-3 duration-200">
-            <div className="grid grid-cols-2 gap-2 pb-2 border-b border-slate-800/80">
+          <div className="lg:hidden border-t border-slate-800/90 bg-slate-950/98 backdrop-blur-2xl px-4 py-5 space-y-4 animate-in slide-in-from-top-3 duration-200 shadow-2xl">
+            {/* Header Status in Drawer */}
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800/80 text-[11px] font-mono text-slate-400">
+              <span className="flex items-center gap-1.5 text-slate-300">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Karsa Cloud PRO Infrastructure</span>
+              </span>
+              <span className="text-emerald-400 font-bold">SLA 99.99% Online</span>
+            </div>
+
+            {/* 2 VIP Gateway Access Cards */}
+            <div className="space-y-2.5">
               <button
                 type="button"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                   onGoToPanel('client_portal');
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 border border-slate-800 p-3 text-xs font-bold text-emerald-300 cursor-pointer"
+                className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-900/80 border border-emerald-500/30 hover:border-emerald-500/60 transition-all cursor-pointer text-left shadow-lg active:scale-[0.99]"
               >
-                <Users className="w-4 h-4 text-emerald-400" />
-                <span>Portal Klien</span>
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-black text-white">Portal Klien &amp; Reseller</span>
+                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">cPanel</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 font-mono truncate mt-0.5">client.karsacloud.biz.id</p>
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-emerald-400 shrink-0 ml-2" />
               </button>
+
               <button
                 type="button"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                   onGoToPanel('server_admin');
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-sky-600 text-white p-3 text-xs font-bold cursor-pointer"
+                className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-900/80 border border-amber-500/30 hover:border-amber-500/60 transition-all cursor-pointer text-left shadow-lg active:scale-[0.99]"
               >
-                <Server className="w-4 h-4 text-amber-300" />
-                <span>Admin Server</span>
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="h-10 w-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                    <Server className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-black text-white">Web Panel Admin Server</span>
+                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300">Root Node</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 font-mono truncate mt-0.5">server.karsacloud.biz.id</p>
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-amber-400 shrink-0 ml-2" />
               </button>
             </div>
 
-            <nav className="flex flex-col space-y-2 text-sm font-semibold text-slate-300">
+            {/* Quick Mobile Navigation Links */}
+            <nav className="flex flex-col space-y-1 pt-2 border-t border-slate-800/80 text-sm font-semibold text-slate-300">
               <a
                 href="#beranda"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2.5 rounded-lg hover:bg-slate-900 hover:text-white"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 hover:text-white transition-colors"
               >
-                Beranda
+                <span>Beranda</span>
+                <ChevronRight className="w-4 h-4 text-slate-600" />
               </a>
               <a
                 href="#portal"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2.5 rounded-lg hover:bg-slate-900 hover:text-white"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 hover:text-white transition-colors"
               >
-                Gerbang Akses Portal Terpadu
+                <span>Gerbang Akses Portal Terpadu</span>
+                <ChevronRight className="w-4 h-4 text-slate-600" />
               </a>
               <a
                 href="#paket"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2.5 rounded-lg hover:bg-slate-900 hover:text-white"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 hover:text-white transition-colors"
               >
-                Paket Hosting, Reseller &amp; VPS
+                <span>Paket Hosting, Reseller &amp; VPS</span>
+                <ChevronRight className="w-4 h-4 text-slate-600" />
               </a>
               <a
                 href="#domain"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2.5 rounded-lg hover:bg-slate-900 hover:text-white"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 hover:text-white transition-colors"
               >
-                Cek Ketersediaan Domain
+                <span>Cek Ketersediaan Domain</span>
+                <ChevronRight className="w-4 h-4 text-slate-600" />
               </a>
               <a
                 href="#fitur"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2.5 rounded-lg hover:bg-slate-900 hover:text-white"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 hover:text-white transition-colors"
               >
-                Infrastruktur &amp; Spesifikasi
+                <span>Infrastruktur &amp; Spesifikasi Hardware</span>
+                <ChevronRight className="w-4 h-4 text-slate-600" />
               </a>
               <a
                 href="#faq"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2.5 rounded-lg hover:bg-slate-900 hover:text-white"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 hover:text-white transition-colors"
               >
-                Pertanyaan Umum (FAQ)
+                <span>Pertanyaan Umum (FAQ)</span>
+                <ChevronRight className="w-4 h-4 text-slate-600" />
               </a>
             </nav>
+
+            {/* Direct Official WhatsApp Support Button in Drawer */}
+            <div className="pt-2 border-t border-slate-800/80">
+              <a
+                href={officialWaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3 px-4 shadow-lg shadow-emerald-700/25 transition-all"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>Bantuan VIP WhatsApp 24/7 (CS Resmi)</span>
+              </a>
+            </div>
           </div>
         )}
       </header>

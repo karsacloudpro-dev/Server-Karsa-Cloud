@@ -464,12 +464,15 @@ const AppContent: React.FC = () => {
       }
     };
 
+    const handleOpenLandingEvent = () => setIsLandingView(true);
+    window.addEventListener('open-landing-page', handleOpenLandingEvent);
     window.addEventListener('focus', onVisibilityOrFocus);
     document.addEventListener('visibilitychange', onVisibilityOrFocus);
     const pollTimer = setInterval(syncFromVault, 30000);
 
     return () => {
       mounted = false;
+      window.removeEventListener('open-landing-page', handleOpenLandingEvent);
       window.removeEventListener('focus', onVisibilityOrFocus);
       document.removeEventListener('visibilitychange', onVisibilityOrFocus);
       clearInterval(pollTimer);

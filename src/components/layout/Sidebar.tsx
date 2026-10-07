@@ -1151,6 +1151,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </>
           )}
 
+          {/* Portal Utama Landing Page Button (Mudah diakses dari Android / Mobile Sidebar) */}
+          <button
+            type="button"
+            onClick={() => {
+              onCloseMobile();
+              window.dispatchEvent(new CustomEvent('open-landing-page'));
+            }}
+            title="Buka Portal Utama Karsa Cloud (karsacloud.biz.id)"
+            className="flex w-full items-center justify-between rounded-xl border border-sky-500/30 bg-sky-950/40 px-2.5 py-1.5 text-[11px] font-bold text-sky-300 hover:bg-sky-900/50 hover:text-white transition-colors cursor-pointer"
+          >
+            <span className="flex items-center gap-2">
+              <Globe className="h-3.5 w-3.5 text-sky-400" />
+              <span>Portal Utama Karsa Cloud</span>
+            </span>
+            <span className="text-[9px] font-mono text-sky-400/80 bg-sky-900/50 px-1.5 py-0.5 rounded">.biz.id</span>
+          </button>
+
           {/* Android & Mobile Accessible Git Commit Version Badge (Permanently placed in sidebar navigation) */}
           <button
             type="button"

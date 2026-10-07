@@ -973,61 +973,165 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
     }
   };
 
-  const primaryDomains = useMemo(() => {
-    const list = serverDomains.filter((d: ServerDomainItem) =>
-      d.type === 'primary' ||
-      (account?.primaryDomain && d.domain.toLowerCase() === account.primaryDomain.toLowerCase())
-    );
-    if (list.length === 0 && serverDomains.length > 0) {
-      return [serverDomains[0]];
+  // Dynamically determine the parent/primary domain corresponding to the selectedDomain or active account
+  const owningPrimaryDomain = useMemo(() => {
+    const sLower = (selectedDomain || '').toLowerCase().trim();
+
+    // 1. Explicit check for denbaguse.my.id subdomains or domain
+    if (sLower === 'denbaguse.my.id' || sLower.endsWith('.denbaguse.my.id')) {
+      return 'denbaguse.my.id';
     }
+
+    // 2. Check all hosting accounts in storage (which contains all tenant accounts)
+    const allAccounts = typeof db?.getHostingAccounts === 'function' ? db.getHostingAccounts() : [];
+    const matchedAccount = allAccounts.find(a => {
+      const aDom = (a.primaryDomain || '').toLowerCase();
+      return aDom && (sLower === aDom || sLower.endsWith(`.${aDom}`));
+    });
+    if (matchedAccount?.primaryDomain) {
+      return matchedAccount.primaryDomain;
+    }
+
+    // 3. If selectedDomain matches a known primary domain directly in serverDomains
+    const directPrimary = serverDomains.find(
+      d => (d.type === 'primary' || d.type === 'addon') && d.domain.toLowerCase() === sLower
+    );
+    if (directPrimary) return directPrimary.domain;
+
+    // 4. If selectedDomain is a subdomain, check which server primary domain is its parent
+    const parentPrimary = serverDomains.find(
+      d => (d.type === 'primary' || d.type === 'addon') && sLower.endsWith(`.${d.domain.toLowerCase()}`)
+    );
+    if (parentPrimary) return parentPrimary.domain;
+
+    // 5. Extract parent domain from apex hostname (e.g. siakad-madrasah.denbaguse.my.id -> denbaguse.my.id)
+    const hostParts = sLower.split('.');
+    if (hostParts.length >= 3) {
+      if (['my.id', 'biz.id', 'co.id', 'sch.id', 'or.id', 'ac.id', 'go.id'].some(tld => sLower.endsWith(`.${tld}`))) {
+        if (hostParts.length >= 4) {
+          return hostParts.slice(hostParts.length - 3).join('.');
+        }
+      } else {
+        return hostParts.slice(hostParts.length - 2).join('.');
+      }
+    }
+
+    // 6. Check database domains
+    const dbDoms = typeof db?.getDomains === 'function' ? db.getDomains() : [];
+    const dbParent = dbDoms.find(
+      d => d.type === 'primary' && sLower.endsWith(`.${d.domain.toLowerCase()}`)
+    );
+    if (dbParent) return dbParent.domain;
+
+    // 7. Check if active account matches
+    if (account?.primaryDomain && (sLower === account.primaryDomain.toLowerCase() || sLower.endsWith(`.${account.primaryDomain.toLowerCase()}`))) {
+      return account.primaryDomain;
+    }
+
+    if (account?.primaryDomain) return account.primaryDomain;
+
+    // 8. Fallback
+    const firstPrimary = serverDomains.find(d => d.type === 'primary');
+    return firstPrimary?.domain || 'denbaguse.my.id';
+  }, [selectedDomain, serverDomains, account?.primaryDomain]);
+
+  const primaryDomains = useMemo(() => {
+    const owningLower = owningPrimaryDomain.toLowerCase();
+    const list: ServerDomainItem[] = [];
+
+    // Always ensure owningPrimaryDomain is present
+    const matchedDirect = serverDomains.find(d => d.domain.toLowerCase() === owningLower);
+    if (matchedDirect) {
+      list.push(matchedDirect);
+    } else {
+      list.push({
+        id: `dom-prim-${owningLower}`,
+        domain: owningPrimaryDomain,
+        type: 'primary' as const,
+        documentRoot: '/public_html',
+        accountId: account?.id || (owningLower === 'denbaguse.my.id' ? 'acc-denbaguse-01' : 'acc-rdm-01'),
+        username: account?.username || (owningLower === 'denbaguse.my.id' ? 'denbaguse' : 'karsacloud'),
+        phpVersion: '8.2',
+        filesCount: 0,
+        totalSizeBytes: 0,
+        formattedSize: '0 B',
+      });
+    }
+
+    // Add other primary domains from serverDomains
+    for (const d of serverDomains) {
+      if ((d.type === 'primary' || d.type === 'addon') && !list.some(item => item.domain.toLowerCase() === d.domain.toLowerCase())) {
+        list.push(d);
+      }
+    }
+
+    // Add all hosting accounts from db
+    const allAccounts = typeof db?.getHostingAccounts === 'function' ? db.getHostingAccounts() : [];
+    for (const a of allAccounts) {
+      if (!list.some(item => item.domain.toLowerCase() === a.primaryDomain.toLowerCase())) {
+        list.push({
+          id: a.id,
+          domain: a.primaryDomain,
+          type: 'primary' as const,
+          documentRoot: a.documentRoot || '/public_html',
+          accountId: a.id,
+          username: a.username,
+          phpVersion: a.phpVersion || '8.2',
+          filesCount: 0,
+          totalSizeBytes: 0,
+          formattedSize: '0 B',
+        });
+      }
+    }
+
     return list;
-  }, [serverDomains, account?.primaryDomain]);
+  }, [serverDomains, owningPrimaryDomain, account]);
 
   const subdomains = useMemo(() => {
-    const primaryNames = new Set(primaryDomains.map((p: ServerDomainItem) => p.domain.toLowerCase()));
-    const subs = serverDomains.filter((d: ServerDomainItem) =>
-      !primaryNames.has(d.domain.toLowerCase()) || d.type === 'subdomain' || d.type === 'addon'
-    );
+    const owningLower = owningPrimaryDomain.toLowerCase();
 
-    // Merge any subdomains from db for this account that might not be in serverDomains yet
-    if (account?.id) {
-      const dbSubs = db.getDomains(account.id).filter(
-        d => d.type === 'subdomain' || d.domain.toLowerCase() !== (account.primaryDomain || '').toLowerCase()
-      );
-      for (const d of dbSubs) {
-        if (!subs.some(s => s.domain.toLowerCase() === d.domain.toLowerCase())) {
-          subs.push({
-            id: d.id,
-            domain: d.domain,
-            type: 'subdomain',
-            documentRoot: d.documentRoot || `/public_html/${d.domain.split('.')[0]}`,
-            accountId: account.id,
-            username: account.username || 'client',
-            phpVersion: d.phpVersion || '8.2',
-            filesCount: 0,
-            totalSizeBytes: 0,
-            formattedSize: '0 B',
-          });
-        }
+    // Subdomains that belong to this owningPrimaryDomain
+    const subs = serverDomains.filter((d: ServerDomainItem) => {
+      const dLower = d.domain.toLowerCase();
+      if (dLower === owningLower) return false;
+      return d.type === 'subdomain' || dLower.endsWith(`.${owningLower}`);
+    });
+
+    // Merge any subdomains from db for this primary domain
+    const dbSubs = typeof db?.getDomains === 'function' ? db.getDomains().filter(
+      d => (d.type === 'subdomain' || d.domain.toLowerCase().endsWith(`.${owningLower}`)) &&
+           d.domain.toLowerCase() !== owningLower &&
+           d.domain.toLowerCase().endsWith(`.${owningLower}`)
+    ) : [];
+    for (const d of dbSubs) {
+      if (!subs.some(s => s.domain.toLowerCase() === d.domain.toLowerCase())) {
+        subs.push({
+          id: d.id,
+          domain: d.domain,
+          type: 'subdomain',
+          documentRoot: d.documentRoot || `/public_html/${d.domain.split('.')[0]}`,
+          accountId: d.accountId,
+          username: account?.username || 'client',
+          phpVersion: d.phpVersion || '8.2',
+          filesCount: 0,
+          totalSizeBytes: 0,
+          formattedSize: '0 B',
+        });
       }
     }
 
     return subs;
-  }, [serverDomains, primaryDomains, account?.id, account?.primaryDomain, account?.username]);
+  }, [serverDomains, owningPrimaryDomain, account?.username]);
 
   const currentDomainObj = serverDomains.find(d => d.domain.toLowerCase() === selectedDomain.toLowerCase());
   const isPrimarySelected = useMemo(() => {
-    return primaryDomains.some((p: ServerDomainItem) => p.domain.toLowerCase() === selectedDomain.toLowerCase()) ||
-      currentDomainObj?.type === 'primary';
-  }, [primaryDomains, selectedDomain, currentDomainObj]);
+    return selectedDomain.toLowerCase() === owningPrimaryDomain.toLowerCase();
+  }, [selectedDomain, owningPrimaryDomain]);
   const isSubdomainSelected = !isPrimarySelected;
 
   const activePrimaryDomain = useMemo(() => {
-    if (isPrimarySelected) return selectedDomain;
-    const match = primaryDomains.find((p: ServerDomainItem) => p.domain.toLowerCase() === selectedDomain.toLowerCase());
-    return match?.domain || primaryDomains[0]?.domain || account?.primaryDomain || '';
-  }, [isPrimarySelected, selectedDomain, primaryDomains, account?.primaryDomain]);
+    return owningPrimaryDomain;
+  }, [owningPrimaryDomain]);
 
   const activeSubdomain = useMemo(() => {
     if (isSubdomainSelected) return selectedDomain;
@@ -1126,44 +1230,56 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                 </span>
               </div>
 
-              {primaryDomains.length <= 1 ? (
-                <div
-                  onClick={() => primaryDomains[0] && handleDomainChange(primaryDomains[0].domain)}
-                  className={`p-3 rounded-xl border cursor-pointer transition-all ${
+              {/* Primary Domain Status & Selector Card */}
+              <div
+                className={`p-3 rounded-xl border transition-all ${
+                  isPrimarySelected
+                    ? 'border-sky-400 bg-white dark:bg-slate-900 shadow-2xs'
+                    : 'border-slate-200 bg-white/80 dark:border-slate-700 dark:bg-slate-800/60'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Domain Induk Akun:
+                    </span>
+                    <span className="font-mono text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate block">
+                      {activePrimaryDomain}
+                    </span>
+                  </div>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold shrink-0 ${
                     isPrimarySelected
-                      ? 'border-sky-400 bg-white dark:bg-slate-900 shadow-2xs'
-                      : 'border-slate-200 bg-white/70 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800/60'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-xs font-extrabold text-slate-900 dark:text-white truncate">
-                      {primaryDomains[0]?.domain || account?.primaryDomain}
-                    </span>
-                    <span className="text-[10.5px] text-slate-500 font-mono shrink-0">
-                      {primaryDomains[0]?.formattedSize || '0 B'}
-                    </span>
-                  </div>
-                  <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400 font-mono">
-                    Direktori: <code className="text-sky-600 dark:text-sky-400 font-bold">{primaryDomains[0]?.documentRoot || '/public_html'}</code>
-                  </div>
+                      ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
+                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
+                  }`}>
+                    {isPrimarySelected ? 'SEDANG DIPILIH' : '🛡️ AMAN / TERPROTEKSI'}
+                  </span>
                 </div>
-              ) : (
-                <select
-                  value={activePrimaryDomain}
-                  onChange={e => e.target.value && handleDomainChange(e.target.value)}
-                  className={`w-full rounded-xl border px-3 py-2 text-xs font-bold focus:ring-2 font-mono cursor-pointer ${
-                    isPrimarySelected
-                      ? 'border-sky-400 bg-white text-slate-900 focus:border-sky-500 focus:ring-sky-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
-                      : 'border-slate-300 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300'
-                  }`}
-                >
-                  {primaryDomains.map((d: ServerDomainItem) => (
-                    <option key={d.id} value={d.domain}>
-                      {d.domain} ({d.documentRoot}) — {d.formattedSize || '0 B'}
-                    </option>
-                  ))}
-                </select>
-              )}
+
+                <div className="mt-2 text-[11px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between">
+                  <span>Direktori Root: <code className="text-sky-600 dark:text-sky-400 font-bold">/public_html</code></span>
+                  <span>{currentDomainObj?.formattedSize || primaryDomains.find(p => p.domain === activePrimaryDomain)?.formattedSize || '0 B'}</span>
+                </div>
+
+                {primaryDomains.length > 1 && (
+                  <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/60">
+                    <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">
+                      Pilihan Domain Utama Tersedia:
+                    </label>
+                    <select
+                      value={activePrimaryDomain}
+                      onChange={e => e.target.value && handleDomainChange(e.target.value)}
+                      className="w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-mono font-bold text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-white cursor-pointer"
+                    >
+                      {primaryDomains.map((d: ServerDomainItem) => (
+                        <option key={d.id} value={d.domain}>
+                          {d.domain} ({d.documentRoot})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="mt-3 pt-2.5 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2">
@@ -1312,11 +1428,11 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
           <div className="text-[11px] font-bold shrink-0">
             {isPrimarySelected ? (
               <span className="text-sky-800 bg-sky-200/70 px-2 py-0.5 rounded">
-                Lingkup: Domain Utama (/public_html)
+                Lingkup: Direktori Root Domain Utama (/public_html)
               </span>
             ) : (
-              <span className="text-amber-900 bg-amber-200/70 px-2 py-0.5 rounded">
-                ✓ Proteksi Terisolasi: Khusus Direktori Subdomain (Aman dari Penimpaan Root)
+              <span className="text-emerald-900 bg-emerald-100 border border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800 px-2.5 py-0.5 rounded">
+                ✓ Jaminan Terisolasi: Berkas restore hanya masuk ke folder subdomain ini (100% aman &amp; tidak akan tertukar direktori)
               </span>
             )}
           </div>

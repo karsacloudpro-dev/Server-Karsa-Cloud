@@ -207,7 +207,7 @@
       "domain": "denbaguse.my.id",
       "username": "denbaguse",
       "customerId": "usr-reseller-denbaguse",
-      "customerName": "Den Baguse",
+      "customerName": "Jaenal Maskun (Website Pribadi & Portofolio)",
       "customerEmail": "admin@denbaguse.my.id",
       "serverId": "srv-sg-01",
       "serverName": "SG-Edge-01 (Singapore)",
@@ -6204,7 +6204,7 @@
     }
   ],
   "deletedIds": [],
-  "stateUpdatedAt": 1791338468813,
+  "stateUpdatedAt": 1791340153301,
   "letterheadConfig": {
     "headerTitle": "KARSA CLOUD PRO",
     "headerSubtitle": "Layanan Enterprise Cloud Hosting, Domain, Virtual Server (VPS) & Infrastruktur Digital",

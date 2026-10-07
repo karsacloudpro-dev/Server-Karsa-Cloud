@@ -265,10 +265,10 @@ export const TopBar: React.FC<TopBarProps> = ({
             <button
               onClick={onOpenLanding}
               title="Portal Utama Karsa Cloud (karsacloud.biz.id)"
-              className="flex items-center gap-1.5 rounded-xl border border-sky-300/80 bg-sky-50 dark:bg-sky-950/60 dark:border-sky-700/60 px-2.5 py-1.5 text-xs font-bold text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors shadow-2xs cursor-pointer"
+              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-sky-300/80 bg-sky-50 dark:bg-sky-950/60 dark:border-sky-700/60 px-2.5 py-1.5 text-xs font-bold text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors shadow-2xs cursor-pointer"
             >
               <Globe className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
-              <span className="hidden sm:inline">Portal Utama</span>
+              <span>Portal Utama</span>
             </button>
           )}
           {/* Git Commit Status Button: KHUSUS DESKTOP (hidden di Android/Mobile agar tidak menutupi judul header) */}
@@ -411,6 +411,26 @@ export const TopBar: React.FC<TopBarProps> = ({
                 )}
 
                 <div className="mt-2 border-t border-slate-100 pt-2 dark:border-slate-800 space-y-1">
+                  {onOpenLanding && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowUserDropdown(false);
+                        onOpenLanding();
+                      }}
+                      className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs text-sky-800 bg-sky-50/80 hover:bg-sky-100 transition-colors cursor-pointer border border-sky-200/80 dark:bg-sky-950/40 dark:border-sky-800/60 dark:text-sky-300"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Globe className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+                        <div>
+                          <div className="font-bold text-slate-900 dark:text-white">Portal Utama (Landing Page)</div>
+                          <div className="text-[10px] text-sky-600 dark:text-sky-400 font-mono">karsacloud.biz.id</div>
+                        </div>
+                      </div>
+                      <ChevronRight className="h-3.5 w-3.5 text-sky-500" />
+                    </button>
+                  )}
+
                   {/* Git Commit Status Button for Mobile / Android */}
                   <button
                     type="button"

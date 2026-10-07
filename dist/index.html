@@ -20,8 +20,8 @@
     <meta name="apple-mobile-web-app-title" content="KarsaCloudPRO" />
     <meta name="application-name" content="KarsaCloudPRO" />
     <meta name="theme-color" content="#005dbd" />
-    <script type="module" crossorigin src="/assets/index-BbnrK03G.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C8KzhtPT.css">
+    <script type="module" crossorigin src="/assets/index-BYldQI4U.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-YSBGNdZL.css">
   </head>
   <body>
     <div id="root">
@@ -60,6 +60,8 @@
                   }
                   if (a.id === 'acc-rdm-01') {
                     if (!a.customerName || a.customerName === 'Karsa Cloud Root System' || a.customerName === 'cloudpro') a.customerName = 'Jaenal Maskun';
+                  } else if (a.customerName === 'Jaenal Maskun') {
+                    a.customerName = (a.primaryDomain === 'denbaguse.my.id') ? 'Den Baguse' : 'Pelanggan Hosting cPanel';
                   }
                   clean.push(a);
                 }
