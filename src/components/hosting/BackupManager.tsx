@@ -1731,6 +1731,57 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
               </p>
             </div>
 
+            {/* Target Chamber Indicator Banner (Anti Salah Kamar) */}
+            <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${
+              isPrimarySelected
+                ? 'border-sky-300 bg-sky-50/70 dark:border-sky-800 dark:bg-sky-950/40'
+                : 'border-amber-300 bg-amber-50/70 dark:border-amber-800 dark:bg-amber-950/40'
+            }`}>
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${isPrimarySelected ? 'bg-sky-600 text-white' : 'bg-amber-600 text-white'}`}>
+                  {isPrimarySelected ? <Globe className="h-5 w-5" /> : <Layers className="h-5 w-5" />}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                      {isPrimarySelected ? 'Kamar Restorasi: DOMAIN UTAMA' : 'Kamar Restorasi: SUB DOMAIN KHUSUS'}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                      isPrimarySelected ? 'bg-sky-200 text-sky-900 dark:bg-sky-900 dark:text-sky-200' : 'bg-amber-200 text-amber-900 dark:bg-amber-900 dark:text-amber-200'
+                    }`}>
+                      {isPrimarySelected ? 'ROOT /public_html' : 'ISOLASI TERPISAH (ANTI SALAH KAMAR)'}
+                    </span>
+                  </div>
+                  <div className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                    Target Domain: <strong className="font-mono text-slate-900 dark:text-white">{selectedDomain}</strong> &bull; Folder Tujuan:{' '}
+                    <code className="font-bold text-sky-700 dark:text-sky-300 font-mono">{selectedDocRoot}</code>
+                  </div>
+                </div>
+              </div>
+
+              {subdomains.length > 0 && (
+                <div className="flex items-center gap-2 text-xs shrink-0">
+                  <span className="text-slate-500 text-[11px]">Pindah Kamar:</span>
+                  <select
+                    value={selectedDomain}
+                    onChange={e => handleDomainChange(e.target.value)}
+                    className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-mono font-bold text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-white cursor-pointer"
+                  >
+                    <optgroup label="-- Domain Utama --">
+                      {primaryDomains.map(d => (
+                        <option key={d.id} value={d.domain}>{d.domain} ({d.documentRoot})</option>
+                      ))}
+                    </optgroup>
+                    <optgroup label="-- Kolom Khusus Sub Domain --">
+                      {subdomains.map(d => (
+                        <option key={d.id} value={d.domain}>📍 {d.domain} ({d.documentRoot})</option>
+                      ))}
+                    </optgroup>
+                  </select>
+                </div>
+              )}
+            </div>
+
             {/* Restore Source Selector */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <button

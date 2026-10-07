@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   FolderOpen,
   FileText,
@@ -266,6 +266,12 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
     [sortedTargets, currentPath, allDomainTargets]
   );
 
+  const isKarsacloudMain = account.id === 'acc-rdm-01' || account.primaryDomain === 'karsacloud.biz.id';
+  const knownDenbagusePrefixes = useMemo(() => new Set([
+    'siakad-madrasah', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan',
+    'simpatika', 'emis', 'absensi-gtk', 'adm-madrasah', 'kartu-pelajar', 'modul-ajar', 'panel'
+  ]), []);
+
   // Filter items in current directory (with deduplication by clean path)
   const seenItemPaths = new Set<string>();
   const currentItems = allFiles.filter(f => {
@@ -276,6 +282,16 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
     const key = fPath.toLowerCase();
     if (seenItemPaths.has(key)) return false;
     if (deletedPathsBlacklistRef.current.has(key)) return false;
+
+    // Subdomains belonging to denbaguse must NEVER appear in the server main domain's File Manager!
+    if (isKarsacloudMain) {
+      const topSegment = fPath.toLowerCase().replace(/^\/public_html\//, '').split('/')[0];
+      const itemNameLower = f.name.toLowerCase();
+      if (knownDenbagusePrefixes.has(topSegment) || knownDenbagusePrefixes.has(itemNameLower)) {
+        return false;
+      }
+    }
+
     seenItemPaths.add(key);
     return true;
   });
@@ -293,6 +309,13 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
           // Never re-import a file that the user intentionally deleted!
           if (deletedPathsBlacklistRef.current.has(normKey)) {
             return;
+          }
+          if (isKarsacloudMain) {
+            const topSegment = normKey.replace(/^\/public_html\//, '').split('/')[0];
+            const itemNameLower = (f.name || '').toLowerCase();
+            if (knownDenbagusePrefixes.has(topSegment) || knownDenbagusePrefixes.has(itemNameLower)) {
+              return;
+            }
           }
           batchToSave.push({
             id: f.id || `vf-disk-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,

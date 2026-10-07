@@ -1433,7 +1433,44 @@ class StorageService {
   // --- Virtual Files ---
   public getVirtualFiles(accountId: string): VirtualFile[] {
     let changed = false;
-    const files = this.state.virtualFiles.filter(f => f.accountId === accountId);
+    const isKarsacloudMain = accountId === 'acc-rdm-01';
+    const knownDenbagusePrefixes = new Set([
+      'siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar',
+      'modul-ajar', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan',
+      'simpatika', 'emis', 'panel'
+    ]);
+
+    // Purge any accidental denbaguse subdomain files belonging to acc-rdm-01 from state
+    if (isKarsacloudMain && Array.isArray(this.state.virtualFiles)) {
+      const beforeLen = this.state.virtualFiles.length;
+      this.state.virtualFiles = this.state.virtualFiles.filter(f => {
+        if (f.accountId === 'acc-rdm-01') {
+          const pNorm = (f.path || '').toLowerCase().replace(/^\/public_html\//, '');
+          const topFolder = pNorm.split('/')[0];
+          const lowerName = (f.name || '').toLowerCase();
+          if (knownDenbagusePrefixes.has(topFolder) || knownDenbagusePrefixes.has(lowerName)) {
+            return false;
+          }
+        }
+        return true;
+      });
+      if (this.state.virtualFiles.length !== beforeLen) {
+        changed = true;
+      }
+    }
+
+    const files = this.state.virtualFiles.filter(f => {
+      if (f.accountId !== accountId) return false;
+      if (isKarsacloudMain) {
+        const pNorm = (f.path || '').toLowerCase().replace(/^\/public_html\//, '');
+        const topFolder = pNorm.split('/')[0];
+        const lowerName = (f.name || '').toLowerCase();
+        if (knownDenbagusePrefixes.has(topFolder) || knownDenbagusePrefixes.has(lowerName)) {
+          return false;
+        }
+      }
+      return true;
+    });
     for (const f of files) {
       if (
         f.type === 'file' &&

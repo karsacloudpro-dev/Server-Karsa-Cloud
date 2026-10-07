@@ -4309,10 +4309,24 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
     }
 
     const scannedFiles: any[] = [];
+    const isServerMainAccount = accountId === 'acc-rdm-01';
+    const knownClientSubdirs = new Set([
+      'siakad-madrasah', 'adm-madrasah', 'absensi-gtk', 'kartu-pelajar',
+      'modul-ajar', 'rdm', 'cbt', 'elearning', 'ppdb', 'perpustakaan',
+      'simpatika', 'emis', 'panel'
+    ]);
+
     try {
       const items = fs.readdirSync(foundBaseDir);
       for (const item of items) {
         if (item === '.' || item === '..' || item === '.git') continue;
+        const itemNameLower = item.toLowerCase();
+        // If scanning for server main domain or /public_html, exclude all client/denbaguse subdomains!
+        if (isServerMainAccount || cleanDir === '/public_html') {
+          if (knownClientSubdirs.has(itemNameLower) || subRoots.has(`/public_html/${itemNameLower}`)) {
+            continue;
+          }
+        }
         const fullItemPath = path.join(foundBaseDir, item);
         const stat = fs.statSync(fullItemPath);
         const isDir = stat.isDirectory();
@@ -4339,6 +4353,12 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
     const filtered = current.filter(f => {
       const pNorm = normalizePath(f.path).toLowerCase();
       const parent = pNorm.substring(0, pNorm.lastIndexOf('/')) || '/public_html';
+      if (isServerMainAccount) {
+        const topFolder = pNorm.replace(/^\/public_html\//, '').split('/')[0];
+        if (knownClientSubdirs.has(topFolder) || knownClientSubdirs.has(f.name.toLowerCase())) {
+          return false;
+        }
+      }
       return parent !== cleanDir.toLowerCase();
     });
     vhostStore.filesByAccount[accountId] = [...filtered, ...scannedFiles];
