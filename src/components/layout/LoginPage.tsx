@@ -442,51 +442,115 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-center items-center p-3 sm:p-6 lg:p-10 relative overflow-hidden">
-      {/* Subtle Executive Architectural Lighting & Grid */}
+    <div className="min-h-screen bg-gradient-to-b from-[#f2f7fc] via-[#f8fbff] to-[#eaf2fb] text-slate-800 flex flex-col justify-center items-center p-3 sm:p-6 lg:p-10 relative overflow-hidden font-sans selection:bg-sky-500 selection:text-white">
+      {/* Modern High-End Cloud Ambient Lighting & Soft Mesh */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-20"
+        className="pointer-events-none absolute inset-0 opacity-40 select-none"
         style={{
           backgroundImage:
-            'radial-gradient(rgba(148, 163, 184, 0.22) 1px, transparent 1px)',
+            'radial-gradient(rgba(14, 165, 233, 0.18) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
         }}
       />
-      <div className="pointer-events-none absolute -top-40 left-1/4 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 right-1/4 h-96 w-96 rounded-full bg-sky-600/10 blur-3xl" />
+      <div className="pointer-events-none absolute -top-40 left-1/4 h-[520px] w-[520px] rounded-full bg-gradient-to-br from-sky-300/35 via-blue-200/20 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 right-1/4 h-[520px] w-[520px] rounded-full bg-gradient-to-tr from-sky-200/40 via-indigo-200/20 to-transparent blur-3xl" />
+
+      {/* ========================================================================= */}
+      {/* ARTISTIC CLOUD WATERMARK (WATERMARK AWAN YANG INDAH & MODERN BERKELAS)    */}
+      {/* ========================================================================= */}
+      <div className="pointer-events-none select-none absolute inset-0 -z-0 flex items-center justify-center overflow-hidden opacity-60">
+        <svg
+          className="w-[980px] max-w-[140%] h-[580px] text-sky-400"
+          viewBox="0 0 900 520"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="loginCloudWatermark1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.16" />
+              <stop offset="50%" stopColor="#60a5fa" stopOpacity="0.09" />
+              <stop offset="100%" stopColor="#c7d2fe" stopOpacity="0.02" />
+            </linearGradient>
+            <linearGradient id="loginCloudWatermark2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#0284c7" stopOpacity="0.14" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.03" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 280 430 C 180 430 90 365 90 265 C 90 170 160 98 255 92 C 305 -2 438 -8 520 52 C 575 25 650 36 695 92 C 785 108 840 186 830 274 C 825 362 748 430 655 430 Z"
+            fill="url(#loginCloudWatermark1)"
+          />
+          <path
+            d="M 330 400 C 265 400 215 345 226 279 C 237 218 286 179 352 179 C 390 118 478 113 538 157 C 582 140 637 157 665 201 C 714 223 736 283 714 338 C 692 388 637 400 571 400 Z"
+            fill="url(#loginCloudWatermark2)"
+          />
+          <path
+            d="M 240 415 C 160 415 115 354 121 277 C 126 205 181 139 258 133 C 297 51 412 40 489 89 C 544 67 615 78 654 122 C 731 138 786 204 775 281 C 764 353 698 415 621 415"
+            stroke="#0284c7"
+            strokeWidth="2"
+            strokeOpacity="0.22"
+            strokeDasharray="10 8"
+            fill="none"
+          />
+          <path
+            d="M 160 310 C 215 299 270 321 325 304 C 380 288 435 255 501 260 C 567 266 622 299 688 288 C 743 277 787 244 831 233"
+            stroke="#38bdf8"
+            strokeWidth="2.2"
+            strokeOpacity="0.32"
+            strokeLinecap="round"
+            fill="none"
+          />
+        </svg>
+      </div>
 
       {/* ================= ICONIC BRAND HEADER (OUTSIDE THE FRAME) ================= */}
       <div className="w-full max-w-md sm:max-w-xl lg:max-w-5xl relative z-10 mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 px-1 sm:px-2">
         <CloudProLogo
           variant="full"
           size="lg"
-          cloudTextColor="text-white"
+          cloudTextColor="text-slate-900"
           showSubtitle={true}
           subtitleText="KARSA CLOUD PRO INFRASTRUCTURE & PANEL"
           noTruncate={true}
         />
 
         {/* Live SLA & Global Cluster Status Pill */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 font-mono text-[10px] sm:text-[11px] font-bold text-emerald-300 shadow-lg shadow-emerald-950/20 backdrop-blur-md shrink-0">
-          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-white/90 px-3.5 py-1.5 font-mono text-[10px] sm:text-[11px] font-bold text-emerald-700 shadow-md shadow-emerald-950/5 backdrop-blur-md shrink-0">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
           <span>SLA 99.99% HIGH AVAILABILITY</span>
         </div>
       </div>
 
-      <div className="exec-dark-ring w-full max-w-md sm:max-w-xl lg:max-w-5xl relative z-10 grid grid-cols-1 lg:grid-cols-12 rounded-2xl sm:rounded-3xl backdrop-blur-2xl shadow-2xl shadow-black/60 overflow-hidden">
+      <div className="w-full max-w-md sm:max-w-xl lg:max-w-5xl relative z-10 grid grid-cols-1 lg:grid-cols-12 rounded-3xl bg-white/90 backdrop-blur-2xl border border-sky-100/90 shadow-2xl shadow-sky-950/10 overflow-hidden">
         {/* ================= LEFT COLUMN: EXECUTIVE INFRASTRUCTURE SHOWCASE (Desktop / Large Tablet Only) ================= */}
-        <div className="hidden lg:flex lg:col-span-7 flex-col justify-between p-8 lg:p-10 border-r border-slate-800/80 bg-gradient-to-b from-slate-900/90 via-slate-950/80 to-slate-950">
-          <div className="space-y-6">
+        <div className="hidden lg:flex lg:col-span-7 flex-col justify-between p-8 lg:p-10 border-r border-sky-900/40 bg-gradient-to-br from-[#0c1e36] via-[#102a4c] to-[#0a192f] text-white relative overflow-hidden">
+          {/* Subtle Internal Cloud Watermark Accent */}
+          <div className="pointer-events-none absolute -bottom-16 -right-16 h-72 w-72 rounded-full bg-sky-500/10 blur-3xl" />
+          <svg
+            className="pointer-events-none absolute bottom-0 right-0 w-72 h-52 text-sky-400/15"
+            viewBox="0 0 260 180"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M 75 145 C 45 145 20 125 20 95 C 20 67 42 45 70 43 C 85 15 125 12 150 30 C 167 21 190 25 203 42 C 230 47 245 71 242 98 C 240 125 217 145 190 145 Z"
+              fill="#38bdf8"
+              fillOpacity="0.08"
+            />
+          </svg>
+
+          <div className="space-y-6 relative z-10">
             {/* Executive Value Proposition */}
             <div className="space-y-3 pt-1">
-              <div className="inline-flex items-center gap-2 rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-widest text-sky-300">
-                <ShieldCheck className="h-4 w-4 text-sky-400" />
+              <div className="inline-flex items-center gap-2 rounded-lg border border-sky-400/30 bg-sky-500/15 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-widest text-sky-300">
+                <ShieldCheck className="h-4 w-4 text-sky-300" />
                 <span>Multi-Tier Cloud &amp; Bare-Metal Control Plane</span>
               </div>
               <h1 className="text-xl sm:text-2xl lg:text-[26px] font-extrabold tracking-tight text-white leading-snug">
                 Manajemen Server, KVM Hypervisor, &amp; Web Hosting Terpadu Karsa Cloud PRO.
               </h1>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-xl">
+              <p className="text-xs sm:text-sm text-sky-100/80 leading-relaxed max-w-xl">
                 Dirancang dengan arsitektur isolasi multi-tenant (Root Admin, WHM Reseller, dan
                 cPanel Klien), integrasi penuh Cloudflare Wildcard Tunnel, IPv6 DDNS, dan penyimpanan
                 NVMe berkecepatan tinggi.
@@ -495,45 +559,45 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
             {/* 3 Architectural Pillars */}
             <div className="grid grid-cols-1 gap-3 pt-1">
-              <div className="flex items-start gap-3.5 rounded-2xl border border-slate-800/90 bg-slate-900/60 p-3.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-700/80 bg-slate-800/80 text-sky-400">
+              <div className="flex items-start gap-3.5 rounded-2xl border border-sky-800/40 bg-white/[0.04] p-3.5 backdrop-blur-md hover:bg-white/[0.08] transition-colors">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-400/30 bg-sky-500/20 text-sky-300">
                   <Server className="h-4.5 w-4.5" />
                 </div>
                 <div>
                   <h3 className="text-xs font-bold text-white">
                     Cluster Server Nodes &amp; KVM Cloud VPS
                   </h3>
-                  <p className="mt-0.5 text-[11px] text-slate-400 leading-relaxed">
+                  <p className="mt-0.5 text-[11px] text-sky-100/70 leading-relaxed">
                     Pemantauan daemon systemd realtime, terminal SSH langsung, dan orkestrasi virtual
                     machine Linux.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3.5 rounded-2xl border border-slate-800/90 bg-slate-900/60 p-3.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-700/80 bg-slate-800/80 text-sky-400">
+              <div className="flex items-start gap-3.5 rounded-2xl border border-sky-800/40 bg-white/[0.04] p-3.5 backdrop-blur-md hover:bg-white/[0.08] transition-colors">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-400/30 bg-sky-500/20 text-sky-300">
                   <Network className="h-4.5 w-4.5" />
                 </div>
                 <div>
                   <h3 className="text-xs font-bold text-white">
                     Wildcard Cloudflare Tunnel &amp; Tailscale Mesh VPN
                   </h3>
-                  <p className="mt-0.5 text-[11px] text-slate-400 leading-relaxed">
+                  <p className="mt-0.5 text-[11px] text-sky-100/70 leading-relaxed">
                     Routing domain/subdomain otomatis tanpa port-forwarding serta sinkronisasi
                     pembaruan GitHub 1-klik.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3.5 rounded-2xl border border-slate-800/90 bg-slate-900/60 p-3.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-700/80 bg-slate-800/80 text-sky-400">
+              <div className="flex items-start gap-3.5 rounded-2xl border border-sky-800/40 bg-white/[0.04] p-3.5 backdrop-blur-md hover:bg-white/[0.08] transition-colors">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-400/30 bg-sky-500/20 text-sky-300">
                   <Layers className="h-4.5 w-4.5" />
                 </div>
                 <div>
                   <h3 className="text-xs font-bold text-white">
                     Multi-Tenant WHM Reseller &amp; cPanel Web Suite
                   </h3>
-                  <p className="mt-0.5 text-[11px] text-slate-400 leading-relaxed">
+                  <p className="mt-0.5 text-[11px] text-sky-100/70 leading-relaxed">
                     File Manager, Auto-Cloner, MySQL/phpMyAdmin, AutoSSL Let&apos;s Encrypt, dan
                     Billing Kwitansi resmi.
                   </p>
@@ -543,14 +607,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           </div>
 
           {/* Bottom Cluster Telemetry Strip */}
-          <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-400">
+          <div className="mt-6 pt-4 border-t border-sky-900/60 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-sky-200/70 relative z-10">
             <span>Gateway: ZeroSSL TLS 1.3 &bull; HTTP/3 QUIC</span>
-            <span className="text-sky-400 font-semibold">Karsa Cloud PRO v2.6</span>
+            <span className="text-sky-300 font-semibold">Karsa Cloud PRO v2.6</span>
           </div>
         </div>
 
         {/* ================= RIGHT COLUMN: AUTHENTICATION VAULT (Streamlined for Mobile/Android & Full on Desktop) ================= */}
-        <div className="lg:col-span-5 flex flex-col justify-between p-4 sm:p-7 lg:p-10 bg-slate-900/95">
+        <div className="lg:col-span-5 flex flex-col justify-between p-4 sm:p-7 lg:p-10 bg-white/95 backdrop-blur-2xl">
           <div>
             {is2FAPending ? (
               /* ================= 2FA AUTHENTICATOR CHALLENGE SCREEN ================= */
@@ -559,40 +623,40 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <button
                     type="button"
                     onClick={handleCancel2FA}
-                    className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
                   >
                     <ChevronLeft className="h-4 w-4" />
                     <span>Kembali ke Login</span>
                   </button>
-                  <span className="rounded-md border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1">
+                  <span className="rounded-md border border-amber-300 bg-amber-50 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-amber-800 flex items-center gap-1 shadow-2xs">
                     <ShieldCheck className="h-3 w-3" />
                     2FA WAJIB
                   </span>
                 </div>
 
                 <div className="text-center pt-1 space-y-1.5">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-sky-500/30 bg-sky-500/10 text-sky-400 shadow-lg shadow-sky-500/10">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-sky-200 bg-sky-50 text-sky-600 shadow-lg shadow-sky-500/10">
                     <Smartphone className="h-7 w-7" />
                   </div>
-                  <h2 className="text-base sm:text-lg font-extrabold text-white tracking-tight">
+                  <h2 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">
                     Verifikasi Google Authenticator
                   </h2>
-                  <p className="text-xs text-slate-400 leading-relaxed max-w-xs mx-auto">
+                  <p className="text-xs text-slate-600 leading-relaxed max-w-xs mx-auto">
                     Masukkan 6 digit kode OTP dari ponsel Anda untuk akun{' '}
-                    <strong className="text-sky-300 font-mono">{pendingUser}</strong>
+                    <strong className="text-sky-700 font-mono">{pendingUser}</strong>
                   </p>
                 </div>
 
                 {totpError && (
-                  <div className="rounded-xl border border-rose-500/40 bg-rose-950/50 p-3 text-xs text-rose-200 flex items-start gap-2">
-                    <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                  <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-800 flex items-start gap-2 shadow-2xs">
+                    <AlertCircle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
                     <span className="leading-snug">{totpError}</span>
                   </div>
                 )}
 
                 <form onSubmit={handleVerify2FASubmit} className="space-y-4 pt-1">
                   <div>
-                    <label className="block text-center text-xs font-semibold text-slate-300 mb-2">
+                    <label className="block text-center text-xs font-semibold text-slate-700 mb-2">
                       6 Digit Kode Keamanan (OTP)
                     </label>
                     <div className="relative">
@@ -606,23 +670,23 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         placeholder="••••••"
                         value={totpCode}
                         onChange={e => handleTotpChange(e.target.value)}
-                        className="w-full rounded-2xl border-2 border-sky-500/40 bg-slate-950 px-4 py-3 text-center font-mono text-2xl font-black tracking-[0.4em] text-white placeholder:text-slate-700 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/20 focus:outline-hidden transition-all shadow-inner"
+                        className="w-full rounded-2xl border-2 border-sky-400 bg-sky-50/40 px-4 py-3 text-center font-mono text-2xl font-black tracking-[0.4em] text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/15 focus:outline-hidden transition-all shadow-inner"
                       />
                     </div>
                   </div>
 
                   {/* Live TOTP 30s Window Indicator */}
-                  <div className="flex items-center justify-between px-1 text-[11px] font-mono text-slate-400">
-                    <div className="flex items-center gap-1.5 text-sky-300">
+                  <div className="flex items-center justify-between px-1 text-[11px] font-mono text-slate-500">
+                    <div className="flex items-center gap-1.5 text-sky-700 font-medium">
                       <Timer className="h-3.5 w-3.5 animate-spin" />
                       <span>Siklus kode: {secondsRemaining} dtk</span>
                     </div>
-                    <span className="text-slate-500">Google Authenticator</span>
+                    <span className="text-slate-400">Google Authenticator</span>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-sky-600 hover:bg-sky-500 py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-sky-600/30 transition-all cursor-pointer active:scale-[0.99]"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-400 hover:via-sky-500 hover:to-blue-500 py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition-all cursor-pointer active:scale-[0.99]"
                   >
                     <KeyRound className="h-4 w-4" />
                     <span>Verifikasi &amp; Masuk Portal</span>
@@ -630,25 +694,25 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 </form>
 
                 {/* Emergency Recovery Rescue Code Helper */}
-                <div className="pt-2 border-t border-slate-800/80 text-center">
+                <div className="pt-2 border-t border-sky-100 text-center">
                   <button
                     type="button"
                     onClick={() => setShowEmergencyHelp(prev => !prev)}
-                    className="inline-flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
                   >
-                    <HelpCircle className="h-3.5 w-3.5 text-amber-400" />
+                    <HelpCircle className="h-3.5 w-3.5 text-amber-500" />
                     <span>Ponsel hilang / kendala OTP? Opsi Darurat</span>
                   </button>
 
                   {showEmergencyHelp && (
-                    <div className="mt-2.5 rounded-xl border border-amber-500/30 bg-amber-950/20 p-3 text-left text-[11px] text-amber-200 space-y-2">
-                      <div className="font-bold flex items-center gap-1 text-amber-300">
+                    <div className="mt-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3 text-left text-[11px] text-amber-900 space-y-2 shadow-2xs">
+                      <div className="font-bold flex items-center gap-1 text-amber-800">
                         <ShieldCheck className="h-3.5 w-3.5" />
                         <span>Master Emergency Rescue Token</span>
                       </div>
-                      <p className="text-slate-300 leading-relaxed">
+                      <p className="text-slate-700 leading-relaxed">
                         Jika waktu di ponsel Anda tidak sinkron, masukkan kode pemulihan darurat master:{' '}
-                        <code className="bg-black/50 px-1.5 py-0.5 rounded font-mono font-bold text-amber-300">
+                        <code className="bg-white px-1.5 py-0.5 rounded border border-amber-200 font-mono font-bold text-amber-800">
                           {EMERGENCY_RESCUE_CODE}
                         </code>{' '}
                         atau klik tombol login darurat di bawah ini:
@@ -662,7 +726,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                             login(pendingUser, pendingRole, true);
                           }, 100);
                         }}
-                        className="w-full py-2 px-3 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow"
+                        className="w-full py-2 px-3 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
                       >
                         <ShieldCheck className="h-3.5 w-3.5" />
                         <span>Masuk Sekarang Pakai Kode Darurat ({EMERGENCY_RESCUE_CODE})</span>
@@ -676,7 +740,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               <>
                 {/* Portal Mode Header Badge & Title */}
                 <div className="flex items-center justify-between mb-1.5">
-                  <h2 className="text-sm sm:text-base lg:text-lg font-extrabold text-white tracking-tight">
+                  <h2 className="text-sm sm:text-base lg:text-lg font-extrabold text-slate-900 tracking-tight">
                     {portalMode === 'server_admin'
                       ? 'Login Admin Server'
                       : authTab === 'register'
@@ -686,8 +750,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <span
                     className={`rounded-md border px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider ${
                       portalMode === 'server_admin'
-                        ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
-                        : 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
+                        ? 'border-sky-300 bg-sky-50 text-sky-800'
+                        : 'border-emerald-300 bg-emerald-50 text-emerald-800'
                     }`}
                   >
                     {portalMode === 'server_admin'
@@ -695,7 +759,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       : 'client.karsacloud.biz.id'}
                   </span>
                 </div>
-                <p className="text-[11px] sm:text-xs text-slate-400 mb-3">
+                <p className="text-[11px] sm:text-xs text-slate-600 mb-3">
                   {portalMode === 'server_admin'
                     ? 'Akses khusus Administrator Sistem. Masukkan kredensial Anda untuk mengelola infrastruktur cluster.'
                     : authTab === 'register'
@@ -704,8 +768,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 </p>
 
                 {/* Quick Portal Switcher Banner */}
-                <div className="mb-3.5 flex items-center justify-between p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-[10.5px]">
-                  <span className="text-slate-400">
+                <div className="mb-3.5 flex items-center justify-between p-2 rounded-xl bg-sky-50/70 border border-sky-200/70 text-[10.5px] shadow-2xs">
+                  <span className="text-slate-600">
                     {portalMode === 'server_admin'
                       ? 'Akses Klien atau Mitra Reseller?'
                       : 'Akses Administrator Server?'}
@@ -719,7 +783,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       setAuthTab('login');
                       setErrorMessage('');
                     }}
-                    className="font-semibold text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 cursor-pointer"
+                    className="font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <span>
                       {portalMode === 'server_admin'
@@ -732,7 +796,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                 {/* Client Mode Dual Tab: Masuk vs Registrasi */}
                 {portalMode === 'client_portal' && (
-                  <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-950/80 rounded-xl border border-slate-800 mb-3.5">
+                  <div className="grid grid-cols-2 gap-1.5 p-1 bg-sky-100/70 rounded-xl border border-sky-200/70 mb-3.5 shadow-2xs">
                     <button
                       type="button"
                       onClick={() => {
@@ -741,8 +805,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       }}
                       className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                         authTab === 'login'
-                          ? 'bg-sky-600 text-white shadow-xs'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'bg-white text-sky-950 shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900'
                       }`}
                     >
                       Masuk Akun
@@ -756,11 +820,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       className={`py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                         authTab === 'register'
                           ? 'bg-emerald-600 text-white shadow-xs font-black'
-                          : 'text-slate-400 hover:text-white'
+                          : 'text-slate-600 hover:text-slate-900'
                       }`}
                     >
                       <span>Registrasi Akun</span>
-                      <span className="rounded-full bg-emerald-400/20 text-emerald-300 text-[9px] px-1.5 py-0.2">
+                      <span className="rounded-full bg-emerald-400/20 text-emerald-100 text-[9px] px-1.5 py-0.2">
                         Instan
                       </span>
                     </button>
@@ -769,17 +833,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                 {/* Smart Device Auto-Fill Status Banner (Only for login tab) */}
                 {authTab === 'login' && isAutoFilledFromDevice && (
-                  <div className="mb-3 flex items-center justify-between gap-2 rounded-xl border border-sky-500/30 bg-sky-950/40 px-3 py-1.5 sm:py-2 text-[10.5px] sm:text-[11px] text-sky-200">
+                  <div className="mb-3 flex items-center justify-between gap-2 rounded-xl border border-sky-200 bg-sky-50/90 px-3 py-1.5 sm:py-2 text-[10.5px] sm:text-[11px] text-sky-800 shadow-2xs">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <Sparkles className="h-3.5 w-3.5 text-sky-400 shrink-0" />
-                      <span className="truncate">
+                      <Sparkles className="h-3.5 w-3.5 text-sky-600 shrink-0" />
+                      <span className="truncate font-medium">
                         Perangkat Terverifikasi &bull; Akses Cepat Aktif
                       </span>
                     </div>
                     <button
                       type="button"
                       onClick={handleClearDeviceMemory}
-                      className="inline-flex items-center gap-1 shrink-0 font-mono text-[9.5px] sm:text-[10px] font-semibold text-slate-400 hover:text-rose-300 transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1 shrink-0 font-mono text-[9.5px] sm:text-[10px] font-semibold text-slate-500 hover:text-rose-600 transition-colors cursor-pointer"
                       title="Hapus data sesi tersimpan"
                     >
                       <RotateCcw className="h-3 w-3" />
@@ -789,9 +853,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 )}
 
                 {errorMessage && (
-                  <div className="mb-3 rounded-xl border border-rose-500/40 bg-rose-950/50 p-2.5 sm:p-3 text-[11px] sm:text-xs text-rose-200 space-y-2">
+                  <div className="mb-3 rounded-xl border border-rose-200 bg-rose-50 p-2.5 sm:p-3 text-[11px] sm:text-xs text-rose-800 space-y-2 shadow-2xs">
                     <div className="flex items-start gap-2">
-                      <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                      <AlertCircle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
                       <span>{errorMessage}</span>
                     </div>
                     {errorMessage.includes('client.karsacloud.biz.id') && (
@@ -827,11 +891,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   /* ================= SELF-SERVICE CLIENT REGISTRATION FORM ================= */
                   <form onSubmit={handleRegisterSubmit} className="space-y-3">
                     <div>
-                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                      <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
                         Nama Lengkap Anda
                       </label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-600">
                           <UserIcon className="h-4 w-4" />
                         </div>
                         <input
@@ -840,17 +904,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           placeholder="Nama lengkap atau nama bisnis Anda..."
                           value={regName}
                           onChange={e => setRegName(e.target.value)}
-                          className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs sm:text-sm text-white placeholder:text-slate-600 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-hidden transition-all"
+                          className="w-full rounded-xl border border-sky-200/90 bg-white/90 pl-10 pr-3.5 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-hidden transition-all shadow-2xs"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                      <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
                         Alamat Email Aktif
                       </label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-600">
                           <Mail className="h-4 w-4" />
                         </div>
                         <input
@@ -859,18 +923,18 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           placeholder="contoh@gmail.com (untuk notifikasi invoice & login)"
                           value={regEmail}
                           onChange={e => setRegEmail(e.target.value)}
-                          className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs sm:text-sm text-white placeholder:text-slate-600 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-hidden transition-all"
+                          className="w-full rounded-xl border border-sky-200/90 bg-white/90 pl-10 pr-3.5 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-hidden transition-all shadow-2xs"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       <div>
-                        <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                        <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
                           No. WhatsApp Aktif
                         </label>
                         <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-600">
                             <Phone className="h-4 w-4" />
                           </div>
                           <input
@@ -878,17 +942,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                             placeholder="0812xxxxxxx"
                             value={regPhone}
                             onChange={e => setRegPhone(e.target.value)}
-                            className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs text-white placeholder:text-slate-600 focus:border-emerald-500 focus:outline-hidden"
+                            className="w-full rounded-xl border border-sky-200/90 bg-white/90 pl-10 pr-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-hidden shadow-2xs"
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                        <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
                           Kata Sandi Akun
                         </label>
                         <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-600">
                             <Lock className="h-4 w-4" />
                           </div>
                           <input
@@ -897,20 +961,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                             placeholder="Buat kata sandi..."
                             value={regPassword}
                             onChange={e => setRegPassword(e.target.value)}
-                            className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs text-white placeholder:text-slate-600 focus:border-emerald-500 focus:outline-hidden"
+                            className="w-full rounded-xl border border-sky-200/90 bg-white/90 pl-10 pr-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-hidden shadow-2xs"
                           />
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                      <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
                         Pilihan Paket Layanan Awal
                       </label>
                       <select
                         value={regPlanId}
                         onChange={e => setRegPlanId(e.target.value)}
-                        className="w-full rounded-xl border border-slate-800 bg-slate-950/90 px-3 py-2 text-xs text-white focus:border-emerald-500 focus:outline-hidden"
+                        className="w-full rounded-xl border border-sky-200/90 bg-white/90 px-3 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden shadow-2xs"
                       >
                         <option value="plan-starter">Cloud Starter NVMe (5GB) - Rp 29.000 / bln</option>
                         <option value="plan-pro">Cloud Business PRO (25GB) - Rp 75.000 / bln</option>
@@ -920,11 +984,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     </div>
 
                     <div>
-                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                      <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
                         Domain yang Ingin Digunakan (Opsional)
                       </label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-600">
                           <Globe className="h-4 w-4" />
                         </div>
                         <input
@@ -932,7 +996,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           placeholder="contoh: tokosaya.biz.id (kosongkan jika belum ada)"
                           value={regDomain}
                           onChange={e => setRegDomain(e.target.value)}
-                          className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs text-white placeholder:text-slate-600 focus:border-emerald-500 focus:outline-hidden"
+                          className="w-full rounded-xl border border-sky-200/90 bg-white/90 pl-10 pr-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-hidden shadow-2xs"
                         />
                       </div>
                     </div>
@@ -959,7 +1023,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       <button
                         type="button"
                         onClick={() => setAuthTab('login')}
-                        className="text-[11px] text-slate-400 hover:text-sky-400 cursor-pointer"
+                        className="text-[11px] text-slate-600 hover:text-sky-600 cursor-pointer"
                       >
                         Sudah memiliki akun? <strong>Masuk di sini</strong>
                       </button>
@@ -971,7 +1035,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 <form onSubmit={handleLoginSubmit} autoComplete="on" className="space-y-3 sm:space-y-3.5">
                   <div>
                     <div className="flex items-center justify-between mb-1">
-                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300">
+                      <label className="block text-[11px] sm:text-xs font-bold text-slate-700">
                         Username / Email Akun
                       </label>
                       <span className="font-mono text-[9px] sm:text-[10px] text-slate-500">
@@ -979,7 +1043,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       </span>
                     </div>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-600">
                         <UserIcon className="h-4 w-4" />
                       </div>
                       <input
@@ -992,17 +1056,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           setUsername(e.target.value);
                           if (errorMessage) setErrorMessage('');
                         }}
-                        className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-white placeholder:text-slate-600 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-hidden transition-all"
+                        className="w-full rounded-xl border border-sky-200/90 bg-white/90 pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-hidden transition-all shadow-2xs"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                    <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
                       Kata Sandi Keamanan
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-600">
                         <Lock className="h-4 w-4" />
                       </div>
                       <input
@@ -1015,12 +1079,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           setPassword(e.target.value);
                           if (errorMessage) setErrorMessage('');
                         }}
-                        className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-10 py-2.5 text-xs sm:text-sm text-white placeholder:text-slate-600 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-hidden transition-all"
+                        className="w-full rounded-xl border border-sky-200/90 bg-white/90 pl-10 pr-10 py-2.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-hidden transition-all shadow-2xs"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(prev => !prev)}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 cursor-pointer"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-700 cursor-pointer"
                         tabIndex={-1}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -1030,12 +1094,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                   {/* Device Auto-Fill Toggle */}
                   <div className="flex items-center justify-between pt-0.5">
-                    <label className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] text-slate-400 cursor-pointer select-none">
+                    <label className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] text-slate-600 cursor-pointer select-none">
                       <input
                         type="checkbox"
                         checked={rememberDevice}
                         onChange={e => setRememberDevice(e.target.checked)}
-                        className="h-3.5 w-3.5 rounded border-slate-700 bg-slate-950 text-sky-600 focus:ring-sky-500/30 cursor-pointer"
+                        className="h-3.5 w-3.5 rounded border-sky-300 bg-white text-sky-600 focus:ring-sky-500/30 cursor-pointer"
                       />
                       <span>Simpan &amp; isi otomatis di perangkat ini</span>
                     </label>
@@ -1043,7 +1107,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                   <button
                     type="submit"
-                    className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-sky-600 hover:bg-sky-500 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-sky-600/20 transition-all cursor-pointer active:scale-[0.99]"
+                    className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-400 hover:via-sky-500 hover:to-blue-500 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition-all cursor-pointer active:scale-[0.99]"
                   >
                     <span>
                       {portalMode === 'server_admin'
@@ -1057,9 +1121,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <button
                       type="button"
                       onClick={onBackToLanding}
-                      className="w-full mt-2.5 py-2 px-3 rounded-xl border border-slate-800 bg-slate-950/80 hover:bg-slate-900 text-slate-300 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full mt-2.5 py-2 px-3 rounded-xl border border-sky-200 bg-white hover:bg-sky-50 text-slate-700 hover:text-sky-900 text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
                     >
-                      <Globe className="h-3.5 w-3.5 text-sky-400" />
+                      <Globe className="h-3.5 w-3.5 text-sky-600" />
                       <span>Portal Utama (karsacloud.biz.id)</span>
                     </button>
                   )}
@@ -1071,14 +1135,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
           {/* Executive Security & Infrastructure Telemetry Footer */}
           <div className="mt-4 sm:mt-5 space-y-2 text-center">
-            <div className="rounded-xl border border-slate-800/90 bg-slate-950/70 p-2 sm:p-2.5 text-[10px] sm:text-[10.5px] text-slate-400 flex items-center justify-center gap-2">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+            <div className="rounded-xl border border-sky-100 bg-sky-50/70 p-2 sm:p-2.5 text-[10px] sm:text-[10.5px] text-slate-600 flex items-center justify-center gap-2 shadow-2xs">
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
               <span>Sesi login aman terenkripsi &bull; TLS 1.3 HTTP/3 &bull; Auto-Recall</span>
             </div>
 
             <div className="text-[10px] sm:text-[11px] text-slate-500">
               &copy; {new Date().getFullYear()}{' '}
-              <strong className="text-slate-300 font-semibold">Karsa Cloud PRO</strong>. Seluruh hak cipta dilindungi.
+              <strong className="text-slate-700 font-semibold">Karsa Cloud PRO</strong>. Seluruh hak cipta dilindungi.
             </div>
           </div>
         </div>
