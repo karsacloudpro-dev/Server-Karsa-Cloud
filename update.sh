@@ -213,14 +213,16 @@ echo "[OK] Konfigurasi Shell Ubuntu (~/.bashrc) & Daemon SSH (Anti-Disconnect) t
 
 echo "[1/3] Mengambil kode terbaru dari GitHub..."
 GITHUB_TOKEN="${GITHUB_TOKEN:-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}"
-DEFAULT_REPO="https://x-access-token:${GITHUB_TOKEN}@github.com/karsacloudpro-dev/Server-Karsa-Cloud.git"
+DEFAULT_REPO="https://karsacloudpro-dev:${GITHUB_TOKEN}@github.com/karsacloudpro-dev/Server-Karsa-Cloud.git"
 CURRENT_ORIGIN="$(git remote get-url origin 2>/dev/null || echo "")"
 
 if [ -n "$CURRENT_ORIGIN" ] && [[ "$CURRENT_ORIGIN" == *"github.com"* ]]; then
-  if [[ "$CURRENT_ORIGIN" != *"ghp_"* ]] && [[ "$CURRENT_ORIGIN" != *"x-access-token"* ]]; then
-    REPO_URL="$DEFAULT_REPO"
+  if [[ "$CURRENT_ORIGIN" == *"Server-Karsa-Cloud"* ]]; then
+    REPO_URL="https://karsacloudpro-dev:${GITHUB_TOKEN}@github.com/karsacloudpro-dev/Server-Karsa-Cloud.git"
+  elif [[ "$CURRENT_ORIGIN" == *"Karsa-Cloud"* ]]; then
+    REPO_URL="https://karsacloudpro-dev:${GITHUB_TOKEN}@github.com/karsacloudpro-dev/Karsa-Cloud.git"
   else
-    REPO_URL="$CURRENT_ORIGIN"
+    REPO_URL="$DEFAULT_REPO"
   fi
 else
   REPO_URL="$DEFAULT_REPO"
