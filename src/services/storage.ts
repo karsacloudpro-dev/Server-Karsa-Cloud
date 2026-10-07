@@ -485,11 +485,23 @@ class StorageService {
           return !deletedSet.has(r.id);
         });
 
+        const loadedServerNodes: ServerNode[] = (
+          Array.isArray(parsed.serverNodes) && parsed.serverNodes.length > 0
+            ? parsed.serverNodes
+            : INITIAL_STATE.serverNodes
+        ).map((srv: any) => ({
+          ...srv,
+          services: Array.isArray(srv.services) ? srv.services : [],
+          loadAverage: Array.isArray(srv.loadAverage) && srv.loadAverage.length >= 3 ? srv.loadAverage : [0.08, 0.12, 0.10],
+        }));
+
         return {
           ...INITIAL_STATE,
           ...parsed,
           users: loadedUsers,
           resellerProfiles: loadedResellers,
+          serverNodes: loadedServerNodes,
+          hostingPlans: Array.isArray(parsed.hostingPlans) && parsed.hostingPlans.length > 0 ? parsed.hostingPlans : INITIAL_STATE.hostingPlans,
           hostingAccounts: loadedAccounts,
           domains: loadedDomains,
           virtualFiles: (Array.isArray(parsed.virtualFiles) ? parsed.virtualFiles : []).filter((f: any) => !deletedSet.has(f.id)),
@@ -499,6 +511,12 @@ class StorageService {
           cronJobs: (Array.isArray(parsed.cronJobs) ? parsed.cronJobs : []).filter((c: any) => !deletedSet.has(c.id)),
           backups: (Array.isArray(parsed.backups) ? parsed.backups : []).filter((b: any) => !deletedSet.has(b.id)),
           invoices: (Array.isArray(parsed.invoices) ? parsed.invoices : []).filter((i: any) => !deletedSet.has(i.id)),
+          auditLogs: Array.isArray(parsed.auditLogs) ? parsed.auditLogs : [],
+          firewallRules: Array.isArray(parsed.firewallRules) ? parsed.firewallRules : [],
+          apiKeys: Array.isArray(parsed.apiKeys) ? parsed.apiKeys : [],
+          notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
+          vpsInstances: Array.isArray(parsed.vpsInstances) ? parsed.vpsInstances : [],
+          ipAddresses: Array.isArray(parsed.ipAddresses) && parsed.ipAddresses.length > 0 ? parsed.ipAddresses : INITIAL_STATE.ipAddresses,
           supportTickets: (Array.isArray(parsed.supportTickets) ? parsed.supportTickets : (INITIAL_STATE.supportTickets || [])).filter((t: any) => !deletedSet.has(t.id)),
           deletedIds: loadedDeletedIds,
           letterheadConfig: parsed.letterheadConfig || DEFAULT_LETTERHEAD_CONFIG,
@@ -1279,7 +1297,14 @@ class StorageService {
 
   // --- Server Nodes ---
   public getServerNodes(): ServerNode[] {
-    return this.state.serverNodes;
+    if (!Array.isArray(this.state.serverNodes) || this.state.serverNodes.length === 0) {
+      this.state.serverNodes = [...INITIAL_STATE.serverNodes];
+    }
+    return this.state.serverNodes.map(srv => ({
+      ...srv,
+      services: Array.isArray(srv?.services) ? srv.services : [],
+      loadAverage: Array.isArray(srv?.loadAverage) && srv.loadAverage.length >= 3 ? srv.loadAverage : [0.08, 0.12, 0.10],
+    }));
   }
 
   public getServerNode(id: string): ServerNode | undefined {

@@ -325,7 +325,7 @@ export const ArchitectureView: React.FC = () => {
         </p>
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {primaryServer?.services.map((svc) => (
+          {(primaryServer?.services || []).map((svc) => (
             <div
               key={svc.name}
               className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/50 p-3 dark:border-slate-800 dark:bg-slate-950/40"

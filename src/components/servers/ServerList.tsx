@@ -21,7 +21,35 @@ export const ServerList: React.FC = () => {
   const { currentUser } = useAuth();
   const { servers, showToast, refreshAll } = useServer();
 
-  const [selectedServer, setSelectedServer] = useState<ServerNode>(servers[0]);
+  const fallbackServer: ServerNode = {
+    id: 'srv-sg-01',
+    name: 'Karsa Cloud Node (VPS Utama)',
+    hostname: 'server.karsacloud.biz.id',
+    ipAddress: '178.83.181.238',
+    location: 'Cloud Node (Singapore & Global)',
+    countryCode: 'SG',
+    osType: 'Ubuntu 24.04 LTS (64-bit)',
+    status: 'online',
+    totalCpuCores: 1,
+    cpuUsagePct: 4.45,
+    totalRamMb: 1024,
+    ramUsageMb: 550,
+    totalDiskGb: 15,
+    diskUsageGb: 5.78,
+    bandwidthUsageGb: 120,
+    loadAverage: [0.08, 0.12, 0.10],
+    uptimeDays: 2,
+    isPrimary: true,
+    assignedAccountsCount: 0,
+    services: [
+      { name: 'nginx', displayName: 'Nginx Web Server', status: 'running', port: 80, version: '1.26.1', memoryMb: 210, uptime: '48d' },
+      { name: 'mariadb', displayName: 'MariaDB SQL Server', status: 'running', port: 3306, version: '10.11.8', memoryMb: 850, uptime: '48d' },
+      { name: 'php_fpm', displayName: 'PHP-FPM Manager', status: 'running', port: 9000, version: '8.2', memoryMb: 450, uptime: '48d' },
+    ],
+  };
+
+  const safeServers = Array.isArray(servers) && servers.length > 0 ? servers : [fallbackServer];
+  const [selectedServerId, setSelectedServerId] = useState<string>(() => safeServers[0]?.id || 'srv-sg-01');
   const [showAddModal, setShowAddModal] = useState(false);
   const [newNodeName, setNewNodeName] = useState('');
   const [newNodeHost, setNewNodeHost] = useState('');
@@ -31,10 +59,12 @@ export const ServerList: React.FC = () => {
 
   if (!currentUser) return null;
 
+  const activeNode = safeServers.find(s => s.id === selectedServerId) || safeServers[0] || fallbackServer;
+
   const handleRestartService = async (serviceName: string) => {
     setIsRestarting(serviceName);
     try {
-      await CloudProApi.restartService(selectedServer.id, serviceName, currentUser);
+      await CloudProApi.restartService(activeNode.id, serviceName, currentUser);
       showToast('info', 'Restart Daemon Diajukan', `Sinyal restart untuk service ${serviceName} sedang dieksekusi.`);
       refreshAll();
     } catch (err: any) {
@@ -88,8 +118,6 @@ export const ServerList: React.FC = () => {
     }
   };
 
-  const activeNode = servers.find(s => s.id === selectedServer.id) || servers[0];
-
   return (
     <div className="space-y-6">
       {/* Top Banner */}
@@ -108,7 +136,7 @@ export const ServerList: React.FC = () => {
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-emerald-500 shadow-xs"
+          className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-emerald-500 shadow-xs cursor-pointer"
         >
           <PlusCircle className="h-4 w-4" />
           <span>Tambah Server Node Baru</span>
@@ -117,12 +145,12 @@ export const ServerList: React.FC = () => {
 
       {/* Nodes Selector Tabs */}
       <div className="flex flex-wrap gap-2">
-        {servers.map(srv => (
+        {safeServers.map(srv => (
           <button
             key={srv.id}
-            onClick={() => setSelectedServer(srv)}
+            onClick={() => setSelectedServerId(srv.id)}
             className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-medium transition-all ${
-              selectedServer.id === srv.id
+              selectedServerId === srv.id
                 ? 'border-emerald-500 bg-white text-emerald-900 shadow-xs dark:border-emerald-500 dark:bg-slate-900 dark:text-emerald-300 ring-2 ring-emerald-500/20'
                 : 'border-slate-200 bg-slate-50/60 text-slate-600 hover:bg-white dark:border-slate-800 dark:bg-slate-800/40 dark:text-slate-400'
             }`}

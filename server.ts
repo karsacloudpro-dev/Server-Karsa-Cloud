@@ -11100,9 +11100,9 @@ with zipfile.ZipFile('${zipItem.fullPath}', 'r') as zf:
   const distIndex = path.join(distDir, 'index.html');
   const hasDist = fs.existsSync(distIndex);
 
-  // Whenever dist/ exists, ALWAYS serve the compiled production bundle!
-  // This guarantees fast loading and zero runtime crashes, regardless of PM2 environment or NODE_ENV!
-  const shouldServeDist = hasDist;
+  // In production, serve the pre-built static bundle. In development, mount Vite middleware live.
+  const isProduction = process.env.NODE_ENV === 'production';
+  const shouldServeDist = isProduction && hasDist;
   if (shouldServeDist) {
     console.log(`[CloudPRO] Serving production static bundle from ${distDir}`);
     app.use(express.static(distDir, {

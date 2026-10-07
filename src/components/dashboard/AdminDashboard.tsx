@@ -31,26 +31,31 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onOpenCreateReseller,
   onOpenAddServer,
 }) => {
-  const { servers, accounts, auditLogs } = useServer();
-  const { allUsers } = useAuth();
+  const { servers = [], accounts = [], auditLogs = [] } = useServer();
+  const { allUsers = [] } = useAuth();
 
-  const resellersCount = allUsers.filter(u => u.role === 'reseller').length;
-  const customersCount = allUsers.filter(u => u.role === 'customer').length;
+  const safeServers = Array.isArray(servers) ? servers : [];
+  const safeAccounts = Array.isArray(accounts) ? accounts : [];
+  const safeUsers = Array.isArray(allUsers) ? allUsers : [];
+  const safeAuditLogs = Array.isArray(auditLogs) ? auditLogs : [];
 
-  const totalDiskGb = servers.reduce((acc, s) => acc + s.totalDiskGb, 0);
-  const usedDiskGb = servers.reduce((acc, s) => acc + s.diskUsageGb, 0);
-  const totalBwGb = servers.reduce((acc, s) => acc + s.bandwidthUsageGb, 0);
+  const resellersCount = safeUsers.filter(u => u?.role === 'reseller').length;
+  const customersCount = safeUsers.filter(u => u?.role === 'customer').length;
 
-  const totalServices = servers.reduce((acc, s) => acc + s.services.length, 0);
-  const runningServices = servers.reduce(
-    (acc, s) => acc + s.services.filter(svc => svc.status === 'running').length,
+  const totalDiskGb = safeServers.reduce((acc, s) => acc + (s?.totalDiskGb || 0), 0);
+  const usedDiskGb = safeServers.reduce((acc, s) => acc + (s?.diskUsageGb || 0), 0);
+  const totalBwGb = safeServers.reduce((acc, s) => acc + (s?.bandwidthUsageGb || 0), 0);
+
+  const totalServices = safeServers.reduce((acc, s) => acc + (s?.services?.length || 0), 0);
+  const runningServices = safeServers.reduce(
+    (acc, s) => acc + (s?.services ? s.services.filter(svc => svc?.status === 'running').length : 0),
     0
   );
 
   const diskUsagePercent = totalDiskGb > 0 ? Math.round((usedDiskGb / totalDiskGb) * 100) : 0;
-  const activeAccountsCount = accounts.filter(a => a.status === 'active').length;
+  const activeAccountsCount = safeAccounts.filter(a => a?.status === 'active').length;
   const activeAccountPct =
-    accounts.length > 0 ? Math.round((activeAccountsCount / accounts.length) * 100) : 100;
+    safeAccounts.length > 0 ? Math.round((activeAccountsCount / safeAccounts.length) * 100) : 100;
 
   return (
     <div className="space-y-6 w-full max-w-full min-w-0">
@@ -383,8 +388,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     </div>
 
                     <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 self-start sm:self-auto font-bold">
-                      {server.services.filter(s => s.status === 'running').length}/
-                      {server.services.length} Daemons OK
+                      {(server.services || []).filter(s => s?.status === 'running').length}/
+                      {(server.services || []).length} Daemons OK
                     </span>
                   </div>
 
@@ -393,19 +398,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     {/* CPU */}
                     <div className="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
                       <div className="flex justify-between text-slate-600 mb-1 text-[11px]">
-                        <span>CPU ({server.totalCpuCores} Core)</span>
-                        <span className="font-bold text-slate-900">{server.cpuUsagePct}%</span>
+                        <span>CPU ({server.totalCpuCores || 1} Core)</span>
+                        <span className="font-bold text-slate-900">{server.cpuUsagePct || 0}%</span>
                       </div>
                       <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
                         <div
                           className={`h-full rounded-full ${
-                            server.cpuUsagePct > 80
+                            (server.cpuUsagePct || 0) > 80
                               ? 'bg-rose-500'
-                              : server.cpuUsagePct > 65
+                              : (server.cpuUsagePct || 0) > 65
                               ? 'bg-amber-500'
                               : 'bg-sky-600'
                           }`}
-                          style={{ width: `${server.cpuUsagePct}%` }}
+                          style={{ width: `${Math.min(100, server.cpuUsagePct || 0)}%` }}
                         />
                       </div>
                     </div>
@@ -413,16 +418,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     {/* RAM */}
                     <div className="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
                       <div className="flex justify-between text-slate-600 mb-1 text-[11px]">
-                        <span>RAM ({Math.round(server.totalRamMb / 1024)} GB)</span>
+                        <span>RAM ({Math.round((server.totalRamMb || 1024) / 1024)} GB)</span>
                         <span className="font-bold text-slate-900">
-                          {Math.round((server.ramUsageMb / server.totalRamMb) * 100)}%
+                          {server.totalRamMb ? Math.round(((server.ramUsageMb || 0) / server.totalRamMb) * 100) : 0}%
                         </span>
                       </div>
                       <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
                         <div
                           className="h-full rounded-full bg-sky-600"
                           style={{
-                            width: `${Math.round((server.ramUsageMb / server.totalRamMb) * 100)}%`,
+                            width: `${server.totalRamMb ? Math.min(100, Math.round(((server.ramUsageMb || 0) / server.totalRamMb) * 100)) : 0}%`,
                           }}
                         />
                       </div>
@@ -431,16 +436,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     {/* Disk */}
                     <div className="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
                       <div className="flex justify-between text-slate-600 mb-1 text-[11px]">
-                        <span>Disk ({server.totalDiskGb} GB)</span>
+                        <span>Disk ({server.totalDiskGb || 0} GB)</span>
                         <span className="font-bold text-slate-900">
-                          {Math.round((server.diskUsageGb / server.totalDiskGb) * 100)}%
+                          {server.totalDiskGb ? Math.round(((server.diskUsageGb || 0) / server.totalDiskGb) * 100) : 0}%
                         </span>
                       </div>
                       <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
                         <div
                           className="h-full rounded-full bg-sky-600"
                           style={{
-                            width: `${Math.round((server.diskUsageGb / server.totalDiskGb) * 100)}%`,
+                            width: `${server.totalDiskGb ? Math.min(100, Math.round(((server.diskUsageGb || 0) / server.totalDiskGb) * 100)) : 0}%`,
                           }}
                         />
                       </div>
@@ -449,7 +454,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
                   {/* Active Daemons Badges */}
                   <div className="mt-3 flex flex-wrap items-center gap-1.5 pt-2.5 border-t border-slate-200/60">
-                    {server.services.slice(0, 5).map(svc => (
+                    {(server.services || []).slice(0, 5).map(svc => (
                       <span
                         key={svc.name}
                         className="inline-flex items-center gap-1 rounded-md bg-white px-2 py-0.5 font-mono text-[10px] text-slate-700 border border-slate-200"
@@ -458,9 +463,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         <span>{svc.name}</span>
                       </span>
                     ))}
-                    {server.services.length > 5 && (
+                    {(server.services || []).length > 5 && (
                       <span className="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 font-mono text-[10px] text-slate-500 border border-slate-200">
-                        +{server.services.length - 5} lainnya
+                        +{(server.services || []).length - 5} lainnya
                       </span>
                     )}
                   </div>

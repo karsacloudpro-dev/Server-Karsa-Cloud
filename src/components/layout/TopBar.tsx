@@ -253,7 +253,7 @@ export const TopBar: React.FC<TopBarProps> = ({
               {onlineServersCount}/{servers.length} Nodes OK
             </span>
             <span className="text-slate-300 dark:text-slate-600">&bull;</span>
-            <span>Load {primaryServer ? primaryServer.loadAverage[0].toFixed(2) : '0.24'}</span>
+            <span>Load {primaryServer && Array.isArray(primaryServer.loadAverage) && primaryServer.loadAverage[0] !== undefined ? Number(primaryServer.loadAverage[0]).toFixed(2) : '0.24'}</span>
             <span className="text-slate-300 dark:text-slate-600">&bull;</span>
             <span>CPU {primaryServer ? primaryServer.cpuUsagePct : 14}%</span>
           </div>
