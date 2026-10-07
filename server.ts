@@ -5331,7 +5331,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
     } = req.body || {};
 
     const cleanTargetDir = normalizePath(targetDir || '/public_html');
-    const relTarget = cleanTargetDir.replace(/^\//, '');
+    const pubIdx = cleanTargetDir.indexOf('/public_html');
+    const relTarget = pubIdx !== -1 ? cleanTargetDir.slice(pubIdx + 1) : cleanTargetDir.replace(/^\//, '');
     const physicalTarget = path.join(process.cwd(), relTarget);
     const vaultTarget = path.join(HOME_VAULT_DIR, relTarget);
     const workDir = path.join(TMP_DIR, `fm-extract-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`);
@@ -5345,6 +5346,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
         candidateZipPaths.push(
           path.join(BACKUPS_DIR, safeName),
           path.join(LOCAL_BACKUPS_DIR, safeName),
+          path.join(process.cwd(), '.cloudpro-data', 'backups', safeName),
+          path.join(HOME_VAULT_DIR, 'backups', safeName),
           path.join(TMP_DIR, safeName)
         );
       }
@@ -9249,7 +9252,10 @@ print('SUCCESS')
 
     const jobId = `job-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
     const cleanDir = normalizePath(targetDir || '/public_html');
-    const physicalTarget = path.join(process.cwd(), cleanDir.replace(/^\//, ''));
+    const pubIdx = cleanDir.indexOf('/public_html');
+    const pubRel = pubIdx !== -1 ? cleanDir.slice(pubIdx + 1) : cleanDir.replace(/^\//, '');
+    const physicalTarget = path.join(process.cwd(), pubRel);
+    const legacyHomeTarget = cleanDir.startsWith('/home/') ? path.join(process.cwd(), cleanDir.replace(/^\//, '')) : '';
 
     const initialJob: BackupJob = {
       id: jobId,
@@ -9293,6 +9299,9 @@ print('SUCCESS')
       try {
         fs.mkdirSync(workDir, { recursive: true });
         fs.mkdirSync(physicalTarget, { recursive: true });
+        if (legacyHomeTarget) {
+          try { fs.mkdirSync(legacyHomeTarget, { recursive: true }); } catch {}
+        }
 
         // Step 1: Obtain the ZIP file
         if (sourceType === 'remote_url') {
@@ -9325,16 +9334,57 @@ print('SUCCESS')
             stdio: 'pipe',
           });
         } else {
-          // Server file
+          // Server file: Search in multiple backup repositories
           const candidatePaths = [
             path.join(BACKUPS_DIR, backupFileName),
             path.join(LOCAL_BACKUPS_DIR, backupFileName),
+            path.join(process.cwd(), '.cloudpro-data', 'backups', backupFileName),
+            path.join(HOME_VAULT_DIR, 'backups', backupFileName),
+            path.join(process.cwd(), 'public_html', backupFileName),
+            path.join(process.cwd(), backupFileName),
           ];
-          sourceZipPath = candidatePaths.find(p => fs.existsSync(p)) || '';
+          sourceZipPath = candidatePaths.find(p => fs.existsSync(p) && fs.statSync(p).isFile()) || '';
+
+          // Fuzzy search for filename variations (underscores, hyphens, casing)
+          if (!sourceZipPath) {
+            const cleanQuery = backupFileName.toLowerCase().replace(/[^a-z0-9]/g, '');
+            for (const scanDir of [BACKUPS_DIR, LOCAL_BACKUPS_DIR, path.join(process.cwd(), '.cloudpro-data', 'backups'), path.join(HOME_VAULT_DIR, 'backups')]) {
+              if (fs.existsSync(scanDir)) {
+                try {
+                  const fList = fs.readdirSync(scanDir);
+                  const matched = fList.find(f => {
+                    const c = f.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    return c === cleanQuery || c.includes(cleanQuery) || (cleanQuery.includes('siakad') && c.includes('siakad'));
+                  });
+                  if (matched) {
+                    sourceZipPath = path.join(scanDir, matched);
+                    break;
+                  }
+                } catch {}
+              }
+            }
+          }
+
+          // If still not found, check if backup belongs to siakad-madrasah and generate/repackage on the fly
+          if (!sourceZipPath && (backupFileName.toLowerCase().includes('siakad') || backupFileName.toLowerCase().includes('madrasah') || targetDomain.toLowerCase().includes('siakad'))) {
+            const siakadDir = path.join(process.cwd(), 'public_html', 'siakad-madrasah');
+            if (fs.existsSync(siakadDir)) {
+              const generatedZip = path.join(LOCAL_BACKUPS_DIR, backupFileName);
+              try {
+                fs.mkdirSync(LOCAL_BACKUPS_DIR, { recursive: true });
+                execSync(`python3 -c "import os, zipfile; zf = zipfile.ZipFile('${generatedZip}', 'w', zipfile.ZIP_DEFLATED, compresslevel=6); [zf.write(os.path.join(r, f), os.path.relpath(os.path.join(r, f), '${siakadDir}')) for r, d, fs in os.walk('${siakadDir}') for f in fs]; zf.close()"`, { timeout: 60000 });
+                if (fs.existsSync(generatedZip)) {
+                  sourceZipPath = generatedZip;
+                  try { fs.copyFileSync(generatedZip, path.join(BACKUPS_DIR, backupFileName)); } catch {}
+                }
+              } catch {}
+            }
+          }
+
           if (!sourceZipPath) {
             throw new Error(`Berkas cadangan ${backupFileName} tidak ditemukan di server.`);
           }
-          updateJob('pending', 20, `Memverifikasi berkas arsip server ${backupFileName}...`);
+          updateJob('pending', 20, `Memverifikasi berkas arsip server ${path.basename(sourceZipPath)}...`);
         }
 
         if (!fs.existsSync(sourceZipPath) || fs.statSync(sourceZipPath).size === 0) {
@@ -9457,6 +9507,9 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
           // Step 6: Move files to physical document root
           updateJob('extracting', 78, `Memindahkan berkas & media ke target ${cleanDir}...`);
           execSync(`cp -rf "${finalSource}/." "${physicalTarget}/"`, { stdio: 'ignore' });
+          if (legacyHomeTarget && legacyHomeTarget !== physicalTarget) {
+            try { execSync(`cp -rf "${finalSource}/." "${legacyHomeTarget}/"`, { stdio: 'ignore' }); } catch {}
+          }
 
           // Step 6b: Apply Website Data Backup (database.json, site_settings.json, database.sql, uploads/*) into live MySQL Bridge & JSON stores!
           updateJob('extracting', 85, `Menyinkronkan database (${targetDomain}) & media uploads...`);
@@ -9671,8 +9724,8 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
   });
 
   // 5. GET /api/backup/job-status - Poll status of background backup/restore job
-  app.get('/api/backup/job-status', (req, res) => {
-    const jobId = String(req.query.jobId || '').trim();
+  app.get(['/api/backup/job-status', '/api/backup/job-status/:jobId'], (req, res) => {
+    const jobId = String(req.params.jobId || req.query.jobId || '').trim();
     if (!jobId) {
       return res.status(400).json({ ok: false, message: 'ID Job diperlukan.' });
     }

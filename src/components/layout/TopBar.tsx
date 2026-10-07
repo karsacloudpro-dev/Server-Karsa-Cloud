@@ -338,11 +338,11 @@ export const TopBar: React.FC<TopBarProps> = ({
                 {(currentUser.name || 'Admin').charAt(0)}
               </div>
               <div className="hidden sm:flex flex-col">
-                <span className="truncate max-w-[100px] font-bold text-slate-900 leading-tight">
-                  {(currentUser.name || 'Admin').split(' ')[0]}
+                <span className="truncate max-w-[120px] font-bold text-slate-900 leading-tight">
+                  {currentUser.role === 'admin' ? 'Jaenal Maskun' : (currentUser.name || 'Admin')}
                 </span>
                 <span className="font-mono text-[9px] text-slate-400 uppercase tracking-wider leading-tight">
-                  {currentUser.role}
+                  {currentUser.role === 'admin' ? 'Pengelola Server' : currentUser.role}
                 </span>
               </div>
               <ChevronDown className="h-3.5 w-3.5 text-slate-400" />

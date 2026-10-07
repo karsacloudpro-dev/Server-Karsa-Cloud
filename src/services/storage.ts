@@ -886,10 +886,12 @@ class StorageService {
       if (Array.isArray(this.state.users)) {
         this.state.users = this.state.users.map(u => {
           if (u.id === 'usr-admin-01' || u.role === 'admin') {
-            if (!u.name || u.name === 'Root Administrator' || u.name === 'Admin') {
-              updated = true;
-              return { ...u, name: 'Jaenal Maskun' };
-            }
+            updated = true;
+            return {
+              ...u,
+              name: 'Jaenal Maskun',
+              email: u.email && u.email.includes('@') ? u.email : 'J.nalmaskun@gmail.com',
+            };
           }
           return u;
         });
@@ -1238,20 +1240,14 @@ class StorageService {
         return true;
       })
       .map(acc => {
-        if (acc.id === 'acc-rdm-01') {
-          const nextCust =
-            !acc.customerName ||
-            acc.customerName === 'Karsa Cloud Root System' ||
-            acc.customerName.toLowerCase().includes('root system')
-              ? 'Jaenal Maskun'
-              : acc.customerName;
+        if (acc.id === 'acc-rdm-01' || acc.primaryDomain === 'karsacloud.biz.id') {
           return {
             ...acc,
             primaryDomain: 'karsacloud.biz.id',
             domain: 'karsacloud.biz.id',
             username: 'karsacloud',
-            customerName: nextCust,
-            customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
+            customerName: 'Jaenal Maskun',
+            customerEmail: acc.customerEmail && acc.customerEmail.includes('@') ? acc.customerEmail : 'J.nalmaskun@gmail.com',
             documentRoot: '/home/karsacloud/public_html',
             resellerId: undefined,
             customerId: 'usr-admin-01',
@@ -1287,20 +1283,14 @@ class StorageService {
     if (acc.primaryDomain === 'websitepelanggan.my.id' || acc.domain === 'websitepelanggan.my.id') {
       return undefined;
     }
-    if (acc.id === 'acc-rdm-01') {
-      const nextCust =
-        !acc.customerName ||
-        acc.customerName === 'Karsa Cloud Root System' ||
-        acc.customerName.toLowerCase().includes('root system')
-          ? 'Jaenal Maskun'
-          : acc.customerName;
+    if (acc.id === 'acc-rdm-01' || acc.primaryDomain === 'karsacloud.biz.id') {
       return {
         ...acc,
         primaryDomain: 'karsacloud.biz.id',
         domain: 'karsacloud.biz.id',
         username: 'karsacloud',
-        customerName: nextCust,
-        customerEmail: acc.customerEmail || 'admin@karsacloud.biz.id',
+        customerName: 'Jaenal Maskun',
+        customerEmail: acc.customerEmail && acc.customerEmail.includes('@') ? acc.customerEmail : 'J.nalmaskun@gmail.com',
         documentRoot: '/home/karsacloud/public_html',
         resellerId: undefined,
         customerId: 'usr-admin-01',

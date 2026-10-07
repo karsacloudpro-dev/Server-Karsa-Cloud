@@ -418,10 +418,14 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
                 </td>
                 <td className="px-5 py-3.5">
                   <div className="font-semibold text-slate-800 dark:text-slate-200">
-                    {acc.customerName || (isClientSection ? 'Pelanggan Hosting' : currentUser.name)}
+                    {acc.id === 'acc-rdm-01' || acc.primaryDomain === 'karsacloud.biz.id'
+                      ? 'Jaenal Maskun'
+                      : (acc.customerName || (isClientSection ? 'Pelanggan Hosting' : 'Jaenal Maskun'))}
                   </div>
                   <div className="font-mono text-[11px] text-slate-400">
-                    {acc.customerEmail || currentUser.email}
+                    {acc.id === 'acc-rdm-01' || acc.primaryDomain === 'karsacloud.biz.id'
+                      ? 'J.nalmaskun@gmail.com'
+                      : (acc.customerEmail || currentUser.email)}
                   </div>
                 </td>
                 <td className="px-5 py-3.5 font-mono">
@@ -631,7 +635,7 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
                 <UserCheck className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
                 <span className="truncate">
                   {currentUser.role === 'admin'
-                    ? (ownAccounts[0]?.customerName || currentUser.name)
+                    ? 'Jaenal Maskun'
                     : currentUser.name}
                 </span>
               </div>

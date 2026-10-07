@@ -829,10 +829,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </span>
               <div className="min-w-0 leading-tight">
                 <div className="text-[11px] font-bold text-slate-200 truncate">
-                  {currentUser.name || 'Administrator'}
+                  {currentUser.role === 'admin' ? 'Jaenal Maskun' : (currentUser.name || 'Administrator')}
                 </div>
                 <div className="text-[9px] font-mono text-emerald-400 flex items-center gap-1">
-                  <span>● {currentUser.role === 'admin' ? `Node: ${primaryServer?.hostname || 'karsacloud.biz.id'}` : 'Cluster: Karsa Cloud PRO Edge'}</span>
+                  <span>● {currentUser.role === 'admin' ? `Pengelola Server: ${primaryServer?.hostname || 'server.karsacloud.biz.id'}` : 'Cluster: Karsa Cloud PRO Edge'}</span>
                 </div>
               </div>
             </div>

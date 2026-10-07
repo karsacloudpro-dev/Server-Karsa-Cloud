@@ -5243,7 +5243,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       autoDeleteZip = true
     } = req.body || {};
     const cleanTargetDir = normalizePath(targetDir || "/public_html");
-    const relTarget = cleanTargetDir.replace(/^\//, "");
+    const pubIdx = cleanTargetDir.indexOf("/public_html");
+    const relTarget = pubIdx !== -1 ? cleanTargetDir.slice(pubIdx + 1) : cleanTargetDir.replace(/^\//, "");
     const physicalTarget = path.join(process.cwd(), relTarget);
     const vaultTarget = path.join(HOME_VAULT_DIR, relTarget);
     const workDir = path.join(TMP_DIR, `fm-extract-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`);
@@ -5255,6 +5256,8 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
         candidateZipPaths.push(
           path.join(BACKUPS_DIR, safeName),
           path.join(LOCAL_BACKUPS_DIR, safeName),
+          path.join(process.cwd(), ".cloudpro-data", "backups", safeName),
+          path.join(HOME_VAULT_DIR, "backups", safeName),
           path.join(TMP_DIR, safeName)
         );
       }
@@ -8611,7 +8614,10 @@ print('SUCCESS')
     } = req.body || {};
     const jobId = `job-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
     const cleanDir = normalizePath(targetDir || "/public_html");
-    const physicalTarget = path.join(process.cwd(), cleanDir.replace(/^\//, ""));
+    const pubIdx = cleanDir.indexOf("/public_html");
+    const pubRel = pubIdx !== -1 ? cleanDir.slice(pubIdx + 1) : cleanDir.replace(/^\//, "");
+    const physicalTarget = path.join(process.cwd(), pubRel);
+    const legacyHomeTarget = cleanDir.startsWith("/home/") ? path.join(process.cwd(), cleanDir.replace(/^\//, "")) : "";
     const initialJob = {
       id: jobId,
       type: sourceType === "remote_url" ? "server_zip_pull" : "backup_restore",
@@ -8648,6 +8654,12 @@ print('SUCCESS')
       try {
         fs.mkdirSync(workDir, { recursive: true });
         fs.mkdirSync(physicalTarget, { recursive: true });
+        if (legacyHomeTarget) {
+          try {
+            fs.mkdirSync(legacyHomeTarget, { recursive: true });
+          } catch {
+          }
+        }
         if (sourceType === "remote_url") {
           const cleanUrl = String(remoteZipUrl || "").trim();
           if (!cleanUrl) throw new Error("URL file ZIP remote tidak boleh kosong.");
@@ -8680,13 +8692,54 @@ print('SUCCESS')
         } else {
           const candidatePaths = [
             path.join(BACKUPS_DIR, backupFileName),
-            path.join(LOCAL_BACKUPS_DIR, backupFileName)
+            path.join(LOCAL_BACKUPS_DIR, backupFileName),
+            path.join(process.cwd(), ".cloudpro-data", "backups", backupFileName),
+            path.join(HOME_VAULT_DIR, "backups", backupFileName),
+            path.join(process.cwd(), "public_html", backupFileName),
+            path.join(process.cwd(), backupFileName)
           ];
-          sourceZipPath = candidatePaths.find((p) => fs.existsSync(p)) || "";
+          sourceZipPath = candidatePaths.find((p) => fs.existsSync(p) && fs.statSync(p).isFile()) || "";
+          if (!sourceZipPath) {
+            const cleanQuery = backupFileName.toLowerCase().replace(/[^a-z0-9]/g, "");
+            for (const scanDir of [BACKUPS_DIR, LOCAL_BACKUPS_DIR, path.join(process.cwd(), ".cloudpro-data", "backups"), path.join(HOME_VAULT_DIR, "backups")]) {
+              if (fs.existsSync(scanDir)) {
+                try {
+                  const fList = fs.readdirSync(scanDir);
+                  const matched = fList.find((f) => {
+                    const c = f.toLowerCase().replace(/[^a-z0-9]/g, "");
+                    return c === cleanQuery || c.includes(cleanQuery) || cleanQuery.includes("siakad") && c.includes("siakad");
+                  });
+                  if (matched) {
+                    sourceZipPath = path.join(scanDir, matched);
+                    break;
+                  }
+                } catch {
+                }
+              }
+            }
+          }
+          if (!sourceZipPath && (backupFileName.toLowerCase().includes("siakad") || backupFileName.toLowerCase().includes("madrasah") || targetDomain.toLowerCase().includes("siakad"))) {
+            const siakadDir = path.join(process.cwd(), "public_html", "siakad-madrasah");
+            if (fs.existsSync(siakadDir)) {
+              const generatedZip = path.join(LOCAL_BACKUPS_DIR, backupFileName);
+              try {
+                fs.mkdirSync(LOCAL_BACKUPS_DIR, { recursive: true });
+                execSync(`python3 -c "import os, zipfile; zf = zipfile.ZipFile('${generatedZip}', 'w', zipfile.ZIP_DEFLATED, compresslevel=6); [zf.write(os.path.join(r, f), os.path.relpath(os.path.join(r, f), '${siakadDir}')) for r, d, fs in os.walk('${siakadDir}') for f in fs]; zf.close()"`, { timeout: 6e4 });
+                if (fs.existsSync(generatedZip)) {
+                  sourceZipPath = generatedZip;
+                  try {
+                    fs.copyFileSync(generatedZip, path.join(BACKUPS_DIR, backupFileName));
+                  } catch {
+                  }
+                }
+              } catch {
+              }
+            }
+          }
           if (!sourceZipPath) {
             throw new Error(`Berkas cadangan ${backupFileName} tidak ditemukan di server.`);
           }
-          updateJob("pending", 20, `Memverifikasi berkas arsip server ${backupFileName}...`);
+          updateJob("pending", 20, `Memverifikasi berkas arsip server ${path.basename(sourceZipPath)}...`);
         }
         if (!fs.existsSync(sourceZipPath) || fs.statSync(sourceZipPath).size === 0) {
           throw new Error("Berkas cadangan kosong atau tidak dapat diakses.");
@@ -8780,6 +8833,12 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
           pruneDeadViteAssets(finalSource);
           updateJob("extracting", 78, `Memindahkan berkas & media ke target ${cleanDir}...`);
           execSync(`cp -rf "${finalSource}/." "${physicalTarget}/"`, { stdio: "ignore" });
+          if (legacyHomeTarget && legacyHomeTarget !== physicalTarget) {
+            try {
+              execSync(`cp -rf "${finalSource}/." "${legacyHomeTarget}/"`, { stdio: "ignore" });
+            } catch {
+            }
+          }
           updateJob("extracting", 85, `Menyinkronkan database (${targetDomain}) & media uploads...`);
           dbRestoreStats = applyWebsiteDataBackupToDocRoot(finalSource, physicalTarget, cleanDir);
         }
@@ -8962,8 +9021,8 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
       }
     })();
   });
-  app.get("/api/backup/job-status", (req, res) => {
-    const jobId = String(req.query.jobId || "").trim();
+  app.get(["/api/backup/job-status", "/api/backup/job-status/:jobId"], (req, res) => {
+    const jobId = String(req.params.jobId || req.query.jobId || "").trim();
     if (!jobId) {
       return res.status(400).json({ ok: false, message: "ID Job diperlukan." });
     }
