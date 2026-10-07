@@ -14,10 +14,67 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html, body { height: 100%; width: 100%; background: #07090e; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.5; overflow: hidden; position: fixed; inset: 0; }
+    
+    /* Cloud (Awan) Theme Core Variables */
+    :root {
+      --cloud-bg: #091528;
+      --cloud-screen: #060f1e;
+      --cloud-header: rgba(14, 31, 56, 0.94);
+      --cloud-dock: rgba(11, 26, 48, 0.97);
+      --cloud-quickbar: #0a182d;
+      --cloud-border: rgba(56, 189, 248, 0.22);
+      --cloud-border-strong: rgba(56, 189, 248, 0.45);
+      --cloud-text: #f0f6fc;
+      --cloud-text-muted: #94a9c9;
+      --cloud-primary: #0284c7;
+      --cloud-primary-hover: #0369a1;
+      --cloud-cyan: #38bdf8;
+      --cloud-card: rgba(17, 38, 68, 0.75);
+      --cloud-input-bg: #0d223d;
+      --cloud-key-bg: #132a4a;
+      --cloud-key-text: #bae6fd;
+      --cloud-prompt-user: #34d399;
+      --cloud-prompt-path: #38bdf8;
+    }
+
+    /* Light Cloud Theme (Awan Putih Murni) */
+    body.theme-light-cloud {
+      --cloud-bg: #f0f7ff;
+      --cloud-screen: #f8fbff;
+      --cloud-header: rgba(255, 255, 255, 0.96);
+      --cloud-dock: rgba(255, 255, 255, 0.98);
+      --cloud-quickbar: #e8f2fe;
+      --cloud-border: rgba(14, 165, 233, 0.28);
+      --cloud-border-strong: #0284c7;
+      --cloud-text: #0f172a;
+      --cloud-text-muted: #475569;
+      --cloud-primary: #0284c7;
+      --cloud-primary-hover: #0369a1;
+      --cloud-cyan: #0284c7;
+      --cloud-card: rgba(255, 255, 255, 0.9);
+      --cloud-input-bg: #ffffff;
+      --cloud-key-bg: #e0f2fe;
+      --cloud-key-text: #0369a1;
+      --cloud-prompt-user: #059669;
+      --cloud-prompt-path: #0284c7;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: var(--cloud-bg);
+      color: var(--cloud-text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      overflow: hidden;
+      position: fixed;
+      inset: 0;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
     
     /* Layout */
     .app-container {
@@ -31,12 +88,15 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       overflow: hidden;
       position: fixed;
       inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 55%), var(--cloud-bg);
     }
     
-    /* Header */
+    /* Header (Modern Cloud Navigation) */
     .terminal-header {
-      background: #0f172a;
-      border-bottom: 1px solid #1e293b;
+      background: var(--cloud-header);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--cloud-border);
       padding: 10px 16px;
       display: flex;
       align-items: center;
@@ -44,32 +104,105 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       flex-shrink: 0;
       gap: 12px;
       font-family: 'Plus Jakarta Sans', sans-serif;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.08);
+      z-index: 50;
     }
-    .header-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .status-dot { width: 9px; height: 9px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; flex-shrink: 0; }
-    .header-title { font-weight: 700; font-size: 14px; color: #f8fafc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .header-badge { font-size: 11px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 2px 7px; font-weight: 600; }
+    .header-left { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    
+    /* Modern Cloud Logo Emblem */
+    .cloud-logo-emblem {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(56, 189, 248, 0.1) 100%);
+      border: 1px solid var(--cloud-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px;
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.25);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .cloud-logo-emblem:hover { transform: scale(1.05); }
+    .cloud-svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); }
+    
+    .header-brand { display: flex; flex-direction: column; min-width: 0; }
+    .header-title {
+      font-weight: 800;
+      font-size: 14.5px;
+      color: var(--cloud-text);
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header-title .cloud-word {
+      color: var(--cloud-cyan);
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+    .header-title .pro-tag {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #ffffff;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1.5px 5.5px;
+      border-radius: 5px;
+      letter-spacing: 0.05em;
+    }
+    .header-meta {
+      font-size: 10.5px;
+      color: var(--cloud-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .status-dot {
+      width: 7.5px;
+      height: 7.5px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      flex-shrink: 0;
+      animation: cloud-pulse 2s infinite ease-in-out;
+    }
+    @keyframes cloud-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.2); }
+    }
+    
     .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .btn-header {
-      background: #1e293b;
-      color: #94a3b8;
-      border: 1px solid #334155;
-      padding: 6px 10px;
+      background: var(--cloud-card);
+      color: var(--cloud-text);
+      border: 1px solid var(--cloud-border);
+      padding: 6px 11px;
       border-radius: 8px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      transition: all 0.15s;
+      transition: all 0.15s ease;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
-    .btn-header:hover { background: #334155; color: #f8fafc; }
+    .btn-header:hover {
+      background: var(--cloud-primary);
+      color: #ffffff;
+      border-color: var(--cloud-cyan);
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.3);
+    }
     
-    /* Quick Action Buttons (Mobile Friendly) */
+    /* Quick Action Buttons (Modern Cloud Pills) */
     .quick-bar {
-      background: #0b1120;
-      border-bottom: 1px solid #1e293b;
+      background: var(--cloud-quickbar);
+      border-bottom: 1px solid var(--cloud-border);
       padding: 8px 12px;
       display: flex;
       gap: 8px;
@@ -80,25 +213,43 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
     }
     .quick-bar::-webkit-scrollbar { display: none; }
     .quick-btn {
-      background: #1e293b;
-      border: 1px solid #334155;
-      color: #cbd5e1;
-      padding: 5px 12px;
+      background: var(--cloud-key-bg);
+      border: 1px solid var(--cloud-border);
+      color: var(--cloud-key-text);
+      padding: 5.5px 13px;
       border-radius: 999px;
-      font-size: 11px;
+      font-size: 11.5px;
       font-family: 'JetBrains Mono', monospace;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.15s;
+      transition: all 0.15s ease;
       flex-shrink: 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     }
-    .quick-btn:active, .quick-btn:hover { background: #0284c7; border-color: #38bdf8; color: #fff; transform: translateY(-1px); }
-    .quick-btn.danger:hover { background: #dc2626; border-color: #f87171; }
+    .quick-btn:hover {
+      background: var(--cloud-primary);
+      border-color: var(--cloud-cyan);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 12px rgba(2, 132, 199, 0.35);
+    }
+    .quick-btn.highlight {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      border-color: #38bdf8;
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .quick-btn.success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: #6ee7b7;
+      color: #ffffff;
+      font-weight: 700;
+    }
     
-    /* Terminal Output Screen */
+    /* Terminal Output Screen (Atmospheric Cloud Canvas) */
     .terminal-screen {
       flex: 1 1 0px;
       min-height: 0;
@@ -107,56 +258,88 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       padding: 16px;
       overflow-y: auto;
       overflow-x: auto;
-      background: #050811;
+      background: var(--cloud-screen);
       display: flex;
       flex-direction: column;
       gap: 8px;
       scroll-behavior: smooth;
     }
     .terminal-screen::-webkit-scrollbar { width: 6px; height: 6px; }
-    .terminal-screen::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    .terminal-screen::-webkit-scrollbar-thumb { background: var(--cloud-border); border-radius: 3px; }
     
+    /* Modern Cloud Banner */
     .banner {
-      color: #94a3b8;
-      border: 1px solid #1e293b;
-      border-radius: 10px;
-      padding: 14px;
-      background: rgba(15, 23, 42, 0.6);
+      color: var(--cloud-text-muted);
+      border: 1px solid var(--cloud-border);
+      border-radius: 14px;
+      padding: 15px 18px;
+      background: var(--cloud-card);
+      backdrop-filter: blur(8px);
       margin-bottom: 12px;
       font-size: 12px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
     }
-    .banner-title { color: #38bdf8; font-weight: 700; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .banner-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; color: #64748b; font-size: 11px; }
-    .banner-grid strong { color: #cbd5e1; font-weight: 600; }
+    .banner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #0284c7, #38bdf8, #0ea5e9);
+    }
+    .banner-title {
+      color: var(--cloud-cyan);
+      font-weight: 800;
+      font-size: 13.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .banner-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 18px;
+      color: var(--cloud-text-muted);
+      font-size: 11px;
+    }
+    .banner-grid strong { color: var(--cloud-text); font-weight: 600; }
     
     .history-block { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
     .cmd-line { display: flex; align-items: baseline; gap: 8px; font-weight: 600; flex-wrap: wrap; }
-    .prompt-user { color: #10b981; }
-    .prompt-sep { color: #64748b; }
-    .prompt-path { color: #38bdf8; }
+    .prompt-user { color: var(--cloud-prompt-user); }
+    .prompt-sep { color: var(--cloud-text-muted); }
+    .prompt-path { color: var(--cloud-prompt-path); }
     .prompt-sym { color: #f59e0b; }
-    .cmd-text { color: #f8fafc; font-weight: 700; word-break: break-all; }
+    .cmd-text { color: var(--cloud-text); font-weight: 700; word-break: break-all; }
     
     .output-text {
-      color: #cbd5e1;
+      color: var(--cloud-text);
       white-space: pre-wrap;
       word-break: break-all;
       padding-left: 12px;
-      border-left: 2px solid #1e293b;
+      border-left: 2px solid var(--cloud-border);
       margin-top: 4px;
       font-size: 12.5px;
+      opacity: 0.95;
     }
-    .output-text.error { border-left-color: #ef4444; color: #fca5a5; }
+    .output-text.error { border-left-color: #ef4444; color: #f87171; }
     .output-text.success { border-left-color: #10b981; }
     
-    /* Pinned Bottom Dock - Always Visible and Functional */
+    /* Pinned Bottom Dock (Cloud Glassmorphic Control Bar) */
     .terminal-dock {
       position: relative;
       flex-shrink: 0;
       z-index: 100;
-      background: #090e1a;
-      border-top: 2px solid #0284c7;
-      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.85);
+      background: var(--cloud-dock);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 2px solid var(--cloud-primary);
+      box-shadow: 0 -8px 24px rgba(2, 132, 199, 0.12);
       display: flex;
       flex-direction: column;
       padding-bottom: max(6px, env(safe-area-inset-bottom));
@@ -167,20 +350,28 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #090e1a;
+      background: transparent;
       padding: 8px 12px;
       flex-shrink: 0;
     }
-    .input-prompt { font-weight: 700; color: #10b981; white-space: nowrap; font-size: 12px; display: flex; align-items: center; gap: 4px; }
-    .input-prompt span { color: #38bdf8; }
+    .input-prompt {
+      font-weight: 700;
+      color: var(--cloud-prompt-user);
+      white-space: nowrap;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .input-prompt span { color: var(--cloud-prompt-path); }
     .cmd-input {
       flex: 1;
-      background: #0f172a;
-      border: 1.5px solid #334155;
-      border-radius: 8px;
+      background: var(--cloud-input-bg);
+      border: 1.5px solid var(--cloud-border);
+      border-radius: 9px;
       padding: 9px 12px;
       outline: none;
-      color: #f8fafc;
+      color: var(--cloud-text);
       font-family: 'JetBrains Mono', monospace;
       font-size: 14px;
       font-weight: 600;
@@ -189,29 +380,32 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       transition: all 0.15s ease;
     }
     .cmd-input:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35);
-      background: #111c35;
+      border-color: var(--cloud-cyan);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
     }
     .btn-send {
-      background: linear-gradient(135deg, #0284c7, #2563eb);
+      background: linear-gradient(135deg, #0284c7, #0369a1);
       color: #fff;
       border: none;
-      border-radius: 8px;
-      padding: 9px 16px;
+      border-radius: 9px;
+      padding: 9px 18px;
       font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      transition: background 0.15s;
+      transition: all 0.15s ease;
       flex-shrink: 0;
+      box-shadow: 0 3px 12px rgba(2, 132, 199, 0.35);
     }
-    .btn-send:hover { background: #0369a1; }
+    .btn-send:hover {
+      background: linear-gradient(135deg, #0369a1, #075985);
+      transform: translateY(-1px);
+    }
     
     /* Virtual Mobile Keyboard Row */
     .mobile-keys {
-      background: #070b14;
-      border-bottom: 1px solid #1e293b;
+      background: var(--cloud-quickbar);
+      border-bottom: 1px solid var(--cloud-border);
       padding: 6px 8px;
       display: flex;
       gap: 6px;
@@ -221,9 +415,9 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
     }
     .mobile-keys::-webkit-scrollbar { display: none; }
     .m-key {
-      background: #1e293b;
-      color: #94a3b8;
-      border: 1px solid #334155;
+      background: var(--cloud-key-bg);
+      color: var(--cloud-key-text);
+      border: 1px solid var(--cloud-border);
       border-radius: 6px;
       padding: 6px 11px;
       font-size: 12px;
@@ -231,51 +425,65 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       cursor: pointer;
       user-select: none;
       flex-shrink: 0;
+      transition: all 0.1s ease;
     }
-    .m-key:active { background: #38bdf8; color: #0b1120; }
+    .m-key:active { background: var(--cloud-primary); color: #ffffff; }
 
     @media (max-width: 768px) {
       .terminal-header { padding: 8px 12px; }
-      .header-title { font-size: 12.5px; }
+      .header-title { font-size: 13px; }
       .input-prompt { font-size: 11px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
       .cmd-input { font-size: 14px; padding: 8px 10px; }
-      .btn-send { padding: 8px 12px; font-size: 11.5px; }
+      .btn-send { padding: 8px 13px; font-size: 11.5px; }
       .m-key { padding: 5px 9px; font-size: 11px; }
     }
     
-    /* Security Modal */
+    /* Security PIN Modal (Cloud Dialog) */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(3, 7, 18, 0.88);
-      backdrop-filter: blur(8px);
+      background: rgba(4, 12, 24, 0.85);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      z-index: 100;
+      z-index: 200;
     }
     .modal-card {
-      background: #0f172a;
-      border: 1px solid #334155;
+      background: var(--cloud-header);
+      border: 1px solid var(--cloud-border-strong);
       border-radius: 20px;
-      max-width: 400px;
+      max-width: 410px;
       width: 100%;
       padding: 28px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.2);
       text-align: center;
       font-family: 'Plus Jakarta Sans', sans-serif;
+      position: relative;
     }
-    .modal-icon { width: 54px; height: 54px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: #38bdf8; font-size: 24px; }
-    .modal-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 6px; }
-    .modal-desc { font-size: 12px; color: #94a3b8; margin-bottom: 20px; line-height: 1.5; }
+    .modal-icon-cloud {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(56, 189, 248, 0.15) 100%);
+      border: 1px solid var(--cloud-border-strong);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      padding: 10px;
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+    }
+    .modal-title { font-size: 19px; font-weight: 800; color: var(--cloud-text); margin-bottom: 6px; }
+    .modal-desc { font-size: 12.5px; color: var(--cloud-text-muted); margin-bottom: 20px; line-height: 1.5; }
     .pin-input {
       width: 100%;
-      background: #090d16;
-      border: 1px solid #334155;
+      background: var(--cloud-input-bg);
+      border: 1.5px solid var(--cloud-border);
       border-radius: 12px;
       padding: 12px 16px;
-      color: #fff;
+      color: var(--cloud-text);
       font-family: 'JetBrains Mono', monospace;
       font-size: 16px;
       letter-spacing: 2px;
@@ -283,10 +491,10 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       outline: none;
       margin-bottom: 16px;
     }
-    .pin-input:focus { border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2); }
+    .pin-input:focus { border-color: var(--cloud-cyan); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25); }
     .btn-unlock {
       width: 100%;
-      background: linear-gradient(135deg, #0284c7, #2563eb);
+      background: linear-gradient(135deg, #0284c7, #0369a1);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -294,11 +502,12 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.15s ease;
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
     }
-    .btn-unlock:hover { opacity: 0.95; }
-    .default-hint { font-size: 11px; color: #64748b; margin-top: 12px; }
-    .default-hint strong { color: #38bdf8; cursor: pointer; text-decoration: underline; }
+    .btn-unlock:hover { opacity: 0.95; transform: translateY(-1px); }
+    .default-hint { font-size: 11.5px; color: var(--cloud-text-muted); margin-top: 14px; }
+    .default-hint strong { color: var(--cloud-cyan); cursor: pointer; text-decoration: underline; }
     
     /* ANSI colors */
     .ansi-green { color: #34d399; }
@@ -309,29 +518,56 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
     .ansi-magenta { color: #c084fc; }
     .ansi-bold { font-weight: bold; }
     
-    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #38bdf8; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-left: 6px; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--cloud-cyan); border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-left: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
   <div class="app-container">
-    <!-- Header -->
+    <!-- Header with Modern Cloud Logo -->
     <header class="terminal-header">
       <div class="header-left">
-        <div class="status-dot"></div>
-        <div class="header-title">Karsa Cloud PRO Web SSH</div>
-        <div class="header-badge">${username}@${hostname}</div>
+        <div class="cloud-logo-emblem" title="Karsa Cloud PRO Logo">
+          <svg viewBox="0 0 100 100" fill="none" class="cloud-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="cloudGradHead" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0284c7" />
+                <stop offset="50%" stop-color="#005dbd" />
+                <stop offset="100%" stop-color="#0369a1" />
+              </linearGradient>
+            </defs>
+            <path d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z" fill="url(#cloudGradHead)"/>
+            <path d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <polygon points="72,27 88,32 78,46 76,40 68,44" fill="#ffffff"/>
+            <path d="M 24 82 C 28 73 34 66 41 63" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="header-brand">
+          <div class="header-title">
+            <span>Karsa</span>
+            <span class="cloud-word">Cloud</span>
+            <span class="pro-tag">PRO</span>
+            <span style="font-size:12px; font-weight:700; color:var(--cloud-cyan); margin-left:4px;">Web SSH</span>
+          </div>
+          <div class="header-meta">
+            <div class="status-dot"></div>
+            <span>${username}@${hostname}</span>
+            <span>•</span>
+            <span style="color:var(--cloud-cyan);">Port 22 SSH Linux</span>
+          </div>
+        </div>
       </div>
       <div class="header-right">
+        <button class="btn-header" onclick="toggleCloudTheme()" id="themeToggleBtn" title="Ganti Tema Awan">☁️ Tema</button>
         <button class="btn-header" onclick="clearTerminal()" title="Bersihkan Layar">🧹 Clear</button>
       </div>
     </header>
 
     <!-- Quick Action Pills for Mobile -->
     <div class="quick-bar">
-      <button class="quick-btn" style="background:#0284c7; color:#fff;" onclick="runCommand('bash update.sh --check')">🏷️ Cek Kommit Terbaru</button>
+      <button class="quick-btn highlight" onclick="runCommand('bash update.sh --check')">☁️ Cek Kommit Terbaru</button>
       <button class="quick-btn" onclick="runCommand('git log -1 --stat')">📜 Log Kommit</button>
-      <button class="quick-btn" style="background:#16a34a; color:#fff; font-weight:700;" onclick="runCommand('bash update.sh')">🚀 1-Click Update</button>
+      <button class="quick-btn success" onclick="runCommand('bash update.sh')">🚀 1-Click Update</button>
       <button class="quick-btn" onclick="runCommand('pm2 restart karsacloud 2>/dev/null || pm2 restart cloudpro 2>/dev/null || pm2 restart all')">🔄 PM2 Restart</button>
       <button class="quick-btn" onclick="runCommand('pm2 status')">📊 PM2 Status</button>
       <button class="quick-btn" onclick="runCommand('pm2 logs --lines 25')">📜 PM2 Logs</button>
@@ -350,16 +586,16 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
     <div class="terminal-screen" id="terminalScreen">
       <div class="banner">
         <div class="banner-title">
-          <span>⚡ Karsa Cloud PRO Direct Web Terminal (No-Tailscale Mode)</span>
+          <span>☁️ Karsa Cloud PRO — Direct Web Shell Terminal (Cloud Engine)</span>
         </div>
         <div class="banner-grid">
           <div>Platform:</div><strong>${platform}</strong>
           <div>User & Host:</div><strong>${username}@${hostname}</strong>
           <div>Root CWD:</div><strong id="bannerCwd">${initialCwd}</strong>
-          <div>Status:</div><strong style="color:#10b981;">Terhubung Langsung ke Linux Bash</strong>
+          <div>Koneksi:</div><strong style="color:#10b981;">Terhubung Aktif ke Shell Linux Bash</strong>
         </div>
-        <div style="margin-top:8px; font-size:11px; color:#94a3b8;">
-          Ketik perintah bash langsung seperti di console Tailscale/PuTTY/PowerShell (ssh karsacloud@...). Tombol pintas cepat tersedia di atas layar.
+        <div style="margin-top:8px; font-size:11px; color:var(--cloud-text-muted);">
+          Ketik perintah bash langsung seperti di console SSH / PuTTY / Termux. Pintasan cepat tersedia di bilah atas layar.
         </div>
       </div>
       <div id="outputHistory"></div>
@@ -399,13 +635,27 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
     </div>
   </div>
 
-  <!-- Security PIN Modal -->
+  <!-- Security PIN Modal with Modern Cloud Emblem -->
   <div class="modal-overlay" id="pinModal" style="display:none;">
     <div class="modal-card">
-      <div class="modal-icon">🔐</div>
+      <div class="modal-icon-cloud">
+        <svg viewBox="0 0 100 100" fill="none" class="cloud-svg" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="cloudModalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0284c7" />
+              <stop offset="50%" stop-color="#005dbd" />
+              <stop offset="100%" stop-color="#0369a1" />
+            </linearGradient>
+          </defs>
+          <path d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z" fill="url(#cloudModalGrad)"/>
+          <path d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <polygon points="72,27 88,32 78,46 76,40 68,44" fill="#ffffff"/>
+          <path d="M 24 82 C 28 73 34 66 41 63" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
       <div class="modal-title">Karsa Cloud PRO Web SSH</div>
       <div class="modal-desc">
-        Akses langsung shell Linux tanpa login Tailscale. Masukkan PIN keamanan untuk membuka terminal.
+        Akses shell server cloud aman terenkripsi. Masukkan PIN keamanan untuk membuka terminal.
       </div>
       <input
         type="password"
@@ -435,6 +685,20 @@ export function renderWebTerminalHtml(host: string, initialCwd: string): string 
     const activePrompt = document.getElementById('activePrompt');
     const pinModal = document.getElementById('pinModal');
     const pinInput = document.getElementById('pinInput');
+
+    function toggleCloudTheme() {
+      const isLight = document.body.classList.toggle('theme-light-cloud');
+      localStorage.setItem('karsacloud_terminal_theme', isLight ? 'light' : 'dark');
+      const btn = document.getElementById('themeToggleBtn');
+      if (btn) btn.innerHTML = isLight ? '☁️ Awan Malam' : '☁️ Awan Terang';
+    }
+
+    // Init theme
+    if (localStorage.getItem('karsacloud_terminal_theme') === 'light') {
+      document.body.classList.add('theme-light-cloud');
+      const btn = document.getElementById('themeToggleBtn');
+      if (btn) btn.innerHTML = '☁️ Awan Malam';
+    }
 
     function safeFocus(el) {
       if (!el) return;

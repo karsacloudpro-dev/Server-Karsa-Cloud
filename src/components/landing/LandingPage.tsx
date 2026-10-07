@@ -284,11 +284,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8fbff] text-slate-800 font-sans selection:bg-sky-500 selection:text-white overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#f8fbff] text-slate-800 font-sans selection:bg-sky-500 selection:text-white overflow-x-clip relative">
       {/* ========================================================================= */}
       {/* 1. SEAMLESS UNIFIED STICKY CLOUD HEADER (MENYATU DENGAN BODY CANVAS)      */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-50 bg-[#f8fbff]/85 backdrop-blur-xl border-b border-sky-100/40 transition-colors shadow-2xs">
+      <header className="sticky top-0 z-50 bg-[#f8fbff]/92 backdrop-blur-xl border-b border-sky-100/80 transition-all shadow-xs">
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           {/* Left: Brand Identity (Official Logo with Live Status Beacon) */}
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">

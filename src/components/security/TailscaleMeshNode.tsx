@@ -215,6 +215,17 @@ export const TailscaleMeshNode: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap shrink-0 items-center gap-2">
+            <a
+              href="/terminal"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 px-3.5 py-2 text-xs font-bold text-white shadow-md shadow-sky-600/30 transition-all cursor-pointer"
+              title="Buka Web Terminal SSH Browser (Tema Awan)"
+            >
+              <Terminal className="h-3.5 w-3.5 text-amber-300" />
+              <span>Buka Web Terminal (SSH)</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
             <button
               onClick={handleSyncGitFromPanel}
               disabled={isSyncingGit}
