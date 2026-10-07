@@ -283,7 +283,22 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
     if (seenItemPaths.has(key)) return false;
     if (deletedPathsBlacklistRef.current.has(key)) return false;
 
-    // Subdomains belonging to denbaguse must NEVER appear in the server main domain's File Manager!
+    // 1. NEVER show subdomain directories inside the primary domain root (/public_html)!
+    // Each subdomain has its own dedicated workspace chamber so they never mix with primary domain files.
+    if (currentPath === '/public_html') {
+      const topSegment = fPath.toLowerCase().replace(/^\/public_html\//, '').split('/')[0];
+      const itemNameLower = f.name.toLowerCase();
+      if (
+        isolatedSubdomainRoots.has(fPath.toLowerCase()) ||
+        isolatedSubdomainRoots.has(`/public_html/${itemNameLower}`) ||
+        knownDenbagusePrefixes.has(topSegment) ||
+        knownDenbagusePrefixes.has(itemNameLower)
+      ) {
+        return false;
+      }
+    }
+
+    // 2. Subdomains belonging to denbaguse must NEVER appear in the server main domain's File Manager!
     if (isKarsacloudMain) {
       const topSegment = fPath.toLowerCase().replace(/^\/public_html\//, '').split('/')[0];
       const itemNameLower = f.name.toLowerCase();
@@ -309,6 +324,19 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
           // Never re-import a file that the user intentionally deleted!
           if (deletedPathsBlacklistRef.current.has(normKey)) {
             return;
+          }
+          // Never re-import subdomain directories into /public_html of ANY account!
+          if (dirToScan === '/public_html') {
+            const topSegment = normKey.replace(/^\/public_html\//, '').split('/')[0];
+            const itemNameLower = (f.name || '').toLowerCase();
+            if (
+              isolatedSubdomainRoots.has(normKey) ||
+              isolatedSubdomainRoots.has(`/public_html/${itemNameLower}`) ||
+              knownDenbagusePrefixes.has(topSegment) ||
+              knownDenbagusePrefixes.has(itemNameLower)
+            ) {
+              return;
+            }
           }
           if (isKarsacloudMain) {
             const topSegment = normKey.replace(/^\/public_html\//, '').split('/')[0];

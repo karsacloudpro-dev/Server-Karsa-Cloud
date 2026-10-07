@@ -1440,13 +1440,22 @@ class StorageService {
       'simpatika', 'emis', 'panel'
     ]);
 
-    // Purge any accidental denbaguse subdomain files belonging to acc-rdm-01 from state
-    if (isKarsacloudMain && Array.isArray(this.state.virtualFiles)) {
+    // Purge any accidental subdomain folder entries directly inside /public_html from state
+    if (Array.isArray(this.state.virtualFiles)) {
       const beforeLen = this.state.virtualFiles.length;
       this.state.virtualFiles = this.state.virtualFiles.filter(f => {
+        const pNorm = (f.path || '').toLowerCase();
+        // If it's a directory entry directly under /public_html matching a subdomain, purge it!
+        if (f.type === 'directory') {
+          const directSub = pNorm.replace(/^\/public_html\//, '');
+          if (!directSub.includes('/') && (knownDenbagusePrefixes.has(directSub) || knownDenbagusePrefixes.has((f.name || '').toLowerCase()))) {
+            return false;
+          }
+        }
+        // If it belongs to acc-rdm-01 (server main domain) and belongs to denbaguse, purge it completely!
         if (f.accountId === 'acc-rdm-01') {
-          const pNorm = (f.path || '').toLowerCase().replace(/^\/public_html\//, '');
-          const topFolder = pNorm.split('/')[0];
+          const pNormRel = pNorm.replace(/^\/public_html\//, '');
+          const topFolder = pNormRel.split('/')[0];
           const lowerName = (f.name || '').toLowerCase();
           if (knownDenbagusePrefixes.has(topFolder) || knownDenbagusePrefixes.has(lowerName)) {
             return false;
@@ -1461,9 +1470,16 @@ class StorageService {
 
     const files = this.state.virtualFiles.filter(f => {
       if (f.accountId !== accountId) return false;
+      const pNorm = (f.path || '').toLowerCase();
+      // Never return direct subdomain folder entries under /public_html
+      if (f.type === 'directory') {
+        const directSub = pNorm.replace(/^\/public_html\//, '');
+        if (!directSub.includes('/') && (knownDenbagusePrefixes.has(directSub) || knownDenbagusePrefixes.has((f.name || '').toLowerCase()))) {
+          return false;
+        }
+      }
       if (isKarsacloudMain) {
-        const pNorm = (f.path || '').toLowerCase().replace(/^\/public_html\//, '');
-        const topFolder = pNorm.split('/')[0];
+        const topFolder = pNorm.replace(/^\/public_html\//, '').split('/')[0];
         const lowerName = (f.name || '').toLowerCase();
         if (knownDenbagusePrefixes.has(topFolder) || knownDenbagusePrefixes.has(lowerName)) {
           return false;

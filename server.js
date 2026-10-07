@@ -4422,6 +4422,10 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
     const filtered = current.filter((f) => {
       const pNorm = normalizePath(f.path).toLowerCase();
       const parent = pNorm.substring(0, pNorm.lastIndexOf("/")) || "/public_html";
+      const directSub = pNorm.replace(/^\/public_html\//, "");
+      if (cleanDir === "/public_html" && !directSub.includes("/") && (knownClientSubdirs.has(directSub) || subRoots.has(`/public_html/${directSub}`))) {
+        return false;
+      }
       if (isServerMainAccount) {
         const topFolder = pNorm.replace(/^\/public_html\//, "").split("/")[0];
         if (knownClientSubdirs.has(topFolder) || knownClientSubdirs.has(f.name.toLowerCase())) {
