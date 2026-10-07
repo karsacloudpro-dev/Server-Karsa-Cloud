@@ -286,12 +286,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
   return (
     <div className="min-h-screen bg-[#f8fbff] text-slate-800 font-sans selection:bg-sky-500 selection:text-white overflow-x-hidden relative">
       {/* ========================================================================= */}
-      {/* 1. CLEAN EXECUTIVE NAVBAR (MODERN CLOUD ETHEREAL GLASS)                  */}
+      {/* 1. SEAMLESS UNIFIED STICKY CLOUD HEADER (MENYATU DENGAN BODY CANVAS)      */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-50 backdrop-blur-2xl bg-white/85 border-b border-sky-100/90 transition-all shadow-xs shadow-sky-950/5">
-        {/* Subtle Luxury Top Hairline Sky Accent */}
-        <div className="h-0.5 w-full bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500" />
-        
+      <header className="sticky top-0 z-50 bg-[#f8fbff]/85 backdrop-blur-xl border-b border-sky-100/40 transition-colors shadow-2xs">
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           {/* Left: Brand Identity (Official Logo with Live Status Beacon) */}
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -381,9 +378,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
           </div>
         </div>
 
-        {/* Mobile Slide-down Drawer (Modern Cloud Styling) */}
+        {/* Mobile Slide-down Drawer (Seamless Cloud Styling) */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-sky-100 bg-white/98 backdrop-blur-2xl px-4 py-5 space-y-4 animate-in slide-in-from-top-3 duration-200 shadow-xl">
+          <div className="lg:hidden border-t border-sky-100/60 bg-[#f8fbff]/98 backdrop-blur-2xl px-4 py-5 space-y-4 animate-in slide-in-from-top-3 duration-200 shadow-xl">
             {/* Header Status in Drawer */}
             <div className="flex items-center justify-between pb-3 border-b border-sky-100 text-[11px] font-mono text-slate-500">
               <span className="flex items-center gap-1.5 text-slate-700 font-semibold">
@@ -518,71 +515,99 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[720px] h-[340px] bg-gradient-to-tr from-sky-200/50 via-blue-100/40 to-indigo-100/30 blur-[130px] rounded-full pointer-events-none -z-10" />
         <div className="absolute top-1/3 right-4 w-[220px] sm:w-[440px] h-[220px] bg-sky-200/35 blur-[100px] rounded-full pointer-events-none -z-10" />
 
-        {/* Beautiful Artistic Cloud Watermark (Watermark Awan Artistik & Indah) */}
-        <div className="absolute inset-0 pointer-events-none select-none -z-10 flex items-center justify-center overflow-hidden">
-          <svg
-            className="w-[860px] max-w-[130%] h-[520px] text-sky-400 opacity-60"
-            viewBox="0 0 900 520"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient id="cloudAwanSoft1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.14" />
-                <stop offset="45%" stopColor="#60a5fa" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#c7d2fe" stopOpacity="0.02" />
-              </linearGradient>
-              <linearGradient id="cloudAwanSoft2" x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#0284c7" stopOpacity="0.12" />
-                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.03" />
-              </linearGradient>
-            </defs>
-
-            {/* Main Soft Floating Cumulus Cloud Watermark */}
-            <path
-              d="M 280 430 C 180 430 90 365 90 265 C 90 170 160 98 255 92 C 305 -2 438 -8 520 52 C 575 25 650 36 695 92 C 785 108 840 186 830 274 C 825 362 748 430 655 430 Z"
-              fill="url(#cloudAwanSoft1)"
-            />
-
-            {/* Inner Ethereal Cloud Layer */}
-            <path
-              d="M 330 400 C 265 400 215 345 226 279 C 237 218 286 179 352 179 C 390 118 478 113 538 157 C 582 140 637 157 665 201 C 714 223 736 283 714 338 C 692 388 637 400 571 400 Z"
-              fill="url(#cloudAwanSoft2)"
-            />
-
-            {/* Delicate Cloud Contour Lines (Garis Kontur Halus Awan) */}
-            <path
-              d="M 240 415 C 160 415 115 354 121 277 C 126 205 181 139 258 133 C 297 51 412 40 489 89 C 544 67 615 78 654 122 C 731 138 786 204 775 281 C 764 353 698 415 621 415"
-              stroke="#0284c7"
-              strokeWidth="2"
-              strokeOpacity="0.22"
-              strokeDasharray="10 8"
+        {/* ========================================================================= */}
+        {/* GRAND OFFICIAL CLOUD LOGO WATERMARK (WATERMARK LOGO AWAN RESMI KARSA)    */}
+        {/* ========================================================================= */}
+        <div className="absolute inset-0 pointer-events-none select-none -z-10 flex flex-col items-center justify-center overflow-hidden">
+          {/* Luminous Atmospheric Radial Clouds */}
+          <div className="absolute w-[600px] sm:w-[900px] h-[360px] sm:h-[480px] bg-gradient-to-tr from-sky-200/45 via-blue-100/35 to-indigo-100/25 blur-[120px] rounded-full" />
+          
+          {/* Grand Watermark of Official Karsa Cloud Logo Emblem */}
+          <div className="relative flex flex-col items-center justify-center opacity-90">
+            <svg
+              className="w-[380px] sm:w-[560px] lg:w-[760px] h-auto drop-shadow-xs transition-all"
+              viewBox="0 0 100 100"
               fill="none"
-            />
-            <path
-              d="M 160 310 C 215 299 270 321 325 304 C 380 288 435 255 501 260 C 567 266 622 299 688 288 C 743 277 787 244 831 233"
-              stroke="#38bdf8"
-              strokeWidth="2.2"
-              strokeOpacity="0.32"
-              strokeLinecap="round"
-              fill="none"
-            />
-            <path
-              d="M 220 355 C 286 344 352 360 418 344 C 484 327 550 311 616 327 C 671 338 715 322 759 311"
-              stroke="#60a5fa"
-              strokeWidth="1.8"
-              strokeOpacity="0.26"
-              strokeLinecap="round"
-              fill="none"
-            />
-            {/* Small Ambient Cirrus Puff on Left */}
-            <circle cx="140" cy="180" r="32" fill="#38bdf8" fillOpacity="0.08" />
-            <circle cx="170" cy="165" r="24" fill="#60a5fa" fillOpacity="0.06" />
-            {/* Small Ambient Cirrus Puff on Right */}
-            <circle cx="780" cy="140" r="28" fill="#38bdf8" fillOpacity="0.08" />
-            <circle cx="750" cy="155" r="20" fill="#60a5fa" fillOpacity="0.06" />
-          </svg>
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="karsaHeroLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0284c7" stopOpacity="0.24" />
+                  <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.08" />
+                </linearGradient>
+                <radialGradient id="karsaHaloGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+
+              {/* Ambient Circular Cloud Halo */}
+              <circle cx="50" cy="50" r="48" fill="url(#karsaHaloGlow)" />
+              <circle
+                cx="50"
+                cy="50"
+                r="46"
+                stroke="#0284c7"
+                strokeWidth="0.6"
+                strokeOpacity="0.25"
+                strokeDasharray="3 3"
+              />
+
+              {/* Official Cloud Silhouette */}
+              <path
+                d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z"
+                fill="url(#karsaHeroLogoGrad)"
+                stroke="#0284c7"
+                strokeWidth="1.6"
+                strokeOpacity="0.35"
+              />
+
+              {/* Iconic Dynamic Ascending Swoosh / Rocket Trajectory */}
+              <path
+                d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37"
+                stroke="#0284c7"
+                strokeWidth="3.2"
+                strokeOpacity="0.48"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+
+              {/* Ascending Arrow Tip Pointer */}
+              <polygon
+                points="72,27 88,32 78,46 76,40 68,44"
+                fill="#0284c7"
+                fillOpacity="0.48"
+              />
+
+              {/* Secondary Speed Aerodynamic Lift Line */}
+              <path
+                d="M 24 82 C 28 73 34 66 41 63"
+                stroke="#38bdf8"
+                strokeWidth="2.5"
+                strokeOpacity="0.42"
+                strokeLinecap="round"
+                fill="none"
+              />
+
+              {/* Official Brand Watermark Subtitle Text */}
+              <text
+                x="50"
+                y="94"
+                textAnchor="middle"
+                fill="#0369a1"
+                fillOpacity="0.30"
+                fontSize="4.2"
+                fontWeight="900"
+                letterSpacing="0.24em"
+                fontFamily="sans-serif"
+              >
+                KARSA CLOUD PRO
+              </text>
+            </svg>
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -1037,7 +1062,43 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
       {/* ========================================================================= */}
       {/* 6. INFRASTRUKTUR & FITUR UNGGULAN (MODERN CLOUD BENTO)                    */}
       {/* ========================================================================= */}
-      <section id="fitur" className="py-14 sm:py-20 bg-white border-b border-sky-100/80">
+      <section id="fitur" className="py-14 sm:py-20 bg-white border-b border-sky-100/80 relative overflow-hidden">
+        {/* Subtle Background Cloud Logo Watermark */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-50 translate-x-1/4 -z-0">
+          <svg
+            className="w-[440px] lg:w-[600px] h-auto text-sky-500"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z"
+              fill="#0284c7"
+              fillOpacity="0.10"
+              stroke="#0284c7"
+              strokeWidth="1.2"
+              strokeOpacity="0.22"
+            />
+            <path
+              d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37"
+              stroke="#0284c7"
+              strokeWidth="2.4"
+              strokeOpacity="0.30"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+            <polygon points="72,27 88,32 78,46 76,40 68,44" fill="#0284c7" fillOpacity="0.30" />
+            <path
+              d="M 24 82 C 28 73 34 66 41 63"
+              stroke="#38bdf8"
+              strokeWidth="1.8"
+              strokeOpacity="0.25"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </svg>
+        </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
             <span className="text-xs font-bold text-sky-600 uppercase tracking-wider font-mono">
