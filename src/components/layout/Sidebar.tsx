@@ -32,6 +32,7 @@ import {
   Zap,
   GitBranch,
   ShieldCheck,
+  ShoppingBag,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useServer } from '../../context/ServerContext';
@@ -352,6 +353,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
             icon: LayoutDashboard,
           },
           {
+            id: 'order-service',
+            aliases: ['client-catalog', 'order-new', 'store'],
+            label: 'Order Layanan & Kuota',
+            icon: ShoppingBag,
+            badge: {
+              text: 'BARU',
+            },
+          },
+          {
             id: 'customers',
             label: 'Pelanggan Saya',
             icon: Users,
@@ -524,6 +534,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
             aliases: ['customer-dashboard'],
             label: 'Ringkasan Akun',
             icon: LayoutDashboard,
+          },
+          {
+            id: 'order-service',
+            aliases: ['client-catalog', 'order-new', 'store'],
+            label: 'Order Layanan & Domain',
+            icon: ShoppingBag,
+            badge: {
+              text: 'BARU',
+            },
           },
           {
             id: 'vps',

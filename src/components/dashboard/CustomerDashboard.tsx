@@ -15,6 +15,7 @@ import {
   ExternalLink,
   Sparkles,
   CreditCard,
+  ShoppingBag,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useServer } from '../../context/ServerContext';
@@ -245,9 +246,16 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
       ],
     },
     {
-      title: 'Keuangan & Tagihan',
-      description: 'Riwayat tagihan, cetak kwitansi lunas, dan informasi paket hosting aktif',
+      title: 'Keuangan, Order & Tagihan',
+      description: 'Order paket hosting baru, sewa domain, riwayat tagihan, dan cetak bukti kwitansi lunas',
       items: [
+        {
+          id: 'order-service',
+          title: 'Order Layanan & Domain',
+          desc: 'Katalog paket hosting baru, sewa domain (.biz.id, .com, .id), upgrade VPS.',
+          icon: ShoppingBag,
+          badge: 'Order Baru',
+        },
         {
           id: 'billing',
           title: 'Tagihan & Bukti Bayar',
@@ -292,13 +300,21 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <button
+              type="button"
+              onClick={() => onNavigate('order-service')}
+              className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-3.5 py-2 text-xs font-bold text-white hover:from-emerald-500 hover:to-teal-500 shadow-sm cursor-pointer transition-all"
+            >
+              <ShoppingBag className="h-3.5 w-3.5" />
+              <span>Order Layanan Baru</span>
+            </button>
             <button
               type="button"
               onClick={() => setIsPreviewOpen(true)}
-              className="flex items-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-sky-500 shadow-xs cursor-pointer transition-colors"
+              className="flex items-center gap-1.5 rounded-xl bg-sky-600 px-3.5 py-2 text-xs font-bold text-white hover:bg-sky-500 shadow-xs cursor-pointer transition-colors"
             >
-              <span>Kunjungi / Preview Website</span>
+              <span>Kunjungi Website</span>
               <ExternalLink className="h-3.5 w-3.5" />
             </button>
           </div>

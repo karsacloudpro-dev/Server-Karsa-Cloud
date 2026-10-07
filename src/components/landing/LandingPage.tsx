@@ -865,19 +865,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
                   </div>
                 </div>
 
-                <div className="mt-7 pt-4 border-t border-slate-800">
+                <div className="mt-7 pt-4 border-t border-slate-800 space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => onGoToPanel('client_portal')}
+                    className={`w-full flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-xs font-bold transition-all shadow-md active:scale-[0.98] cursor-pointer ${
+                      plan.popular
+                        ? 'bg-sky-600 hover:bg-sky-500 text-white shadow-sky-600/25'
+                        : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/20'
+                    }`}
+                  >
+                    <span>Daftar &amp; Order Mandiri</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
                   <a
                     href={getWaOrderLink(plan.name, plan.price)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-full flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs sm:text-sm font-bold transition-all shadow-md active:scale-[0.98] ${
-                      plan.popular
-                        ? 'bg-sky-600 hover:bg-sky-500 text-white'
-                        : 'bg-slate-800 hover:bg-slate-700 text-white'
-                    }`}
+                    className="w-full flex items-center justify-center gap-2 rounded-xl py-2 px-3 text-[11px] font-semibold text-slate-400 hover:text-white hover:bg-slate-800/80 transition-colors"
                   >
-                    <span>Pesan via WhatsApp</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span>Konsultasi via WhatsApp</span>
                   </a>
                 </div>
               </div>

@@ -23,7 +23,12 @@ import {
   Timer,
   HelpCircle,
   Globe,
+  Phone,
+  Mail,
+  Check,
+  Zap,
 } from 'lucide-react';
+import { User, HostingAccount, Invoice } from '../../types';
 
 type PortalRole = 'admin' | 'reseller' | 'customer';
 
@@ -120,6 +125,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+
+  // Self-Service Registration State for Clients
+  const [authTab, setAuthTab] = useState<'login' | 'register'>('login');
+  const [regName, setRegName] = useState<string>('');
+  const [regEmail, setRegEmail] = useState<string>('');
+  const [regPhone, setRegPhone] = useState<string>('');
+  const [regPassword, setRegPassword] = useState<string>('');
+  const [regPlanId, setRegPlanId] = useState<string>('plan-starter');
+  const [regDomain, setRegDomain] = useState<string>('');
+  const [isRegistering, setIsRegistering] = useState<boolean>(false);
 
   // 2FA TOTP Challenge State
   const [is2FAPending, setIs2FAPending] = useState<boolean>(false);
@@ -307,6 +322,123 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     setIs2FAPending(false);
     setTotpCode('');
     setTotpError('');
+  };
+
+  const handleRegisterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!regName.trim() || !regEmail.trim() || !regPassword.trim()) {
+      setErrorMessage('Harap lengkapi Nama Lengkap, Alamat Email, dan Password Akun.');
+      return;
+    }
+    const cleanEmail = regEmail.trim().toLowerCase();
+    const existingUsers = db.getUsers();
+    if (existingUsers.some(u => u.email.toLowerCase() === cleanEmail)) {
+      setErrorMessage('Email ini sudah terdaftar. Silakan beralih ke tab Masuk untuk login.');
+      return;
+    }
+
+    setIsRegistering(true);
+    setErrorMessage('');
+
+    setTimeout(() => {
+      const newUserId = `usr-cust-${Date.now()}`;
+      const username =
+        cleanEmail.split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase().slice(0, 14) ||
+        `cust${Math.floor(100 + Math.random() * 899)}`;
+
+      const newUser: User = {
+        id: newUserId,
+        name: regName.trim(),
+        email: cleanEmail,
+        username,
+        role: 'customer',
+        phone: regPhone.trim() || '+62 812-2673-8883',
+        creditBalance: 0,
+        status: 'active',
+        createdAt: new Date().toISOString(),
+      };
+      db.saveUser(newUser);
+
+      const planMap: Record<string, { name: string; price: number; disk: number }> = {
+        'plan-starter': { name: 'Cloud Starter NVMe', price: 29000, disk: 5120 },
+        'plan-pro': { name: 'Cloud Business PRO', price: 75000, disk: 25600 },
+        'plan-enterprise': { name: 'Cloud Enterprise', price: 150000, disk: 102400 },
+        'reseller-starter': { name: 'Reseller Lite Partner', price: 150000, disk: 51200 },
+      };
+      const chosen = planMap[regPlanId] || planMap['plan-starter'];
+      const cleanDomain =
+        regDomain.trim().toLowerCase().replace(/^(https?:\/\/)/, '') ||
+        `${username}.karsacloud.biz.id`;
+
+      const newAcc: HostingAccount = {
+        id: `acc-cust-${Date.now()}`,
+        primaryDomain: cleanDomain,
+        domain: cleanDomain,
+        username,
+        customerId: newUserId,
+        customerName: regName.trim(),
+        customerEmail: cleanEmail,
+        serverId: 'srv-id-01',
+        serverName: 'ID-Cyber-01 (Jakarta)',
+        planId: regPlanId,
+        planName: chosen.name,
+        diskUsedMb: 1,
+        diskLimitMb: chosen.disk,
+        bandwidthUsedMb: 10,
+        bandwidthLimitMb: 102400,
+        phpVersion: '8.2',
+        phpExtensions: ['mysqli', 'pdo', 'curl', 'opcache', 'gd', 'mbstring', 'zip'],
+        status: 'active',
+        sslStatus: 'active',
+        sslProvider: "Let's Encrypt",
+        sslExpiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+        forceHttps: true,
+        documentRoot: `/home/${username}/public_html`,
+        ipAddress: '172.67.223.133',
+        databaseCount: 0,
+        emailCount: 0,
+        ftpCount: 1,
+        nameservers: ['ns1.karsacloud.biz.id', 'ns2.karsacloud.biz.id'],
+        createdAt: new Date().toISOString(),
+      };
+      db.saveHostingAccount(newAcc);
+
+      const invId = `inv-${Date.now()}`;
+      const invNumber = `INV-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, '0')}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const newInv: Invoice = {
+        id: invId,
+        invoiceNumber: invNumber,
+        userId: newUserId,
+        userName: regName.trim(),
+        userEmail: cleanEmail,
+        userPhone: regPhone.trim() || '+62 812-2673-8883',
+        amount: chosen.price,
+        currency: 'IDR',
+        status: 'unpaid',
+        createdAt: new Date().toISOString(),
+        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+        description: `Pendaftaran Baru: ${chosen.name} - Domain: ${cleanDomain}`,
+        items: [
+          {
+            description: `Paket ${chosen.name} (Siklus Bulanan)`,
+            qty: 1,
+            unitPrice: chosen.price,
+            amount: chosen.price,
+          },
+          {
+            description: `Aktivasi Akun & AutoSSL Let's Encrypt (${cleanDomain})`,
+            qty: 1,
+            unitPrice: 0,
+            amount: 0,
+          },
+        ],
+      };
+      db.saveInvoice(newInv);
+
+      setIsRegistering(false);
+      // Auto-login to Client Portal seamlessly
+      login(cleanEmail, 'customer', true);
+    }, 500);
   };
 
   return (
@@ -547,6 +679,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <h2 className="text-sm sm:text-base lg:text-lg font-extrabold text-white tracking-tight">
                     {portalMode === 'server_admin'
                       ? 'Login Admin Server'
+                      : authTab === 'register'
+                      ? 'Registrasi Akun Klien Baru'
                       : 'Login Klien & Reseller'}
                   </h2>
                   <span
@@ -564,6 +698,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 <p className="text-[11px] sm:text-xs text-slate-400 mb-3">
                   {portalMode === 'server_admin'
                     ? 'Khusus Root Administrator Server. Masukkan kredensial admin Anda untuk mengakses Web Panel kontrol server.'
+                    : authTab === 'register'
+                    ? 'Daftar akun mandiri gratis. Pilih paket hosting Anda dan dapatkan aktivasi instan serta tagihan otomatis.'
                     : 'Khusus Mitra WHM Reseller & Pelanggan cPanel. Sistem otomatis mengarahkan ke dashboard yang sesuai hak akses Anda.'}
                 </p>
 
@@ -580,6 +716,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       setPortalMode(prev =>
                         prev === 'server_admin' ? 'client_portal' : 'server_admin'
                       );
+                      setAuthTab('login');
                       setErrorMessage('');
                     }}
                     className="font-semibold text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1 cursor-pointer"
@@ -593,8 +730,45 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   </button>
                 </div>
 
-                {/* Smart Device Auto-Fill Status Banner */}
-                {isAutoFilledFromDevice && (
+                {/* Client Mode Dual Tab: Masuk vs Daftar Baru */}
+                {portalMode === 'client_portal' && (
+                  <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-950/80 rounded-xl border border-slate-800 mb-3.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAuthTab('login');
+                        setErrorMessage('');
+                      }}
+                      className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                        authTab === 'login'
+                          ? 'bg-sky-600 text-white shadow-xs'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Masuk ke Akun
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAuthTab('register');
+                        setErrorMessage('');
+                      }}
+                      className={`py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                        authTab === 'register'
+                          ? 'bg-emerald-600 text-white shadow-xs font-black'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <span>Daftar Akun Baru</span>
+                      <span className="rounded-full bg-emerald-400/20 text-emerald-300 text-[9px] px-1.5 py-0.2">
+                        Mandiri
+                      </span>
+                    </button>
+                  </div>
+                )}
+
+                {/* Smart Device Auto-Fill Status Banner (Only for login tab) */}
+                {authTab === 'login' && isAutoFilledFromDevice && (
                   <div className="mb-3 flex items-center justify-between gap-2 rounded-xl border border-sky-500/30 bg-sky-950/40 px-3 py-1.5 sm:py-2 text-[10.5px] sm:text-[11px] text-sky-200">
                     <div className="flex items-center gap-1.5 min-w-0">
                       <Sparkles className="h-3.5 w-3.5 text-sky-400 shrink-0" />
@@ -648,6 +822,151 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     )}
                   </div>
                 )}
+
+                {authTab === 'register' && portalMode === 'client_portal' ? (
+                  /* ================= SELF-SERVICE CLIENT REGISTRATION FORM ================= */
+                  <form onSubmit={handleRegisterSubmit} className="space-y-3">
+                    <div>
+                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                        Nama Lengkap Anda
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <UserIcon className="h-4 w-4" />
+                        </div>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Nama lengkap atau nama bisnis Anda..."
+                          value={regName}
+                          onChange={e => setRegName(e.target.value)}
+                          className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs sm:text-sm text-white placeholder:text-slate-600 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-hidden transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                        Alamat Email Aktif
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <Mail className="h-4 w-4" />
+                        </div>
+                        <input
+                          type="email"
+                          required
+                          placeholder="contoh@gmail.com (untuk notifikasi invoice & login)"
+                          value={regEmail}
+                          onChange={e => setRegEmail(e.target.value)}
+                          className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs sm:text-sm text-white placeholder:text-slate-600 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-hidden transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <div>
+                        <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                          No. WhatsApp Aktif
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                            <Phone className="h-4 w-4" />
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="0812xxxxxxx"
+                            value={regPhone}
+                            onChange={e => setRegPhone(e.target.value)}
+                            className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs text-white placeholder:text-slate-600 focus:border-emerald-500 focus:outline-hidden"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                          Kata Sandi Akun
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                            <Lock className="h-4 w-4" />
+                          </div>
+                          <input
+                            type="password"
+                            required
+                            placeholder="Buat kata sandi..."
+                            value={regPassword}
+                            onChange={e => setRegPassword(e.target.value)}
+                            className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs text-white placeholder:text-slate-600 focus:border-emerald-500 focus:outline-hidden"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                        Pilihan Paket Layanan Awal
+                      </label>
+                      <select
+                        value={regPlanId}
+                        onChange={e => setRegPlanId(e.target.value)}
+                        className="w-full rounded-xl border border-slate-800 bg-slate-950/90 px-3 py-2 text-xs text-white focus:border-emerald-500 focus:outline-hidden"
+                      >
+                        <option value="plan-starter">Cloud Starter NVMe (5GB) - Rp 29.000 / bln</option>
+                        <option value="plan-pro">Cloud Business PRO (25GB) - Rp 75.000 / bln</option>
+                        <option value="plan-enterprise">Cloud Enterprise (100GB) - Rp 150.000 / bln</option>
+                        <option value="reseller-starter">Reseller Lite Partner (50GB) - Rp 150.000 / bln</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] sm:text-xs font-semibold text-slate-300 mb-1">
+                        Domain yang Ingin Digunakan (Opsional)
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <Globe className="h-4 w-4" />
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="contoh: tokosaya.biz.id (kosongkan jika belum ada)"
+                          value={regDomain}
+                          onChange={e => setRegDomain(e.target.value)}
+                          className="w-full rounded-xl border border-slate-800 bg-slate-950/90 pl-10 pr-3.5 py-2 text-xs text-white placeholder:text-slate-600 focus:border-emerald-500 focus:outline-hidden"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isRegistering}
+                      className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-emerald-600/25 transition-all cursor-pointer active:scale-[0.99] disabled:opacity-50"
+                    >
+                      {isRegistering ? (
+                        <>
+                          <RotateCcw className="h-4 w-4 animate-spin" />
+                          <span>Mendaftarkan &amp; Membuat Tagihan...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="h-4 w-4 text-amber-300" />
+                          <span>Daftar Sekarang &amp; Buka Portal Klien</span>
+                        </>
+                      )}
+                    </button>
+
+                    <div className="text-center pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setAuthTab('login')}
+                        className="text-[11px] text-slate-400 hover:text-sky-400 cursor-pointer"
+                      >
+                        Sudah punya akun? <strong>Masuk di sini</strong>
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  /* ================= LOGIN FORM ================= */
 
                 <form onSubmit={handleLoginSubmit} autoComplete="on" className="space-y-3 sm:space-y-3.5">
                   <div>
@@ -745,6 +1064,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     </button>
                   )}
                 </form>
+                )}
               </>
             )}
           </div>

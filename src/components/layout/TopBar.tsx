@@ -107,6 +107,11 @@ export const TopBar: React.FC<TopBarProps> = ({
       case 'packages':
       case 'plans':
         return { title: 'Paket & Kuota Hosting', category: 'Hosting' };
+      case 'order-service':
+      case 'client-catalog':
+      case 'order-new':
+      case 'store':
+        return { title: 'Katalog Layanan & Order Mandiri', category: 'Layanan' };
       case 'invoices':
       case 'billing':
         return { title: 'Invoicing & Tagihan', category: 'Finance' };

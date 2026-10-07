@@ -36,6 +36,7 @@ import { ArchitectureView } from './components/architecture/ArchitectureView';
 import { AdminDashboard } from './components/dashboard/AdminDashboard';
 import { ResellerDashboard } from './components/dashboard/ResellerDashboard';
 import { CustomerDashboard } from './components/dashboard/CustomerDashboard';
+import { ClientProductCatalog } from './components/client/ClientProductCatalog';
 import { JobQueueDrawer } from './components/layout/JobQueueDrawer';
 import { NotificationDrawer } from './components/layout/NotificationDrawer';
 import { LoginPage } from './components/layout/LoginPage';
@@ -1405,6 +1406,16 @@ const AppContent: React.FC = () => {
       case 'media-storage':
       case 'cpanel-media':
         return renderAccountSuiteWrapper('Cloudflare R2 & Media', (acc) => <MediaStorageManager account={acc} />);
+      case 'order-service':
+      case 'client-catalog':
+      case 'order-new':
+      case 'store':
+        return renderSystemModuleWrapper(
+          'SERVICE STORE & CATALOG',
+          'Katalog Produk & Order Mandiri',
+          'Pilih paket hosting, sewa domain, upgrade VPS, atau paket reseller dengan aktivasi instan',
+          <ClientProductCatalog onNavigate={setActiveTab} />
+        );
       case 'plans':
       case 'packages':
         return renderSystemModuleWrapper(
