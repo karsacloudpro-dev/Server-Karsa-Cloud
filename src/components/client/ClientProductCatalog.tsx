@@ -129,7 +129,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
       specs: {
         disk: '50 GB NVMe Gen4 Alokasi Reseller',
         bandwidth: 'Unmetered Bandwidth Bulanan',
-        accounts: 'Hingga 15 Akun cPanel Klien Mandiri',
+        accounts: 'Hingga 15 Akun cPanel Terisolasi',
         whitelabel: '100% White-Label (Logo & Brand Anda)',
         nameserver: 'Private Nameserver (ns1/ns2.domainanda)',
         overselling: 'Fitur Overselling Diizinkan',
@@ -145,8 +145,8 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
       specs: {
         disk: '150 GB NVMe Gen4 Alokasi Reseller',
         bandwidth: 'Unmetered Bandwidth Bulanan',
-        accounts: 'Hingga 50 Akun cPanel Klien Mandiri',
-        whitelabel: '100% Full White-Label & Panel Mandiri',
+        accounts: 'Hingga 50 Akun cPanel Terisolasi',
+        whitelabel: '100% Full White-Label & Panel Klien Pribadi',
         nameserver: 'Private Nameserver Kustom Bebas',
         overselling: 'Fitur Overselling Penuh Aktif',
       },
@@ -162,7 +162,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
       specs: {
         disk: '500 GB NVMe Gen4 Enterprise Storage',
         bandwidth: 'Unmetered Bandwidth Dedicated',
-        accounts: 'Unlimited Akun cPanel Klien Mandiri',
+        accounts: 'Unlimited Akun cPanel Terisolasi',
         whitelabel: 'Custom Invoice Header, Logo, & Tema',
         nameserver: 'Dedicated Cluster Private Nameserver',
         overselling: 'Prioritas Resource Tier 1',
@@ -362,14 +362,14 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
           <div className="space-y-2 max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-500/10 px-3 py-1 font-mono text-[10px] sm:text-[11px] font-bold text-sky-300">
               <Sparkles className="h-3.5 w-3.5 text-amber-300" />
-              <span>KATALOG PRODUK &amp; ORDER MANDIRI</span>
+              <span>KATALOG PRODUK &amp; LAYANAN ENTERPRISE</span>
             </div>
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight">
-              Order Layanan Hosting, Reseller, VPS &amp; Domain
+              Pilihan Paket Hosting, Reseller, VPS &amp; Domain
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Pilih paket layanan tambahan untuk website baru Anda. Sistem otomatis menerbitkan akun hosting,
-              konfigurasi DNS, serta tagihan invoice resmi dengan integrasi pembayaran otomatis.
+              Pilih paket spesifikasi yang sesuai untuk kebutuhan website Anda. Sistem otomatis menerbitkan akun hosting,
+              konfigurasi DNS, serta tagihan invoice resmi dengan integrasi pembayaran instan.
             </p>
           </div>
 
@@ -529,7 +529,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                         : 'bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-800 dark:hover:bg-slate-700'
                     }`}
                   >
-                    <span>Order Paket Sekarang</span>
+                    <span>Pilih Paket Cloud</span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
@@ -736,7 +736,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                   }
                   className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer whitespace-nowrap shadow-xs"
                 >
-                  Daftarkan Domain Ini
+                  Pilih Domain Ini
                 </button>
               </div>
             )}
@@ -794,7 +794,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                   <CheckCircle2 className="h-9 w-9" />
                 </div>
                 <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">
-                  Order Berhasil Diterbitkan!
+                  Layanan Berhasil Dipesan!
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
                   Akun hosting untuk domain <strong className="text-sky-600 font-mono">{orderSuccess.domain}</strong> telah dibuat.
@@ -848,7 +848,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                     className="w-full py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
                   >
                     <CreditCard className="h-4 w-4" />
-                    <span>Buka Rincian Tagihan &amp; Pembayaran</span>
+                    <span>Lihat Faktur &amp; Pembayaran</span>
                   </button>
 
                   <button
@@ -860,7 +860,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                     }}
                     className="w-full py-2 px-4 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 text-xs font-semibold cursor-pointer"
                   >
-                    Kembali ke Dashboard Utama
+                    Dashboard Pelanggan
                   </button>
                 </div>
               </div>
@@ -871,7 +871,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                   <div className="flex items-center gap-2">
                     <ShoppingBag className="h-5 w-5 text-sky-600" />
                     <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
-                      Konfirmasi Order Layanan
+                      Konfirmasi Pemesanan Layanan
                     </h3>
                   </div>
                   <button
@@ -970,12 +970,12 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                     {isSubmitting ? (
                       <>
                         <RotateCcw className="h-4 w-4 animate-spin" />
-                        <span>Menerbitkan Akun &amp; Invoice...</span>
+                        <span>Memproses Pesanan &amp; Faktur...</span>
                       </>
                     ) : (
                       <>
                         <Zap className="h-4 w-4 text-amber-300" />
-                        <span>Konfirmasi &amp; Terbitkan Tagihan Mandiri</span>
+                        <span>Konfirmasi &amp; Proses Pemesanan</span>
                       </>
                     )}
                   </button>

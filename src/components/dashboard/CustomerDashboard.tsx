@@ -246,15 +246,15 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
       ],
     },
     {
-      title: 'Keuangan, Order & Tagihan',
-      description: 'Order paket hosting baru, sewa domain, riwayat tagihan, dan cetak bukti kwitansi lunas',
+      title: 'Layanan, Tagihan & Pembayaran',
+      description: 'Katalog paket cloud hosting, registrasi domain, faktur pembayaran, dan bukti kwitansi lunas',
       items: [
         {
           id: 'order-service',
-          title: 'Order Layanan & Domain',
-          desc: 'Katalog paket hosting baru, sewa domain (.biz.id, .com, .id), upgrade VPS.',
+          title: 'Katalog Layanan & Domain',
+          desc: 'Pilihan paket cloud hosting NVMe, sewa domain (.biz.id, .com, .id), dan upgrade VPS.',
           icon: ShoppingBag,
-          badge: 'Order Baru',
+          badge: 'Katalog',
         },
         {
           id: 'billing',
@@ -307,7 +307,7 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
               className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-3.5 py-2 text-xs font-bold text-white hover:from-emerald-500 hover:to-teal-500 shadow-sm cursor-pointer transition-all"
             >
               <ShoppingBag className="h-3.5 w-3.5" />
-              <span>Order Layanan Baru</span>
+              <span>Tambah Layanan Cloud</span>
             </button>
             <button
               type="button"
@@ -331,7 +331,7 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ onNavigate
                   {category.title}
                   {category.title.includes('DNS') && (
                     <span className="rounded-md bg-sky-100 text-sky-800 text-[10px] font-mono font-bold px-2 py-0.5">
-                      Modul Mandiri
+                      Zona Dedicated
                     </span>
                   )}
                 </h3>

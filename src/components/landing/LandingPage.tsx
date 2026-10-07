@@ -306,7 +306,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
               Beranda
             </a>
             <a href="#portal" className="hover:text-amber-400 transition-colors">
-              Pemisahan Portal
+              Akses Portal
             </a>
             <a href="#paket" className="hover:text-amber-400 transition-colors">
               Paket &amp; Harga
@@ -324,27 +324,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
 
           {/* Right: Functional Action Buttons ONLY (No Title Text) */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Login Klien Button (client.karsacloud.biz.id) */}
+            {/* Portal Klien Button (client.karsacloud.biz.id) */}
             <button
               type="button"
               onClick={() => onGoToPanel('client_portal')}
               className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-white px-3 sm:px-4 py-2 sm:py-2.5 text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95"
-              title="Masuk ke Portal Klien & Reseller (client.karsacloud.biz.id)"
+              title="Akses Portal Klien & Reseller (client.karsacloud.biz.id)"
             >
               <Users className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="hidden xs:inline">Login</span>
+              <span className="hidden xs:inline">Portal</span>
               <span>Klien</span>
             </button>
 
-            {/* Login Admin Button (server.karsacloud.biz.id) */}
+            {/* Panel Admin Button (server.karsacloud.biz.id) */}
             <button
               type="button"
               onClick={() => onGoToPanel('server_admin')}
               className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white px-3 sm:px-4 py-2 sm:py-2.5 text-xs font-bold transition-all cursor-pointer shadow-md shadow-sky-600/20 active:scale-95"
-              title="Masuk ke Web Panel Admin Server (server.karsacloud.biz.id)"
+              title="Akses Panel Admin Server (server.karsacloud.biz.id)"
             >
               <Server className="w-3.5 h-3.5 text-amber-300" />
-              <span className="hidden xs:inline">Login</span>
+              <span className="hidden xs:inline">Panel</span>
               <span>Admin</span>
             </button>
 
@@ -401,7 +401,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="p-2.5 rounded-lg hover:bg-slate-900 hover:text-white"
               >
-                Pemisahan Portal Server vs Klien
+                Gerbang Akses Portal Terpadu
               </a>
               <a
                 href="#paket"
@@ -544,10 +544,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
               ARSITEKTUR MULTI-TENANT TERISOLASI
             </span>
             <h2 className="text-2xl sm:text-4xl font-black text-white mt-2 tracking-tight">
-              Pemisahan Jalur Masuk Server &amp; Portal Klien
+              Gerbang Akses Portal Terpadu
             </h2>
             <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Untuk menjamin keamanan cluster dan kestabilan performa, Karsa Cloud PRO memisahkan gerbang otentikasi Root Administrator dengan Portal Klien Mandiri.
+              Untuk menjamin keamanan cluster dan kestabilan performa, Karsa Cloud PRO menghadirkan gerbang akses terisolasi untuk Administrator Server serta Portal Klien &amp; Reseller.
             </p>
           </div>
 
@@ -625,7 +625,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
                     <h3 className="text-lg sm:text-xl font-black text-white font-mono break-all">
                       client.karsacloud.biz.id
                     </h3>
-                    <p className="text-xs text-emerald-300 font-semibold">Portal Mandiri Klien &amp; WHM Reseller</p>
+                    <p className="text-xs text-emerald-300 font-semibold">Portal Layanan Klien &amp; WHM Reseller</p>
                   </div>
                 </div>
 
@@ -875,7 +875,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
                         : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/20'
                     }`}
                   >
-                    <span>Daftar &amp; Order Mandiri</span>
+                    <span>Pesan Layanan Sekarang</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <a
@@ -1153,7 +1153,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
                 </li>
                 <li>
                   <a href="#beranda" className="hover:text-white transition-colors">
-                    karsacloud.biz.id (Website Utama)
+                    karsacloud.biz.id (Portal Utama)
                   </a>
                 </li>
               </ul>

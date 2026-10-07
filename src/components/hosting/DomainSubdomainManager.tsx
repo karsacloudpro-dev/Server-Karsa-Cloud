@@ -376,7 +376,7 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
                   Domain Infrastruktur Server Utama Karsa Cloud PRO
                 </h3>
                 <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
-                  Pengaturan ini mengelola 3 domain inti sistem server: Website Utama (<strong className="text-white">karsacloud.biz.id</strong>), Web Panel Admin (<strong className="text-amber-300">server.karsacloud.biz.id</strong>), dan Portal Klien cPanel (<strong className="text-emerald-300">client.karsacloud.biz.id</strong>). Domain-domain ini telah dipisahkan secara permanen dari domain milik klien untuk menjaga stabilitas routing cluster.
+                  Pengaturan ini mengelola 3 domain inti sistem server: Portal Utama (<strong className="text-white">karsacloud.biz.id</strong>), Web Panel Admin (<strong className="text-amber-300">server.karsacloud.biz.id</strong>), dan Portal Klien cPanel (<strong className="text-emerald-300">client.karsacloud.biz.id</strong>). Domain-domain ini telah dipisahkan secara permanen dari domain milik klien untuk menjaga stabilitas routing cluster.
                 </p>
               </div>
 

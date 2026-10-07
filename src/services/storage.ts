@@ -1726,8 +1726,8 @@ class StorageService {
       {
         id: 'core-dom-01',
         domain: 'karsacloud.biz.id',
-        title: 'Website Utama & Branding Portal',
-        roleDescription: 'Apex domain resmi untuk landing page promosi, katalog paket cloud hosting, pendaftaran pelanggan, dan integrasi WhatsApp.',
+        title: 'Portal Utama & Identitas Layanan',
+        roleDescription: 'Apex domain resmi untuk portal informasi, katalog paket cloud hosting, registrasi pelanggan, dan konsultasi resmi.',
         category: 'apex_website',
         badge: 'APEX DOMAIN',
         badgeColor: 'sky',

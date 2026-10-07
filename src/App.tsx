@@ -1411,9 +1411,9 @@ const AppContent: React.FC = () => {
       case 'order-new':
       case 'store':
         return renderSystemModuleWrapper(
-          'SERVICE STORE & CATALOG',
-          'Katalog Produk & Order Mandiri',
-          'Pilih paket hosting, sewa domain, upgrade VPS, atau paket reseller dengan aktivasi instan',
+          'CLOUD CATALOG & SERVICES',
+          'Katalog Produk & Layanan Cloud',
+          'Eksplorasi paket cloud hosting, registrasi domain, VPS KVM, dan kemitraan reseller terpadu',
           <ClientProductCatalog onNavigate={setActiveTab} />
         );
       case 'plans':

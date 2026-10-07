@@ -697,18 +697,18 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 </div>
                 <p className="text-[11px] sm:text-xs text-slate-400 mb-3">
                   {portalMode === 'server_admin'
-                    ? 'Khusus Root Administrator Server. Masukkan kredensial admin Anda untuk mengakses Web Panel kontrol server.'
+                    ? 'Akses khusus Administrator Sistem. Masukkan kredensial Anda untuk mengelola infrastruktur cluster.'
                     : authTab === 'register'
-                    ? 'Daftar akun mandiri gratis. Pilih paket hosting Anda dan dapatkan aktivasi instan serta tagihan otomatis.'
-                    : 'Khusus Mitra WHM Reseller & Pelanggan cPanel. Sistem otomatis mengarahkan ke dashboard yang sesuai hak akses Anda.'}
+                    ? 'Pendaftaran akun baru instan. Pilih paket cloud hosting dan nikmati aktivasi otomatis beserta faktur resmi.'
+                    : 'Akses resmi Mitra Reseller WHM & Pelanggan cPanel. Sistem mengarahkan otomatis sesuai hak akses akun Anda.'}
                 </p>
 
                 {/* Quick Portal Switcher Banner */}
                 <div className="mb-3.5 flex items-center justify-between p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-[10.5px]">
                   <span className="text-slate-400">
                     {portalMode === 'server_admin'
-                      ? 'Mitra Reseller atau Pelanggan?'
-                      : 'Administrator Server?'}
+                      ? 'Akses Klien atau Mitra Reseller?'
+                      : 'Akses Administrator Server?'}
                   </span>
                   <button
                     type="button"
@@ -723,14 +723,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   >
                     <span>
                       {portalMode === 'server_admin'
-                        ? 'Beralih ke Login Klien (client.)'
-                        : 'Beralih ke Login Admin (server.)'}
+                        ? 'Portal Klien & Reseller'
+                        : 'Panel Admin Server'}
                     </span>
                     <ArrowRight className="h-3 w-3" />
                   </button>
                 </div>
 
-                {/* Client Mode Dual Tab: Masuk vs Daftar Baru */}
+                {/* Client Mode Dual Tab: Masuk vs Registrasi */}
                 {portalMode === 'client_portal' && (
                   <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-950/80 rounded-xl border border-slate-800 mb-3.5">
                     <button
@@ -745,7 +745,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           : 'text-slate-400 hover:text-white'
                       }`}
                     >
-                      Masuk ke Akun
+                      Masuk Akun
                     </button>
                     <button
                       type="button"
@@ -759,9 +759,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           : 'text-slate-400 hover:text-white'
                       }`}
                     >
-                      <span>Daftar Akun Baru</span>
+                      <span>Registrasi Akun</span>
                       <span className="rounded-full bg-emerald-400/20 text-emerald-300 text-[9px] px-1.5 py-0.2">
-                        Mandiri
+                        Instan
                       </span>
                     </button>
                   </div>
@@ -773,14 +773,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <div className="flex items-center gap-1.5 min-w-0">
                       <Sparkles className="h-3.5 w-3.5 text-sky-400 shrink-0" />
                       <span className="truncate">
-                        Perangkat dikenali &bull; Kredensial terisi otomatis
+                        Perangkat Terverifikasi &bull; Akses Cepat Aktif
                       </span>
                     </div>
                     <button
                       type="button"
                       onClick={handleClearDeviceMemory}
                       className="inline-flex items-center gap-1 shrink-0 font-mono text-[9.5px] sm:text-[10px] font-semibold text-slate-400 hover:text-rose-300 transition-colors cursor-pointer"
-                      title="Kosongkan kredensial yang tersimpan di perangkat ini"
+                      title="Hapus data sesi tersimpan"
                     >
                       <RotateCcw className="h-3 w-3" />
                       <span>Reset</span>
@@ -803,7 +803,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         }}
                         className="w-full py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition-colors"
                       >
-                        <span>Buka Login Klien & Reseller (client.karsacloud.biz.id) Sekarang</span>
+                        <span>Akses Portal Klien &amp; Reseller</span>
                         <ArrowRight className="h-3.5 w-3.5" />
                       </button>
                     )}
@@ -816,7 +816,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         }}
                         className="w-full py-1.5 px-3 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition-colors"
                       >
-                        <span>Buka Login Admin Server (server.karsacloud.biz.id) Sekarang</span>
+                        <span>Akses Panel Admin Server</span>
                         <ArrowRight className="h-3.5 w-3.5" />
                       </button>
                     )}
@@ -945,12 +945,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       {isRegistering ? (
                         <>
                           <RotateCcw className="h-4 w-4 animate-spin" />
-                          <span>Mendaftarkan &amp; Membuat Tagihan...</span>
+                          <span>Memproses Registrasi Akun...</span>
                         </>
                       ) : (
                         <>
                           <Zap className="h-4 w-4 text-amber-300" />
-                          <span>Daftar Sekarang &amp; Buka Portal Klien</span>
+                          <span>Registrasi &amp; Aktivasi Layanan</span>
                         </>
                       )}
                     </button>
@@ -961,7 +961,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         onClick={() => setAuthTab('login')}
                         className="text-[11px] text-slate-400 hover:text-sky-400 cursor-pointer"
                       >
-                        Sudah punya akun? <strong>Masuk di sini</strong>
+                        Sudah memiliki akun? <strong>Masuk di sini</strong>
                       </button>
                     </div>
                   </form>
@@ -1047,8 +1047,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   >
                     <span>
                       {portalMode === 'server_admin'
-                        ? 'Masuk ke Web Panel Admin (server.)'
-                        : 'Masuk ke Portal Klien & Reseller'}
+                        ? 'Akses Panel Admin Server'
+                        : 'Akses Portal Klien & Reseller'}
                     </span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
@@ -1060,7 +1060,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       className="w-full mt-2.5 py-2 px-3 rounded-xl border border-slate-800 bg-slate-950/80 hover:bg-slate-900 text-slate-300 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <Globe className="h-3.5 w-3.5 text-sky-400" />
-                      <span>Website Utama Promosi (karsacloud.biz.id)</span>
+                      <span>Portal Utama (karsacloud.biz.id)</span>
                     </button>
                   )}
                 </form>

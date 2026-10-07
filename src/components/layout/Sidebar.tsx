@@ -355,10 +355,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {
             id: 'order-service',
             aliases: ['client-catalog', 'order-new', 'store'],
-            label: 'Order Layanan & Kuota',
+            label: 'Katalog & Alokasi Kuota',
             icon: ShoppingBag,
             badge: {
-              text: 'BARU',
+              text: 'Katalog',
             },
           },
           {
@@ -538,10 +538,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {
             id: 'order-service',
             aliases: ['client-catalog', 'order-new', 'store'],
-            label: 'Order Layanan & Domain',
+            label: 'Katalog Produk & Layanan',
             icon: ShoppingBag,
             badge: {
-              text: 'BARU',
+              text: 'Katalog',
             },
           },
           {

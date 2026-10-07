@@ -431,7 +431,7 @@ export const DiskUsageModule: React.FC<DiskUsageModuleProps> = ({
                 ? 'Pantau rincian pemakaian disk riil pada website, folder uploads, dan database Anda secara terisolasi tanpa mencampur dengan data server lain.'
                 : isReseller
                 ? 'Pantau rincian pemakaian disk riil pada setiap akun klien mitra reseller Anda secara terisolasi.'
-                : 'Pantau rincian pemakaian disk riil pada setiap akun hosting, document root website utama, dan folder subdomain secara terisolasi.'}
+                : 'Pantau rincian pemakaian disk riil pada setiap akun hosting, document root portal utama, dan folder subdomain secara terisolasi.'}
             </p>
           </div>
 
