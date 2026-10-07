@@ -37,7 +37,7 @@ export const CreateAccountWizard: React.FC<CreateAccountWizardProps> = ({ isOpen
   const [customerName, setCustomerName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Jika admin, izinkan memilih reseller pemilik akun atau langsung akun Root Bos
+  // Jika admin, izinkan memilih reseller pemilik akun atau langsung akun Root Administrator
   const resellers = db.getUsers().filter(u => u.role === 'reseller');
   const [assignedResellerId, setAssignedResellerId] = useState<string>(
     currentUser?.role === 'reseller' ? currentUser.id : ''
@@ -168,18 +168,18 @@ export const CreateAccountWizard: React.FC<CreateAccountWizardProps> = ({ isOpen
                 onChange={e => setAssignedResellerId(e.target.value)}
                 className="w-full rounded-lg border border-indigo-300 bg-white px-3 py-2 text-xs font-semibold text-slate-900 focus:border-indigo-500 focus:outline-hidden dark:border-indigo-800 dark:bg-slate-800 dark:text-white"
               >
-                <option value="">🏢 Akun Milik Server Utama Bos (Root Direct Client)</option>
+                <option value="">🏢 Server Utama (Root Administrator Direct Client)</option>
                 {resellers.map(r => {
                   const prof = db.getResellerProfile(r.id);
                   return (
                     <option key={r.id} value={r.id}>
-                      🤝 Titipkan ke Reseller: {prof?.brandName || r.name} ({prof?.primaryDomain || r.email})
+                      🤝 Alokasikan ke Reseller: {prof?.brandName || r.name} ({prof?.primaryDomain || r.email})
                     </option>
                   );
                 })}
               </select>
               <p className="text-[10px] text-indigo-700/80 dark:text-indigo-400 mt-1">
-                Bos bisa memilih apakah akun ini langsung di bawah Bos atau masuk ke jatah kuota mitra reseller tertentu.
+                Tentukan alokasi akun langsung di bawah Server Utama atau dialokasikan ke kuota mitra reseller tertentu.
               </p>
             </div>
           )}

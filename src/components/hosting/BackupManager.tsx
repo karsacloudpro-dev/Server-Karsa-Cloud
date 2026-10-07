@@ -1023,10 +1023,21 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
   }, [primaryDomains, selectedDomain, currentDomainObj]);
   const isSubdomainSelected = !isPrimarySelected;
 
+  const activePrimaryDomain = useMemo(() => {
+    if (isPrimarySelected) return selectedDomain;
+    const match = primaryDomains.find((p: ServerDomainItem) => p.domain.toLowerCase() === selectedDomain.toLowerCase());
+    return match?.domain || primaryDomains[0]?.domain || account?.primaryDomain || '';
+  }, [isPrimarySelected, selectedDomain, primaryDomains, account?.primaryDomain]);
+
+  const activeSubdomain = useMemo(() => {
+    if (isSubdomainSelected) return selectedDomain;
+    return subdomains[0]?.domain || '';
+  }, [isSubdomainSelected, selectedDomain, subdomains]);
+
   return (
     <div className="space-y-6 max-w-full overflow-x-hidden">
       {/* =================================================================== */}
-      {/* DOMAIN & SUBDOMAIN SCOPING BAR (KOLOM TERPISAH HINDARI SALAH KAMAR) */}
+      {/* DOMAIN & SUBDOMAIN SCOPING BAR (DIREKTORI TERISOLASI)               */}
       {/* =================================================================== */}
       <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs dark:border-slate-800 dark:bg-slate-900 max-w-full overflow-hidden space-y-4">
         {/* Top Header Row: Title, Quick Actions & Disk Stats */}
@@ -1045,11 +1056,11 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                     ? 'bg-sky-100 text-sky-800 border border-sky-300 dark:bg-sky-950 dark:text-sky-300 dark:border-sky-800'
                     : 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800'
                 }`}>
-                  {isPrimarySelected ? '📍 KAMAR: DOMAIN UTAMA' : '📍 KAMAR: SUB DOMAIN'}
+                  {isPrimarySelected ? '📍 TARGET: DOMAIN UTAMA (ROOT)' : '📍 TARGET: SUBDOMAIN TERISOLASI'}
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                Pilih kamar tujuan pada kolom di bawah. Sub domain memiliki kolom khusus terpisah agar tidak salah kamar.
+                Tentukan direktori target pemulihan data. Direktori subdomain dikelola secara terisolasi demi menjaga keutuhan direktori root.
               </p>
             </div>
           </div>
@@ -1083,7 +1094,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
           </div>
         </div>
 
-        {/* 2 DEDICATED COLUMNS: DOMAIN UTAMA VS SUB DOMAIN (HINDARI SALAH KAMAR) */}
+        {/* 2 DEDICATED COLUMNS: DOMAIN UTAMA VS SUB DOMAIN */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {/* KOLOM 1: DOMAIN UTAMA */}
           <div className={`rounded-xl border p-4 transition-all flex flex-col justify-between ${
@@ -1111,7 +1122,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                     ? 'bg-sky-600 text-white'
                     : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                 }`}>
-                  {isPrimarySelected ? '✓ AKTIF DIPILIH' : 'DOMAIN UTAMA'}
+                  {isPrimarySelected ? '✓ TARGET AKTIF (ROOT)' : 'ROOT TERKUNCI / NONAKTIF'}
                 </span>
               </div>
 
@@ -1133,16 +1144,19 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                     </span>
                   </div>
                   <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400 font-mono">
-                    Folder: <code className="text-sky-600 dark:text-sky-400 font-bold">{primaryDomains[0]?.documentRoot || '/public_html'}</code>
+                    Direktori: <code className="text-sky-600 dark:text-sky-400 font-bold">{primaryDomains[0]?.documentRoot || '/public_html'}</code>
                   </div>
                 </div>
               ) : (
                 <select
-                  value={isPrimarySelected ? selectedDomain : ''}
+                  value={activePrimaryDomain}
                   onChange={e => e.target.value && handleDomainChange(e.target.value)}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white cursor-pointer font-mono"
+                  className={`w-full rounded-xl border px-3 py-2 text-xs font-bold focus:ring-2 font-mono cursor-pointer ${
+                    isPrimarySelected
+                      ? 'border-sky-400 bg-white text-slate-900 focus:border-sky-500 focus:ring-sky-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
+                      : 'border-slate-300 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                  }`}
                 >
-                  <option value="" disabled>-- Pilih Domain Utama --</option>
                   {primaryDomains.map((d: ServerDomainItem) => (
                     <option key={d.id} value={d.domain}>
                       {d.domain} ({d.documentRoot}) — {d.formattedSize || '0 B'}
@@ -1154,23 +1168,28 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
 
             <div className="mt-3 pt-2.5 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2">
               <span className="text-[10.5px] text-slate-500 dark:text-slate-400">
-                {isPrimarySelected ? '📁 File diekstrak ke root utama' : 'Klik tombol untuk pilih domain utama'}
+                {isPrimarySelected
+                  ? '📁 Berkas diekstrak ke direktori root (/public_html)'
+                  : 'Direktori root aman dan tidak akan tertimpa'}
               </span>
               <button
                 type="button"
-                onClick={() => primaryDomains[0] && handleDomainChange(primaryDomains[0].domain)}
+                onClick={() => {
+                  const targetToSelect = primaryDomains.find(p => p.domain === activePrimaryDomain)?.domain || primaryDomains[0]?.domain;
+                  if (targetToSelect) handleDomainChange(targetToSelect);
+                }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   isPrimarySelected
                     ? 'bg-sky-600 text-white shadow-2xs'
                     : 'bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200'
                 }`}
               >
-                {isPrimarySelected ? '✓ Kamar Utama Aktif' : 'Pilih Kamar Ini'}
+                {isPrimarySelected ? '✓ Domain Utama Aktif' : 'Gunakan Domain Utama'}
               </button>
             </div>
           </div>
 
-          {/* KOLOM 2: SUB DOMAIN (KOLOM KHUSUS HINDARI SALAH KAMAR) */}
+          {/* KOLOM 2: SUB DOMAIN (DIREKTORI TERISOLASI) */}
           <div className={`rounded-xl border p-4 transition-all flex flex-col justify-between ${
             isSubdomainSelected
               ? 'border-amber-500 bg-gradient-to-br from-amber-50/90 to-orange-50/50 dark:border-amber-500 dark:from-amber-950/40 dark:to-slate-900 ring-2 ring-amber-500/20 shadow-xs'
@@ -1187,7 +1206,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                       Kolom Sub Domain
                     </h4>
                     <span className="text-[10px] text-amber-600 dark:text-amber-400 font-bold">
-                      🛡️ Pilihan Kamar Terpisah (Hindari Salah Kamar)
+                      🛡️ Direktori Terpisah &amp; Terisolasi
                     </span>
                   </div>
                 </div>
@@ -1196,22 +1215,25 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                     ? 'bg-amber-600 text-white'
                     : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                 }`}>
-                  {isSubdomainSelected ? '✓ AKTIF DIPILIH' : `TERSEDIA (${subdomains.length})`}
+                  {isSubdomainSelected ? '✓ AKTIF DIPILIH (TERISOLASI)' : `TERSEDIA (${subdomains.length})`}
                 </span>
               </div>
 
               {subdomains.length === 0 ? (
                 <div className="p-3 rounded-xl border border-dashed border-slate-300 bg-white/50 text-center text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-800/40">
-                  Belum ada subdomain terdaftar di akun ini.
+                  Belum ada subdomain terdaftar pada akun ini.
                 </div>
               ) : (
                 <>
                   <select
-                    value={isSubdomainSelected ? selectedDomain : ''}
+                    value={activeSubdomain}
                     onChange={e => e.target.value && handleDomainChange(e.target.value)}
-                    className="w-full rounded-xl border border-amber-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white cursor-pointer font-mono"
+                    className={`w-full rounded-xl border px-3 py-2 text-xs font-bold focus:ring-2 font-mono cursor-pointer ${
+                      isSubdomainSelected
+                        ? 'border-amber-400 bg-white text-slate-900 focus:border-amber-500 focus:ring-amber-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
+                        : 'border-slate-300 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                    }`}
                   >
-                    <option value="" disabled>-- Pilih Sub Domain Target (Kamar Khusus) --</option>
                     {subdomains.map((d: ServerDomainItem) => (
                       <option key={d.id} value={d.domain}>
                         {d.domain} ({d.documentRoot}) — {d.formattedSize || '0 B'}
@@ -1234,7 +1256,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                               ? 'bg-amber-600 text-white shadow-2xs scale-102 ring-1 ring-amber-400'
                               : 'bg-white border border-slate-200 text-slate-700 hover:border-amber-300 hover:text-amber-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300'
                           }`}
-                          title={`Target: ${d.documentRoot}`}
+                          title={`Target Direktori: ${d.documentRoot}`}
                         >
                           <FolderOpen className="h-3 w-3 shrink-0" />
                           <span>{prefix}</span>
@@ -1249,15 +1271,18 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
 
             <div className="mt-3 pt-2.5 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2">
               <span className="text-[10.5px] text-slate-500 dark:text-slate-400">
-                {isSubdomainSelected ? `🔒 Kamar terisolasi di ${selectedDocRoot}` : 'Pilih subdomain agar tidak salah kamar'}
+                {isSubdomainSelected ? `🔒 Terisolasi pada ${selectedDocRoot}` : 'Pilih subdomain untuk pemulihan terisolasi'}
               </span>
               {subdomains.length > 0 && !isSubdomainSelected && (
                 <button
                   type="button"
-                  onClick={() => subdomains[0] && handleDomainChange(subdomains[0].domain)}
+                  onClick={() => {
+                    const targetToSelect = activeSubdomain || subdomains[0]?.domain;
+                    if (targetToSelect) handleDomainChange(targetToSelect);
+                  }}
                   className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 cursor-pointer"
                 >
-                  Pilih Subdomain Pertama
+                  Pilih Subdomain Ini
                 </button>
               )}
             </div>
@@ -1280,18 +1305,18 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
               <span className="font-semibold text-slate-600 dark:text-slate-400">Target Restorasi Aktif: </span>
               <strong className="font-mono font-black text-slate-900 dark:text-white">{selectedDomain}</strong>
               <span className="mx-1.5 text-slate-400">&rarr;</span>
-              <span className="font-semibold text-slate-600 dark:text-slate-400">Folder Kamar: </span>
+              <span className="font-semibold text-slate-600 dark:text-slate-400">Direktori Tujuan: </span>
               <code className="font-mono font-bold text-orange-600 dark:text-orange-400">{selectedDocRoot}</code>
             </div>
           </div>
           <div className="text-[11px] font-bold shrink-0">
             {isPrimarySelected ? (
               <span className="text-sky-800 bg-sky-200/70 px-2 py-0.5 rounded">
-                Kamar: Domain Utama (/public_html)
+                Lingkup: Domain Utama (/public_html)
               </span>
             ) : (
               <span className="text-amber-900 bg-amber-200/70 px-2 py-0.5 rounded">
-                ✓ Aman: Terkunci di Kamar Subdomain (Tidak Menimpa Root)
+                ✓ Proteksi Terisolasi: Khusus Direktori Subdomain (Aman dari Penimpaan Root)
               </span>
             )}
           </div>
@@ -1731,7 +1756,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
               </p>
             </div>
 
-            {/* Target Chamber Indicator Banner (Anti Salah Kamar) */}
+            {/* Target Indicator Banner (Proteksi Terisolasi) */}
             <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${
               isPrimarySelected
                 ? 'border-sky-300 bg-sky-50/70 dark:border-sky-800 dark:bg-sky-950/40'
@@ -1744,16 +1769,16 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
-                      {isPrimarySelected ? 'Kamar Restorasi: DOMAIN UTAMA' : 'Kamar Restorasi: SUB DOMAIN KHUSUS'}
+                      {isPrimarySelected ? 'Target Restorasi: Direktori Domain Utama' : 'Target Restorasi: Direktori Subdomain Terisolasi'}
                     </span>
                     <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                       isPrimarySelected ? 'bg-sky-200 text-sky-900 dark:bg-sky-900 dark:text-sky-200' : 'bg-amber-200 text-amber-900 dark:bg-amber-900 dark:text-amber-200'
                     }`}>
-                      {isPrimarySelected ? 'ROOT /public_html' : 'ISOLASI TERPISAH (ANTI SALAH KAMAR)'}
+                      {isPrimarySelected ? 'ROOT /public_html' : 'DIREKTORI TERISOLASI'}
                     </span>
                   </div>
                   <div className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-                    Target Domain: <strong className="font-mono text-slate-900 dark:text-white">{selectedDomain}</strong> &bull; Folder Tujuan:{' '}
+                    Target Domain: <strong className="font-mono text-slate-900 dark:text-white">{selectedDomain}</strong> &bull; Direktori Tujuan:{' '}
                     <code className="font-bold text-sky-700 dark:text-sky-300 font-mono">{selectedDocRoot}</code>
                   </div>
                 </div>
@@ -1761,7 +1786,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
 
               {subdomains.length > 0 && (
                 <div className="flex items-center gap-2 text-xs shrink-0">
-                  <span className="text-slate-500 text-[11px]">Pindah Kamar:</span>
+                  <span className="text-slate-500 text-[11px] font-medium">Ganti Target:</span>
                   <select
                     value={selectedDomain}
                     onChange={e => handleDomainChange(e.target.value)}
@@ -2066,7 +2091,7 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
                     ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
                     : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
                 }`}>
-                  {isPrimarySelected ? '📍 KAMAR: DOMAIN UTAMA' : '📍 KAMAR: SUB DOMAIN (TERISOLASI)'}
+                  {isPrimarySelected ? '📍 TARGET: DOMAIN UTAMA (ROOT)' : '📍 TARGET: SUBDOMAIN TERISOLASI'}
                 </span>
               </div>
 

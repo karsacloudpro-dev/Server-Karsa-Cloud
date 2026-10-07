@@ -816,6 +816,7 @@ class StorageService {
             }
           }
           if (acc.id === 'acc-denbaguse-01' || acc.primaryDomain === 'denbaguse.my.id' || acc.domain === 'denbaguse.my.id') {
+            if (acc.customerName !== 'Den Baguse') updated = true;
             return {
               ...acc,
               id: 'acc-denbaguse-01',
@@ -823,7 +824,7 @@ class StorageService {
               domain: 'denbaguse.my.id',
               username: 'denbaguse',
               customerId: 'usr-reseller-denbaguse',
-              customerName: acc.customerName || 'Jaenal Maskun (Website Pribadi & Portofolio)',
+              customerName: 'Den Baguse',
               customerEmail: acc.customerEmail || 'admin@denbaguse.my.id',
               resellerId: 'prof-reseller-denbaguse',
               documentRoot: '/public_html',
@@ -1259,7 +1260,7 @@ class StorageService {
             primaryDomain: 'denbaguse.my.id',
             domain: 'denbaguse.my.id',
             username: 'denbaguse',
-            customerName: acc.customerName || 'Jaenal Maskun (Website Pribadi & Portofolio)',
+            customerName: 'Den Baguse',
             customerEmail: acc.customerEmail || 'admin@denbaguse.my.id',
             resellerId: 'prof-reseller-denbaguse',
             customerId: 'usr-reseller-denbaguse',
@@ -1302,7 +1303,7 @@ class StorageService {
         primaryDomain: 'denbaguse.my.id',
         domain: 'denbaguse.my.id',
         username: 'denbaguse',
-        customerName: acc.customerName || 'Jaenal Maskun (Website Pribadi & Portofolio)',
+        customerName: 'Den Baguse',
         customerEmail: acc.customerEmail || 'admin@denbaguse.my.id',
         resellerId: 'prof-reseller-denbaguse',
         customerId: 'usr-reseller-denbaguse',

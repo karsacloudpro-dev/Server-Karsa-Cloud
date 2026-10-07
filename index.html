@@ -54,9 +54,10 @@
                   if (a.primaryDomain === 'denbaguse.my.id' || a.id === 'acc-denbaguse-01') {
                     if (seenDen) continue;
                     seenDen = true;
+                    a.customerName = 'Den Baguse';
                   }
                   if (a.id === 'acc-rdm-01') {
-                    if (!a.customerName || a.customerName === 'Karsa Cloud Root System') a.customerName = 'Jaenal Maskun';
+                    if (!a.customerName || a.customerName === 'Karsa Cloud Root System' || a.customerName === 'cloudpro') a.customerName = 'Jaenal Maskun';
                   }
                   clean.push(a);
                 }
