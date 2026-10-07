@@ -56,19 +56,31 @@ export const TopBar: React.FC<TopBarProps> = ({
 
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showCommitModal, setShowCommitModal] = useState(false);
-  const [commitHash, setCommitHash] = useState<string>('2770df5');
+  const [commitHash, setCommitHash] = useState<string>('dc4bca9');
   const [isCommitUpToDate, setIsCommitUpToDate] = useState<boolean>(true);
 
   React.useEffect(() => {
-    fetch('/api/system/git-commit-info')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data?.ok && data.local?.shortHash) {
-          setCommitHash(data.local.shortHash);
-          setIsCommitUpToDate(!!data.isUpToDate);
-        }
-      })
-      .catch(() => {});
+    const fetchCommit = () => {
+      fetch('/api/system/git-commit-info')
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (data?.ok && data.local?.shortHash) {
+            setCommitHash(data.local.shortHash);
+            setIsCommitUpToDate(!!data.isUpToDate);
+          }
+        })
+        .catch(() => {});
+    };
+
+    fetchCommit();
+    const interval = setInterval(fetchCommit, 20000);
+    window.addEventListener('git-commit-synced', fetchCommit);
+    window.addEventListener('focus', fetchCommit);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('git-commit-synced', fetchCommit);
+      window.removeEventListener('focus', fetchCommit);
+    };
   }, []);
 
   const unreadNotifsCount = notifications.filter(n => !n.isRead).length;

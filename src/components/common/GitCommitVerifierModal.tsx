@@ -100,6 +100,7 @@ export const GitCommitVerifierModal: React.FC<GitCommitVerifierModalProps> = ({
       if (json.ok) {
         setUpdateLog(json.output || json.latestCommit || 'Pembaruan kommit berhasil!');
         fetchCommitInfo();
+        window.dispatchEvent(new CustomEvent('git-commit-synced'));
       } else {
         setUpdateLog(`Gagal update: ${json.message}`);
       }

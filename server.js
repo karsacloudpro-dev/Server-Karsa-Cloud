@@ -26,44 +26,44 @@ function renderWebTerminalHtml(host, initialCwd) {
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     
-    /* Cloud (Awan) Theme Core Variables */
+    /* Modern Cloud (Awan) Theme Core Variables */
     :root {
-      --cloud-bg: #091528;
-      --cloud-screen: #060f1e;
-      --cloud-header: rgba(14, 31, 56, 0.94);
-      --cloud-dock: rgba(11, 26, 48, 0.97);
-      --cloud-quickbar: #0a182d;
-      --cloud-border: rgba(56, 189, 248, 0.22);
-      --cloud-border-strong: rgba(56, 189, 248, 0.45);
-      --cloud-text: #f0f6fc;
-      --cloud-text-muted: #94a9c9;
+      --cloud-bg: #0b1526;
+      --cloud-screen: #070e1b;
+      --cloud-header: rgba(15, 29, 52, 0.95);
+      --cloud-dock: rgba(13, 26, 46, 0.98);
+      --cloud-quickbar: #0c1b30;
+      --cloud-border: rgba(56, 189, 248, 0.28);
+      --cloud-border-strong: rgba(56, 189, 248, 0.6);
+      --cloud-text: #f0f7ff;
+      --cloud-text-muted: #93a8c7;
       --cloud-primary: #0284c7;
       --cloud-primary-hover: #0369a1;
       --cloud-cyan: #38bdf8;
-      --cloud-card: rgba(17, 38, 68, 0.75);
-      --cloud-input-bg: #0d223d;
-      --cloud-key-bg: #132a4a;
+      --cloud-card: rgba(18, 36, 64, 0.82);
+      --cloud-input-bg: #0e2440;
+      --cloud-key-bg: #142e50;
       --cloud-key-text: #bae6fd;
-      --cloud-prompt-user: #34d399;
+      --cloud-prompt-user: #10b981;
       --cloud-prompt-path: #38bdf8;
     }
 
-    /* Light Cloud Theme (Awan Putih Murni) */
+    /* Light Cloud Theme (Awan Putih Murni Modern) */
     body.theme-light-cloud {
-      --cloud-bg: #f0f7ff;
-      --cloud-screen: #f8fbff;
+      --cloud-bg: #f4f8fe;
+      --cloud-screen: #ffffff;
       --cloud-header: rgba(255, 255, 255, 0.96);
       --cloud-dock: rgba(255, 255, 255, 0.98);
-      --cloud-quickbar: #e8f2fe;
-      --cloud-border: rgba(14, 165, 233, 0.28);
+      --cloud-quickbar: #edf5fe;
+      --cloud-border: rgba(14, 165, 233, 0.22);
       --cloud-border-strong: #0284c7;
       --cloud-text: #0f172a;
       --cloud-text-muted: #475569;
       --cloud-primary: #0284c7;
       --cloud-primary-hover: #0369a1;
       --cloud-cyan: #0284c7;
-      --cloud-card: rgba(255, 255, 255, 0.9);
-      --cloud-input-bg: #ffffff;
+      --cloud-card: rgba(255, 255, 255, 0.94);
+      --cloud-input-bg: #f8fafc;
       --cloud-key-bg: #e0f2fe;
       --cloud-key-text: #0369a1;
       --cloud-prompt-user: #059669;
@@ -538,16 +538,34 @@ function renderWebTerminalHtml(host, initialCwd) {
         <div class="cloud-logo-emblem" title="Karsa Cloud PRO Logo">
           <svg viewBox="0 0 100 100" fill="none" class="cloud-svg" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="cloudGradHead" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#0284c7" />
-                <stop offset="50%" stop-color="#005dbd" />
-                <stop offset="100%" stop-color="#0369a1" />
+              <linearGradient id="cloudGradHead" x1="15%" y1="10%" x2="85%" y2="90%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="40%" stop-color="#0284c7" />
+                <stop offset="85%" stop-color="#0369a1" />
+                <stop offset="100%" stop-color="#1e3a8a" />
+              </linearGradient>
+              <linearGradient id="cloudCrestHead" x1="30%" y1="0%" x2="70%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
+                <stop offset="60%" stop-color="#bae6fd" stop-opacity="0.4" />
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient id="goldSparkHead" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fef08a" />
+                <stop offset="50%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#d97706" />
               </linearGradient>
             </defs>
-            <path d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z" fill="url(#cloudGradHead)"/>
-            <path d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <polygon points="72,27 88,32 78,46 76,40 68,44" fill="#ffffff"/>
-            <path d="M 24 82 C 28 73 34 66 41 63" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+            <path d="M 28 78 C 16 78 8 70 8 59 C 8 49 16 41 26 39 C 29 25 41 16 55 16 C 68 16 78 23 82 34 C 91 36 98 44 98 55 C 98 67 89 77 78 78 Z" fill="url(#cloudGradHead)" />
+            <path d="M 32 37 C 35 27 44 20 55 20 C 65 20 73 25 77 33" stroke="url(#cloudCrestHead)" stroke-width="3.2" stroke-linecap="round" />
+            <ellipse cx="44" cy="46" rx="14" ry="9" fill="#ffffff" fill-opacity="0.18" transform="rotate(-15 44 46)" />
+            <path d="M 22 66 H 58" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.95" />
+            <path d="M 64 66 H 76" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.95" />
+            <path d="M 28 58 H 48" stroke="#bae6fd" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.8" />
+            <path d="M 54 58 H 68" stroke="#bae6fd" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.8" />
+            <g transform="translate(73, 20) scale(0.9)">
+              <path d="M 12 0 L 14.5 8.5 L 23 11 L 14.5 13.5 L 12 22 L 9.5 13.5 L 1 11 L 9.5 8.5 Z" fill="url(#goldSparkHead)" />
+              <circle cx="12" cy="11" r="1.8" fill="#ffffff" />
+            </g>
           </svg>
         </div>
         <div class="header-brand">
@@ -649,16 +667,34 @@ function renderWebTerminalHtml(host, initialCwd) {
       <div class="modal-icon-cloud">
         <svg viewBox="0 0 100 100" fill="none" class="cloud-svg" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="cloudModalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#0284c7" />
-              <stop offset="50%" stop-color="#005dbd" />
-              <stop offset="100%" stop-color="#0369a1" />
+            <linearGradient id="cloudModalGrad" x1="15%" y1="10%" x2="85%" y2="90%">
+              <stop offset="0%" stop-color="#38bdf8" />
+              <stop offset="40%" stop-color="#0284c7" />
+              <stop offset="85%" stop-color="#0369a1" />
+              <stop offset="100%" stop-color="#1e3a8a" />
+            </linearGradient>
+            <linearGradient id="cloudModalCrest" x1="30%" y1="0%" x2="70%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
+              <stop offset="60%" stop-color="#bae6fd" stop-opacity="0.4" />
+              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient id="goldSparkModal" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fef08a" />
+              <stop offset="50%" stop-color="#f59e0b" />
+              <stop offset="100%" stop-color="#d97706" />
             </linearGradient>
           </defs>
-          <path d="M 28 82 C 16 82 8 73 8 62 C 8 52 15 44 24 42 C 26 28 38 18 52 18 C 65 18 75 25 79 36 C 89 37 98 46 98 57 C 98 69 89 79 78 81 C 75 82 32 82 28 82 Z" fill="url(#cloudModalGrad)"/>
-          <path d="M 18 82 C 22 71 28 62 36 59 C 40 57.5 44 57.5 47 59 C 51 61.5 52.5 66.5 51 71 C 49 76 43 78 38 75 C 34.5 73 33 68.5 34.5 64 C 36 57 43 51 52 48 L 74 37" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <polygon points="72,27 88,32 78,46 76,40 68,44" fill="#ffffff"/>
-          <path d="M 24 82 C 28 73 34 66 41 63" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <path d="M 28 78 C 16 78 8 70 8 59 C 8 49 16 41 26 39 C 29 25 41 16 55 16 C 68 16 78 23 82 34 C 91 36 98 44 98 55 C 98 67 89 77 78 78 Z" fill="url(#cloudModalGrad)" />
+          <path d="M 32 37 C 35 27 44 20 55 20 C 65 20 73 25 77 33" stroke="url(#cloudModalCrest)" stroke-width="3.2" stroke-linecap="round" />
+          <ellipse cx="44" cy="46" rx="14" ry="9" fill="#ffffff" fill-opacity="0.18" transform="rotate(-15 44 46)" />
+          <path d="M 22 66 H 58" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.95" />
+          <path d="M 64 66 H 76" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-opacity="0.95" />
+          <path d="M 28 58 H 48" stroke="#bae6fd" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.8" />
+          <path d="M 54 58 H 68" stroke="#bae6fd" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.8" />
+          <g transform="translate(73, 20) scale(0.9)">
+            <path d="M 12 0 L 14.5 8.5 L 23 11 L 14.5 13.5 L 12 22 L 9.5 13.5 L 1 11 L 9.5 8.5 Z" fill="url(#goldSparkModal)" />
+            <circle cx="12" cy="11" r="1.8" fill="#ffffff" />
+          </g>
         </svg>
       </div>
       <div class="modal-title">Karsa Cloud PRO Web SSH</div>
@@ -2281,7 +2317,7 @@ var TWO_LEVEL_TLDS = [
 function isOfficialPanelHostname(rawHost) {
   if (!rawHost) return true;
   const h = (rawHost || "").replace(/^https?:\/\//, "").split("/")[0].split(":")[0].toLowerCase().replace(/^www\./, "").trim();
-  if (!h || h === "localhost" || h === "127.0.0.1" || h === "desktop-djq024c" || h.endsWith(".run.app") || h.endsWith(".trycloudflare.com") || h.endsWith(".ts.net") || h.endsWith(".local") || h.endsWith(".lan") || h === "server.karsacloud.biz.id" || h === "karsacloud.biz.id" || h.startsWith("server.") || h === "cloudpro.karsacloud.biz.id" || h === "servercloud.karsacloud.biz.id" || h === "panel.karsacloud.biz.id" || h === "admin.karsacloud.biz.id" || h === "cp.karsacloud.biz.id" || h.includes("cloudpro") || h.includes("servercloud") || h.startsWith("panel.") || h.startsWith("cpanel.") || h.startsWith("whm.") || h.startsWith("admin.") || h.startsWith("cloud.") || h.startsWith("cp.") || h.startsWith("srv.") || h.startsWith("vps.")) {
+  if (!h || h === "localhost" || h === "127.0.0.1" || h === "desktop-djq024c" || h.endsWith(".run.app") || h.endsWith(".trycloudflare.com") || h.endsWith(".ts.net") || h.endsWith(".local") || h.endsWith(".lan") || h === "server.karsacloud.biz.id" || h === "karsacloud.biz.id" || h.includes("karsacloud") || h.startsWith("server.") || h === "cloudpro.karsacloud.biz.id" || h === "servercloud.karsacloud.biz.id" || h === "panel.karsacloud.biz.id" || h === "admin.karsacloud.biz.id" || h === "cp.karsacloud.biz.id" || h.includes("cloudpro") || h.includes("servercloud") || h.startsWith("panel.") || h.startsWith("cpanel.") || h.startsWith("whm.") || h.startsWith("admin.") || h.startsWith("cloud.") || h.startsWith("cp.") || h.startsWith("srv.") || h.startsWith("vps.")) {
     return true;
   }
   return false;
@@ -6022,17 +6058,17 @@ ${routeFixScript}`);
       return res.json({
         ok: true,
         local: {
-          shortHash: localShort || "2770df5",
-          fullHash: localFull || "2770df5d82aab82fb3d6878ea461696a6f7f15c0",
-          message: localMsg || "Update CloudPRO",
-          author: localAuthor || "CloudPRO Enterprise",
+          shortHash: localShort || "dc4bca9",
+          fullHash: localFull || "dc4bca9e66fd108678d1d8111a45045304a12490",
+          message: localMsg || "fix(layout): remove redundant relative class on sidebar aside to fix header and dashboard alignment",
+          author: localAuthor || "karsacloudpro-dev",
           date: localDate || (/* @__PURE__ */ new Date()).toISOString(),
           relative: localRelative || "baru saja",
           branch
         },
         remote: {
-          shortHash: remoteShort || localShort || "2770df5",
-          fullHash: remoteFull || localFull,
+          shortHash: remoteShort || localShort || "dc4bca9",
+          fullHash: remoteFull || localFull || "dc4bca9e66fd108678d1d8111a45045304a12490",
           message: remoteMsg || localMsg || "Versi Terbaru",
           date: remoteDate || localDate
         },
@@ -10219,7 +10255,7 @@ with zipfile.ZipFile('${zipItem.fullPath}', 'r') as zf:
       }
       return next();
     }
-    const isPanelApi = req.path.startsWith("/api/ddns/") || req.path.startsWith("/api/tunnel/") || req.path.startsWith("/api/vhost/") || req.path.startsWith("/api/state/") || req.path.startsWith("/api/vault/") || req.path.startsWith("/api/tailscale/") || req.path.startsWith("/api/migrator/") || req.path.startsWith("/api/cloner/") || req.path.startsWith("/api/backup/") || req.path.startsWith("/api/terminal/") || req.path.startsWith("/api/network/") || req.path.startsWith("/api/billing/") || req.path.startsWith("/api/notifications/");
+    const isPanelApi = req.path.startsWith("/api/system/") || req.path.startsWith("/api/files/") || req.path.startsWith("/api/support/") || req.path.startsWith("/api/ddns/") || req.path.startsWith("/api/tunnel/") || req.path.startsWith("/api/vhost/") || req.path.startsWith("/api/state/") || req.path.startsWith("/api/vault/") || req.path.startsWith("/api/tailscale/") || req.path.startsWith("/api/migrator/") || req.path.startsWith("/api/cloner/") || req.path.startsWith("/api/backup/") || req.path.startsWith("/api/terminal/") || req.path.startsWith("/api/network/") || req.path.startsWith("/api/billing/") || req.path.startsWith("/api/notifications/");
     if (isPanelApi) {
       return next();
     }

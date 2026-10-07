@@ -73,17 +73,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { servers } = useServer();
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [commitHash, setCommitHash] = useState<string>('2770df5');
+  const [commitHash, setCommitHash] = useState<string>('dc4bca9');
 
   useEffect(() => {
-    fetch('/api/system/git-commit-info')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data?.ok && data.local?.shortHash) {
-          setCommitHash(data.local.shortHash);
-        }
-      })
-      .catch(() => {});
+    const fetchCommit = () => {
+      fetch('/api/system/git-commit-info')
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (data?.ok && data.local?.shortHash) {
+            setCommitHash(data.local.shortHash);
+          }
+        })
+        .catch(() => {});
+    };
+
+    fetchCommit();
+    const interval = setInterval(fetchCommit, 20000);
+    window.addEventListener('git-commit-synced', fetchCommit);
+    window.addEventListener('focus', fetchCommit);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('git-commit-synced', fetchCommit);
+      window.removeEventListener('focus', fetchCommit);
+    };
   }, []);
 
   // Group expand/collapse states (Consolidated into 6 clean suites)
@@ -807,7 +819,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-[100] flex h-dvh max-h-dvh w-72 flex-col border-r border-sky-100/90 bg-gradient-to-b from-[#f9fbfe] via-[#f1f6fd] to-[#e8f2fc] text-slate-700 shadow-xl shadow-sky-950/5 transition-transform duration-300 ease-in-out lg:w-64 lg:translate-x-0 overflow-hidden backdrop-blur-xl ${
+        className={`fixed inset-y-0 left-0 z-[100] flex h-dvh max-h-dvh w-72 flex-col border-r border-sky-200/80 bg-gradient-to-b from-[#ffffff] via-[#f1f7fe] to-[#e6f2fc] text-slate-700 shadow-xl shadow-sky-950/5 transition-transform duration-300 ease-in-out lg:w-64 lg:translate-x-0 overflow-hidden backdrop-blur-2xl ${
           isOpen
             ? 'translate-x-0 pointer-events-auto'
             : '-translate-x-full pointer-events-none lg:translate-x-0 lg:pointer-events-auto'
@@ -909,8 +921,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Top Brand Lockup with Glowing Accent */}
-        <div className="relative z-10 flex h-16 shrink-0 items-center justify-between border-b border-sky-100/80 bg-white/85 px-4 backdrop-blur-md">
-          <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-sky-400 via-indigo-500 to-sky-400" />
+        <div className="relative z-10 flex h-16 shrink-0 items-center justify-between border-b border-sky-200/70 bg-white/90 px-4 backdrop-blur-md">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500" />
           
           {/* Official Cloud PRO Master Brand */}
           <CloudProLogo
@@ -937,7 +949,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Live Node Telemetry Pulse & User Role Badge */}
-        <div className="relative z-10 border-b border-sky-100/80 bg-white/60 px-3.5 py-2 backdrop-blur-xs">
+        <div className="relative z-10 border-b border-sky-200/60 bg-white/75 px-3.5 py-2 backdrop-blur-xs">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
               <span className="relative flex h-2 w-2 shrink-0">
@@ -1071,31 +1083,33 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           <>
                             <div className="flex items-center gap-2.5 min-w-0">
                               <span
-                                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition-all ${
+                                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border transition-all ${
                                   active
-                                    ? 'border-sky-400/80 bg-sky-500/20 text-sky-700 shadow-2xs ring-1 ring-sky-400/20'
-                                    : 'border-sky-100/90 bg-white/90 text-slate-500 group-hover:border-sky-300 group-hover:bg-white group-hover:text-sky-600 shadow-2xs'
+                                    ? 'border-white/25 bg-white/20 text-white shadow-2xs ring-1 ring-white/30'
+                                    : 'border-sky-200/80 bg-white/90 text-sky-600 group-hover:border-sky-300 group-hover:bg-white group-hover:text-sky-700 shadow-2xs'
                                 }`}
                               >
                                 <Icon className="h-3.5 w-3.5" />
                               </span>
-                              <span className="truncate font-medium">{item.label}</span>
+                              <span className={`truncate ${active ? 'font-bold text-white' : 'font-medium text-slate-700 group-hover:text-sky-950'}`}>
+                                {item.label}
+                              </span>
                             </div>
 
                             <div className="flex items-center gap-1.5 shrink-0">
                               {item.badge && (
                                 <span
-                                  className={`rounded px-1.5 py-0.5 font-mono text-[9px] font-bold border ${
+                                  className={`rounded-md px-1.5 py-0.5 font-mono text-[9px] font-bold border ${
                                     active
-                                      ? 'border-sky-300 bg-sky-100/90 text-sky-800'
-                                      : 'border-slate-200 bg-white/90 text-slate-600 group-hover:text-slate-800'
+                                      ? 'border-white/30 bg-white/20 text-white'
+                                      : 'border-sky-200/80 bg-white/90 text-sky-700 group-hover:text-sky-900'
                                   }`}
                                 >
                                   {item.badge.text}
                                 </span>
                               )}
                               {active && (
-                                <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shadow-xs shadow-sky-400/80" />
+                                <span className="h-1.5 w-1.5 rounded-full bg-white shadow-xs shadow-white/80" />
                               )}
                             </div>
                           </>
@@ -1108,7 +1122,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               href={item.externalHref}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="group flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-slate-600 hover:bg-white/80 hover:text-sky-900 transition-all cursor-pointer touch-manipulation"
+                              className="group flex w-full items-center justify-between rounded-xl px-2 py-1.5 text-left text-slate-700 hover:bg-white/85 hover:text-sky-950 transition-all cursor-pointer touch-manipulation"
                               title="Buka Direct Web Terminal Linux Shell"
                             >
                               {itemContent}
@@ -1121,10 +1135,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             key={item.id}
                             type="button"
                             onClick={() => handleNav(item.id)}
-                            className={`group flex w-full items-center justify-between rounded-lg px-2 py-2 text-left transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
+                            className={`group flex w-full items-center justify-between rounded-xl px-2 py-2 text-left transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
                               active
-                                ? 'bg-gradient-to-r from-sky-500/18 via-sky-500/10 to-sky-100/30 text-sky-950 font-bold border border-sky-300/70 shadow-xs ring-1 ring-sky-400/20'
-                                : 'text-slate-600 hover:bg-white/80 hover:text-sky-900 hover:border-sky-200/50 active:bg-sky-100/40'
+                                ? 'bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 text-white font-bold shadow-md shadow-sky-500/25 ring-1 ring-white/20'
+                                : 'text-slate-700 hover:bg-sky-100/70 hover:text-sky-950 active:bg-sky-200/50'
                             }`}
                           >
                             {itemContent}
@@ -1298,16 +1312,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
               window.dispatchEvent(new CustomEvent('open-git-commit-modal'));
             }}
             title="Klik untuk melihat Status Commit & Verifikasi Integritas Server"
-            className="flex w-full items-center justify-between rounded-lg border border-sky-200/80 bg-white/80 px-2 py-1.5 text-[10px] font-mono text-slate-600 hover:bg-sky-50 hover:text-sky-900 transition-colors cursor-pointer shadow-2xs"
+            className="flex w-full items-center justify-between rounded-xl border border-sky-200/90 bg-white/90 px-2.5 py-1.5 text-[10px] font-mono text-slate-700 hover:bg-sky-50 hover:border-sky-300 hover:text-sky-950 transition-colors cursor-pointer shadow-2xs"
           >
             <span className="flex items-center gap-1.5 text-slate-700">
               <GitBranch className="h-3 w-3 text-emerald-600" />
               <span>Git:</span>
               <strong className="text-emerald-700 font-bold">{commitHash}</strong>
             </span>
-            <span className="flex items-center gap-1 text-[9px] text-slate-500">
+            <span className="flex items-center gap-1 text-[9px] text-slate-500 font-sans">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>vps-sync</span>
+              <span className="font-semibold text-emerald-700">Terkoneksi</span>
             </span>
           </button>
         </div>

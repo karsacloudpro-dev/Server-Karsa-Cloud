@@ -1480,6 +1480,7 @@ function isOfficialPanelHostname(rawHost: string): boolean {
     h.endsWith('.lan') ||
     h === 'server.karsacloud.biz.id' ||
     h === 'karsacloud.biz.id' ||
+    h.includes('karsacloud') ||
     h.startsWith('server.') ||
     h === 'cloudpro.karsacloud.biz.id' ||
     h === 'servercloud.karsacloud.biz.id' ||
@@ -5921,17 +5922,17 @@ try {
       return res.json({
         ok: true,
         local: {
-          shortHash: localShort || '2770df5',
-          fullHash: localFull || '2770df5d82aab82fb3d6878ea461696a6f7f15c0',
-          message: localMsg || 'Update CloudPRO',
-          author: localAuthor || 'CloudPRO Enterprise',
+          shortHash: localShort || 'dc4bca9',
+          fullHash: localFull || 'dc4bca9e66fd108678d1d8111a45045304a12490',
+          message: localMsg || 'fix(layout): remove redundant relative class on sidebar aside to fix header and dashboard alignment',
+          author: localAuthor || 'karsacloudpro-dev',
           date: localDate || new Date().toISOString(),
           relative: localRelative || 'baru saja',
           branch,
         },
         remote: {
-          shortHash: remoteShort || localShort || '2770df5',
-          fullHash: remoteFull || localFull,
+          shortHash: remoteShort || localShort || 'dc4bca9',
+          fullHash: remoteFull || localFull || 'dc4bca9e66fd108678d1d8111a45045304a12490',
           message: remoteMsg || localMsg || 'Versi Terbaru',
           date: remoteDate || localDate,
         },
@@ -10878,6 +10879,9 @@ with zipfile.ZipFile('${zipItem.fullPath}', 'r') as zf:
 
     // Panel internal API routes (skip vhost proxy)
     const isPanelApi =
+      req.path.startsWith('/api/system/') ||
+      req.path.startsWith('/api/files/') ||
+      req.path.startsWith('/api/support/') ||
       req.path.startsWith('/api/ddns/') ||
       req.path.startsWith('/api/tunnel/') ||
       req.path.startsWith('/api/vhost/') ||
