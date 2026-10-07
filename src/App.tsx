@@ -989,13 +989,22 @@ const AppContent: React.FC = () => {
     );
   };
 
+  const rootServerAccount =
+    accounts.find(a => a.primaryDomain === 'karsacloud.biz.id') ||
+    safeFallbackAccount;
+
   const renderAccountSuiteWrapper = (
     title: string,
-    renderComponent: (account: HostingAccount) => React.ReactNode
+    renderComponent: (account: HostingAccount) => React.ReactNode,
+    options?: { clientOnly?: boolean }
   ) => {
+    const candidateAccounts = options?.clientOnly
+      ? accessibleAccounts.filter(a => a.primaryDomain !== 'karsacloud.biz.id')
+      : accessibleAccounts;
+
     const activeAcc =
-      (selectedAccount && accessibleAccounts.some(a => a.id === selectedAccount.id) ? selectedAccount : null) ||
-      (accessibleAccounts.length > 0 ? accessibleAccounts[0] : null) ||
+      (selectedAccount && candidateAccounts.some(a => a.id === selectedAccount.id) ? selectedAccount : null) ||
+      (candidateAccounts.length > 0 ? candidateAccounts[0] : null) ||
       (currentUser.role === 'admin' && accounts.length > 0 ? accounts[0] : null);
 
     if (!activeAcc) return renderNoAccountPlaceholder();
@@ -1038,7 +1047,7 @@ const AppContent: React.FC = () => {
 
               {/* Second Row: Domain Dropdown (Full width on Android/Mobile) & Action Buttons */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 w-full">
-                {currentUser.role !== 'customer' && accessibleAccounts.length > 0 && (
+                {currentUser.role !== 'customer' && candidateAccounts.length > 0 && (
                   <div className="flex items-center gap-2 w-full sm:w-auto sm:max-w-md min-w-0">
                     <label htmlFor="active-vhost-selector" className="text-xs font-bold text-slate-700 shrink-0 flex items-center gap-1.5">
                       <Globe className="h-3.5 w-3.5 text-sky-600" />
@@ -1050,12 +1059,12 @@ const AppContent: React.FC = () => {
                         id="active-vhost-selector"
                         value={activeAcc.id}
                         onChange={(e) => {
-                          const acc = accessibleAccounts.find(a => a.id === e.target.value);
+                          const acc = candidateAccounts.find(a => a.id === e.target.value);
                           if (acc) setActiveAccount(acc);
                         }}
                         className="w-full appearance-none rounded-xl border border-slate-300 bg-white pl-3 pr-8 py-2 font-mono text-xs font-bold text-slate-900 shadow-2xs focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-hidden cursor-pointer"
                       >
-                        {accessibleAccounts.map(acc => {
+                        {candidateAccounts.map(acc => {
                           const accSubs = db.getDomains(acc.id).filter(d => d.type === 'subdomain');
                           return (
                             <option key={acc.id} value={acc.id}>
@@ -1279,22 +1288,22 @@ const AppContent: React.FC = () => {
         );
       case 'server-domains':
       case 'core-domains':
-        return renderAccountSuiteWrapper(
+        return renderSystemModuleWrapper(
+          'CORE CLUSTER SUITE',
           'Domain Infrastruktur Utama Server',
-          (acc) => (
-            <DomainSubdomainManager
-              account={acc}
-              initialScopeTab="server_infra"
-              onOpenFileManager={(targetPath) => {
-                setFileManagerPath(targetPath);
-                setActiveTab('file-manager');
-              }}
-              onNavigateTab={(tab, domain) => {
-                if (domain) setBackupPreselectedDomain(domain);
-                setActiveTab(tab);
-              }}
-            />
-          )
+          'Kelola domain infrastruktur utama server (karsacloud.biz.id, web panel server, dan portal klien cPanel) secara eksklusif dan terisolasi tanpa tercampur domain klien',
+          <DomainSubdomainManager
+            account={rootServerAccount}
+            fixedScope="server_infra"
+            onOpenFileManager={(targetPath) => {
+              setFileManagerPath(targetPath);
+              setActiveTab('file-manager');
+            }}
+            onNavigateTab={(tab, domain) => {
+              if (domain) setBackupPreselectedDomain(domain);
+              setActiveTab(tab);
+            }}
+          />
         );
       case 'domains':
       case 'subdomains':
@@ -1305,7 +1314,7 @@ const AppContent: React.FC = () => {
           (acc) => (
             <DomainSubdomainManager
               account={acc}
-              initialScopeTab="client_domains"
+              fixedScope="client_domains"
               onOpenFileManager={(targetPath) => {
                 setFileManagerPath(targetPath);
                 setActiveTab('file-manager');
@@ -1315,7 +1324,8 @@ const AppContent: React.FC = () => {
                 setActiveTab(tab);
               }}
             />
-          )
+          ),
+          { clientOnly: true }
         );
       case 'php-selector':
       case 'cpanel-php':

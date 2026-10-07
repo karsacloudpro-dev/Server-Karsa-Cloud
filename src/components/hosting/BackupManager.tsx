@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import {
   Archive,
   Download,
@@ -973,48 +973,88 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
     }
   };
 
+  const primaryDomains = useMemo(() => {
+    const list = serverDomains.filter((d: ServerDomainItem) =>
+      d.type === 'primary' ||
+      (account?.primaryDomain && d.domain.toLowerCase() === account.primaryDomain.toLowerCase())
+    );
+    if (list.length === 0 && serverDomains.length > 0) {
+      return [serverDomains[0]];
+    }
+    return list;
+  }, [serverDomains, account?.primaryDomain]);
+
+  const subdomains = useMemo(() => {
+    const primaryNames = new Set(primaryDomains.map((p: ServerDomainItem) => p.domain.toLowerCase()));
+    const subs = serverDomains.filter((d: ServerDomainItem) =>
+      !primaryNames.has(d.domain.toLowerCase()) || d.type === 'subdomain' || d.type === 'addon'
+    );
+
+    // Merge any subdomains from db for this account that might not be in serverDomains yet
+    if (account?.id) {
+      const dbSubs = db.getDomains(account.id).filter(
+        d => d.type === 'subdomain' || d.domain.toLowerCase() !== (account.primaryDomain || '').toLowerCase()
+      );
+      for (const d of dbSubs) {
+        if (!subs.some(s => s.domain.toLowerCase() === d.domain.toLowerCase())) {
+          subs.push({
+            id: d.id,
+            domain: d.domain,
+            type: 'subdomain',
+            documentRoot: d.documentRoot || `/public_html/${d.domain.split('.')[0]}`,
+            accountId: account.id,
+            username: account.username || 'client',
+            phpVersion: d.phpVersion || '8.2',
+            filesCount: 0,
+            totalSizeBytes: 0,
+            formattedSize: '0 B',
+          });
+        }
+      }
+    }
+
+    return subs;
+  }, [serverDomains, primaryDomains, account?.id, account?.primaryDomain, account?.username]);
+
   const currentDomainObj = serverDomains.find(d => d.domain.toLowerCase() === selectedDomain.toLowerCase());
+  const isPrimarySelected = useMemo(() => {
+    return primaryDomains.some((p: ServerDomainItem) => p.domain.toLowerCase() === selectedDomain.toLowerCase()) ||
+      currentDomainObj?.type === 'primary';
+  }, [primaryDomains, selectedDomain, currentDomainObj]);
+  const isSubdomainSelected = !isPrimarySelected;
 
   return (
     <div className="space-y-6 max-w-full overflow-x-hidden">
       {/* =================================================================== */}
-      {/* DOMAIN & SUBDOMAIN SCOPING BAR                                      */}
+      {/* DOMAIN & SUBDOMAIN SCOPING BAR (KOLOM TERPISAH HINDARI SALAH KAMAR) */}
       {/* =================================================================== */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs dark:border-slate-800 dark:bg-slate-900 max-w-full overflow-hidden">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between min-w-0">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-600 dark:text-orange-400 shrink-0">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs dark:border-slate-800 dark:bg-slate-900 max-w-full overflow-hidden space-y-4">
+        {/* Top Header Row: Title, Quick Actions & Disk Stats */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-3.5 dark:border-slate-800">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-600 dark:text-orange-400 shrink-0">
               <Globe className="h-5 w-5" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  Target Domain / Subdomain Aktif:
-                </span>
-                <span className="rounded bg-orange-100 px-2 py-0.5 text-[10px] font-extrabold text-orange-800 dark:bg-orange-950 dark:text-orange-300">
-                  {currentDomainObj?.type === 'primary' ? 'DOMAIN UTAMA' : 'SUBDOMAIN'}
-                </span>
-              </div>
-              <div className="flex flex-wrap items-center gap-2 mt-0.5 min-w-0">
-                <select
-                  value={selectedDomain}
-                  onChange={e => handleDomainChange(e.target.value)}
-                  className="rounded-lg border border-slate-300 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-900 focus:border-orange-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white cursor-pointer max-w-xs truncate"
-                >
-                  {serverDomains.map(d => (
-                    <option key={d.id} value={d.domain}>
-                      {d.domain} ({d.documentRoot}) — {d.formattedSize || '0 B'}
-                    </option>
-                  ))}
-                </select>
-                <span className="text-xs text-slate-500 dark:text-slate-400 font-mono truncate">
-                  Folder: <code className="text-orange-600 dark:text-orange-400 font-bold">{selectedDocRoot}</code>
+                <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  Target Restorasi (Pemulihan Data &amp; Web)
+                </h3>
+                <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider ${
+                  isPrimarySelected
+                    ? 'bg-sky-100 text-sky-800 border border-sky-300 dark:bg-sky-950 dark:text-sky-300 dark:border-sky-800'
+                    : 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800'
+                }`}>
+                  {isPrimarySelected ? '📍 KAMAR: DOMAIN UTAMA' : '📍 KAMAR: SUB DOMAIN'}
                 </span>
               </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                Pilih kamar tujuan pada kolom di bawah. Sub domain memiliki kolom khusus terpisah agar tidak salah kamar.
+              </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 text-xs">
+          <div className="flex flex-wrap items-center gap-2 text-xs shrink-0">
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 dark:border-slate-800 dark:bg-slate-800/60">
               <span className="text-slate-400 mr-1.5">Berkas di Disk:</span>
               <strong className="text-slate-800 dark:text-slate-200 font-mono">
@@ -1035,11 +1075,225 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
             <button
               type="button"
               onClick={() => { loadDomains(); loadBackups(); }}
-              className="rounded-xl border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 cursor-pointer"
+              className="rounded-xl border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 cursor-pointer transition-colors"
               title="Perbarui Data Domain & Ukuran"
             >
               <RefreshCw className="h-4 w-4" />
             </button>
+          </div>
+        </div>
+
+        {/* 2 DEDICATED COLUMNS: DOMAIN UTAMA VS SUB DOMAIN (HINDARI SALAH KAMAR) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          {/* KOLOM 1: DOMAIN UTAMA */}
+          <div className={`rounded-xl border p-4 transition-all flex flex-col justify-between ${
+            isPrimarySelected
+              ? 'border-sky-500 bg-gradient-to-br from-sky-50/90 to-blue-50/50 dark:border-sky-500 dark:from-sky-950/40 dark:to-slate-900 ring-2 ring-sky-500/20 shadow-xs'
+              : 'border-slate-200 bg-slate-50/60 hover:bg-white dark:border-slate-800 dark:bg-slate-800/40'
+          }`}>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <div className={`p-1.5 rounded-lg ${isPrimarySelected ? 'bg-sky-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'}`}>
+                    <Globe className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                      Kolom Domain Utama
+                    </h4>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                      Root VHost (/public_html)
+                    </span>
+                  </div>
+                </div>
+                <span className={`px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase ${
+                  isPrimarySelected
+                    ? 'bg-sky-600 text-white'
+                    : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                }`}>
+                  {isPrimarySelected ? '✓ AKTIF DIPILIH' : 'DOMAIN UTAMA'}
+                </span>
+              </div>
+
+              {primaryDomains.length <= 1 ? (
+                <div
+                  onClick={() => primaryDomains[0] && handleDomainChange(primaryDomains[0].domain)}
+                  className={`p-3 rounded-xl border cursor-pointer transition-all ${
+                    isPrimarySelected
+                      ? 'border-sky-400 bg-white dark:bg-slate-900 shadow-2xs'
+                      : 'border-slate-200 bg-white/70 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800/60'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-xs font-extrabold text-slate-900 dark:text-white truncate">
+                      {primaryDomains[0]?.domain || account?.primaryDomain}
+                    </span>
+                    <span className="text-[10.5px] text-slate-500 font-mono shrink-0">
+                      {primaryDomains[0]?.formattedSize || '0 B'}
+                    </span>
+                  </div>
+                  <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                    Folder: <code className="text-sky-600 dark:text-sky-400 font-bold">{primaryDomains[0]?.documentRoot || '/public_html'}</code>
+                  </div>
+                </div>
+              ) : (
+                <select
+                  value={isPrimarySelected ? selectedDomain : ''}
+                  onChange={e => e.target.value && handleDomainChange(e.target.value)}
+                  className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white cursor-pointer font-mono"
+                >
+                  <option value="" disabled>-- Pilih Domain Utama --</option>
+                  {primaryDomains.map((d: ServerDomainItem) => (
+                    <option key={d.id} value={d.domain}>
+                      {d.domain} ({d.documentRoot}) — {d.formattedSize || '0 B'}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2">
+              <span className="text-[10.5px] text-slate-500 dark:text-slate-400">
+                {isPrimarySelected ? '📁 File diekstrak ke root utama' : 'Klik tombol untuk pilih domain utama'}
+              </span>
+              <button
+                type="button"
+                onClick={() => primaryDomains[0] && handleDomainChange(primaryDomains[0].domain)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  isPrimarySelected
+                    ? 'bg-sky-600 text-white shadow-2xs'
+                    : 'bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200'
+                }`}
+              >
+                {isPrimarySelected ? '✓ Kamar Utama Aktif' : 'Pilih Kamar Ini'}
+              </button>
+            </div>
+          </div>
+
+          {/* KOLOM 2: SUB DOMAIN (KOLOM KHUSUS HINDARI SALAH KAMAR) */}
+          <div className={`rounded-xl border p-4 transition-all flex flex-col justify-between ${
+            isSubdomainSelected
+              ? 'border-amber-500 bg-gradient-to-br from-amber-50/90 to-orange-50/50 dark:border-amber-500 dark:from-amber-950/40 dark:to-slate-900 ring-2 ring-amber-500/20 shadow-xs'
+              : 'border-slate-200 bg-slate-50/60 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40'
+          }`}>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <div className={`p-1.5 rounded-lg ${isSubdomainSelected ? 'bg-amber-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'}`}>
+                    <Layers className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                      Kolom Sub Domain
+                    </h4>
+                    <span className="text-[10px] text-amber-600 dark:text-amber-400 font-bold">
+                      🛡️ Pilihan Kamar Terpisah (Hindari Salah Kamar)
+                    </span>
+                  </div>
+                </div>
+                <span className={`px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase ${
+                  isSubdomainSelected
+                    ? 'bg-amber-600 text-white'
+                    : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                }`}>
+                  {isSubdomainSelected ? '✓ AKTIF DIPILIH' : `TERSEDIA (${subdomains.length})`}
+                </span>
+              </div>
+
+              {subdomains.length === 0 ? (
+                <div className="p-3 rounded-xl border border-dashed border-slate-300 bg-white/50 text-center text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-800/40">
+                  Belum ada subdomain terdaftar di akun ini.
+                </div>
+              ) : (
+                <>
+                  <select
+                    value={isSubdomainSelected ? selectedDomain : ''}
+                    onChange={e => e.target.value && handleDomainChange(e.target.value)}
+                    className="w-full rounded-xl border border-amber-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white cursor-pointer font-mono"
+                  >
+                    <option value="" disabled>-- Pilih Sub Domain Target (Kamar Khusus) --</option>
+                    {subdomains.map((d: ServerDomainItem) => (
+                      <option key={d.id} value={d.domain}>
+                        {d.domain} ({d.documentRoot}) — {d.formattedSize || '0 B'}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* Quick Subdomain Pills */}
+                  <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto pr-1">
+                    {subdomains.map((d: ServerDomainItem) => {
+                      const isThisSubActive = selectedDomain.toLowerCase() === d.domain.toLowerCase();
+                      const prefix = d.domain.split('.')[0];
+                      return (
+                        <button
+                          key={d.id}
+                          type="button"
+                          onClick={() => handleDomainChange(d.domain)}
+                          className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                            isThisSubActive
+                              ? 'bg-amber-600 text-white shadow-2xs scale-102 ring-1 ring-amber-400'
+                              : 'bg-white border border-slate-200 text-slate-700 hover:border-amber-300 hover:text-amber-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300'
+                          }`}
+                          title={`Target: ${d.documentRoot}`}
+                        >
+                          <FolderOpen className="h-3 w-3 shrink-0" />
+                          <span>{prefix}</span>
+                          <span className="text-[9px] opacity-75 font-sans">({d.formattedSize || '0 B'})</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2">
+              <span className="text-[10.5px] text-slate-500 dark:text-slate-400">
+                {isSubdomainSelected ? `🔒 Kamar terisolasi di ${selectedDocRoot}` : 'Pilih subdomain agar tidak salah kamar'}
+              </span>
+              {subdomains.length > 0 && !isSubdomainSelected && (
+                <button
+                  type="button"
+                  onClick={() => subdomains[0] && handleDomainChange(subdomains[0].domain)}
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 cursor-pointer"
+                >
+                  Pilih Subdomain Pertama
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* ACTIVE TARGET CONFIRMATION BANNER */}
+        <div className={`p-3 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-2 transition-all ${
+          isPrimarySelected
+            ? 'border-sky-300 bg-sky-50 dark:border-sky-800/80 dark:bg-sky-950/40 text-sky-950 dark:text-sky-200'
+            : 'border-amber-300 bg-amber-50 dark:border-amber-800/80 dark:bg-amber-950/40 text-amber-950 dark:text-amber-200'
+        }`}>
+          <div className="flex items-center gap-2.5 min-w-0">
+            {isPrimarySelected ? (
+              <Globe className="h-4 w-4 text-sky-600 shrink-0" />
+            ) : (
+              <ShieldCheck className="h-4 w-4 text-amber-600 shrink-0" />
+            )}
+            <div className="min-w-0 text-xs">
+              <span className="font-semibold text-slate-600 dark:text-slate-400">Target Restorasi Aktif: </span>
+              <strong className="font-mono font-black text-slate-900 dark:text-white">{selectedDomain}</strong>
+              <span className="mx-1.5 text-slate-400">&rarr;</span>
+              <span className="font-semibold text-slate-600 dark:text-slate-400">Folder Kamar: </span>
+              <code className="font-mono font-bold text-orange-600 dark:text-orange-400">{selectedDocRoot}</code>
+            </div>
+          </div>
+          <div className="text-[11px] font-bold shrink-0">
+            {isPrimarySelected ? (
+              <span className="text-sky-800 bg-sky-200/70 px-2 py-0.5 rounded">
+                Kamar: Domain Utama (/public_html)
+              </span>
+            ) : (
+              <span className="text-amber-900 bg-amber-200/70 px-2 py-0.5 rounded">
+                ✓ Aman: Terkunci di Kamar Subdomain (Tidak Menimpa Root)
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -1754,8 +2008,15 @@ export const BackupManager: React.FC<BackupManagerProps> = ({
 
             {/* Start Restore Button */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-              <div className="text-xs text-slate-500 dark:text-slate-400">
-                Target Restorasi: <strong>{selectedDomain}</strong> &rarr; <code>{selectedDocRoot}</code>
+              <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 flex-wrap">
+                <span>Target Restorasi: <strong>{selectedDomain}</strong> &rarr; <code>{selectedDocRoot}</code></span>
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                  isPrimarySelected
+                    ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
+                    : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                }`}>
+                  {isPrimarySelected ? '📍 KAMAR: DOMAIN UTAMA' : '📍 KAMAR: SUB DOMAIN (TERISOLASI)'}
+                </span>
               </div>
 
               <button

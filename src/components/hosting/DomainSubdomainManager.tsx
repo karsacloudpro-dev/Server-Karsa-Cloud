@@ -37,6 +37,7 @@ interface DomainSubdomainManagerProps {
   onOpenFileManager?: (path: string) => void;
   onNavigateTab?: (tab: string, domain?: string) => void;
   initialScopeTab?: 'server_infra' | 'client_domains';
+  fixedScope?: 'server_infra' | 'client_domains';
 }
 
 export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
@@ -44,6 +45,7 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
   onOpenFileManager,
   onNavigateTab,
   initialScopeTab,
+  fixedScope,
 }) => {
   const { currentUser } = useAuth();
   const { showToast, refreshAll, confirmAction } = useServer();
@@ -51,10 +53,13 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
   if (!currentUser || !account) return null;
 
   const [scopeTab, setScopeTab] = useState<'server_infra' | 'client_domains'>(() => {
+    if (fixedScope) return fixedScope;
     if (initialScopeTab) return initialScopeTab;
     if (currentUser.role === 'admin') return 'server_infra';
     return 'client_domains';
   });
+
+  const effectiveScope = fixedScope || scopeTab;
 
   const coreServerDomains = useMemo(() => db.getCoreServerDomains(), []);
   const [selectedProxyConfigDomain, setSelectedProxyConfigDomain] = useState<CoreServerDomainInfo | null>(null);
@@ -117,13 +122,17 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
     return db.getHostingPlans().find(p => p.id === account?.planId);
   }, [account?.planId]);
 
+  const clientDomainsList = useMemo(() => {
+    return domains.filter(d => !isCoreServerDomain(d.domain));
+  }, [domains]);
+
   const maxSubdomains = currentPlan?.maxSubdomains ?? (currentPlan?.maxDomains ? currentPlan.maxDomains * 5 : 10);
-  const currentSubdomainsCount = domains.filter(d => d.type === 'subdomain').length;
+  const currentSubdomainsCount = clientDomainsList.filter(d => d.type === 'subdomain').length;
   const isSubdomainLimitReached = maxSubdomains < 999 && currentSubdomainsCount >= maxSubdomains;
 
   const isPresetActive = (prefix: string): boolean => {
     const targetFull = `${prefix.toLowerCase()}.${account.primaryDomain.toLowerCase()}`;
-    return domains.some(
+    return clientDomainsList.some(
       d => d.type === 'subdomain' && d.domain.toLowerCase() === targetFull
     );
   };
@@ -303,14 +312,14 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
   return (
     <div className="space-y-6">
       {/* Scope Switcher: Server Core Infrastructure vs Client Domains */}
-      {currentUser.role === 'admin' && (
+      {!fixedScope && currentUser.role === 'admin' && (
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-2 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
           <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white dark:bg-slate-800/90 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
             <button
               type="button"
               onClick={() => setScopeTab('server_infra')}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                scopeTab === 'server_infra'
+                effectiveScope === 'server_infra'
                   ? 'bg-sky-600 text-white shadow-xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
               }`}
@@ -318,7 +327,7 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
               <ShieldCheck className="h-4 w-4" />
               <span>Domain Infrastruktur Server (3 Core)</span>
               <span className={`font-mono text-[9.5px] px-1.5 py-0.2 rounded font-bold ${
-                scopeTab === 'server_infra' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
+                effectiveScope === 'server_infra' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
               }`}>
                 CORE
               </span>
@@ -327,7 +336,7 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
               type="button"
               onClick={() => setScopeTab('client_domains')}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                scopeTab === 'client_domains'
+                effectiveScope === 'client_domains'
                   ? 'bg-sky-600 text-white shadow-xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
               }`}
@@ -335,9 +344,9 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
               <Globe className="h-4 w-4" />
               <span>Domain Milik Klien (Reseller &amp; Pelanggan)</span>
               <span className={`font-mono text-[9.5px] px-1.5 py-0.2 rounded font-bold ${
-                scopeTab === 'client_domains' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
+                effectiveScope === 'client_domains' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
               }`}>
-                {domains.length}
+                {clientDomainsList.length}
               </span>
             </button>
           </div>
@@ -345,7 +354,7 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
           <div className="text-[11px] text-slate-500 dark:text-slate-400 px-3 flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>
-              {scopeTab === 'server_infra'
+              {effectiveScope === 'server_infra'
                 ? 'Terisolasi: Pengaturan domain inti karsacloud.biz.id'
                 : `Domain klien pada akun: ${account.primaryDomain}`}
             </span>
@@ -353,7 +362,7 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
         </div>
       )}
 
-      {scopeTab === 'server_infra' ? (
+      {effectiveScope === 'server_infra' ? (
         /* ================================================================ */
         /* TAB 1: DOMAIN INFRASTRUKTUR UTAMA SERVER                         */
         /* (karsacloud.biz.id, server.karsacloud.biz.id, client.karsacloud)  */
@@ -757,7 +766,7 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
           <div className="flex items-center gap-2">
             <Layers className="h-4 w-4 text-slate-500" />
             <span className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
-              Daftar Domain &amp; Subdomain Aktif ({domains.length})
+              Daftar Domain &amp; Subdomain Aktif ({clientDomainsList.length})
             </span>
           </div>
           <span className="text-[11px] text-slate-400">
@@ -778,14 +787,14 @@ export const DomainSubdomainManager: React.FC<DomainSubdomainManagerProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {domains.length === 0 ? (
+              {clientDomainsList.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-5 py-8 text-center text-slate-400">
                     Belum ada domain atau subdomain yang terdaftar.
                   </td>
                 </tr>
               ) : (
-                domains.map(dom => (
+                clientDomainsList.map(dom => (
                   <tr key={dom.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-2">
