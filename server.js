@@ -2109,8 +2109,10 @@ async function ensureCloudflaredBinary() {
       fs.chmodSync(CLOUDFLARED_BIN, 493);
       const stats = fs.statSync(CLOUDFLARED_BIN);
       if (stats.size > 25 * 1024 * 1024) {
-        execSync(`"${CLOUDFLARED_BIN}" --version`, { stdio: "ignore", timeout: 5e3 });
-        return CLOUDFLARED_BIN;
+        const verCheck = await execCmdAsync(`"${CLOUDFLARED_BIN}" --version`, { timeout: 5e3 });
+        if (verCheck.ok) {
+          return CLOUDFLARED_BIN;
+        }
       } else {
         appendTunnelLog(`Ukuran binary cloudflared terdeteksi korup (${stats.size} bytes). Mengunduh ulang...`);
         try {
@@ -2133,11 +2135,17 @@ async function ensureCloudflaredBinary() {
       if (fs.existsSync(tmpDownloadPath)) fs.unlinkSync(tmpDownloadPath);
     } catch {
     }
-    execSync(
+    const dlRes = await execCmdAsync(
       `curl -sL --retry 3 --connect-timeout 10 --max-time 120 https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o "${tmpDownloadPath}" && chmod +x "${tmpDownloadPath}"`,
       { timeout: 13e4 }
     );
-    execSync(`"${tmpDownloadPath}" --version`, { stdio: "ignore", timeout: 5e3 });
+    if (!dlRes.ok) {
+      throw new Error(dlRes.stderr || "Gagal mengunduh binary cloudflared");
+    }
+    const verRes = await execCmdAsync(`"${tmpDownloadPath}" --version`, { timeout: 5e3 });
+    if (!verRes.ok) {
+      throw new Error(verRes.stderr || "Verifikasi binary cloudflared gagal");
+    }
     fs.renameSync(tmpDownloadPath, CLOUDFLARED_BIN);
     fs.chmodSync(CLOUDFLARED_BIN, 493);
     appendTunnelLog(`Binary cloudflared berhasil diverifikasi dan dipasang di ${CLOUDFLARED_BIN}.`);
@@ -9471,7 +9479,7 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
     }
     return res.status(404).json({ ok: false, message: "Berkas tidak ditemukan." });
   });
-  const autoRestoreBackupsOnBoot = (force = false) => {
+  const autoRestoreBackupsOnBoot = async (force = false) => {
     try {
       const candidateScanDirs = [
         path.join(process.cwd(), ".cloudpro-data", "backups"),
@@ -9536,17 +9544,15 @@ with zipfile.ZipFile('${sourceZipPath}', 'r') as zf:
         }
         const stageDir = path.join(TMP_DIR, `auto-restore-stage-${Date.now()}`);
         fs.mkdirSync(stageDir, { recursive: true });
-        try {
-          execSync(`unzip -q -o "${zipItem.fullPath}" -d "${stageDir}"`, { timeout: 3e5 });
-        } catch {
-          try {
-            execSync(`python3 -c "
+        const unzipRes = await execCmdAsync(`unzip -q -o "${zipItem.fullPath}" -d "${stageDir}"`, { timeout: 3e5 });
+        if (!unzipRes.ok) {
+          const pyRes = await execCmdAsync(`python3 -c "
 import zipfile
 with zipfile.ZipFile('${zipItem.fullPath}', 'r') as zf:
     zf.extractall('${stageDir}')
 "`, { timeout: 3e5 });
-          } catch (e) {
-            console.error("[CloudPRO Auto-Restore] Gagal mengekstrak zip:", e?.message);
+          if (!pyRes.ok) {
+            console.error("[CloudPRO Auto-Restore] Gagal mengekstrak zip:", pyRes.stderr);
             continue;
           }
         }
@@ -9614,17 +9620,17 @@ with zipfile.ZipFile('${zipItem.fullPath}', 'r') as zf:
         for (const tgt of targetDirs) {
           try {
             fs.mkdirSync(tgt.physicalTarget, { recursive: true });
-            execSync(`cp -rf "${finalSource}/." "${tgt.physicalTarget}/"`, { stdio: "ignore" });
+            await execCmdAsync(`cp -rf "${finalSource}/." "${tgt.physicalTarget}/"`);
             applyWebsiteDataBackupToDocRoot(finalSource, tgt.physicalTarget, tgt.docRoot);
             try {
-              execSync(`find "${tgt.physicalTarget}" -type d -exec chmod 755 {} + 2>/dev/null || true`, { stdio: "ignore" });
-              execSync(`find "${tgt.physicalTarget}" -type f -exec chmod 644 {} + 2>/dev/null || true`, { stdio: "ignore" });
+              await execCmdAsync(`find "${tgt.physicalTarget}" -type d -exec chmod 755 {} + 2>/dev/null || true`);
+              await execCmdAsync(`find "${tgt.physicalTarget}" -type f -exec chmod 644 {} + 2>/dev/null || true`);
             } catch {
             }
             const vaultTarget = path.join(HOME_VAULT_DIR, tgt.docRoot.replace(/^\//, ""));
             try {
               fs.mkdirSync(vaultTarget, { recursive: true });
-              execSync(`cp -rf "${tgt.physicalTarget}/." "${vaultTarget}/" 2>/dev/null || true`, { stdio: "ignore" });
+              await execCmdAsync(`cp -rf "${tgt.physicalTarget}/." "${vaultTarget}/" 2>/dev/null || true`);
             } catch {
             }
             indexRestoredDirectory(tgt.physicalTarget, tgt.docRoot);
@@ -9651,7 +9657,7 @@ with zipfile.ZipFile('${zipItem.fullPath}', 'r') as zf:
   };
   app.post(["/api/backup/auto-restore-now", "/api/backup/sync-extract"], async (req, res) => {
     const force = req.body?.force === true;
-    const result = autoRestoreBackupsOnBoot(force);
+    const result = await autoRestoreBackupsOnBoot(force);
     res.json({
       ok: true,
       message: result.restored && result.restored.length > 0 ? `Berhasil mengekstrak & menyinkronkan ${result.restored.length} berkas cadangan ke direktori website!` : "Semua berkas cadangan sudah disinkronkan ke versi terbaru.",
@@ -10592,7 +10598,7 @@ with zipfile.ZipFile('${zipItem.fullPath}', 'r') as zf:
   server.listen(PORT, "0.0.0.0", () => {
     console.log(`Karsa Cloud PRO Enterprise Server running with Dual HTTP/HTTPS on http://0.0.0.0:${PORT}`);
     setTimeout(() => {
-      autoRestoreBackupsOnBoot();
+      autoRestoreBackupsOnBoot().catch((e) => console.warn("[CloudPRO Auto-Restore Boot Error]", e?.message));
     }, 1200);
   });
 }
