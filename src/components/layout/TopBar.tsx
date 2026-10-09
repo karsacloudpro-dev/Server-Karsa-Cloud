@@ -275,17 +275,6 @@ export const TopBar: React.FC<TopBarProps> = ({
 
         {/* Right Zone: Quick Action Controls */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {currentUser.role === 'admin' && onOpenSummaryPage && (
-            <button
-              onClick={onOpenSummaryPage}
-              title="Buka Web Panel Kontrol & Pemantau Server (Terenkripsi 2FA)"
-              className="flex items-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 dark:bg-amber-950/60 dark:border-amber-700/60 px-2.5 py-1.5 text-xs font-bold text-amber-900 dark:text-amber-300 hover:bg-amber-100 transition-colors shadow-2xs cursor-pointer"
-            >
-              <Activity className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 animate-pulse" />
-              <span>Web Panel</span>
-            </button>
-          )}
-
           {onOpenLanding && (
             <button
               onClick={onOpenLanding}
