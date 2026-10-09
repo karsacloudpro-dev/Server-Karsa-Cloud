@@ -35,7 +35,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       id: 'dashboard',
       label: 'Dashboard',
       icon: LayoutDashboard,
-      desc: 'Ringkasan & Metrik',
+      desc: 'Web Panel & Metrik',
     },
     {
       id: 'servers',

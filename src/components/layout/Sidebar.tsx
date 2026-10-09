@@ -44,6 +44,7 @@ interface SidebarProps {
   onSelectTab: (tab: string) => void;
   isOpen: boolean;
   onCloseMobile: () => void;
+  onOpenSummaryPage?: () => void;
 }
 
 interface NavMenuItem {
@@ -68,6 +69,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSelectTab,
   isOpen,
   onCloseMobile,
+  onOpenSummaryPage,
 }) => {
   const { currentUser, currentResellerProfile, switchRole, logout, authenticatedRole } = useAuth();
   const { servers } = useServer();
@@ -124,8 +126,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
     () => [
       {
         key: 'admin_infra',
-        title: 'Ringkasan & Cluster Node',
+        title: 'Web Panel & Cluster Node',
         items: [
+          {
+            id: 'web-panel-server',
+            label: 'Web Panel Server',
+            icon: ShieldCheck,
+            badge: {
+              text: '2FA',
+            },
+          },
           {
             id: 'dashboard',
             aliases: ['admin-dashboard'],
@@ -788,6 +798,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const panelDomain = currentResellerProfile?.panelDomain || 'panel.karsacloud.id';
 
   const handleNav = (tabId: string) => {
+    if (tabId === 'web-panel-server' || tabId === 'web-panel' || tabId === 'summary') {
+      if (onOpenSummaryPage) {
+        onOpenSummaryPage();
+      } else {
+        onSelectTab(tabId);
+      }
+      onCloseMobile();
+      return;
+    }
     onSelectTab(tabId);
     onCloseMobile();
   };

@@ -3,7 +3,7 @@
     {
       "id": "site_data",
       "value": "{\"siteContent\":{\"profile\":{\"name\":\"Jaenal Maskun\",\"arabicName\":\"الأستاذ زين الماسكون\",\"title\":\" Jaenal Maskun, S.Pd.I.\",\"degrees\":\"S.Pd.I.\",\"role\":\"Pendidik, Akademisi & Dev APP Madrasah\",\"institution\":\"Lembaga Pendidikan & Madrasah Unggulan\",\"tagline\":\"Menyemai Adab, Menumbuhkan Intelektual, Mengabdi untuk Kemuliaan Umat\",\"bio\":\"Lebih dari 15 tahun mendedikasikan diri dalam dunia pendidikan Islam, pengembangan kurikulum madrasah terpadu, serta pembinaan akhlak santri dan generasi muda. Berkomitmen menghadirkan ekosistem madrasah yang adaptif terhadap sains-teknologi modern tanpa mencabut akar tradisi keilmuan Islam dan kearifan pesantren.\",\"motto\":\"العِلْمُ بِلَا عَمَلٍ كَالشَّجَرِ بِلَا ثَمَرٍ — Ilmu tanpa amal laksana pohon tanpa buah.\",\"location\":\"Gentawangi , Indonesia\",\"email\":\"jaenalmaskun.ai@gmail.com\",\"phone\":\"+62 812-3456-7890\",\"avatarUrl\":\"/uploads/avatar_1787051686042_07hu2t.jpg\",\"socials\":{\"whatsapp\":\"https://wa.me/6281234567890\",\"youtube\":\"https://youtube.com/@jaenalmaskun\",\"instagram\":\"https://instagram.com/jaenalmaskun\",\"facebook\":\"https://facebook.com/jaenalmaskun\",\"linkedin\":\"https://linkedin.com/in/jaenalmaskun\"},\"stats\":[{\"label\":\"Tahun Pengabdian\",\"value\":\"15+\",\"subtext\":\"Di Dunia Pendidikan Madrasah\"},{\"label\":\"Karya Tulis & Modul\",\"value\":\"24+\",\"subtext\":\"Modul  Ajar\"},{\"label\":\"Guru Terlatih\",\"value\":\"3.500+\",\"subtext\":\"Pelatihan PKB & Pedagogi\"},{\"label\":\"Santri & Siswa Dibina\",\"value\":\"12.000+\",\"subtext\":\"Alumni Berprestasi\"}]},\"education\":[{\"year\":\"2013\",\"degree\":\"Sarjana Pendidikan S1\",\"institution\":\"IAIIG Cilacap\",\"focus\":\"Konsentrasi Manajemen Pendidikan Islam & Kurikulum (Cum Laude)\"},{\"year\":\"2013\",\"degree\":\"Sarjana Pendidikan Agama Islam (S.Pd.I.)\",\"institution\":\"Fakultas Tarbiyah dan Keguruan\",\"focus\":\"Pendidikan Agama Islam, Metodologi Pengajaran & Bahasa Arab\"},{\"year\":\"1995\",\"degree\":\"Pendidikan Pesantren & Madrasah Aliyah\",\"institution\":\"Pondok Pesantren  As Syafi",
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "siteContent",
@@ -349,7 +349,7 @@
           "badgeText": "Website Resmi Madrasah"
         }
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "logoConfig",
@@ -371,7 +371,7 @@
         "footerLogoType": "sync_header",
         "customImageUrl": "/uploads/logo_1787054962785_na1vhf.jpg"
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "stickyFooterConfig",
@@ -450,12 +450,12 @@
           }
         ]
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "Laki-laki",
       "value": "Perempuan",
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "general",
@@ -472,7 +472,7 @@
         "maps_longitude": "109.132984",
         "maps_zoom": "16"
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "hero",
@@ -499,7 +499,7 @@
         "right_image_title": "Pembiasaan",
         "right_image_subtitle": "Terakreditasi & Berprestasi"
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "running_text",
@@ -528,7 +528,7 @@
           }
         ]
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "seo",
@@ -538,7 +538,7 @@
         "image_url": "/og-cover.jpg",
         "og_image_url": "/og-cover.jpg"
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "tahun_pelajaran",
@@ -553,7 +553,7 @@
         "spmb_year": "2026/2027",
         "semester": "Ganjil"
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "sticky_footer",
@@ -586,7 +586,7 @@
           }
         ]
       },
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "teachers",
@@ -727,7 +727,7 @@
           "created_at": "2026-01-01T00:00:00.000Z"
         }
       ],
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     },
     {
       "id": "registered_madrasahs_list",
@@ -763,7 +763,7 @@
           "created_at": "2026-09-10T01:57:22.295Z"
         }
       ],
-      "updated_at": "2026-10-07T08:59:29.013Z"
+      "updated_at": "2026-10-09T09:08:26.979Z"
     }
   ],
   "pendaftaran_spmb": [],

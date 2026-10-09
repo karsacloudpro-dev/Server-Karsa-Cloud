@@ -333,37 +333,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSum
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-2.5">
-              {/* Ringkasan Kontrol Panel Standalone Page Button */}
+              {/* Web Panel Standalone Page Button (Terenkripsi 2FA) */}
               <button
                 type="button"
                 onClick={() => onOpenSummaryPage?.()}
                 className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-900 px-3 py-2 text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95"
-                title="Buka Halaman Tersendiri Ringkasan Kontrol Panel & Pemantau Server"
+                title="Buka Web Panel Kontrol & Pemantau Server (Terenkripsi 2FA)"
               >
                 <Activity className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
-                <span>Ringkasan Panel</span>
+                <span>Web Panel</span>
               </button>
 
               {/* Portal Klien Button (client.karsacloud.biz.id) */}
               <button
                 type="button"
                 onClick={() => onGoToPanel('client_portal')}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-sky-200/90 bg-white hover:bg-sky-50 text-slate-700 hover:text-sky-700 px-3.5 py-2 text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white px-3.5 py-2 text-xs font-bold transition-all cursor-pointer shadow-md shadow-sky-600/20 active:scale-95"
                 title="Akses Portal Klien & Reseller (client.karsacloud.biz.id)"
               >
-                <Users className="w-3.5 h-3.5 text-sky-600" />
+                <Users className="w-3.5 h-3.5 text-sky-100" />
                 <span>Portal Klien</span>
-              </button>
-
-              {/* Panel Admin Button (server.karsacloud.biz.id) */}
-              <button
-                type="button"
-                onClick={() => onGoToPanel('server_admin')}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white px-3.5 py-2 text-xs font-bold transition-all cursor-pointer shadow-md shadow-sky-600/20 active:scale-95"
-                title="Akses Panel Admin Server (server.karsacloud.biz.id)"
-              >
-                <Server className="w-3.5 h-3.5 text-amber-300" />
-                <span>Panel Admin</span>
               </button>
             </div>
 
@@ -403,9 +392,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSum
               <span className="text-emerald-600 font-bold">SLA 99.99% Online</span>
             </div>
 
-            {/* 3 Gateway Access Cards */}
+            {/* Gateway Access Cards */}
             <div className="space-y-2.5">
-              {/* Standalone Ringkasan Kontrol Panel Card */}
+              {/* Standalone Web Panel Server Card (Terenkripsi 2FA) */}
               <button
                 type="button"
                 onClick={() => {
@@ -420,10 +409,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSum
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-black text-slate-900">Ringkasan Kontrol Panel</span>
-                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-200 text-amber-900">SUPER ADMIN</span>
+                      <span className="text-xs font-black text-slate-900">Web Panel Server</span>
+                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-200 text-amber-900">2FA TOTP</span>
                     </div>
-                    <p className="text-[11px] text-slate-600 font-mono truncate mt-0.5">Pemantau Server Live &bull; Halaman Khusus</p>
+                    <p className="text-[11px] text-slate-600 font-mono truncate mt-0.5">Pemantau Server Live &bull; Terenkripsi 2FA</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-amber-700 shrink-0 ml-2" />
@@ -450,29 +439,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSum
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-sky-600 shrink-0 ml-2" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onGoToPanel('server_admin');
-                }}
-                className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-amber-50/70 to-white border border-amber-200 hover:border-amber-300 transition-all cursor-pointer text-left shadow-xs active:scale-[0.99]"
-              >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-10 w-10 rounded-xl bg-amber-100/80 border border-amber-200 flex items-center justify-center text-amber-600 shrink-0">
-                    <Server className="w-5 h-5" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-black text-slate-900">Web Panel Admin Server</span>
-                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-100 text-amber-800">Root Node</span>
-                    </div>
-                    <p className="text-[11px] text-slate-500 font-mono truncate mt-0.5">server.karsacloud.biz.id</p>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-amber-600 shrink-0 ml-2" />
               </button>
             </div>
 
@@ -690,15 +656,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSum
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <button
-                type="button"
-                onClick={() => onGoToPanel('server_admin')}
-                className="flex items-center justify-center gap-2 rounded-xl border border-sky-200/90 bg-white hover:bg-sky-50 text-slate-800 hover:text-sky-700 font-bold text-sm sm:text-base py-3.5 px-5 shadow-xs transition-all cursor-pointer active:scale-[0.98]"
-              >
-                <Server className="w-4 h-4 text-amber-500" />
-                <span>Web Panel Admin</span>
-              </button>
-
               <a
                 href={officialWaLink}
                 target="_blank"
@@ -797,25 +754,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSum
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-slate-100 space-y-2">
-                <button
-                  type="button"
-                  onClick={() => onGoToPanel('server_admin')}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 px-4 text-xs sm:text-sm shadow-md shadow-amber-500/20 transition-colors cursor-pointer"
-                >
-                  <Server className="w-4 h-4" />
-                  <span>Masuk Web Panel Admin (server.karsacloud.biz.id)</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-
+              <div className="mt-6 pt-4 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => onOpenSummaryPage?.()}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-950 font-bold py-2.5 px-4 text-xs transition-colors cursor-pointer"
-                  title="Buka Halaman Tersendiri Ringkasan Kontrol Panel & Pemantau Server"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:brightness-105 text-slate-950 font-black py-3 px-4 text-xs sm:text-sm shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+                  title="Buka Web Panel Server & Pemantau Hardware (Terenkripsi 2FA)"
                 >
-                  <Activity className="w-4 h-4 text-amber-600 animate-pulse" />
-                  <span>Buka Halaman Ringkasan Kontrol Panel (Status Live)</span>
+                  <ShieldCheck className="w-4 h-4 text-slate-950" />
+                  <span>Buka Web Panel Server (Otentikasi 2FA)</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>

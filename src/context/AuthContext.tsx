@@ -143,21 +143,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       target = ensureRoleUser(resolvedRole, emailOrUser.trim());
     }
 
-    // Root Admin ALWAYS requires 2FA by default for enterprise security hardening
-    if (target.role === 'admin') {
-      const secret =
-        target.twoFactorSecret && !/[^A-Z2-7]/i.test(target.twoFactorSecret)
-          ? target.twoFactorSecret.toUpperCase()
-          : DEFAULT_2FA_SECRET;
-      return {
-        required: true,
-        secret,
-        email: target.email || 'admin@karsacloud.biz.id',
-        user: target,
-      };
-    }
-
-    // For other roles (reseller/customer), require 2FA if they turned it on
+    // 2FA on regular dashboard login is optional (only if explicitly enabled).
+    // Mandatory encrypted 2FA (RFC 6238 TOTP) is enforced when accessing the Web Panel.
     if (target.twoFactorEnabled) {
       const secret =
         target.twoFactorSecret && !/[^A-Z2-7]/i.test(target.twoFactorSecret)
@@ -166,7 +153,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return {
         required: true,
         secret,
-        email: target.email,
+        email: target.email || (target.role === 'admin' ? 'admin@karsacloud.biz.id' : target.email),
         user: target,
       };
     }

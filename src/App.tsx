@@ -252,7 +252,7 @@ const AppContent: React.FC = () => {
     try {
       const sp = new URLSearchParams(window.location.search);
       const v = sp.get('view') || sp.get('page');
-      if (v === 'summary' || v === 'ringkasan' || v === 'server-status') return true;
+      if (v === 'web-panel' || v === 'webpanel' || v === 'summary' || v === 'ringkasan' || v === 'server-status') return true;
     } catch {}
     return false;
   });
@@ -262,7 +262,7 @@ const AppContent: React.FC = () => {
     try {
       const sp = new URLSearchParams(window.location.search);
       if (sp.get("view") === "panel") return false;
-      if (sp.get("view") === "summary" || sp.get("page") === "summary") return false;
+      if (sp.get("view") === "web-panel" || sp.get("view") === "webpanel" || sp.get("view") === "summary" || sp.get("page") === "summary") return false;
       if (sp.get("view") === "landing") return true;
       if (sp.get("tab")) return false;
     } catch {}
@@ -306,6 +306,10 @@ const AppContent: React.FC = () => {
   ].includes(activeTab);
 
   const setActiveTab = (nextRawTab: string) => {
+    if (nextRawTab === 'web-panel-server' || nextRawTab === 'web-panel' || nextRawTab === 'summary' || nextRawTab === 'ringkasan') {
+      setIsSummaryPage(true);
+      return;
+    }
     const nextTab = nextRawTab === 'dashboard' ? getRootDashboardTab() : nextRawTab;
     if (nextTab === activeTab) return;
     const nextHistory = [...navHistoryRef.current.slice(-24), activeTab];
@@ -1565,6 +1569,7 @@ const AppContent: React.FC = () => {
         onSelectTab={setActiveTab}
         isOpen={isSidebarOpen}
         onCloseMobile={() => setIsSidebarOpen(false)}
+        onOpenSummaryPage={() => setIsSummaryPage(true)}
       />
       <div className="flex min-h-dvh flex-1 flex-col min-w-0 w-full max-w-full lg:pl-64">
         <TopBar
