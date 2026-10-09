@@ -37,9 +37,10 @@ import { CloudProLogo } from '../common/CloudProLogo';
 
 interface LandingPageProps {
   onGoToPanel: (targetPortal?: 'server_admin' | 'client_portal') => void;
+  onOpenSummaryPage?: () => void;
 }
 
-export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSummaryPage }) => {
   const [activePlanTab, setActivePlanTab] = useState<'hosting' | 'reseller' | 'vps'>('hosting');
   const [domainQuery, setDomainQuery] = useState('');
   const [domainTld, setDomainTld] = useState('.biz.id');
@@ -331,6 +332,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-2.5">
+              {/* Ringkasan Kontrol Panel Standalone Page Button */}
+              <button
+                type="button"
+                onClick={() => onOpenSummaryPage?.()}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-900 px-3 py-2 text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95"
+                title="Buka Halaman Tersendiri Ringkasan Kontrol Panel & Pemantau Server"
+              >
+                <Activity className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
+                <span>Ringkasan Panel</span>
+              </button>
+
               {/* Portal Klien Button (client.karsacloud.biz.id) */}
               <button
                 type="button"
@@ -355,20 +367,29 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
             </div>
 
             {/* Mobile / Android Dedicated Compact Action */}
-            <div className="flex lg:hidden items-center gap-1.5">
+            <div className="flex lg:hidden items-center gap-1">
+              <button
+                type="button"
+                onClick={() => onOpenSummaryPage?.()}
+                className="flex items-center gap-1 rounded-xl border border-amber-300 bg-amber-50 active:bg-amber-100 text-amber-900 px-2 py-1.5 text-xs font-bold shadow-xs transition-all cursor-pointer"
+                title="Buka Halaman Ringkasan Kontrol Panel"
+              >
+                <Activity className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
+                <span>Ringkasan</span>
+              </button>
               <button
                 type="button"
                 onClick={() => onGoToPanel('server_admin')}
-                className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 active:from-amber-600 active:to-amber-700 text-slate-950 px-2.5 py-1.5 text-xs font-bold shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+                className="flex items-center gap-1 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 active:from-amber-600 active:to-amber-700 text-slate-950 px-2.5 py-1.5 text-xs font-bold shadow-md shadow-amber-500/20 transition-all cursor-pointer"
                 title="Akses Panel Admin Server (server.karsacloud.biz.id)"
               >
                 <Server className="w-3.5 h-3.5 text-slate-950" />
-                <span>Admin Server</span>
+                <span>Admin</span>
               </button>
               <button
                 type="button"
                 onClick={() => onGoToPanel('client_portal')}
-                className="flex items-center gap-1.5 rounded-xl border border-sky-200 bg-white active:bg-sky-50 text-slate-700 px-2.5 py-1.5 text-xs font-bold shadow-xs transition-all cursor-pointer"
+                className="flex items-center gap-1 rounded-xl border border-sky-200 bg-white active:bg-sky-50 text-slate-700 px-2.5 py-1.5 text-xs font-bold shadow-xs transition-all cursor-pointer"
                 title="Akses Portal Klien & Reseller (client.karsacloud.biz.id)"
               >
                 <Users className="w-3.5 h-3.5 text-sky-600" />
@@ -400,8 +421,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
               <span className="text-emerald-600 font-bold">SLA 99.99% Online</span>
             </div>
 
-            {/* 2 Gateway Access Cards */}
+            {/* 3 Gateway Access Cards */}
             <div className="space-y-2.5">
+              {/* Standalone Ringkasan Kontrol Panel Card */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenSummaryPage?.();
+                }}
+                className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-100/40 to-white border-2 border-amber-300 hover:border-amber-400 transition-all cursor-pointer text-left shadow-xs active:scale-[0.99]"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="h-10 w-10 rounded-xl bg-amber-500/20 border border-amber-300 flex items-center justify-center text-amber-700 shrink-0">
+                    <Activity className="w-5 h-5 text-amber-600 animate-pulse" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-black text-slate-900">Ringkasan Kontrol Panel</span>
+                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-200 text-amber-900">SUPER ADMIN</span>
+                    </div>
+                    <p className="text-[11px] text-slate-600 font-mono truncate mt-0.5">Pemantau Server Live &bull; Halaman Khusus</p>
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-amber-700 shrink-0 ml-2" />
+              </button>
+
               <button
                 type="button"
                 onClick={() => {
@@ -770,15 +815,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-slate-100">
+              <div className="mt-6 pt-4 border-t border-slate-100 space-y-2">
                 <button
                   type="button"
                   onClick={() => onGoToPanel('server_admin')}
                   className="w-full flex items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 px-4 text-xs sm:text-sm shadow-md shadow-amber-500/20 transition-colors cursor-pointer"
                 >
                   <Server className="w-4 h-4" />
-                  <span>Masuk Web Panel Admin (server.)</span>
+                  <span>Masuk Web Panel Admin (server.karsacloud.biz.id)</span>
                   <ArrowRight className="w-4 h-4" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenSummaryPage?.()}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-950 font-bold py-2.5 px-4 text-xs transition-colors cursor-pointer"
+                  title="Buka Halaman Tersendiri Ringkasan Kontrol Panel & Pemantau Server"
+                >
+                  <Activity className="w-4 h-4 text-amber-600 animate-pulse" />
+                  <span>Buka Halaman Ringkasan Kontrol Panel (Status Live)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>

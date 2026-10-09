@@ -34,7 +34,7 @@ import { SupportTicketManager } from './components/support/SupportTicketManager'
 import { WhiteLabelSettings } from './components/whitelabel/WhiteLabelSettings';
 import { ApiDocsExplorer } from './components/api-explorer/ApiDocsExplorer';
 import { ArchitectureView } from './components/architecture/ArchitectureView';
-import { ControlPanelSummaryDashboard } from './components/dashboard/ControlPanelSummaryDashboard';
+import { ControlPanelSummaryPage } from './components/dashboard/ControlPanelSummaryPage';
 import { AdminDashboard } from './components/dashboard/AdminDashboard';
 import { ResellerDashboard } from './components/dashboard/ResellerDashboard';
 import { CustomerDashboard } from './components/dashboard/CustomerDashboard';
@@ -248,11 +248,21 @@ const AppContent: React.FC = () => {
     return 'server_admin';
   });
 
+  const [isSummaryPage, setIsSummaryPage] = useState<boolean>(() => {
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const v = sp.get('view') || sp.get('page');
+      if (v === 'summary' || v === 'ringkasan' || v === 'server-status') return true;
+    } catch {}
+    return false;
+  });
+
   const [isLandingView, setIsLandingView] = useState<boolean>(() => {
     if (isServerPanelDomain) return false;
     try {
       const sp = new URLSearchParams(window.location.search);
       if (sp.get("view") === "panel") return false;
+      if (sp.get("view") === "summary" || sp.get("page") === "summary") return false;
       if (sp.get("view") === "landing") return true;
       if (sp.get("tab")) return false;
     } catch {}
@@ -270,7 +280,7 @@ const AppContent: React.FC = () => {
   const [backupPreselectedDomain, setBackupPreselectedDomain] = useState<string | undefined>(undefined);
 
   const getRootDashboardTab = () => {
-    if (currentUser?.role === 'admin') return 'control-panel-summary';
+    if (currentUser?.role === 'admin') return 'dashboard';
     if (currentUser?.role === 'reseller') return 'reseller-dashboard';
     return 'customer-dashboard';
   };
@@ -290,8 +300,6 @@ const AppContent: React.FC = () => {
   const isRootDashboard = [
     'dashboard',
     'admin-dashboard',
-    'control-panel-summary',
-    'panel-summary',
     'reseller-dashboard',
     'customer-dashboard',
     'cpanel-dashboard',
@@ -608,6 +616,26 @@ const AppContent: React.FC = () => {
     }
   }, [currentUser?.id, currentUser?.role]);
 
+  // Dedicated Standalone Page: Ringkasan Kontrol Panel & Pemantau Server
+  if (isSummaryPage) {
+    return (
+      <>
+        <ControlPanelSummaryPage
+          onBackToLanding={() => {
+            setIsSummaryPage(false);
+            setIsLandingView(true);
+          }}
+          onGoToServerAdmin={() => {
+            setIsSummaryPage(false);
+            setLandingTargetPortal('server_admin');
+            setIsLandingView(false);
+          }}
+        />
+        <WhatsAppFloatingButton defaultPhoneNumber="6281226738883" />
+      </>
+    );
+  }
+
   // If landing page is active (default for karsacloud.biz.id and promotional website)
   if (isLandingView) {
     return (
@@ -615,6 +643,10 @@ const AppContent: React.FC = () => {
         <LandingPage
           onGoToPanel={(portal) => {
             if (portal) setLandingTargetPortal(portal);
+            setIsLandingView(false);
+          }}
+          onOpenSummaryPage={() => {
+            setIsSummaryPage(true);
             setIsLandingView(false);
           }}
         />
@@ -1161,15 +1193,6 @@ const AppContent: React.FC = () => {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'control-panel-summary':
-      case 'panel-summary':
-        return (
-          <ControlPanelSummaryDashboard
-            onNavigate={setActiveTab}
-            onOpenCreateAccount={() => setIsCreateAccountOpen(true)}
-            onOpenAddServer={() => setActiveTab('servers')}
-          />
-        );
       case 'dashboard':
       case 'admin-dashboard':
         return (

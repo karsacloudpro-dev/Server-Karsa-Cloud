@@ -177,45 +177,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </div>
       </div>
 
-      {/* Super Admin Control Panel Summary & Server Monitor Shortcut Card */}
-      <div className="rounded-2xl border-2 border-sky-500/30 bg-gradient-to-r from-slate-900 via-slate-850 to-sky-950 p-4 sm:p-5 text-white shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="h-11 w-11 rounded-xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-400 shrink-0">
-            <ShieldCheck className="h-6 w-6" />
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-extrabold text-sm sm:text-base text-white">Ringkasan Kontrol Panel &amp; Pemantau Server</span>
-              <span className="text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20">
-                Super Admin Only
-              </span>
-            </div>
-            <p className="text-xs text-slate-300 mt-0.5">
-              Pantau utilisasi CPU, RAM, NVMe secara live dan kelola akses gateway ke <strong className="text-sky-300">server.karsacloud.biz.id</strong>
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={() => onNavigate('control-panel-summary')}
-            className="rounded-xl bg-sky-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-sky-500 shadow-md shadow-sky-600/30 transition-all cursor-pointer flex items-center gap-1.5"
-          >
-            <span>Buka Ringkasan Panel</span>
-            <ArrowUpRight className="h-4 w-4" />
-          </button>
-          <a
-            href="https://server.karsacloud.biz.id"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-xs font-bold text-slate-200 hover:bg-white/20 transition-all flex items-center gap-1.5"
-            title="Login langsung ke server.karsacloud.biz.id"
-          >
-            <span>server.karsacloud.biz.id</span>
-            <ExternalLink className="h-3.5 w-3.5" />
-          </a>
-        </div>
-      </div>
-
       {/* Primary KPI Metric Cards: Unified 360° Perimeter Ring Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Box 1: Server Nodes */}
