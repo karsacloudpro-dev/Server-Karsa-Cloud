@@ -270,7 +270,7 @@ const AppContent: React.FC = () => {
   const [backupPreselectedDomain, setBackupPreselectedDomain] = useState<string | undefined>(undefined);
 
   const getRootDashboardTab = () => {
-    if (currentUser?.role === 'admin') return 'dashboard';
+    if (currentUser?.role === 'admin') return 'control-panel-summary';
     if (currentUser?.role === 'reseller') return 'reseller-dashboard';
     return 'customer-dashboard';
   };

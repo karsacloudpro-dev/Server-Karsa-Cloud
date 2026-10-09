@@ -358,11 +358,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel }) => {
             <div className="flex lg:hidden items-center gap-1.5">
               <button
                 type="button"
-                onClick={() => onGoToPanel('client_portal')}
-                className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 active:from-sky-700 active:to-blue-700 text-white px-3 py-2 text-xs font-bold shadow-md shadow-sky-600/20 transition-all cursor-pointer"
+                onClick={() => onGoToPanel('server_admin')}
+                className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 active:from-amber-600 active:to-amber-700 text-slate-950 px-2.5 py-1.5 text-xs font-bold shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+                title="Akses Panel Admin Server (server.karsacloud.biz.id)"
               >
-                <Users className="w-3.5 h-3.5 text-sky-100" />
-                <span>Masuk Portal</span>
+                <Server className="w-3.5 h-3.5 text-slate-950" />
+                <span>Admin Server</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => onGoToPanel('client_portal')}
+                className="flex items-center gap-1.5 rounded-xl border border-sky-200 bg-white active:bg-sky-50 text-slate-700 px-2.5 py-1.5 text-xs font-bold shadow-xs transition-all cursor-pointer"
+                title="Akses Portal Klien & Reseller (client.karsacloud.biz.id)"
+              >
+                <Users className="w-3.5 h-3.5 text-sky-600" />
+                <span>Klien</span>
               </button>
 
               {/* Mobile Hamburger Toggle */}

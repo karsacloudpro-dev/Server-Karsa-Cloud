@@ -27,6 +27,7 @@ import {
   Mail,
   Check,
   Zap,
+  Users,
 } from 'lucide-react';
 import { User, HostingAccount, Invoice } from '../../types';
 
@@ -738,6 +739,46 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             ) : (
               /* ================= STANDARD CREDENTIALS FORM ================= */
               <>
+                {/* Prominent 2-Segmented Portal Switcher: Admin Server vs Klien/Reseller */}
+                <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200/90 mb-4 shadow-2xs">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPortalMode('server_admin');
+                      setAuthTab('login');
+                      setErrorMessage('');
+                      if (!username || username === 'pelanggan' || username === 'denbaguse') {
+                        setUsername('admin');
+                      }
+                    }}
+                    className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      portalMode === 'server_admin'
+                        ? 'bg-amber-500 text-slate-950 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                    }`}
+                  >
+                    <Server className="h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">Admin Server (server.)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPortalMode('client_portal');
+                      setAuthTab('login');
+                      setErrorMessage('');
+                    }}
+                    className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      portalMode === 'client_portal'
+                        ? 'bg-sky-600 text-white shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                    }`}
+                  >
+                    <Users className="h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">Klien &amp; Reseller (client.)</span>
+                  </button>
+                </div>
+
                 {/* Portal Mode Header Badge & Title */}
                 <div className="flex items-center justify-between mb-1.5">
                   <h2 className="text-sm sm:text-base lg:text-lg font-extrabold text-slate-900 tracking-tight">
@@ -766,33 +807,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     ? 'Pendaftaran akun baru instan. Pilih paket cloud hosting dan nikmati aktivasi otomatis beserta faktur resmi.'
                     : 'Akses resmi Mitra Reseller WHM & Pelanggan cPanel. Sistem mengarahkan otomatis sesuai hak akses akun Anda.'}
                 </p>
-
-                {/* Quick Portal Switcher Banner */}
-                <div className="mb-3.5 flex items-center justify-between p-2 rounded-xl bg-sky-50/70 border border-sky-200/70 text-[10.5px] shadow-2xs">
-                  <span className="text-slate-600">
-                    {portalMode === 'server_admin'
-                      ? 'Akses Klien atau Mitra Reseller?'
-                      : 'Akses Administrator Server?'}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPortalMode(prev =>
-                        prev === 'server_admin' ? 'client_portal' : 'server_admin'
-                      );
-                      setAuthTab('login');
-                      setErrorMessage('');
-                    }}
-                    className="font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center gap-1 cursor-pointer"
-                  >
-                    <span>
-                      {portalMode === 'server_admin'
-                        ? 'Portal Klien & Reseller'
-                        : 'Panel Admin Server'}
-                    </span>
-                    <ArrowRight className="h-3 w-3" />
-                  </button>
-                </div>
 
                 {/* Client Mode Dual Tab: Masuk vs Registrasi */}
                 {portalMode === 'client_portal' && (
