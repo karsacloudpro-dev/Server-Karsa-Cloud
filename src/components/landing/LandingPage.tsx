@@ -292,15 +292,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSum
       <header className="sticky top-0 z-50 bg-[#f8fbff]/92 backdrop-blur-xl border-b border-sky-100/80 transition-all shadow-xs">
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           {/* Left: Brand Identity (Official Logo with Live Status Beacon) */}
-          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
             <CloudProLogo
-              variant="compact"
+              variant="full"
               size="md"
               cloudTextColor="text-slate-900"
               showSubtitle={true}
               subtitleText="karsacloud.biz.id"
+              noTruncate={true}
             />
-            <span className="hidden min-[400px]:inline-flex items-center gap-1 font-mono text-[9px] text-emerald-700 bg-emerald-50 border border-emerald-200/90 px-2 py-0.5 rounded-full shrink-0 font-bold">
+            <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[9px] text-emerald-700 bg-emerald-50 border border-emerald-200/90 px-2 py-0.5 rounded-full shrink-0 font-bold">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>ONLINE</span>
             </span>
@@ -366,44 +367,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGoToPanel, onOpenSum
               </button>
             </div>
 
-            {/* Mobile / Android Dedicated Compact Action */}
-            <div className="flex lg:hidden items-center gap-1">
-              <button
-                type="button"
-                onClick={() => onOpenSummaryPage?.()}
-                className="flex items-center gap-1 rounded-xl border border-amber-300 bg-amber-50 active:bg-amber-100 text-amber-900 px-2 py-1.5 text-xs font-bold shadow-xs transition-all cursor-pointer"
-                title="Buka Halaman Ringkasan Kontrol Panel"
-              >
-                <Activity className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
-                <span>Ringkasan</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => onGoToPanel('server_admin')}
-                className="flex items-center gap-1 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 active:from-amber-600 active:to-amber-700 text-slate-950 px-2.5 py-1.5 text-xs font-bold shadow-md shadow-amber-500/20 transition-all cursor-pointer"
-                title="Akses Panel Admin Server (server.karsacloud.biz.id)"
-              >
-                <Server className="w-3.5 h-3.5 text-slate-950" />
-                <span>Admin</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => onGoToPanel('client_portal')}
-                className="flex items-center gap-1 rounded-xl border border-sky-200 bg-white active:bg-sky-50 text-slate-700 px-2.5 py-1.5 text-xs font-bold shadow-xs transition-all cursor-pointer"
-                title="Akses Portal Klien & Reseller (client.karsacloud.biz.id)"
-              >
-                <Users className="w-3.5 h-3.5 text-sky-600" />
-                <span>Klien</span>
-              </button>
-
-              {/* Mobile Hamburger Toggle */}
+            {/* Mobile / Android Clean Single Action: Spacious Brand & Clean Menu */}
+            <div className="flex lg:hidden items-center gap-2 shrink-0">
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-xl border border-sky-200/80 bg-white text-slate-700 hover:bg-sky-50 transition-all cursor-pointer flex items-center justify-center min-w-[38px] min-h-[38px] active:scale-95"
+                className="flex items-center gap-2 rounded-xl border border-sky-300 bg-white hover:bg-sky-50 active:bg-sky-100 text-slate-800 px-3 py-2 text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95"
                 aria-label="Toggle Menu"
               >
-                {isMobileMenuOpen ? <X className="w-4.5 h-4.5 text-sky-600" /> : <Menu className="w-4.5 h-4.5" />}
+                {isMobileMenuOpen ? (
+                  <>
+                    <X className="w-4 h-4 text-sky-600" />
+                    <span>Tutup</span>
+                  </>
+                ) : (
+                  <>
+                    <Menu className="w-4 h-4 text-sky-600" />
+                    <span>Menu Portal</span>
+                  </>
+                )}
               </button>
             </div>
           </div>

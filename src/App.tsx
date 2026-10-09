@@ -1576,6 +1576,7 @@ const AppContent: React.FC = () => {
           canGoBack={!isRootDashboard || navHistory.length > 0}
           onNavigate={setActiveTab}
           onOpenLanding={() => setIsLandingView(true)}
+          onOpenSummaryPage={() => setIsSummaryPage(true)}
         />
         <main className="flex-1 min-w-0 w-full max-w-full overflow-x-clip bg-exec-canvas p-3 sm:p-6 lg:p-8">
           <div className="mx-auto max-w-7xl w-full min-w-0">
