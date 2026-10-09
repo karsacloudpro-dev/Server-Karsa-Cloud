@@ -127,6 +127,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         title: 'Ringkasan & Cluster Node',
         items: [
           {
+            id: 'control-panel-summary',
+            aliases: ['panel-summary'],
+            label: 'Ringkasan Kontrol Panel',
+            icon: ShieldCheck,
+            badge: {
+              text: 'SUPER ADMIN',
+            },
+          },
+          {
             id: 'dashboard',
             aliases: ['admin-dashboard'],
             label: 'Cluster Overview',

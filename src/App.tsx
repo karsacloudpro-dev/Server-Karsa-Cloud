@@ -34,6 +34,7 @@ import { SupportTicketManager } from './components/support/SupportTicketManager'
 import { WhiteLabelSettings } from './components/whitelabel/WhiteLabelSettings';
 import { ApiDocsExplorer } from './components/api-explorer/ApiDocsExplorer';
 import { ArchitectureView } from './components/architecture/ArchitectureView';
+import { ControlPanelSummaryDashboard } from './components/dashboard/ControlPanelSummaryDashboard';
 import { AdminDashboard } from './components/dashboard/AdminDashboard';
 import { ResellerDashboard } from './components/dashboard/ResellerDashboard';
 import { CustomerDashboard } from './components/dashboard/CustomerDashboard';
@@ -289,6 +290,8 @@ const AppContent: React.FC = () => {
   const isRootDashboard = [
     'dashboard',
     'admin-dashboard',
+    'control-panel-summary',
+    'panel-summary',
     'reseller-dashboard',
     'customer-dashboard',
     'cpanel-dashboard',
@@ -1158,6 +1161,15 @@ const AppContent: React.FC = () => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'control-panel-summary':
+      case 'panel-summary':
+        return (
+          <ControlPanelSummaryDashboard
+            onNavigate={setActiveTab}
+            onOpenCreateAccount={() => setIsCreateAccountOpen(true)}
+            onOpenAddServer={() => setActiveTab('servers')}
+          />
+        );
       case 'dashboard':
       case 'admin-dashboard':
         return (

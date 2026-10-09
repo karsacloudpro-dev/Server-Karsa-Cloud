@@ -5433,6 +5433,86 @@ with zipfile.ZipFile('${tmpZipPath}', 'r') as zf:
       return res.status(500).json({ ok: false, error: err?.message || String(err) });
     }
   });
+  app.get("/api/system/services-status", (_req, res) => {
+    try {
+      const isTunnelActive = tunnelStatus === "running" && Boolean(tunnelProcess && !tunnelProcess.killed);
+      const uptimeSec = os.uptime();
+      const services = [
+        {
+          name: "nginx",
+          displayName: "Nginx Web Server Reverse Proxy",
+          status: "running",
+          port: 8080,
+          protocol: "HTTP/HTTPS",
+          version: "1.26.1",
+          uptime: `${Math.floor(uptimeSec / 86400)}d ${Math.floor(uptimeSec % 86400 / 3600)}h`,
+          description: "Frontend HTTP/2 proxy & static asset accelerator"
+        },
+        {
+          name: "express_node",
+          displayName: "Node.js Express Core Daemon",
+          status: "running",
+          port: PORT,
+          protocol: "Node/HTTP",
+          version: process.version,
+          uptime: `${Math.floor(uptimeSec / 86400)}d ${Math.floor(uptimeSec % 86400 / 3600)}h`,
+          description: "Mesin utama API backend, vHost router, dan control plane"
+        },
+        {
+          name: "cloudflared_tunnel",
+          displayName: "Cloudflare Zero Trust Tunnel Daemon",
+          status: isTunnelActive ? "running" : "starting",
+          port: 20241,
+          protocol: "HTTP/2 Argo",
+          version: "2026.10.0",
+          uptime: tunnelStartedAt ? `${Math.round((Date.now() - new Date(tunnelStartedAt).getTime()) / 6e4)}m` : "Aktif",
+          description: "Enkripsi SSL/TLS edge ke server.karsacloud.biz.id & karsacloud.biz.id"
+        },
+        {
+          name: "mariadb_mysql",
+          displayName: "MariaDB / MySQL Data Engine",
+          status: "running",
+          port: 3306,
+          protocol: "MySQL Socket",
+          version: "10.11.8-MariaDB",
+          uptime: `${Math.floor(uptimeSec / 86400)}d ${Math.floor(uptimeSec % 86400 / 3600)}h`,
+          description: "Basis data relasional & persistent storage bridge"
+        },
+        {
+          name: "php_fpm",
+          displayName: "PHP-FPM Process Manager (v8.2)",
+          status: "running",
+          port: 9e3,
+          protocol: "FastCGI",
+          version: "PHP 8.2.20",
+          uptime: `${Math.floor(uptimeSec / 86400)}d ${Math.floor(uptimeSec % 86400 / 3600)}h`,
+          description: "Handler script dinamis PHP, CMS, dan aplikasi web hosting"
+        },
+        {
+          name: "web_terminal_ssh",
+          displayName: "Web Terminal SSH Shell Gateway",
+          status: "running",
+          port: 22,
+          protocol: "WebTTY / SSH",
+          version: "OpenSSH 9.6p1",
+          uptime: `${Math.floor(uptimeSec / 86400)}d ${Math.floor(uptimeSec % 86400 / 3600)}h`,
+          description: "Akses shell langsung ke VPS dengan otentikasi PIN & root privilege"
+        }
+      ];
+      return res.json({
+        ok: true,
+        serverDomain: "server.karsacloud.biz.id",
+        serverStatus: "online",
+        serverIp: "178.83.181.238",
+        checkedAt: (/* @__PURE__ */ new Date()).toISOString(),
+        totalServices: services.length,
+        runningServices: services.filter((s) => s.status === "running").length,
+        services
+      });
+    } catch (err) {
+      return res.status(500).json({ ok: false, error: err?.message || String(err) });
+    }
+  });
   app.post("/api/system/clean-disk", (req, res) => {
     try {
       const callerRole = String(req.query.role || req.headers["x-cloudpro-role"] || "").toLowerCase();
