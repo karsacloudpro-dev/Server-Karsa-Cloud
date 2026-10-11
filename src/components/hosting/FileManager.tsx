@@ -1332,7 +1332,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
 
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white hover:bg-emerald-500 shadow-xs cursor-pointer transition-all hover:shadow-emerald-500/20"
+            className="flex items-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-bold text-white hover:bg-slate-800 shadow-xs cursor-pointer transition-all"
           >
             <Upload className="h-4 w-4" />
             <span>Upload File Website</span>
@@ -1394,10 +1394,10 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
         };
 
         return (
-          <div className="rounded-2xl border border-slate-200/90 bg-gradient-to-r from-sky-500/5 via-indigo-500/5 to-slate-50 dark:border-slate-800 dark:from-sky-950/20 dark:via-indigo-950/20 dark:to-slate-900/40 p-3.5 shadow-2xs max-w-full min-w-0 overflow-hidden">
+          <div className="rounded-2xl border border-slate-200/90 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/60 p-3.5 shadow-2xs max-w-full min-w-0 overflow-hidden">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 min-w-0">
               <div className="flex items-center gap-2.5 min-w-0 max-w-full overflow-hidden">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 shrink-0">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700 dark:text-slate-300 border border-slate-200 shrink-0">
                   <Globe className="h-4.5 w-4.5" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -1405,7 +1405,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
                     <span className="text-xs font-bold text-slate-800 dark:text-slate-100 shrink-0">
                       Workspace File Manager:
                     </span>
-                    <span className="inline-flex items-center gap-1 rounded-md bg-sky-100 dark:bg-sky-900/60 px-2 py-0.5 text-xs font-bold text-sky-700 dark:text-sky-300 truncate max-w-xs">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-slate-200/70 dark:bg-slate-800 px-2 py-0.5 text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-xs">
                       🌐 {activeTarget.name}
                     </span>
                     <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 truncate max-w-xs">
@@ -1770,7 +1770,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
                         type="button"
                         onClick={handleQuickPullSiakad}
                         disabled={isQuickPulling}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white shadow-xs cursor-pointer transition-all hover:shadow-emerald-500/25"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-white shadow-xs cursor-pointer transition-all"
                       >
                         {isQuickPulling ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Zap className="h-3.5 w-3.5" />}
                         <span>{isQuickPulling ? 'Sedang Mentransfer (Server-to-Server)...' : '⚡ Tarik & Ekstrak Siakad (212 MB) Otomatis'}</span>
@@ -1897,8 +1897,8 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
 
       {/* Upload Website & Files Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-4">
-          <div className="w-full max-w-xl rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 animate-in fade-in zoom-in-95">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center bg-slate-950/70 backdrop-blur-xs p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-xl rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 bg-white p-5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 overflow-y-auto">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
@@ -2082,7 +2082,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
                 type="button"
                 disabled={isUploading || uploadQueue.length === 0}
                 onClick={handleProcessUploadQueue}
-                className="flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 text-xs font-bold text-white hover:bg-emerald-500 shadow-xs disabled:opacity-50 cursor-pointer"
+                className="flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-2 text-xs font-bold text-white hover:bg-slate-800 shadow-xs disabled:opacity-50 cursor-pointer"
               >
                 {isUploading ? (
                   <>
@@ -2101,10 +2101,10 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
         </div>
       )}
 
-      {/* Code Editor Modal */}
+      {/* Code Editor Dedicated View (Non-Floating) */}
       {editingFile && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-4">
-          <div className="flex h-[90vh] w-full max-w-4xl flex-col rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex flex-col w-full h-full bg-slate-950 animate-in fade-in duration-150">
+          <div className="flex h-full w-full flex-col bg-slate-900 overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-slate-800 px-4 sm:px-6 py-3">
               <div className="flex items-center gap-2.5 min-w-0">
@@ -2162,8 +2162,8 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
 
       {/* New File Modal */}
       {showNewFileModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center bg-slate-900/60 backdrop-blur-xs p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-md flex flex-col bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900 rounded-none sm:rounded-2xl border-0 sm:border border-slate-200">
             <h3 className="text-sm font-bold text-slate-900 dark:text-white">
               Buat File Baru
             </h3>
@@ -2181,13 +2181,13 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
             <div className="mt-4 flex justify-end gap-2">
               <button
                 onClick={() => setShowNewFileModal(false)}
-                className="rounded-xl border px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300"
+                className="rounded-xl border px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
               >
                 Batal
               </button>
               <button
                 onClick={handleCreateFile}
-                className="rounded-xl bg-sky-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-sky-500"
+                className="rounded-xl bg-sky-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-sky-500 cursor-pointer"
               >
                 Buat File
               </button>
@@ -2198,8 +2198,8 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
 
       {/* New Directory Modal */}
       {showNewDirModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center bg-slate-900/60 backdrop-blur-xs p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-md flex flex-col bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900 rounded-none sm:rounded-2xl border-0 sm:border border-slate-200">
             <h3 className="text-sm font-bold text-slate-900 dark:text-white">
               Buat Folder Direktori Baru
             </h3>
@@ -2217,13 +2217,13 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
             <div className="mt-4 flex justify-end gap-2">
               <button
                 onClick={() => setShowNewDirModal(false)}
-                className="rounded-xl border px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300"
+                className="rounded-xl border px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
               >
                 Batal
               </button>
               <button
                 onClick={handleCreateDir}
-                className="rounded-xl bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-500"
+                className="rounded-xl bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-500 cursor-pointer"
               >
                 Buat Folder
               </button>
@@ -2234,8 +2234,8 @@ export const FileManager: React.FC<FileManagerProps> = ({ account, initialPath, 
 
       {/* Permissions Modal */}
       {showPermModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-          <div className="w-full max-w-xs rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center bg-slate-900/60 backdrop-blur-xs p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-xs flex flex-col bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900 rounded-none sm:rounded-2xl border-0 sm:border border-slate-200">
             <h3 className="text-sm font-bold text-slate-900 dark:text-white">
               Ubah Permission (chmod)
             </h3>

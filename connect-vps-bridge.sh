@@ -102,11 +102,24 @@ EOF
   echo "✅ Service Systemd 'karsacloud-vps-bridge' berhasil diaktifkan!"
 fi
 
+# Fallback untuk lingkungan WSL/Container tanpa systemd aktif
+if ! systemctl is-active --quiet karsacloud-vps-bridge 2>/dev/null; then
+  echo "● Menjalankan autossh/ssh bridge langsung di background..."
+  pkill -f "autossh.*${VPS_PORT}.*${VPS_IP}" 2>/dev/null || true
+  pkill -f "ssh.*-R.*3000:localhost:3000.*${VPS_IP}" 2>/dev/null || true
+  if command -v autossh &>/dev/null; then
+    nohup autossh -M 0 -N -o "ServerAliveInterval 15" -o "ServerAliveCountMax 3" -o "ExitOnForwardFailure yes" -o "StrictHostKeyChecking no" -o "UserKnownHostsFile=/dev/null" -p "${VPS_PORT}" -R 3000:localhost:3000 "${VPS_USER}@${VPS_IP}" >/tmp/vps-bridge.log 2>&1 &
+  else
+    nohup ssh -N -o "ServerAliveInterval 15" -o "ServerAliveCountMax 3" -o "ExitOnForwardFailure yes" -o "StrictHostKeyChecking no" -o "UserKnownHostsFile=/dev/null" -p "${VPS_PORT}" -R 3000:localhost:3000 "${VPS_USER}@${VPS_IP}" >/tmp/vps-bridge.log 2>&1 &
+  fi
+  echo "✅ Background reverse tunnel aktif di port 3000 -> ${VPS_IP}:3000"
+fi
+
 echo "=========================================================="
 echo " 🚀 STATUS KONEKSI BRIDGE:"
-echo " ● Target VPS    : ${VPS_USER}@${VPS_IP}:${VPS_PORT}"
+echo " ● Target VPS     : ${VPS_USER}@${VPS_IP}:${VPS_PORT}"
 echo " ● Port Diteruskan: 3000 (Server Lokal) -> 3000 (VPS)"
-echo " ● Status        : Aktif di latar belakang"
+echo " ● Status         : Aktif di latar belakang"
 echo "----------------------------------------------------------"
 echo " Jika di VPS sudah menjalankan 'bash fix-caddy-ssl.sh',"
 echo " maka setiap pengunjung yang mengakses IP VPS ${VPS_IP}"

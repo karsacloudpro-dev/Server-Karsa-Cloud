@@ -46,8 +46,8 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ options, o
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative my-auto w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="relative w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl border-t sm:border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 animate-in slide-in-from-bottom sm:zoom-in-95">
         <button
           onClick={onClose}
           disabled={isSubmitting}

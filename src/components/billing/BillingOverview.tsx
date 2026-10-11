@@ -810,14 +810,14 @@ export const BillingOverview: React.FC = () => {
             }}
             className={`flex items-center gap-2.5 rounded-xl border p-2.5 sm:p-3.5 text-left transition-all cursor-pointer ${
               resellerBillingMode === 'cloudpro_billing'
-                ? 'border-indigo-500 bg-indigo-50/80 shadow-2xs ring-1 ring-indigo-500/25 dark:border-indigo-500 dark:bg-indigo-950/40'
-                : 'border-slate-200 bg-white hover:border-indigo-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700'
+                ? 'border-slate-900 bg-white shadow-2xs ring-1 ring-slate-900/15 dark:border-white dark:bg-slate-900'
+                : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700'
             }`}
           >
             <div
               className={`flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg sm:rounded-xl ${
                 resellerBillingMode === 'cloudpro_billing'
-                  ? 'bg-indigo-600 text-white shadow-2xs'
+                  ? 'bg-slate-900 text-white shadow-2xs dark:bg-slate-100 dark:text-slate-900'
                   : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
               }`}
             >
@@ -825,10 +825,10 @@ export const BillingOverview: React.FC = () => {
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-1">
-                <span className="truncate text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                <span className="truncate text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                   Tagihan Induk
                 </span>
-                <span className="shrink-0 rounded bg-indigo-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-indigo-700 dark:bg-indigo-900/70 dark:text-indigo-300">
+                <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
                   {resellerCloudProInvoices.length}
                 </span>
               </div>
@@ -849,14 +849,14 @@ export const BillingOverview: React.FC = () => {
             }}
             className={`flex items-center gap-2.5 rounded-xl border p-2.5 sm:p-3.5 text-left transition-all cursor-pointer ${
               resellerBillingMode === 'client_billing'
-                ? 'border-teal-500 bg-teal-50/80 shadow-2xs ring-1 ring-teal-500/25 dark:border-teal-500 dark:bg-teal-950/40'
-                : 'border-slate-200 bg-white hover:border-teal-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700'
+                ? 'border-slate-900 bg-white shadow-2xs ring-1 ring-slate-900/15 dark:border-white dark:bg-slate-900'
+                : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700'
             }`}
           >
             <div
               className={`flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg sm:rounded-xl ${
                 resellerBillingMode === 'client_billing'
-                  ? 'bg-teal-600 text-white shadow-2xs'
+                  ? 'bg-slate-900 text-white shadow-2xs dark:bg-slate-100 dark:text-slate-900'
                   : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
               }`}
             >
@@ -864,10 +864,10 @@ export const BillingOverview: React.FC = () => {
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-1">
-                <span className="truncate text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-teal-600 dark:text-teal-400">
+                <span className="truncate text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                   Billing Klien
                 </span>
-                <span className="shrink-0 rounded bg-teal-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-teal-700 dark:bg-teal-900/70 dark:text-teal-300">
+                <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
                   {resellerClientInvoices.length}
                 </span>
               </div>
@@ -926,7 +926,7 @@ export const BillingOverview: React.FC = () => {
                     setIsStandaloneProofModalOpen(true);
                   }
                 }}
-                className="col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-2.5 sm:py-2 text-xs font-bold text-white hover:bg-emerald-500 shadow-xs cursor-pointer"
+                className="col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2.5 sm:py-2 text-xs font-bold text-white hover:bg-slate-800 shadow-xs cursor-pointer"
               >
                 <FileCheck className="h-4 w-4 shrink-0" />
                 <span>+ Terbitkan Bukti Pembayaran (Manual)</span>
@@ -938,18 +938,18 @@ export const BillingOverview: React.FC = () => {
                   setManualStatus('unpaid');
                   setIsManualModalOpen(true);
                 }}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-amber-500 px-2.5 sm:px-3.5 py-2 text-[11px] sm:text-xs font-bold text-slate-950 hover:bg-amber-400 shadow-xs cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 sm:px-3.5 py-2 text-[11px] sm:text-xs font-bold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 shadow-xs cursor-pointer"
               >
-                <FileWarning className="h-3.5 w-3.5 shrink-0" />
+                <FileWarning className="h-3.5 w-3.5 shrink-0 text-slate-500" />
                 <span className="truncate">+ Tagihan Unpaid</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setIsLetterheadModalOpen(true)}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-sky-600 px-2.5 sm:px-3.5 py-2 text-[11px] sm:text-xs font-bold text-white hover:bg-sky-500 shadow-xs cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 sm:px-3.5 py-2 text-[11px] sm:text-xs font-bold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 shadow-xs cursor-pointer"
               >
-                <QrCode className="h-3.5 w-3.5 shrink-0" />
+                <QrCode className="h-3.5 w-3.5 shrink-0 text-slate-500" />
                 <span className="truncate">Kop &amp; Barcode TTD</span>
               </button>
             </>
@@ -960,7 +960,7 @@ export const BillingOverview: React.FC = () => {
             onClick={() => setIsTopupOpen(true)}
             className="hidden lg:inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
           >
-            <Wallet className="h-3.5 w-3.5 text-teal-500" />
+            <Wallet className="h-3.5 w-3.5 text-slate-500" />
             <span>Wallet (${(Number(currentUser.creditBalance) || 0).toFixed(2)})</span>
           </button>
         </div>
@@ -973,21 +973,21 @@ export const BillingOverview: React.FC = () => {
           onClick={() => setFilterStatus(filterStatus === 'unpaid' ? 'all' : 'unpaid')}
           className={`rounded-xl sm:rounded-2xl border p-2.5 sm:p-3.5 text-left transition-all cursor-pointer ${
             filterStatus === 'unpaid'
-              ? 'border-amber-500 bg-amber-50 ring-1 ring-amber-500/30 dark:border-amber-500 dark:bg-amber-950/40'
-              : 'border-amber-200 bg-amber-50/50 hover:bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/20'
+              ? 'border-slate-900 bg-slate-50 ring-1 ring-slate-900/10 shadow-2xs dark:border-white dark:bg-slate-800'
+              : 'border-slate-200 bg-white hover:bg-slate-50/80 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800'
           }`}
         >
           <div className="flex items-center justify-between gap-1">
-            <span className="truncate text-[10px] sm:text-xs font-bold text-amber-800 dark:text-amber-300">
+            <span className="truncate text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-300">
               Tagihan Unpaid
             </span>
-            <Clock className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400" />
+            <Clock className="h-3.5 w-3.5 shrink-0 text-slate-500 dark:text-slate-400" />
           </div>
           <div className="mt-1 flex items-baseline justify-between gap-1">
             <span className="font-mono text-sm sm:text-xl font-bold text-slate-900 dark:text-white tabular-nums">
               {unpaidInvoicesList.length} <span className="text-[10px] sm:text-xs font-normal text-slate-500">Inv</span>
             </span>
-            <span className="hidden sm:inline text-[11px] font-bold text-amber-700 underline dark:text-amber-300">
+            <span className="hidden sm:inline text-[11px] font-bold text-slate-700 underline dark:text-slate-300">
               Filter &rarr;
             </span>
           </div>
@@ -998,34 +998,34 @@ export const BillingOverview: React.FC = () => {
           onClick={() => setFilterStatus(filterStatus === 'paid' ? 'all' : 'paid')}
           className={`rounded-xl sm:rounded-2xl border p-2.5 sm:p-3.5 text-left transition-all cursor-pointer ${
             filterStatus === 'paid'
-              ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500/30 dark:border-emerald-500 dark:bg-emerald-950/40'
-              : 'border-emerald-200 bg-emerald-50/50 hover:bg-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/20'
+              ? 'border-slate-900 bg-slate-50 ring-1 ring-slate-900/10 shadow-2xs dark:border-white dark:bg-slate-800'
+              : 'border-slate-200 bg-white hover:bg-slate-50/80 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800'
           }`}
         >
           <div className="flex items-center justify-between gap-1">
-            <span className="truncate text-[10px] sm:text-xs font-bold text-emerald-800 dark:text-emerald-300">
+            <span className="truncate text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-300">
               Bukti Bayar (Lunas)
             </span>
-            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-slate-500 dark:text-slate-400" />
           </div>
           <div className="mt-1 flex items-baseline justify-between gap-1">
             <span className="font-mono text-sm sm:text-xl font-bold text-slate-900 dark:text-white tabular-nums">
               {paidInvoicesList.length} <span className="text-[10px] sm:text-xs font-normal text-slate-500">Kwt</span>
             </span>
-            <span className="hidden sm:inline text-[11px] font-bold text-emerald-700 underline dark:text-emerald-300">
+            <span className="hidden sm:inline text-[11px] font-bold text-slate-700 underline dark:text-slate-300">
               Lihat &rarr;
             </span>
           </div>
         </button>
 
-        <div className="rounded-xl sm:rounded-2xl border border-sky-200 bg-sky-50/50 p-2.5 sm:p-3.5 dark:border-sky-900/50 dark:bg-sky-950/20">
+        <div className="rounded-xl sm:rounded-2xl border border-slate-200 bg-white p-2.5 sm:p-3.5 dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between gap-1">
-            <span className="truncate text-[10px] sm:text-xs font-bold text-sky-800 dark:text-sky-300">
+            <span className="truncate text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-300">
               {isResellerRole && resellerBillingMode === 'cloudpro_billing'
                 ? 'Status Lisensi'
                 : 'Akun vHost Aktif'}
             </span>
-            <Zap className="h-3.5 w-3.5 shrink-0 text-sky-600 dark:text-sky-400" />
+            <Zap className="h-3.5 w-3.5 shrink-0 text-slate-500 dark:text-slate-400" />
           </div>
           <div className="mt-1 flex items-baseline justify-between gap-1">
             <span className="font-mono text-sm sm:text-xl font-bold text-slate-900 dark:text-white tabular-nums truncate">
@@ -1036,7 +1036,7 @@ export const BillingOverview: React.FC = () => {
                 <span className="text-[10px] sm:text-xs font-normal text-slate-500"> Akun</span>
               )}
             </span>
-            <span className="hidden sm:inline font-mono text-[10px] font-bold text-sky-700 dark:text-sky-300">
+            <span className="hidden sm:inline font-mono text-[10px] font-bold text-slate-600 dark:text-slate-400">
               Auto-Billing
             </span>
           </div>
@@ -1047,17 +1047,17 @@ export const BillingOverview: React.FC = () => {
       {/* COMPACT AUTOMATED BILLING BAR WITH COLLAPSIBLE CONFIG (ADMIN/RESELLER) */}
       {/* ===================================================================== */}
       {isClientBillingManagerView && (
-        <div className="rounded-2xl border border-sky-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950/70 p-3 sm:p-4 text-white shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-3 sm:p-4 text-slate-900 shadow-xs dark:border-slate-800 dark:bg-slate-900 dark:text-white">
           <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 shrink-0">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 border border-slate-200 text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 shrink-0">
                 <Zap className="h-4 w-4" />
               </div>
               <div className="min-w-0">
-                <h4 className="truncate text-xs sm:text-sm font-bold text-white">
+                <h4 className="truncate text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                   Siklus Tagihan Bulanan Otomatis ({accessibleAccounts.length} Akun)
                 </h4>
-                <p className="hidden sm:block text-[11px] text-slate-300 truncate">
+                <p className="hidden sm:block text-[11px] text-slate-500 dark:text-slate-400 truncate">
                   Terbitkan invoice UNPAID berkala &amp; verifikasi kwitansi pembayaran resmi.
                 </p>
               </div>
@@ -1068,7 +1068,7 @@ export const BillingOverview: React.FC = () => {
                 type="button"
                 onClick={() => handleRunAutomatedBilling(true)}
                 disabled={isRunningAutoCycle}
-                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 rounded-xl bg-amber-400 px-3 py-2 text-[11px] sm:text-xs font-bold text-slate-950 hover:bg-amber-300 shadow-2xs cursor-pointer disabled:opacity-60"
+                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[11px] sm:text-xs font-bold text-white hover:bg-slate-800 shadow-xs cursor-pointer disabled:opacity-60"
               >
                 <RefreshCw className={`h-3.5 w-3.5 shrink-0 ${isRunningAutoCycle ? 'animate-spin' : ''}`} />
                 <span>
@@ -1080,17 +1080,17 @@ export const BillingOverview: React.FC = () => {
                 type="button"
                 onClick={() => handleRunAutomatedBilling(false)}
                 disabled={isRunningAutoCycle}
-                className="inline-flex items-center justify-center gap-1 rounded-xl border border-sky-500/40 bg-sky-500/10 px-2.5 py-2 text-[11px] font-bold text-sky-300 hover:bg-sky-500/20 cursor-pointer disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer disabled:opacity-60"
                 title="Jalankan siklus dengan opsi Auto-Debit Wallet"
               >
-                <Sparkles className="h-3.5 w-3.5" />
+                <Sparkles className="h-3.5 w-3.5 text-slate-500" />
                 <span className="hidden sm:inline">Auto-Debit</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setShowAutoConfigDetails(prev => !prev)}
-                className="inline-flex items-center justify-center gap-1 rounded-xl border border-slate-700 bg-slate-800/90 px-2.5 py-2 text-[11px] font-semibold text-slate-200 hover:bg-slate-700 cursor-pointer"
+                className="inline-flex items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-[11px] font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
               >
                 <span>{showAutoConfigDetails ? 'Tutup Opsi' : 'Opsi Siklus'}</span>
               </button>
@@ -1272,7 +1272,7 @@ export const BillingOverview: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => setPayingInvoice(inv)}
-                          className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-teal-600 px-3 py-2 text-[11px] font-bold text-white hover:bg-teal-500 shadow-2xs cursor-pointer"
+                          className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-slate-900 px-3 py-2 text-[11px] font-bold text-white hover:bg-slate-800 shadow-2xs cursor-pointer"
                         >
                           <CreditCard className="h-3.5 w-3.5" />
                           <span>Bayar Sekarang</span>
@@ -1280,9 +1280,9 @@ export const BillingOverview: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleOpenDocument(inv, 'unpaid_statement')}
-                          className="inline-flex items-center justify-center gap-1 rounded-lg border border-amber-500/50 bg-amber-500/10 px-2.5 py-2 text-[11px] font-bold text-amber-800 dark:text-amber-300 cursor-pointer"
+                          className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                         >
-                          <Printer className="h-3.5 w-3.5" />
+                          <Printer className="h-3.5 w-3.5 text-slate-500" />
                           <span>Bukti Tagihan</span>
                         </button>
                       </>
@@ -1291,7 +1291,7 @@ export const BillingOverview: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleOpenDocument(inv, 'payment_receipt')}
-                          className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-emerald-600 px-3 py-2 text-[11px] font-bold text-white hover:bg-emerald-500 shadow-2xs cursor-pointer"
+                          className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-slate-900 px-3 py-2 text-[11px] font-bold text-white hover:bg-slate-800 shadow-2xs cursor-pointer"
                         >
                           <Printer className="h-3.5 w-3.5" />
                           <span>Cetak Bukti Pembayaran</span>
@@ -1299,9 +1299,9 @@ export const BillingOverview: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleOpenDocument(inv, 'unpaid_statement')}
-                          className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 text-[11px] font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 cursor-pointer"
+                          className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 cursor-pointer"
                         >
-                          <Eye className="h-3.5 w-3.5" />
+                          <Eye className="h-3.5 w-3.5 text-slate-500" />
                           <span>Invoice</span>
                         </button>
                       </>
@@ -1314,7 +1314,7 @@ export const BillingOverview: React.FC = () => {
                           handleOpenManualProofModal(inv);
                           setIsStandaloneProofModalOpen(true);
                         }}
-                        className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-emerald-600 px-3 py-2 text-[11px] font-bold text-white hover:bg-emerald-500 shadow-2xs cursor-pointer"
+                        className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-slate-900 px-3 py-2 text-[11px] font-bold text-white hover:bg-slate-800 shadow-2xs cursor-pointer"
                       >
                         <FileCheck className="h-3.5 w-3.5 shrink-0" />
                         <span>Terbitkan Bukti Pembayaran</span>
@@ -1323,16 +1323,16 @@ export const BillingOverview: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleOpenDocument(inv, 'unpaid_statement')}
-                        className="inline-flex items-center justify-center gap-1 rounded-lg border border-amber-500/50 bg-amber-500/10 px-2.5 py-2 text-[11px] font-bold text-amber-800 dark:text-amber-300 cursor-pointer"
+                        className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                       >
-                        <FileWarning className="h-3.5 w-3.5" />
+                        <FileWarning className="h-3.5 w-3.5 text-slate-500" />
                         <span>Unpaid</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => handleSendWhatsAppDocument(inv, 'unpaid')}
-                        className="rounded-lg border border-emerald-200 bg-emerald-50 p-2 text-emerald-600 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-400 cursor-pointer"
+                        className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 cursor-pointer"
                         title="Kirim WA"
                       >
                         <Send className="h-3.5 w-3.5" />
@@ -1341,7 +1341,7 @@ export const BillingOverview: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleDeleteInvoice(inv)}
-                        className="rounded-lg border border-rose-200 bg-rose-50 p-2 text-rose-500 dark:border-rose-900 dark:bg-rose-950/40 cursor-pointer"
+                        className="rounded-lg border border-slate-200 bg-white p-2 text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 cursor-pointer"
                         title="Hapus"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -1352,7 +1352,7 @@ export const BillingOverview: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleOpenDocument(inv, 'payment_receipt')}
-                        className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-emerald-600 px-3 py-2 text-[11px] font-bold text-white hover:bg-emerald-500 shadow-2xs cursor-pointer"
+                        className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-slate-900 px-3 py-2 text-[11px] font-bold text-white hover:bg-slate-800 shadow-2xs cursor-pointer"
                       >
                         <FileCheck className="h-3.5 w-3.5 shrink-0" />
                         <span>Lihat / Cetak Bukti Pembayaran</span>
@@ -1361,16 +1361,16 @@ export const BillingOverview: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleMarkAsUnpaid(inv)}
-                        className="inline-flex items-center justify-center gap-1 rounded-lg border border-amber-400/50 bg-amber-50 px-2.5 py-2 text-[11px] font-bold text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 cursor-pointer"
+                        className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                       >
-                        <RotateCcw className="h-3 w-3" />
+                        <RotateCcw className="h-3 w-3 text-slate-500" />
                         <span>Unpaid</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => handleSendWhatsAppDocument(inv, 'receipt')}
-                        className="rounded-lg border border-emerald-200 bg-emerald-50 p-2 text-emerald-600 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-400 cursor-pointer"
+                        className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 cursor-pointer"
                         title="Kirim Kwitansi ke WA"
                       >
                         <Send className="h-3.5 w-3.5" />
@@ -1518,7 +1518,7 @@ export const BillingOverview: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => setPayingInvoice(inv)}
-                                className="inline-flex items-center gap-1 rounded-lg bg-teal-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-teal-500 shadow-2xs cursor-pointer"
+                                className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-slate-800 shadow-2xs cursor-pointer"
                                 title="Bayar Tagihan Sekarang"
                               >
                                 <CreditCard className="h-3.5 w-3.5" />
@@ -1527,10 +1527,10 @@ export const BillingOverview: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => handleOpenDocument(inv, 'unpaid_statement')}
-                                className="inline-flex items-center gap-1 rounded-lg border border-amber-500/50 bg-amber-500/10 px-2.5 py-1.5 text-[11px] font-bold text-amber-800 hover:bg-amber-500/20 dark:text-amber-300 cursor-pointer"
+                                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                                 title="Lihat & Cetak Bukti Tagihan"
                               >
-                                <Printer className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                                <Printer className="h-3.5 w-3.5 text-slate-500" />
                                 <span>Cetak Bukti Tagihan</span>
                               </button>
                             </>
@@ -1539,19 +1539,19 @@ export const BillingOverview: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => handleOpenDocument(inv, 'payment_receipt')}
-                                className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/50 bg-emerald-500/10 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 hover:bg-emerald-500/20 dark:text-emerald-300 cursor-pointer"
+                                className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-slate-800 shadow-2xs cursor-pointer"
                                 title="Lihat & Cetak Bukti Pembayaran (Kwitansi Lunas)"
                               >
-                                <Printer className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                                <Printer className="h-3.5 w-3.5 text-slate-300" />
                                 <span>Cetak Bukti Pembayaran</span>
                               </button>
                               <button
                                 type="button"
                                 onClick={() => handleOpenDocument(inv, 'unpaid_statement')}
-                                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 cursor-pointer"
+                                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 cursor-pointer"
                                 title="Lihat & Cetak Bukti Tagihan"
                               >
-                                <Eye className="h-3.5 w-3.5" />
+                                <Eye className="h-3.5 w-3.5 text-slate-500" />
                                 <span>Bukti Tagihan</span>
                               </button>
                             </>
@@ -1564,20 +1564,20 @@ export const BillingOverview: React.FC = () => {
                                 <button
                                   type="button"
                                   onClick={() => setPayingInvoice(inv)}
-                                  className="inline-flex items-center gap-1 rounded-lg bg-teal-600 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-teal-500 shadow-2xs cursor-pointer"
+                                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                                   title="Bayar via Payment Gateway / Wallet"
                                 >
-                                  <CreditCard className="h-3.5 w-3.5" />
+                                  <CreditCard className="h-3.5 w-3.5 text-slate-500" />
                                   <span>Bayar</span>
                                 </button>
 
                                 <button
                                   type="button"
                                   onClick={() => handleOpenDocument(inv, 'unpaid_statement')}
-                                  className="inline-flex items-center gap-1 rounded-lg border border-amber-500/50 bg-amber-500/10 px-2.5 py-1.5 text-[11px] font-bold text-amber-800 hover:bg-amber-500/20 dark:text-amber-300 cursor-pointer"
+                                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                                   title="Lihat & Cetak Bukti Tagihan Unpaid"
                                 >
-                                  <FileWarning className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                                  <FileWarning className="h-3.5 w-3.5 text-slate-500" />
                                   <span>Bukti Unpaid</span>
                                 </button>
 
@@ -1587,7 +1587,7 @@ export const BillingOverview: React.FC = () => {
                                     handleOpenManualProofModal(inv);
                                     setIsStandaloneProofModalOpen(true);
                                   }}
-                                  className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-emerald-500 shadow-2xs cursor-pointer"
+                                  className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-slate-800 shadow-2xs cursor-pointer"
                                   title="Input Manual & Terbitkan Bukti Pembayaran Lunas"
                                 >
                                   <FileCheck className="h-3.5 w-3.5" />
@@ -1597,7 +1597,7 @@ export const BillingOverview: React.FC = () => {
                                 <button
                                   type="button"
                                   onClick={() => handleSendWhatsAppDocument(inv, 'unpaid')}
-                                  className="rounded-lg p-1.5 text-emerald-600 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/50 cursor-pointer"
+                                  className="rounded-lg border border-slate-200 bg-white p-1.5 text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 cursor-pointer"
                                   title="Kirim Bukti Tagihan Unpaid via WhatsApp"
                                 >
                                   <Send className="h-3.5 w-3.5" />
@@ -1608,27 +1608,27 @@ export const BillingOverview: React.FC = () => {
                                 <button
                                   type="button"
                                   onClick={() => handleOpenDocument(inv, 'payment_receipt')}
-                                  className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/50 bg-emerald-500/10 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 hover:bg-emerald-500/20 dark:text-emerald-300 cursor-pointer"
+                                  className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-slate-800 shadow-2xs cursor-pointer"
                                   title="Lihat & Cetak Bukti Pembayaran Resmi (Kwitansi Lunas)"
                                 >
-                                  <FileCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                                  <FileCheck className="h-3.5 w-3.5 text-slate-300" />
                                   <span>Bukti Pembayaran</span>
                                 </button>
 
                                 <button
                                   type="button"
                                   onClick={() => handleMarkAsUnpaid(inv)}
-                                  className="inline-flex items-center gap-1 rounded-lg border border-amber-400/50 bg-amber-50 px-2 py-1.5 text-[11px] font-bold text-amber-800 hover:bg-amber-100 dark:bg-amber-950/40 dark:text-amber-300 cursor-pointer"
+                                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                                   title="Kembalikan Status ke UNPAID (Belum Dibayar)"
                                 >
-                                  <RotateCcw className="h-3 w-3" />
+                                  <RotateCcw className="h-3 w-3 text-slate-500" />
                                   <span>Set Unpaid</span>
                                 </button>
 
                                 <button
                                   type="button"
                                   onClick={() => handleSendWhatsAppDocument(inv, 'receipt')}
-                                  className="rounded-lg p-1.5 text-emerald-600 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/50 cursor-pointer"
+                                  className="rounded-lg border border-slate-200 bg-white p-1.5 text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 cursor-pointer"
                                   title="Kirim Bukti Pembayaran Lunas via WhatsApp"
                                 >
                                   <Send className="h-3.5 w-3.5" />
@@ -1639,7 +1639,7 @@ export const BillingOverview: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => handleDeleteInvoice(inv)}
-                              className="rounded-lg p-1.5 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 cursor-pointer"
+                              className="rounded-lg border border-slate-200 bg-white p-1.5 text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 cursor-pointer"
                               title="Hapus Invoice"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -1662,8 +1662,8 @@ export const BillingOverview: React.FC = () => {
       {isStandaloneProofModalOpen &&
         typeof document !== 'undefined' &&
         createPortal(
-          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/65 backdrop-blur-xs p-2 pt-2.5 sm:p-4 sm:pt-6">
-            <div className="w-full max-w-xl max-h-[95dvh] flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+          <div className="fixed inset-0 z-50 flex flex-col sm:items-start sm:justify-center overflow-y-auto bg-slate-900/65 backdrop-blur-xs p-0 sm:p-4 sm:pt-6 animate-in fade-in duration-150">
+            <div className="w-full h-full sm:h-auto sm:max-w-xl sm:max-h-[95dvh] flex flex-col overflow-hidden rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
               <div className="flex items-center justify-between border-b border-slate-100 px-3.5 py-2.5 sm:px-5 sm:py-3 shrink-0 dark:border-slate-800">
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400">
@@ -2024,7 +2024,7 @@ export const BillingOverview: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isProcessing}
-                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500 shadow-xs cursor-pointer"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800 shadow-xs cursor-pointer"
                   >
                     <FileCheck className="h-4 w-4 shrink-0" />
                     <span>
@@ -2044,8 +2044,8 @@ export const BillingOverview: React.FC = () => {
       {isManualModalOpen &&
         typeof document !== 'undefined' &&
         createPortal(
-          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/65 backdrop-blur-xs p-2.5 pt-3 sm:p-4 sm:pt-6">
-            <div className="w-full max-w-2xl max-h-[93dvh] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+          <div className="fixed inset-0 z-50 flex flex-col sm:items-start sm:justify-center overflow-y-auto bg-slate-900/65 backdrop-blur-xs p-0 sm:p-4 sm:pt-6 animate-in fade-in duration-150">
+            <div className="w-full h-full sm:h-auto sm:max-w-2xl sm:max-h-[93dvh] overflow-y-auto rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 bg-white p-4 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-800">
                 <div>
                   <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
@@ -2226,13 +2226,13 @@ export const BillingOverview: React.FC = () => {
                   </div>
                 )}
 
-                <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-emerald-200 bg-emerald-50/50 px-3 py-2 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-800 dark:bg-slate-900">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={manualAutoNotifyWa}
                       onChange={e => setManualAutoNotifyWa(e.target.checked)}
-                      className="h-4 w-4 accent-emerald-600"
+                      className="h-4 w-4 accent-slate-900"
                     />
                     <span className="font-semibold text-[11px] text-slate-800 dark:text-slate-200">
                       Kirim Otomatis Tagihan/Kwitansi ke WA &amp; Email Terdaftar Saat Diterbitkan
@@ -2337,9 +2337,9 @@ export const BillingOverview: React.FC = () => {
 
                 {/* Extra fields if PAID is chosen during creation */}
                 {manualStatus === 'paid' && (
-                  <div className="rounded-xl border border-emerald-300 bg-emerald-50/60 p-3 space-y-2.5 dark:border-emerald-800 dark:bg-emerald-950/30">
-                    <div className="font-bold text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5 text-[11px]">
-                      <FileCheck className="h-4 w-4 text-emerald-600" />
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 space-y-2.5 dark:border-slate-800 dark:bg-slate-900/50">
+                    <div className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-[11px]">
+                      <FileCheck className="h-4 w-4 text-slate-700 dark:text-slate-300" />
                       <span>Detail Bukti Pembayaran (Kwitansi Lunas Manual)</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -2527,8 +2527,8 @@ export const BillingOverview: React.FC = () => {
       {selectedInvoice &&
         typeof document !== 'undefined' &&
         createPortal(
-          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/65 backdrop-blur-xs p-2.5 pt-3 sm:p-4 sm:pt-6 no-print">
-            <div className="w-full max-w-3xl max-h-[93dvh] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3.5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+          <div className="fixed inset-0 z-50 flex flex-col sm:items-start sm:justify-center overflow-y-auto bg-slate-900/65 backdrop-blur-xs p-0 sm:p-4 sm:pt-6 no-print animate-in fade-in duration-150">
+            <div className="w-full h-full sm:h-auto sm:max-w-3xl sm:max-h-[93dvh] overflow-y-auto rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 bg-white p-3.5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
               {/* Document Mode Switcher Tabs */}
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 mb-3 dark:border-slate-800">
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -2614,7 +2614,7 @@ export const BillingOverview: React.FC = () => {
                         handleOpenManualProofModal(inv);
                         setIsStandaloneProofModalOpen(true);
                       }}
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2 text-[11px] sm:text-xs font-bold text-white hover:bg-emerald-500 cursor-pointer"
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[11px] sm:text-xs font-bold text-white hover:bg-slate-800 shadow-xs cursor-pointer"
                     >
                       <FileCheck className="h-3.5 w-3.5" />
                       <span>Terbitkan Bukti Pembayaran (Manual)</span>
@@ -2623,9 +2623,9 @@ export const BillingOverview: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleMarkAsUnpaid(selectedInvoice)}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-amber-500 bg-amber-50 px-3 py-2 text-[11px] sm:text-xs font-bold text-amber-800 hover:bg-amber-100 dark:bg-amber-950/50 dark:text-amber-300 cursor-pointer"
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-[11px] sm:text-xs font-bold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                     >
-                      <RotateCcw className="h-3.5 w-3.5" />
+                      <RotateCcw className="h-3.5 w-3.5 text-slate-500" />
                       <span>Set UNPAID</span>
                     </button>
                   )}
@@ -2642,9 +2642,9 @@ export const BillingOverview: React.FC = () => {
                           true
                         )
                       }
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2 text-[11px] sm:text-xs font-bold text-white hover:bg-emerald-500 cursor-pointer"
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-[11px] sm:text-xs font-bold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                     >
-                      <Send className="h-3.5 w-3.5" />
+                      <Send className="h-3.5 w-3.5 text-slate-500" />
                       <span>Kirim WA</span>
                     </button>
                   )}
@@ -2655,7 +2655,7 @@ export const BillingOverview: React.FC = () => {
                       document.body.classList.add('has-print-document');
                       window.print();
                     }}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-3.5 py-2 text-[11px] sm:text-xs font-bold text-white hover:bg-sky-500 shadow-xs cursor-pointer"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-[11px] sm:text-xs font-bold text-white hover:bg-slate-800 shadow-xs cursor-pointer"
                   >
                     <Printer className="h-3.5 w-3.5" />
                     <span>Cetak / PDF (1 Lembar A4)</span>

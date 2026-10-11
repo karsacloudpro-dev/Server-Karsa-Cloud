@@ -494,8 +494,8 @@ export const WebsitePreviewModal: React.FC<WebsitePreviewModalProps> = ({
   const currentAppHost = window.location.hostname;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto animate-in fade-in duration-150">
-      <div className="my-auto flex flex-col w-full max-w-5xl h-[92vh] rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex flex-col w-full h-full bg-slate-900 animate-in fade-in duration-150">
+      <div className="flex flex-col w-full h-full bg-slate-900 overflow-hidden">
         {/* Top Browser Bar */}
         <div className="flex flex-col gap-2 bg-slate-900 border-b border-slate-800 px-2.5 sm:px-4 py-2 sm:py-2.5 shrink-0">
           {/* Top Row: Back button, Tabs, Close */}

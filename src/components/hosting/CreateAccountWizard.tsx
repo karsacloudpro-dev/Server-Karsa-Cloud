@@ -10,6 +10,7 @@ import {
   PlusCircle,
   AlertTriangle,
   Building,
+  ArrowLeft,
 } from 'lucide-react';
 import { CloudProApi } from '../../services/api';
 import { db } from '../../services/storage';
@@ -131,31 +132,43 @@ export const CreateAccountWizard: React.FC<CreateAccountWizardProps> = ({ isOpen
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs">
-      <div className="my-auto w-full max-w-xl max-h-[92vh] flex flex-col rounded-xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900 animate-in zoom-in-95 duration-150 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex flex-col w-full h-full bg-slate-50 dark:bg-slate-950 overflow-hidden animate-in fade-in duration-150">
+      <div className="w-full h-full flex flex-col bg-white dark:bg-slate-900">
         {/* Header */}
-        <div className="shrink-0 flex items-center justify-between border-b border-slate-100 px-5 py-3.5 sm:px-6 sm:py-4 dark:border-slate-800">
-          <div className="flex items-center gap-2.5">
-            <Globe className="h-5 w-5 text-sky-500 shrink-0" />
-            <div>
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                Provisi Akun Hosting Otomatis (Wizard)
-              </h3>
-              <p className="text-[11px] text-slate-400">
-                Sistem akan membuat direktori web, DNS Zone, database default & SSL Let&apos;s Encrypt.
-              </p>
+        <div className="shrink-0 flex items-center justify-between border-b border-slate-200 bg-white px-3 sm:px-6 py-3 dark:border-slate-800 dark:bg-slate-900 shadow-2xs">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-sky-600 transition-colors cursor-pointer shrink-0 shadow-2xs active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              title="Kembali"
+            >
+              <ArrowLeft className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
+              <span>Kembali</span>
+            </button>
+            <div className="flex items-center gap-2 min-w-0">
+              <Globe className="h-5 w-5 text-sky-500 shrink-0" />
+              <div className="min-w-0">
+                <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">
+                  Provisi Akun Hosting Otomatis (Wizard)
+                </h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 truncate hidden xs:block">
+                  Sistem akan membuat direktori web, DNS Zone, database default & SSL Let&apos;s Encrypt.
+                </p>
+              </div>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+            title="Tutup"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Form Body with internal scrolling */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs">
+        {/* Form Body with natural scrolling */}
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-4 text-xs max-w-3xl mx-auto w-full">
           {/* Owner Assignment (Admin Only) */}
           {currentUser.role === 'admin' && (
             <div className="rounded-xl border border-indigo-200 bg-indigo-50/60 p-3 dark:border-indigo-900/50 dark:bg-indigo-950/30">

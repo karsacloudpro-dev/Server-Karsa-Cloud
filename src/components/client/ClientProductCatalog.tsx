@@ -479,7 +479,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                 }`}
               >
                 {plan.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-sky-600 to-amber-500 px-3 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-md">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
                     {plan.badge}
                   </div>
                 )}
@@ -734,7 +734,7 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                       priceYearly: 15000,
                     })
                   }
-                  className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer whitespace-nowrap shadow-xs"
+                  className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all cursor-pointer whitespace-nowrap shadow-xs"
                 >
                   Pilih Domain Ini
                 </button>
@@ -785,8 +785,8 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
 
       {/* ================= ORDER CHECKOUT MODAL ================= */}
       {selectedPlan && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs animate-in fade-in">
-          <div className="w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-2xl dark:border-slate-800 dark:bg-slate-900 animate-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center p-0 sm:p-4 bg-slate-950/70 backdrop-blur-xs animate-in fade-in overflow-y-auto">
+          <div className="w-full h-full sm:h-auto sm:max-w-lg rounded-none sm:rounded-3xl border-0 sm:border border-slate-200 bg-white p-5 sm:p-8 shadow-2xl dark:border-slate-800 dark:bg-slate-900 overflow-y-auto">
             {orderSuccess ? (
               /* Success View */
               <div className="text-center space-y-4 py-2">
@@ -832,9 +832,9 @@ export const ClientProductCatalog: React.FC<ClientProductCatalogProps> = ({
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                    className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                   >
-                    <MessageCircle className="h-4 w-4" />
+                    <MessageCircle className="h-4 w-4 text-emerald-400" />
                     <span>Konfirmasi Pembayaran via WhatsApp</span>
                   </a>
 

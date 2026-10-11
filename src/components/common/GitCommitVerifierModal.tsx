@@ -281,7 +281,7 @@ export const GitCommitVerifierModal: React.FC<GitCommitVerifierModalProps> = ({
             <button
               onClick={handlePullUpdate}
               disabled={isUpdating}
-              className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 px-3.5 py-2 text-xs font-bold text-white shadow-md hover:from-sky-400 hover:to-blue-500 transition-all disabled:opacity-50 cursor-pointer"
+              className="flex items-center gap-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 border border-slate-600/80 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition-all disabled:opacity-50 cursor-pointer"
             >
               <ArrowDownCircle className={`h-4 w-4 ${isUpdating ? 'animate-spin' : ''}`} />
               <span>{isUpdating ? 'Memproses...' : 'Tarik Kommit'}</span>

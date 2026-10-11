@@ -354,21 +354,21 @@ export const InvoiceDocumentSheet: React.FC<{
         {/* Left 7 Cols: Rekening Pembayaran Cloud PRO (Unpaid) or Bukti Verifikasi (Paid) */}
         <div className="sm:col-span-7">
           {!isPaidReceipt ? (
-            <div className="rounded-xl border border-amber-300 bg-amber-50/70 p-3 text-[10px] text-slate-800 space-y-1.5">
-              <div className="font-bold text-amber-950 flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
-                <Building2 className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-[10px] text-slate-800 space-y-1.5 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-200">
+              <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
+                <Building2 className="h-3.5 w-3.5 text-slate-600 dark:text-slate-400 shrink-0" />
                 <span>Rekening Pembayaran Resmi Karsa Cloud PRO:</span>
               </div>
               <div className="font-mono space-y-1 pl-1">
                 <div>
                   &bull; <strong>{letterhead.bank1Name}:</strong>{' '}
-                  <span className="font-bold text-slate-950">{letterhead.bank1Number}</span> a.n{' '}
+                  <span className="font-bold text-slate-950 dark:text-white">{letterhead.bank1Number}</span> a.n{' '}
                   <strong>{letterhead.bank1Holder}</strong>
                 </div>
                 {letterhead.bank2Number && (
                   <div>
                     &bull; <strong>{letterhead.bank2Name}:</strong>{' '}
-                    <span className="font-bold text-slate-950">{letterhead.bank2Number}</span> a.n{' '}
+                    <span className="font-bold text-slate-950 dark:text-white">{letterhead.bank2Number}</span> a.n{' '}
                     <strong>{letterhead.bank2Holder}</strong>
                   </div>
                 )}
@@ -378,15 +378,15 @@ export const InvoiceDocumentSheet: React.FC<{
                   </div>
                 )}
               </div>
-              <p className="text-[9.5px] text-slate-600 pt-0.5">
+              <p className="text-[9.5px] text-slate-600 dark:text-slate-400 pt-0.5">
                 {invoice.paymentNotes ||
                   'Harap sertakan Nomor Invoice saat transfer. Kwitansi Lunas diterbitkan otomatis/manual setelah pembayaran.'}
               </p>
             </div>
           ) : (
-            <div className="rounded-xl border border-emerald-300 bg-emerald-50/70 p-3 text-[10px] text-slate-800 space-y-1.5">
-              <div className="font-bold text-emerald-950 flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-[10px] text-slate-800 space-y-1.5 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-200">
+              <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
+                <ShieldCheck className="h-3.5 w-3.5 text-slate-600 dark:text-slate-400 shrink-0" />
                 <span>Rincian Pengesahan Bukti Pembayaran (Lunas):</span>
               </div>
               <div className="grid grid-cols-2 gap-x-3 gap-y-1 font-mono text-[9.5px]">
@@ -595,8 +595,8 @@ export const LetterheadConfigModal: React.FC<{
           </div>
 
           {/* Section 2: Pemilik Server & Tanda Tangan Barcode */}
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-4 space-y-3 dark:border-emerald-900/50 dark:bg-emerald-950/20">
-            <div className="font-bold text-emerald-950 dark:text-emerald-300 uppercase tracking-wider text-[11px]">
+          <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 space-y-3 dark:border-slate-800 dark:bg-slate-900/40">
+            <div className="font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider text-[11px]">
               2. Pemilik / Penerima Karsa Cloud PRO &amp; Tanda Tangan Barcode
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -639,8 +639,8 @@ export const LetterheadConfigModal: React.FC<{
           </div>
 
           {/* Section 3: Nomor Rekening Pembayaran Milik Server Cloud PRO */}
-          <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-4 space-y-3 dark:border-amber-900/50 dark:bg-amber-950/20">
-            <div className="font-bold text-amber-950 dark:text-amber-300 uppercase tracking-wider text-[11px]">
+          <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 space-y-3 dark:border-slate-800 dark:bg-slate-900/40">
+            <div className="font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider text-[11px]">
               3. Input Nomor Rekening Pembayaran Milik Karsa Cloud PRO
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -737,8 +737,8 @@ export const LetterheadConfigModal: React.FC<{
           </div>
 
           {/* Section 4: Pengiriman Otomatis WhatsApp Terdaftar & Email */}
-          <div className="rounded-xl border border-sky-200 bg-sky-50/50 p-4 space-y-3 dark:border-sky-900/50 dark:bg-sky-950/20">
-            <div className="font-bold text-sky-950 dark:text-sky-300 uppercase tracking-wider text-[11px]">
+          <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 space-y-3 dark:border-slate-800 dark:bg-slate-900/40">
+            <div className="font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider text-[11px]">
               4. Pengiriman Otomatis Tagihan (UNPAID) &amp; Kwitansi (PAID) ke WhatsApp Terdaftar &amp; Email
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -747,7 +747,7 @@ export const LetterheadConfigModal: React.FC<{
                   type="checkbox"
                   checked={form.autoSendWhatsApp}
                   onChange={e => setForm({ ...form, autoSendWhatsApp: e.target.checked })}
-                  className="h-4 w-4 accent-emerald-600"
+                  className="h-4 w-4 accent-slate-900"
                 />
                 <span className="font-semibold text-slate-800 dark:text-slate-200">
                   Kirim Otomatis ke WA Terdaftar
@@ -758,7 +758,7 @@ export const LetterheadConfigModal: React.FC<{
                   type="checkbox"
                   checked={form.autoSendEmail}
                   onChange={e => setForm({ ...form, autoSendEmail: e.target.checked })}
-                  className="h-4 w-4 accent-sky-600"
+                  className="h-4 w-4 accent-slate-900"
                 />
                 <span className="font-semibold text-slate-800 dark:text-slate-200">
                   Kirim Otomatis ke Email Terdaftar
@@ -769,7 +769,7 @@ export const LetterheadConfigModal: React.FC<{
                   type="checkbox"
                   checked={form.autoOpenWhatsAppOnManual}
                   onChange={e => setForm({ ...form, autoOpenWhatsAppOnManual: e.target.checked })}
-                  className="h-4 w-4 accent-teal-600"
+                  className="h-4 w-4 accent-slate-900"
                 />
                 <span className="font-semibold text-slate-800 dark:text-slate-200">
                   Buka Chat WA Saat Terbit Manual
@@ -825,7 +825,7 @@ export const LetterheadConfigModal: React.FC<{
               </button>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-5 py-2 text-xs font-bold text-white hover:bg-sky-500 shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-5 py-2 text-xs font-bold text-white hover:bg-slate-800 shadow-xs cursor-pointer"
               >
                 <Save className="h-4 w-4" />
                 <span>Simpan Pengaturan Kop &amp; Rekening</span>

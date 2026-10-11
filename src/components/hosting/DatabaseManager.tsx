@@ -728,17 +728,11 @@ INSERT INTO \`${tbl.name}\` (\`id\`, \`nama\`, \`status\`, \`created_at\`) VALUE
       </div>
 
       {/* ========================================================================= */}
-      {/* Modal: phpMyAdmin 5.2.1 Web Interface Suite (Full cPanel Standards)       */}
+      {/* View: phpMyAdmin 5.2.1 Web Interface Suite (Full cPanel Standards)        */}
       {/* ========================================================================= */}
       {showPmaModal && (
-        <div className={`fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xs ${
-          isPmaFullscreen ? 'p-0' : 'p-0 sm:p-3 md:p-5'
-        }`}>
-          <div className={`w-full flex flex-col bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900 overflow-hidden transition-all duration-150 ${
-            isPmaFullscreen
-              ? 'h-screen w-screen rounded-none border-none'
-              : 'h-full sm:h-[94vh] max-w-6xl rounded-none sm:rounded-2xl border border-slate-700'
-          }`}>
+        <div className="fixed inset-0 z-50 flex flex-col w-full h-full bg-white dark:bg-slate-900 animate-in fade-in duration-150">
+          <div className="w-full h-full flex flex-col bg-white dark:bg-slate-900 overflow-hidden">
             
             {/* Header: Authentic phpMyAdmin Top Navigation */}
             <div className="flex items-center justify-between bg-[#1e293b] px-3 sm:px-4 py-2.5 sm:py-3 text-white border-b border-slate-800 shrink-0">
@@ -1780,8 +1774,8 @@ INSERT INTO \`${tbl.name}\` (\`id\`, \`nama\`, \`status\`, \`created_at\`) VALUE
 
       {/* Modal: Buat Database Baru */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 bg-slate-900/60 backdrop-blur-xs">
-          <div className="my-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 animate-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-md flex flex-col bg-white p-5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:rounded-2xl border-0 sm:border border-slate-200 overflow-y-auto">
             <h3 className="font-bold text-slate-900 dark:text-white text-sm">
               Buat Database MySQL Baru
             </h3>

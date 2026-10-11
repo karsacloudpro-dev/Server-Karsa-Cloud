@@ -201,8 +201,8 @@ export const TopBar: React.FC<TopBarProps> = ({
 
   return (
     <div className="sticky top-0 left-0 right-0 z-30 flex w-full max-w-full shrink-0 flex-col border-b border-slate-200/90 bg-white/95 backdrop-blur-xl transition-colors shadow-2xs">
-      {/* Executive Monochromatic Top Hairline */}
-      <div className="h-0.5 w-full bg-gradient-to-r from-slate-900 via-sky-600 to-slate-900" />
+      {/* Executive Clean Top Hairline */}
+      <div className="h-[2px] w-full bg-slate-900" />
       {/* Primary Bar */}
       <header className="flex h-14 sm:h-16 w-full max-w-full min-w-0 items-center justify-between gap-1.5 px-2.5 sm:px-6">
         {/* Left Zone: Hamburger + Official Cloud PRO Logo + Breadcrumb */}
@@ -243,7 +243,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 <button
                   type="button"
                   onClick={() => onNavigate?.('dashboard')}
-                  className="uppercase tracking-wider text-sky-600 hover:text-sky-500 dark:text-sky-400 font-bold cursor-pointer"
+                  className="uppercase tracking-wider text-slate-600 hover:text-slate-900 font-bold cursor-pointer"
                 >
                   {currentInfo.category}
                 </button>
@@ -260,10 +260,9 @@ export const TopBar: React.FC<TopBarProps> = ({
         <div className="hidden xl:flex items-center gap-3 text-xs">
           <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50/80 px-3.5 py-1.5 font-mono text-[11px] text-slate-700 dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-300 shadow-2xs">
             <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="font-semibold text-slate-700 dark:text-slate-300">
               {onlineServersCount}/{servers.length} Nodes OK
             </span>
             <span className="text-slate-300 dark:text-slate-600">&bull;</span>
@@ -279,9 +278,9 @@ export const TopBar: React.FC<TopBarProps> = ({
             <button
               onClick={onOpenLanding}
               title="Portal Utama Karsa Cloud (karsacloud.biz.id)"
-              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-sky-300/80 bg-sky-50 dark:bg-sky-950/60 dark:border-sky-700/60 px-2.5 py-1.5 text-xs font-bold text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors shadow-2xs cursor-pointer"
+              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs cursor-pointer"
             >
-              <Globe className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
+              <Globe className="h-3.5 w-3.5 text-slate-600" />
               <span>Portal Utama</span>
             </button>
           )}

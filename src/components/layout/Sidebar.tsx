@@ -838,24 +838,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-[100] flex h-dvh max-h-dvh w-72 flex-col border-r border-sky-200/80 bg-gradient-to-b from-[#ffffff] via-[#f1f7fe] to-[#e6f2fc] text-slate-700 shadow-xl shadow-sky-950/5 transition-transform duration-300 ease-in-out lg:w-64 lg:translate-x-0 overflow-hidden backdrop-blur-2xl ${
+        className={`fixed inset-y-0 left-0 z-[100] flex h-dvh max-h-dvh w-72 flex-col border-r border-slate-200/90 bg-white text-slate-700 shadow-sm transition-transform duration-300 ease-in-out lg:w-64 lg:translate-x-0 overflow-hidden ${
           isOpen
             ? 'translate-x-0 pointer-events-auto'
             : '-translate-x-full pointer-events-none lg:translate-x-0 lg:pointer-events-auto'
         }`}
       >
         {/* ========================================================================= */}
-        {/* MODERN ARTISTIC CLOUD WATERMARK (WATERMARK AWAN YANG INDAH & MODERN)     */}
+        {/* ELEGANT ARCHITECTURAL WATERMARK (SUBTLE & HARMONIOUS)                    */}
         {/* ========================================================================= */}
-        <div className="pointer-events-none select-none absolute inset-0 -z-0 overflow-hidden opacity-60">
-          {/* Atmospheric Soft Radiant Cloud Lights */}
-          <div className="absolute top-12 -right-16 h-56 w-56 rounded-full bg-gradient-to-br from-sky-200/40 via-sky-300/20 to-transparent blur-2xl" />
-          <div className="absolute top-1/2 -left-20 h-64 w-64 rounded-full bg-gradient-to-tr from-blue-200/30 via-indigo-100/20 to-transparent blur-3xl" />
-          <div className="absolute bottom-16 right-0 h-48 w-48 rounded-full bg-sky-200/30 blur-2xl" />
+        <div className="pointer-events-none select-none absolute inset-0 -z-0 overflow-hidden opacity-25">
+          {/* Atmospheric Soft Neutral Lights */}
+          <div className="absolute top-12 -right-16 h-56 w-56 rounded-full bg-slate-200/40 blur-2xl" />
+          <div className="absolute top-1/2 -left-20 h-64 w-64 rounded-full bg-slate-100/40 blur-3xl" />
+          <div className="absolute bottom-16 right-0 h-48 w-48 rounded-full bg-slate-200/30 blur-2xl" />
 
           {/* Top Section Stylized Cloud Watermark Contour */}
           <svg
-            className="absolute top-20 -right-12 w-64 h-48 text-sky-400/25"
+            className="absolute top-20 -right-12 w-64 h-48 text-slate-400/20"
             viewBox="0 0 260 180"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -863,9 +863,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             <defs>
               <linearGradient id="sbCloudGlowTop" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.18" />
-                <stop offset="60%" stopColor="#60a5fa" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#c7d2fe" stopOpacity="0.02" />
+                <stop offset="0%" stopColor="#94a3b8" stopOpacity="0.10" />
+                <stop offset="60%" stopColor="#cbd5e1" stopOpacity="0.05" />
+                <stop offset="100%" stopColor="#f1f5f9" stopOpacity="0.01" />
               </linearGradient>
             </defs>
             <path
@@ -874,9 +874,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             />
             <path
               d="M 65 140 C 40 140 25 120 26 95 C 27 72 45 52 69 50 C 82 23 120 20 145 36 C 162 28 185 32 197 48 C 222 53 238 75 235 100 C 232 123 211 140 186 140"
-              stroke="#0284c7"
+              stroke="#94a3b8"
               strokeWidth="1.2"
-              strokeOpacity="0.28"
+              strokeOpacity="0.20"
               strokeDasharray="6 5"
               fill="none"
             />
@@ -884,7 +884,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           {/* Main Center-Bottom High-Fidelity Modern Cloud Watermark */}
           <svg
-            className="absolute bottom-28 -right-8 w-80 h-72 text-sky-500/30"
+            className="absolute bottom-28 -right-8 w-80 h-72 text-slate-400/20"
             viewBox="0 0 320 260"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -892,16 +892,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             <defs>
               <linearGradient id="sbCloudGlowMain" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0284c7" stopOpacity="0.15" />
-                <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.10" />
-                <stop offset="100%" stopColor="#818cf8" stopOpacity="0.04" />
+                <stop offset="0%" stopColor="#64748b" stopOpacity="0.08" />
+                <stop offset="50%" stopColor="#94a3b8" stopOpacity="0.05" />
+                <stop offset="100%" stopColor="#cbd5e1" stopOpacity="0.02" />
               </linearGradient>
               <linearGradient id="sbCloudGlowInner" x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.16" />
-                <stop offset="100%" stopColor="#0284c7" stopOpacity="0.03" />
+                <stop offset="0%" stopColor="#94a3b8" stopOpacity="0.08" />
+                <stop offset="100%" stopColor="#cbd5e1" stopOpacity="0.02" />
               </linearGradient>
             </defs>
-            {/* Outer Floating Cumulus Watermark */}
+            {/* Outer Watermark */}
             <path
               d="M 90 215 C 50 215 18 185 18 145 C 18 107 48 76 86 73 C 106 35 160 32 193 56 C 215 45 245 49 263 71 C 298 78 320 109 316 145 C 314 180 283 215 246 215 Z"
               fill="url(#sbCloudGlowMain)"
@@ -911,37 +911,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
               d="M 110 200 C 80 200 58 175 62 145 C 67 117 90 98 120 98 C 137 70 178 68 205 88 C 225 80 250 88 263 108 C 285 118 295 145 285 170 C 275 194 250 200 220 200 Z"
               fill="url(#sbCloudGlowInner)"
             />
-            {/* Elegant Cloud Waves & Contour Streams */}
+            {/* Elegant Contour Streams */}
             <path
               d="M 75 208 C 42 208 24 180 26 148 C 28 116 54 87 88 84 C 105 48 153 45 183 67 C 205 57 234 62 250 82 C 282 89 304 118 300 152 C 296 184 268 208 236 208"
-              stroke="#0284c7"
-              strokeWidth="1.5"
-              strokeOpacity="0.30"
+              stroke="#64748b"
+              strokeWidth="1.2"
+              strokeOpacity="0.20"
               strokeDasharray="8 6"
               fill="none"
             />
             <path
               d="M 45 160 C 70 155 95 165 120 157 C 145 149 170 134 200 136 C 230 139 255 155 285 150"
-              stroke="#38bdf8"
-              strokeWidth="1.8"
-              strokeOpacity="0.38"
-              strokeLinecap="round"
-              fill="none"
-            />
-            <path
-              d="M 75 180 C 100 175 125 183 150 177 C 175 171 200 160 230 162 C 255 164 275 175 295 172"
-              stroke="#60a5fa"
-              strokeWidth="1.2"
-              strokeOpacity="0.28"
+              stroke="#94a3b8"
+              strokeWidth="1.5"
+              strokeOpacity="0.22"
               strokeLinecap="round"
               fill="none"
             />
           </svg>
         </div>
 
-        {/* Top Brand Lockup with Glowing Accent */}
-        <div className="relative z-10 flex h-16 shrink-0 items-center justify-between border-b border-sky-200/70 bg-white/90 px-4 backdrop-blur-md">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500" />
+        {/* Top Brand Lockup with Clean Executive Slate Border */}
+        <div className="relative z-10 flex h-16 shrink-0 items-center justify-between border-b border-slate-200/90 bg-white px-4">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-900" />
           
           {/* Official Cloud PRO Master Brand */}
           <CloudProLogo
@@ -1065,16 +1057,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     onClick={() => toggleSection(group.key)}
                     className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-[10px] font-extrabold uppercase tracking-[0.08em] transition-colors cursor-pointer select-none touch-manipulation group ${
                       hasActiveChild
-                        ? 'text-sky-950 bg-sky-100/70 border border-sky-200/80 shadow-2xs'
-                        : 'text-slate-500 hover:bg-sky-100/40 hover:text-slate-800'
+                        ? 'text-slate-900 bg-slate-100 border border-slate-200 shadow-2xs'
+                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                     }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span
                         className={`h-1.5 w-1.5 rounded-full shrink-0 transition-colors ${
                           hasActiveChild
-                            ? 'bg-sky-500 ring-2 ring-sky-400/30'
-                            : 'bg-slate-400 group-hover:bg-sky-500'
+                            ? 'bg-slate-900 ring-2 ring-slate-300'
+                            : 'bg-slate-400 group-hover:bg-slate-600'
                         }`}
                       />
                       <span className="truncate">{group.title}</span>
@@ -1093,7 +1085,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                   {/* Group Items with Architectural Tree-Line */}
                   {isOpenGroup && (
-                    <div className="ml-3 border-l border-sky-200/70 pl-2 space-y-0.5">
+                    <div className="ml-3 border-l border-slate-200 pl-2 space-y-0.5">
                       {group.items.map(item => {
                         const Icon = item.icon;
                         const active = isTabActive(item.id, item.aliases);
@@ -1104,13 +1096,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               <span
                                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border transition-all ${
                                   active
-                                    ? 'border-white/25 bg-white/20 text-white shadow-2xs ring-1 ring-white/30'
-                                    : 'border-sky-200/80 bg-white/90 text-sky-600 group-hover:border-sky-300 group-hover:bg-white group-hover:text-sky-700 shadow-2xs'
+                                    ? 'border-white/20 bg-white/10 text-white shadow-2xs'
+                                    : 'border-slate-200 bg-slate-50 text-slate-600 group-hover:border-slate-300 group-hover:bg-white group-hover:text-slate-900 shadow-2xs'
                                 }`}
                               >
                                 <Icon className="h-3.5 w-3.5" />
                               </span>
-                              <span className={`truncate ${active ? 'font-bold text-white' : 'font-medium text-slate-700 group-hover:text-sky-950'}`}>
+                              <span className={`truncate ${active ? 'font-bold text-white' : 'font-medium text-slate-700 group-hover:text-slate-950'}`}>
                                 {item.label}
                               </span>
                             </div>
@@ -1120,8 +1112,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 <span
                                   className={`rounded-md px-1.5 py-0.5 font-mono text-[9px] font-bold border ${
                                     active
-                                      ? 'border-white/30 bg-white/20 text-white'
-                                      : 'border-sky-200/80 bg-white/90 text-sky-700 group-hover:text-sky-900'
+                                      ? 'border-white/20 bg-white/15 text-white'
+                                      : 'border-slate-200 bg-slate-100 text-slate-600 group-hover:text-slate-900'
                                   }`}
                                 >
                                   {item.badge.text}
@@ -1141,7 +1133,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               href={item.externalHref}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="group flex w-full items-center justify-between rounded-xl px-2 py-1.5 text-left text-slate-700 hover:bg-white/85 hover:text-sky-950 transition-all cursor-pointer touch-manipulation"
+                              className="group flex w-full items-center justify-between rounded-xl px-2 py-1.5 text-left text-slate-700 hover:bg-slate-100 hover:text-slate-950 transition-all cursor-pointer touch-manipulation"
                               title="Buka Direct Web Terminal Linux Shell"
                             >
                               {itemContent}
@@ -1156,8 +1148,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             onClick={() => handleNav(item.id)}
                             className={`group flex w-full items-center justify-between rounded-xl px-2 py-2 text-left transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
                               active
-                                ? 'bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 text-white font-bold shadow-md shadow-sky-500/25 ring-1 ring-white/20'
-                                : 'text-slate-700 hover:bg-sky-100/70 hover:text-sky-950 active:bg-sky-200/50'
+                                ? 'bg-slate-900 text-white font-bold shadow-xs ring-1 ring-slate-800'
+                                : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950 active:bg-slate-200'
                             }`}
                           >
                             {itemContent}

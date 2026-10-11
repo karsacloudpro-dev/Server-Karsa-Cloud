@@ -399,9 +399,9 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
                   />
 
                   {/* 30s Countdown Visual Bar */}
-                  <div className="mt-2.5 h-1.5 w-full bg-sky-100 rounded-full overflow-hidden">
+                  <div className="mt-2.5 h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-sky-500 to-blue-600 transition-all duration-1000"
+                      className="h-full bg-slate-800 transition-all duration-1000"
                       style={{ width: `${(totpSecondsLeft / 30) * 100}%` }}
                     />
                   </div>
@@ -410,7 +410,7 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
                 <button
                   type="submit"
                   disabled={isSubmittingTotp || totpCode.length !== 6}
-                  className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-extrabold py-3.5 px-4 text-sm shadow-lg shadow-sky-600/25 transition-all cursor-pointer disabled:opacity-50 active:scale-[0.98]"
+                  className="w-full flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3.5 px-4 text-sm shadow-xs transition-all cursor-pointer disabled:opacity-50 active:scale-[0.98]"
                 >
                   {isSubmittingTotp ? (
                     <>
@@ -532,8 +532,8 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
                   <h1 className="text-sm font-black text-slate-900 tracking-tight truncate">
                     Web Panel Kontrol &amp; Pemantau Server
                   </h1>
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-0.5 text-[9px] font-extrabold text-emerald-800 uppercase tracking-wider">
-                    <ShieldCheck className="h-3 w-3 text-emerald-600" />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-[9px] font-bold text-slate-700 uppercase tracking-wider">
+                    <ShieldCheck className="h-3 w-3 text-slate-600" />
                     2FA Terverifikasi
                   </span>
                 </div>
@@ -549,10 +549,10 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
             <button
               type="button"
               onClick={handleLockWebPanel}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 px-3 py-2 text-xs font-bold text-rose-800 transition-all cursor-pointer shadow-2xs"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 transition-all cursor-pointer shadow-xs"
               title="Kunci kembali Web Panel dengan proteksi 2FA"
             >
-              <Lock className="h-3.5 w-3.5 text-rose-600" />
+              <Lock className="h-3.5 w-3.5 text-slate-500" />
               <span className="hidden sm:inline">Kunci 2FA</span>
             </button>
 
@@ -564,10 +564,10 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
                 showToast('info', 'Memperbarui Telemetri', 'Mengambil data performa server terbaru...');
               }}
               disabled={isRefreshing}
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-sky-200 bg-white hover:bg-sky-50 px-3 py-2 text-xs font-bold text-slate-700 transition-all cursor-pointer disabled:opacity-50 shadow-2xs"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 transition-all cursor-pointer disabled:opacity-50 shadow-xs"
               title="Perbarui telemetri realtime"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin text-sky-600' : 'text-slate-500'}`} />
+              <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin text-slate-700' : 'text-slate-500'}`} />
               <span>{isRefreshing ? 'Memuat...' : 'Refresh'}</span>
             </button>
 
@@ -575,7 +575,7 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
             <button
               type="button"
               onClick={onGoToServerAdmin}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white px-3.5 sm:px-4 py-2 text-xs font-extrabold shadow-md shadow-sky-600/20 active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white px-3.5 sm:px-4 py-2 text-xs font-bold shadow-xs active:scale-95 transition-all cursor-pointer"
               title="Masuk ke Server Admin (server.karsacloud.biz.id)"
             >
               <Server className="h-4 w-4" />
@@ -594,32 +594,28 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
         {/* =========================================================================
             HERO GATEWAY: MASUK KE SERVER ADMIN (server.karsacloud.biz.id)
         ========================================================================= */}
-        <div className="relative overflow-hidden rounded-3xl border-2 border-sky-200/90 bg-white p-6 sm:p-8 shadow-xl shadow-sky-950/5">
-          {/* Subtle Ambient Radial Glows */}
-          <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-sky-200/40 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
-
+        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs">
           <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="space-y-3 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="flex h-2.5 w-2.5 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-slate-700"></span>
                 </span>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200">
                   SERVER FLEET HOST ONLINE
                 </span>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-900 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-300">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200">
                   ROOT PRIVILEGES UID 0
                 </span>
-                <span className="text-[10px] font-mono text-sky-800 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200">
+                <span className="text-[10px] font-mono text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200">
                   SSL: Cloudflare Argo TLS Active
                 </span>
               </div>
 
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-950 tracking-tight flex items-center gap-2 flex-wrap">
                 <span>Gerbang Resmi Server Admin:</span>
-                <span className="text-sky-700 font-mono underline decoration-sky-300 underline-offset-4">
+                <span className="text-slate-900 font-mono underline decoration-slate-300 underline-offset-4">
                   server.karsacloud.biz.id
                 </span>
               </h2>
@@ -630,18 +626,18 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
 
               {/* Quick credential chips */}
               <div className="pt-2 flex flex-wrap items-center gap-2.5 text-xs">
-                <div className="flex items-center gap-1.5 bg-sky-50/70 border border-sky-200 rounded-xl px-3 py-1.5 text-slate-700 font-mono">
-                  <KeyRound className="h-3.5 w-3.5 text-amber-600" />
+                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-700 font-mono">
+                  <KeyRound className="h-3.5 w-3.5 text-slate-500" />
                   <span className="text-[11px] text-slate-500">Root User:</span>
                   <strong className="text-slate-900">admin</strong>
                 </div>
-                <div className="flex items-center gap-1.5 bg-sky-50/70 border border-sky-200 rounded-xl px-3 py-1.5 text-slate-700 font-mono">
-                  <Globe className="h-3.5 w-3.5 text-sky-600" />
+                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-700 font-mono">
+                  <Globe className="h-3.5 w-3.5 text-slate-500" />
                   <span className="text-[11px] text-slate-500">Protokol:</span>
                   <strong className="text-slate-900">HTTPS (Port 443 / 3000)</strong>
                 </div>
-                <div className="flex items-center gap-1.5 bg-sky-50/70 border border-sky-200 rounded-xl px-3 py-1.5 text-slate-700 font-mono">
-                  <Network className="h-3.5 w-3.5 text-emerald-600" />
+                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-700 font-mono">
+                  <Network className="h-3.5 w-3.5 text-slate-500" />
                   <span className="text-[11px] text-slate-500">IP VPS:</span>
                   <strong className="text-slate-900">178.83.181.238</strong>
                 </div>
@@ -653,7 +649,7 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
               <button
                 type="button"
                 onClick={onGoToServerAdmin}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 px-6 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-sky-600/25 hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-slate-800 px-6 py-3.5 text-sm font-extrabold text-white shadow-xs active:scale-95 transition-all cursor-pointer"
               >
                 <Server className="h-4 w-4" />
                 <span>Masuk ke Server Admin</span>
@@ -664,19 +660,19 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
                 <button
                   type="button"
                   onClick={() => handleCopy('https://server.karsacloud.biz.id', 'url', 'URL Server Admin')}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-sky-50 hover:text-sky-800 transition-all cursor-pointer shadow-2xs"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-all cursor-pointer shadow-xs"
                 >
-                  {copiedKey === 'url' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5 text-slate-400" />}
+                  {copiedKey === 'url' ? <Check className="h-3.5 w-3.5 text-slate-900" /> : <Copy className="h-3.5 w-3.5 text-slate-400" />}
                   <span>Salin URL</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => handleCopy('admin', 'creds', 'User Super Admin')}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-sky-50 hover:text-sky-800 transition-all cursor-pointer shadow-2xs"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-all cursor-pointer shadow-xs"
                   title="Salin kredensial root user admin"
                 >
-                  {copiedKey === 'creds' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <KeyRound className="h-3.5 w-3.5 text-slate-400" />}
+                  {copiedKey === 'creds' ? <Check className="h-3.5 w-3.5 text-slate-900" /> : <KeyRound className="h-3.5 w-3.5 text-slate-400" />}
                   <span>Salin User</span>
                 </button>
               </div>
@@ -687,21 +683,21 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
         {/* =========================================================================
             SUPER ADMIN ACCESS STATUS BADGE
         ========================================================================= */}
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-2xs">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-xs">
           <div className="flex items-center gap-2.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="font-bold text-emerald-900">
+            <span className="h-2.5 w-2.5 rounded-full bg-slate-700"></span>
+            <span className="font-bold text-slate-900">
               Sesi Super Admin Aktif (Root UID: 0 &bull; {currentUser?.name || 'Jaenal Maskun'})
             </span>
-            <span className="text-emerald-700 hidden sm:inline">&bull; Akses penuh ke seluruh daemon dan telemetri hardware</span>
+            <span className="text-slate-500 hidden sm:inline">&bull; Akses penuh ke seluruh daemon dan telemetri hardware</span>
           </div>
           <a
             href="/ssh"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sky-700 font-extrabold hover:text-sky-900 hover:underline"
+            className="inline-flex items-center gap-1.5 text-slate-700 font-bold hover:text-slate-900 hover:underline"
           >
-            <Terminal className="h-4 w-4 text-sky-600" />
+            <Terminal className="h-4 w-4 text-slate-500" />
             <span>Buka Web Terminal SSH</span>
           </a>
         </div>
@@ -720,17 +716,17 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
                 Pemanfaatan prosesor, memori kernel, dan partisi NVMe host live server.
               </p>
             </div>
-            <span className="text-[11px] font-mono text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+            <span className="text-[11px] font-mono text-slate-700 font-bold bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full">
               Ping Latency: {pingMs} ms
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* 1. CPU & Load */}
-            <div className="rounded-2xl border border-sky-100 bg-white p-5 shadow-xs space-y-3 hover:border-sky-300 transition-all">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-3 hover:border-slate-300 transition-all">
               <div className="flex items-center justify-between text-slate-500 text-xs font-bold uppercase">
                 <span>CPU &amp; Beban Load</span>
-                <Cpu className="h-4 w-4 text-sky-600" />
+                <Cpu className="h-4 w-4 text-slate-700" />
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-black text-slate-950">{loadAvg[0]?.toFixed(2)}</span>
@@ -739,7 +735,7 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
               <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-2 rounded-full transition-all duration-500 ${
-                    loadAvg[0] > 0.8 ? 'bg-rose-500' : loadAvg[0] > 0.5 ? 'bg-amber-500' : 'bg-sky-600'
+                    loadAvg[0] > 0.8 ? 'bg-slate-700' : loadAvg[0] > 0.5 ? 'bg-slate-600' : 'bg-slate-800'
                   }`}
                   style={{ width: `${Math.min(100, Math.round((loadAvg[0] / Math.max(1, cpuCores)) * 100))}%` }}
                 />
@@ -752,10 +748,10 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
             </div>
 
             {/* 2. RAM Memory */}
-            <div className="rounded-2xl border border-sky-100 bg-white p-5 shadow-xs space-y-3 hover:border-sky-300 transition-all">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-3 hover:border-slate-300 transition-all">
               <div className="flex items-center justify-between text-slate-500 text-xs font-bold uppercase">
                 <span>RAM Memori</span>
-                <Layers className="h-4 w-4 text-emerald-600" />
+                <Layers className="h-4 w-4 text-slate-700" />
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-black text-slate-950">{ramPct}%</span>
@@ -764,22 +760,22 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
               <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-2 rounded-full transition-all duration-500 ${
-                    ramPct > 85 ? 'bg-rose-500' : ramPct > 70 ? 'bg-amber-500' : 'bg-emerald-500'
+                    ramPct > 85 ? 'bg-slate-700' : ramPct > 70 ? 'bg-slate-600' : 'bg-slate-800'
                   }`}
                   style={{ width: `${Math.min(100, ramPct)}%` }}
                 />
               </div>
               <div className="flex justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-100">
-                <span>Bebas: <strong className="text-emerald-700">{telemetry?.freeRamMb || (ramTotalMb - ramUsedMb)} MB</strong></span>
+                <span>Bebas: <strong className="text-slate-700">{telemetry?.freeRamMb || (ramTotalMb - ramUsedMb)} MB</strong></span>
                 <span>Swap: <strong className="text-slate-800">{telemetry?.swapUsedMb || 0} MB</strong></span>
               </div>
             </div>
 
             {/* 3. NVMe Storage */}
-            <div className="rounded-2xl border border-sky-100 bg-white p-5 shadow-xs space-y-3 hover:border-sky-300 transition-all">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-3 hover:border-slate-300 transition-all">
               <div className="flex items-center justify-between text-slate-500 text-xs font-bold uppercase">
                 <span>NVMe Storage</span>
-                <HardDrive className="h-4 w-4 text-indigo-600" />
+                <HardDrive className="h-4 w-4 text-slate-700" />
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-black text-slate-950">{diskPct}%</span>
@@ -788,33 +784,33 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
               <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-2 rounded-full transition-all duration-500 ${
-                    diskPct > 85 ? 'bg-rose-500' : diskPct > 70 ? 'bg-amber-500' : 'bg-indigo-600'
+                    diskPct > 85 ? 'bg-slate-700' : diskPct > 70 ? 'bg-slate-600' : 'bg-slate-800'
                   }`}
                   style={{ width: `${Math.min(100, Math.max(1, diskPct))}%` }}
                 />
               </div>
               <div className="flex justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-100">
-                <span>Sisa Ruang: <strong className="text-indigo-700">{telemetry?.diskFreeGb || (totalDiskGb - usedDiskGb)} GB</strong></span>
-                <span className="text-emerald-600 font-bold">NVMe Gen4</span>
+                <span>Sisa Ruang: <strong className="text-slate-700">{telemetry?.diskFreeGb || (totalDiskGb - usedDiskGb)} GB</strong></span>
+                <span className="text-slate-700 font-bold">NVMe Gen4</span>
               </div>
             </div>
 
             {/* 4. Host Uptime & OS */}
-            <div className="rounded-2xl border border-sky-100 bg-white p-5 shadow-xs space-y-3 hover:border-sky-300 transition-all">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-3 hover:border-slate-300 transition-all">
               <div className="flex items-center justify-between text-slate-500 text-xs font-bold uppercase">
                 <span>Uptime Server</span>
-                <Clock className="h-4 w-4 text-amber-600" />
+                <Clock className="h-4 w-4 text-slate-700" />
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-black text-slate-950">{uptimeDays}d {uptimeHours}h</span>
-                <span className="text-xs text-emerald-700 font-extrabold bg-emerald-50 px-2 py-0.5 rounded-full">SLA 99.99%</span>
+                <span className="text-xs text-slate-700 font-bold bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">SLA 99.99%</span>
               </div>
               <div className="text-[11px] font-mono text-slate-600 truncate" title={telemetry?.osType || 'Ubuntu 24.04 LTS'}>
                 {telemetry?.osType || 'Ubuntu 24.04 LTS (64-bit)'}
               </div>
               <div className="flex justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-100">
                 <span>Node: <strong className="text-slate-800">srv-sg-01</strong></span>
-                <span>Sinkron: <strong className="text-sky-700">{lastCheckTime}</strong></span>
+                <span>Sinkron: <strong className="text-slate-700">{lastCheckTime}</strong></span>
               </div>
             </div>
           </div>
@@ -823,19 +819,19 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
         {/* =========================================================================
             6 CORE DAEMON & SERVICES MATRIX (MODERN WHITE TILES)
         ========================================================================= */}
-        <div className="rounded-3xl border border-sky-100 bg-white p-6 shadow-sm space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-sky-100">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
             <div>
               <h3 className="text-sm font-black text-slate-950 flex items-center gap-2">
-                <Zap className="h-4 w-4 text-amber-600" />
+                <Zap className="h-4 w-4 text-slate-700" />
                 <span>Status Daemon &amp; Layanan Inti yang Sedang Berjalan</span>
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
                 Monitoring status port jaringan, protokol komunikasi, dan uptime daemon utama server.
               </p>
             </div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-800 px-3.5 py-1 text-xs font-bold border border-emerald-200">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 text-slate-700 px-3.5 py-1 text-xs font-bold border border-slate-200">
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700" />
               <span>{servicesList.filter(s => s.status === 'running').length} / {servicesList.length} Daemon Berjalan Normal</span>
             </span>
           </div>
@@ -844,7 +840,7 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
             {servicesList.map((svc, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl border border-sky-100 bg-[#f8fbff]/70 p-4 hover:border-sky-300 hover:bg-white transition-all space-y-2.5 shadow-2xs"
+                className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4 hover:border-slate-300 hover:bg-white transition-all space-y-2.5 shadow-2xs"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
@@ -853,13 +849,13 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
                     </h4>
                     <p className="text-[11px] text-slate-500 truncate">{svc.description}</p>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-800 px-2 py-0.5 text-[10px] font-extrabold uppercase shrink-0 border border-emerald-200">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 text-slate-700 px-2 py-0.5 text-[10px] font-bold uppercase shrink-0 border border-slate-200">
+                    <span className="h-1.5 w-1.5 rounded-full bg-slate-700"></span>
                     {svc.status}
                   </span>
                 </div>
 
-                <div className="pt-2 border-t border-sky-100 grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-600">
+                <div className="pt-2 border-t border-slate-200/80 grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-600">
                   <div>
                     <span className="text-slate-400 block text-[9.5px] font-bold">PORT / PROTOKOL</span>
                     <span className="font-bold text-slate-800">{svc.port} ({svc.protocol})</span>
@@ -881,7 +877,7 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
           <div className="flex items-center justify-between mb-3">
             <div>
               <h3 className="text-sm font-black text-slate-950 flex items-center gap-2">
-                <Globe className="h-4 w-4 text-sky-600" />
+                <Globe className="h-4 w-4 text-slate-700" />
                 <span>Web Panel Pengelolaan Multi-Tenant</span>
               </h3>
               <p className="text-xs text-slate-500">
@@ -891,7 +887,7 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
             <button
               type="button"
               onClick={onGoToServerAdmin}
-              className="text-xs text-sky-700 font-extrabold hover:text-sky-900 hover:underline cursor-pointer flex items-center gap-1"
+              className="text-xs text-slate-700 font-bold hover:text-slate-900 hover:underline cursor-pointer flex items-center gap-1"
             >
               <span>Kelola di Server Admin</span>
               <ArrowRight className="h-3 w-3" />
@@ -899,21 +895,21 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-            <div className="rounded-2xl border border-sky-100 bg-white p-4 space-y-1 shadow-2xs">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-1 shadow-2xs">
               <div className="flex items-center justify-between text-slate-500 text-xs font-bold uppercase">
                 <span>Akun cPanel</span>
-                <Users className="h-4 w-4 text-sky-600" />
+                <Users className="h-4 w-4 text-slate-700" />
               </div>
               <div className="text-2xl font-black text-slate-950">{safeAccounts.length}</div>
               <div className="text-[11px] text-slate-500">
-                <span className="text-emerald-700 font-bold">{safeAccounts.filter(a => a?.status === 'active').length} aktif</span> terkelola
+                <span className="text-slate-800 font-bold">{safeAccounts.filter(a => a?.status === 'active').length} aktif</span> terkelola
               </div>
             </div>
 
-            <div className="rounded-2xl border border-sky-100 bg-white p-4 space-y-1 shadow-2xs">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-1 shadow-2xs">
               <div className="flex items-center justify-between text-slate-500 text-xs font-bold uppercase">
                 <span>Database MySQL</span>
-                <Database className="h-4 w-4 text-emerald-600" />
+                <Database className="h-4 w-4 text-slate-700" />
               </div>
               <div className="text-2xl font-black text-slate-950">
                 {safeAccounts.reduce((acc, a) => acc + (a?.databaseCount || 0), 0) || 12}
@@ -921,30 +917,30 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
               <div className="text-[11px] text-slate-500 font-medium">MariaDB 10.11 Engine</div>
             </div>
 
-            <div className="rounded-2xl border border-sky-100 bg-white p-4 space-y-1 shadow-2xs">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-1 shadow-2xs">
               <div className="flex items-center justify-between text-slate-500 text-xs font-bold uppercase">
                 <span>Cluster Node</span>
-                <Server className="h-4 w-4 text-purple-600" />
+                <Server className="h-4 w-4 text-slate-700" />
               </div>
               <div className="text-2xl font-black text-slate-950">{safeServers.length || 1}</div>
-              <div className="text-[11px] text-emerald-700 font-bold">100% Online Ready</div>
+              <div className="text-[11px] text-slate-700 font-bold">100% Online Ready</div>
             </div>
 
-            <div className="rounded-2xl border border-sky-100 bg-white p-4 space-y-1 shadow-2xs">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-1 shadow-2xs">
               <div className="flex items-center justify-between text-slate-500 text-xs font-bold uppercase">
                 <span>Keamanan SSL</span>
-                <ShieldCheck className="h-4 w-4 text-amber-600" />
+                <ShieldCheck className="h-4 w-4 text-slate-700" />
               </div>
-              <div className="text-2xl font-black text-emerald-700">100%</div>
+              <div className="text-2xl font-black text-slate-900">100%</div>
               <div className="text-[11px] text-slate-500 font-medium">Auto Let&apos;s Encrypt</div>
             </div>
           </div>
         </div>
 
         {/* Quick Diagnostic Footer Banner */}
-        <div className="p-4 rounded-2xl bg-sky-50 border border-sky-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 shadow-2xs">
+        <div className="p-4 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 shadow-xs">
           <div className="flex items-center gap-2">
-            <Radio className="h-4 w-4 text-sky-600 shrink-0" />
+            <Radio className="h-4 w-4 text-slate-600 shrink-0" />
             <span>
               Karsa Cloud PRO Node Telemetri &bull; Latency <strong>{pingMs}ms</strong> &bull; Host <strong>server.karsacloud.biz.id</strong>
             </span>
@@ -956,9 +952,9 @@ export const ControlPanelSummaryPage: React.FC<ControlPanelSummaryPageProps> = (
                 const report = `[Karsa Cloud PRO Diagnostic Report]\nHost: server.karsacloud.biz.id\nIP: 178.83.181.238\nUptime: ${uptimeDays}d ${uptimeHours}h\nLoad: ${loadAvg.join(', ')}\nRAM: ${ramPct}%\nDisk: ${diskPct}%\nServices: ${servicesList.filter(s => s.status === 'running').length}/${servicesList.length} Active\nGenerated: ${new Date().toISOString()}`;
                 handleCopy(report, 'report', 'Laporan Diagnostik');
               }}
-              className="font-bold text-sky-700 hover:text-sky-900 hover:underline cursor-pointer flex items-center gap-1"
+              className="font-bold text-slate-800 hover:text-slate-950 hover:underline cursor-pointer flex items-center gap-1"
             >
-              {copiedKey === 'report' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5 text-sky-600" />}
+              {copiedKey === 'report' ? <Check className="h-3.5 w-3.5 text-slate-900" /> : <Copy className="h-3.5 w-3.5 text-slate-600" />}
               <span>Salin Laporan Diagnostik</span>
             </button>
           </div>

@@ -988,17 +988,17 @@ const AppContent: React.FC = () => {
     const primaryNode = Array.isArray(servers) && servers.length > 0 ? (servers.find(s => s.isPrimary) || servers[0]) : null;
     return (
       <div className="space-y-4 max-w-full overflow-hidden w-full min-w-0">
-        {/* Universal Executive Module Header Ribbon with 360° Perimeter Ring */}
+        {/* Universal Executive Module Header Ribbon with Grounded Ring */}
         <div className="exec-card-ring relative overflow-hidden rounded-2xl w-full">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4">
             <div className="flex items-center gap-3 min-w-0">
               <button
                 type="button"
                 onClick={handleGoBack}
-                className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-sky-600 transition-colors cursor-pointer shrink-0 shadow-2xs active:scale-95"
+                className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-slate-950 transition-colors cursor-pointer shrink-0 shadow-2xs active:scale-95"
                 title="Kembali ke halaman sebelumnya"
               >
-                <ArrowLeft className="h-3.5 w-3.5 text-sky-600" />
+                <ArrowLeft className="h-3.5 w-3.5 text-slate-600" />
                 <span>Kembali</span>
               </button>
               <div className="min-w-0">
@@ -1015,7 +1015,7 @@ const AppContent: React.FC = () => {
             </div>
 
             <div className="exec-tile-ring hidden sm:flex items-center gap-2 shrink-0 rounded-xl px-3 py-1.5">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
               <span className="font-mono text-[10px] font-bold text-slate-700">
                 Node: {primaryNode?.hostname || 'karsacloud.biz.id'}
               </span>
@@ -1063,13 +1063,13 @@ const AppContent: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleGoBack}
-                  className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-sky-600 transition-colors cursor-pointer shrink-0 shadow-2xs active:scale-95"
+                  className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-slate-950 transition-colors cursor-pointer shrink-0 shadow-2xs active:scale-95"
                   title="Kembali ke halaman sebelumnya"
                 >
-                  <ArrowLeft className="h-3.5 w-3.5 text-sky-600" />
+                  <ArrowLeft className="h-3.5 w-3.5 text-slate-600" />
                   <span>Kembali</span>
                 </button>
-                <div className="hidden sm:flex h-8 w-8 items-center justify-center rounded-xl bg-slate-50 text-sky-600 border border-slate-200/80 shrink-0">
+                <div className="hidden sm:flex h-8 w-8 items-center justify-center rounded-xl bg-slate-50 text-slate-700 border border-slate-200/80 shrink-0">
                   <Globe className="h-4 w-4" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -1077,7 +1077,7 @@ const AppContent: React.FC = () => {
                     <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 truncate">
                       {title}
                     </h3>
-                    <span className="hidden md:inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 font-mono text-[9px] font-bold text-emerald-700">
+                    <span className="hidden md:inline-flex items-center gap-1 rounded-full bg-slate-100 border border-slate-200 px-2 py-0.5 font-mono text-[9px] font-bold text-slate-700">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       ACTIVE VHOST
                     </span>
@@ -1093,7 +1093,7 @@ const AppContent: React.FC = () => {
                 {currentUser.role !== 'customer' && candidateAccounts.length > 0 && (
                   <div className="flex items-center gap-2 w-full sm:w-auto sm:max-w-md min-w-0">
                     <label htmlFor="active-vhost-selector" className="text-xs font-bold text-slate-700 shrink-0 flex items-center gap-1.5">
-                      <Globe className="h-3.5 w-3.5 text-sky-600" />
+                      <Globe className="h-3.5 w-3.5 text-slate-600" />
                       <span className="sm:hidden">Akun:</span>
                       <span className="hidden sm:inline">Pilih Akun Hosting:</span>
                     </label>
@@ -1105,7 +1105,7 @@ const AppContent: React.FC = () => {
                           const acc = candidateAccounts.find(a => a.id === e.target.value);
                           if (acc) setActiveAccount(acc);
                         }}
-                        className="w-full appearance-none rounded-xl border border-slate-300 bg-white pl-3 pr-8 py-2 font-mono text-xs font-bold text-slate-900 shadow-2xs focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-hidden cursor-pointer"
+                        className="w-full appearance-none rounded-xl border border-slate-300 bg-white pl-3 pr-8 py-2 font-mono text-xs font-bold text-slate-900 shadow-2xs focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-hidden cursor-pointer"
                       >
                         {candidateAccounts.map(acc => {
                           const accSubs = db.getDomains(acc.id).filter(d => d.type === 'subdomain');
@@ -1117,7 +1117,7 @@ const AppContent: React.FC = () => {
                         })}
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-500">
-                        <ChevronDown className="h-3.5 w-3.5 text-sky-600" />
+                        <ChevronDown className="h-3.5 w-3.5 text-slate-600" />
                       </div>
                     </div>
                   </div>

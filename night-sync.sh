@@ -39,9 +39,9 @@ echo "[3/4] 🌐 Mengunggah Status Standby ke VPS / Cloud..."
 VPS_IP="${1:-178.83.181.238}"
 echo "       -> Target VPS Gateway: $VPS_IP"
 
-if ssh -o ConnectTimeout=3 -o BatchMode=yes root@"$VPS_IP" "true" 2>/dev/null; then
+if ssh -o ConnectTimeout=3 -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$VPS_IP" "true" 2>/dev/null; then
   echo "       -> Mengaktifkan Mode Standby di VPS Caddy..."
-  ssh -o ConnectTimeout=3 root@"$VPS_IP" "systemctl reload caddy 2>/dev/null || true"
+  ssh -o ConnectTimeout=3 -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$VPS_IP" "systemctl reload caddy 2>/dev/null || true"
   echo "       -> VPS Siap menangani pengunjung selama PC lokal mati."
 else
   echo "       -> SSH tanpa password belum dikonfigurasi, pengunjung akan dilayani cache VPS."

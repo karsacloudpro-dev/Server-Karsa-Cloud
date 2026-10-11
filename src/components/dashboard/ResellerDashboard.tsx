@@ -726,8 +726,8 @@ export const ResellerDashboard: React.FC<ResellerDashboardProps> = ({
 
       {/* Top-up Modal */}
       {showTopupModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/50 backdrop-blur-xs p-3 sm:p-4">
-          <div className="my-auto w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-md flex flex-col bg-white p-5 sm:p-6 shadow-2xl rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 overflow-y-auto">
             <h3 className="text-base font-bold text-slate-900">Top-up Saldo Kredit Reseller</h3>
             <p className="mt-1 text-xs text-slate-500">
               Saldo digunakan untuk perpanjangan lisensi kuota akun dan domain otomatis.
@@ -798,8 +798,8 @@ export const ResellerDashboard: React.FC<ResellerDashboardProps> = ({
 
       {/* Edit Reseller Profile & Account Modal */}
       {showEditProfileModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 backdrop-blur-xs p-3 sm:p-4">
-          <div className="my-auto w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-lg flex flex-col bg-white p-5 sm:p-6 shadow-2xl rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <div>
                 <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">

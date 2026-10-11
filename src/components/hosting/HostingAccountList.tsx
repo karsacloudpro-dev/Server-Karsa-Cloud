@@ -734,8 +734,8 @@ export const HostingAccountList: React.FC<HostingAccountListProps> = ({
 
       {/* Edit Hosting Account Modal */}
       {editingAccount && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 backdrop-blur-xs p-3 sm:p-4">
-          <div className="my-auto w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-lg flex flex-col bg-white p-5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800">
               <div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">

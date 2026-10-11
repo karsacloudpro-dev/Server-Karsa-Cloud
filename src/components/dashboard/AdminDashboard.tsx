@@ -85,7 +85,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     className="whitespace-nowrap"
                   />
                 </h2>
-                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-mono text-[9px] sm:text-[10px] font-bold text-emerald-700 whitespace-nowrap shrink-0">
+                <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-[9px] sm:text-[10px] font-bold text-slate-700 whitespace-nowrap shrink-0">
                   <ShieldCheck className="h-3 w-3 text-emerald-600" />
                   <span className="hidden xs:inline">SLA </span>99.98% HA
                 </span>
@@ -116,7 +116,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <div className="text-[8.5px] sm:text-[9px] font-extrabold uppercase tracking-wider text-slate-400">
                     Jaringan Inti
                   </div>
-                  <div className="mt-0.5 font-mono text-[11px] sm:text-xs font-bold text-sky-700">
+                  <div className="mt-0.5 font-mono text-[11px] sm:text-xs font-bold text-slate-800">
                     WireGuard Mesh
                   </div>
                 </div>
@@ -126,7 +126,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2.5">
               <button
                 onClick={onOpenCreateAccount}
-                className="flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm shadow-sky-600/15 hover:bg-sky-500 transition-all cursor-pointer w-full sm:w-auto shrink-0 active:scale-95"
+                className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-slate-800 transition-all cursor-pointer w-full sm:w-auto shrink-0 active:scale-95"
               >
                 <PlusCircle className="h-4 w-4" />
                 <span>Provisi Hosting Baru</span>
@@ -136,10 +136,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2 w-full sm:w-auto">
                 <button
                   onClick={() => onNavigate('web-panel-server')}
-                  className="exec-tile-ring flex items-center justify-center gap-1.5 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 text-xs font-bold text-amber-800 bg-amber-50/80 border border-amber-300 hover:bg-amber-100 transition-all cursor-pointer active:scale-95"
+                  className="exec-tile-ring flex items-center justify-center gap-1.5 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-all cursor-pointer active:scale-95"
                   title="Buka Web Panel Server & Pemantau Hardware (2FA)"
                 >
-                  <ShieldCheck className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+                  <ShieldCheck className="h-3.5 w-3.5 text-slate-600 shrink-0" />
                   <span className="truncate">Web Panel</span>
                 </button>
                 <button
@@ -185,18 +185,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </div>
       </div>
 
-      {/* Primary KPI Metric Cards: Unified 360° Perimeter Ring Grid */}
+      {/* Primary KPI Metric Cards: Unified Grounded Ring Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Box 1: Server Nodes */}
         <div className="exec-card-ring group relative overflow-hidden rounded-2xl p-5">
           <div className="flex items-center justify-between text-xs text-slate-500">
             <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-700 block">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
                 INFRASTRUCTURE CLUSTER
               </span>
               <span className="font-bold text-sm text-slate-900">Cluster Server Nodes</span>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-sky-600 border border-slate-200/90 shadow-2xs group-hover:bg-sky-600 group-hover:text-white group-hover:border-sky-600 transition-all">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-700 border border-slate-200/90 shadow-2xs group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all">
               <Server className="h-5 w-5" />
             </div>
           </div>
@@ -204,12 +204,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <span className="font-mono text-3xl font-extrabold tabular-nums text-slate-900">
               {servers.length}
             </span>
-            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-lg border border-emerald-200">
+            <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
               100% Online &amp; Stabil
             </span>
           </div>
           <div className="mt-3 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
-            <div className="h-full w-full rounded-full bg-gradient-to-r from-slate-800 via-sky-600 to-sky-400" />
+            <div className="h-full w-full rounded-full bg-slate-800" />
           </div>
           <div className="mt-3.5 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
             <span>
@@ -217,7 +217,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </span>
             <button
               onClick={() => onNavigate('servers')}
-              className="hover:text-sky-700 flex items-center gap-1 text-sky-600 font-bold cursor-pointer"
+              className="hover:text-slate-950 flex items-center gap-1 text-slate-700 font-bold cursor-pointer"
             >
               <span>Detail Nodes</span>
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -229,12 +229,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="exec-card-ring group relative overflow-hidden rounded-2xl p-5">
           <div className="flex items-center justify-between text-xs text-slate-500">
             <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-700 block">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
                 VIRTUAL HOSTS SUITE
               </span>
               <span className="font-bold text-sm text-slate-900">Akun Hosting (vHosts)</span>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-sky-600 border border-slate-200/90 shadow-2xs group-hover:bg-sky-600 group-hover:text-white group-hover:border-sky-600 transition-all">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-700 border border-slate-200/90 shadow-2xs group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all">
               <Globe className="h-5 w-5" />
             </div>
           </div>
@@ -242,13 +242,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <span className="font-mono text-3xl font-extrabold tabular-nums text-slate-900">
               {accounts.length}
             </span>
-            <span className="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-lg border border-sky-200/80">
+            <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
               {activeAccountsCount} Domain Aktif
             </span>
           </div>
           <div className="mt-3 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-slate-800 via-sky-600 to-sky-400"
+              className="h-full rounded-full bg-slate-800"
               style={{ width: `${activeAccountPct}%` }}
             />
           </div>
@@ -256,7 +256,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <span>Tersebar di {servers.length} Cluster Nodes</span>
             <button
               onClick={() => onNavigate('hosting-accounts')}
-              className="hover:text-sky-700 flex items-center gap-1 text-sky-600 font-bold cursor-pointer"
+              className="hover:text-slate-950 flex items-center gap-1 text-slate-700 font-bold cursor-pointer"
             >
               <span>Kelola Akun</span>
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -268,12 +268,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="exec-card-ring group relative overflow-hidden rounded-2xl p-5">
           <div className="flex items-center justify-between text-xs text-slate-500">
             <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-700 block">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
                 MULTI-TENANT ECOSYSTEM
               </span>
               <span className="font-bold text-sm text-slate-900">Mitra Reseller &amp; Pelanggan</span>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-sky-600 border border-slate-200/90 shadow-2xs group-hover:bg-sky-600 group-hover:text-white group-hover:border-sky-600 transition-all">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-700 border border-slate-200/90 shadow-2xs group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all">
               <Users className="h-5 w-5" />
             </div>
           </div>
@@ -281,18 +281,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <span className="font-mono text-3xl font-extrabold tabular-nums text-slate-900">
               {resellersCount}
             </span>
-            <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/90">
+            <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
               Mitra Reseller &bull; <strong className="text-slate-900">{customersCount}</strong> Pelanggan
             </span>
           </div>
           <div className="mt-3 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
-            <div className="h-full w-4/5 rounded-full bg-gradient-to-r from-slate-800 via-sky-600 to-sky-400" />
+            <div className="h-full w-4/5 rounded-full bg-slate-800" />
           </div>
           <div className="mt-3.5 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
             <span>Multi-Tenant RBAC Terisolasi</span>
             <button
               onClick={() => onNavigate('resellers')}
-              className="hover:text-sky-700 flex items-center gap-1 text-sky-600 font-bold cursor-pointer"
+              className="hover:text-slate-950 flex items-center gap-1 text-slate-700 font-bold cursor-pointer"
             >
               <span>Kelola Reseller</span>
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -304,12 +304,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="exec-card-ring group relative overflow-hidden rounded-2xl p-5">
           <div className="flex items-center justify-between text-xs text-slate-500">
             <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-700 block">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
                 STORAGE &amp; BANDWIDTH POOL
               </span>
               <span className="font-bold text-sm text-slate-900">Total NVMe Storage &amp; Trafik</span>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-sky-600 border border-slate-200/90 shadow-2xs group-hover:bg-sky-600 group-hover:text-white group-hover:border-sky-600 transition-all">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-700 border border-slate-200/90 shadow-2xs group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all">
               <HardDrive className="h-5 w-5" />
             </div>
           </div>
@@ -318,13 +318,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               {usedDiskGb}{' '}
               <span className="text-sm font-normal text-slate-400">/ {totalDiskGb} GB</span>
             </span>
-            <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200/90">
+            <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
               {diskUsagePercent}% Terpakai
             </span>
           </div>
           <div className="mt-3 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-slate-800 via-sky-600 to-sky-400"
+              className="h-full rounded-full bg-slate-800"
               style={{ width: `${Math.max(8, diskUsagePercent)}%` }}
             />
           </div>
@@ -334,7 +334,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </span>
             <button
               onClick={() => onNavigate('disk-usage')}
-              className="hover:text-sky-700 flex items-center gap-1 text-sky-600 font-bold cursor-pointer"
+              className="hover:text-slate-950 flex items-center gap-1 text-slate-700 font-bold cursor-pointer"
             >
               <span>Audit Storage</span>
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -747,7 +747,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </div>
                 <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-sky-600 to-sky-400"
+                    className="h-full rounded-full bg-slate-800"
                     style={{ width: `${diskUsagePercent}%` }}
                   />
                 </div>
@@ -760,7 +760,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </div>
                 <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-slate-700 to-sky-500"
+                    className="h-full rounded-full bg-slate-700"
                     style={{ width: '28%' }}
                   />
                 </div>

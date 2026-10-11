@@ -206,8 +206,8 @@ export const EmailManager: React.FC<EmailManagerProps> = ({ account }) => {
 
       {/* Create Email Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/50 backdrop-blur-xs p-3 sm:p-4">
-          <div className="my-auto w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-md flex flex-col bg-white p-5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 overflow-y-auto">
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
               Buat Akun Email Baru
             </h3>
@@ -284,8 +284,8 @@ export const EmailManager: React.FC<EmailManagerProps> = ({ account }) => {
 
       {/* Mail Client Configuration Modal */}
       {showClientConfig && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/50 backdrop-blur-xs p-3 sm:p-4">
-          <div className="my-auto w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+        <div className="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-150">
+          <div className="w-full h-full sm:h-auto sm:max-w-lg flex flex-col bg-white p-5 sm:p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 rounded-none sm:rounded-2xl border-0 sm:border border-slate-200 overflow-y-auto">
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
               Konfigurasi Mail Client (Outlook, Thunderbird, Apple Mail)
             </h3>

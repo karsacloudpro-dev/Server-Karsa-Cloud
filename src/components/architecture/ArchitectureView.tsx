@@ -65,13 +65,13 @@ export const ArchitectureView: React.FC = () => {
       {/* Cluster Hierarchy & Visual Architecture */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Tier 1: Admin */}
-        <div className="rounded-xl border border-sky-200 bg-sky-50/50 p-5 dark:border-sky-900/50 dark:bg-sky-950/20">
+        <div className="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-600 text-white shadow-xs">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-white shadow-xs dark:bg-slate-800">
               <Shield className="h-5 w-5" />
             </div>
             <div>
-              <span className="text-[10px] font-mono font-bold tracking-wider text-sky-600 dark:text-sky-400 uppercase">
+              <span className="text-[10px] font-mono font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
                 Tier 1 &bull; Level Root
               </span>
               <h3 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -84,28 +84,28 @@ export const ArchitectureView: React.FC = () => {
           </p>
           <ul className="mt-3 space-y-1.5 font-mono text-[11px] text-slate-500 dark:text-slate-400">
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-sky-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>Multi-Node Server Daemons</span>
             </li>
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-sky-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>Global Billing & Invoice</span>
             </li>
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-sky-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>KVM Cloud VPS Management</span>
             </li>
           </ul>
         </div>
 
         {/* Tier 2: Reseller */}
-        <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-5 dark:border-indigo-900/50 dark:bg-indigo-950/20">
+        <div className="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-xs">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-white shadow-xs dark:bg-slate-800">
               <Users className="h-5 w-5" />
             </div>
             <div>
-              <span className="text-[10px] font-mono font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
+              <span className="text-[10px] font-mono font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
                 Tier 2 &bull; Level Tenant
               </span>
               <h3 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -118,28 +118,28 @@ export const ArchitectureView: React.FC = () => {
           </p>
           <ul className="mt-3 space-y-1.5 font-mono text-[11px] text-slate-500 dark:text-slate-400">
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-indigo-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>White-label Custom Domain</span>
             </li>
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-indigo-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>Sub-account Isolation</span>
             </li>
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-indigo-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>Custom Pricing & Plans</span>
             </li>
           </ul>
         </div>
 
         {/* Tier 3: End Customer */}
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-5 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+        <div className="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-xs">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-white shadow-xs dark:bg-slate-800">
               <Globe className="h-5 w-5" />
             </div>
             <div>
-              <span className="text-[10px] font-mono font-bold tracking-wider text-emerald-600 dark:text-emerald-400 uppercase">
+              <span className="text-[10px] font-mono font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
                 Tier 3 &bull; Level Client
               </span>
               <h3 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -152,15 +152,15 @@ export const ArchitectureView: React.FC = () => {
           </p>
           <ul className="mt-3 space-y-1.5 font-mono text-[11px] text-slate-500 dark:text-slate-400">
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>Web File Manager & Code Editor</span>
             </li>
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>MySQL DB & phpMyAdmin Bridge</span>
             </li>
             <li className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+              <CheckCircle2 className="h-3.5 w-3.5 text-slate-700 dark:text-slate-300" />
               <span>AutoSSL Let's Encrypt</span>
             </li>
           </ul>
@@ -236,7 +236,7 @@ export const ArchitectureView: React.FC = () => {
       {/* Linux Ubuntu Multi-Account Architecture Specification */}
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-500 text-white">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-white dark:bg-slate-800">
             <Server className="h-5 w-5" />
           </div>
           <div>
@@ -250,11 +250,11 @@ export const ArchitectureView: React.FC = () => {
         </div>
 
         <div className="mt-5 space-y-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-          <div className="rounded-xl bg-emerald-500/10 p-4 border border-emerald-500/20 text-emerald-900 dark:text-emerald-200">
+          <div className="rounded-xl bg-slate-50 p-4 border border-slate-200 text-slate-800 dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-200">
             <p className="font-semibold text-sm">
               Isolasi Native Multi-User &amp; Multi-VirtualHost Linux
             </p>
-            <p className="mt-1 text-xs">
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">
               Setiap akun hosting beroperasi di dalam ruang direktori terisolasi dengan pengaturan permission sistem tersendiri, memungkinkan banyak aplikasi produksi berjalan paralel pada satu node fisik.
             </p>
           </div>
